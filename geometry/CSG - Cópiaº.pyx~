@@ -1,0 +1,1216 @@
+#distutils: language = c++
+
+
+from libcpp.queue cimport queue
+from libcpp.map cimport map as cppmap
+cimport numpy as cnp
+from libc.string cimport memcpy 
+from cython.operator import dereference as deref
+from cython.operator import preincrement as inc
+from .main cimport Volume
+from ..particles.particle cimport STATE
+from numpy.math cimport INFINITY as INF
+from libcpp.deque cimport deque
+from libc.math cimport fmin, fmax, sqrt, cos, sin
+import numpy as np 
+from libc.stdlib cimport malloc, free
+
+
+ctypedef Volume Vol
+ctypedef CSGvol V
+
+cdef double eps = .1
+
+cdef struct operation:
+	int sign
+	void* other
+
+from ..types cimport double3
+
+
+ctypedef cppmap[double, double3] intMAP
+ctypedef deque[operation] opDEQUE
+
+
+
+cdef double3 INF_POINT
+
+INF_POINT.x = INF
+INF_POINT.y = INF
+INF_POINT.z = INF
+
+
+
+cdef class Proxy(CSGvol):
+	cdef cppmap[double, double3] crosses
+	cdef cppmap[double, double3].iterator it
+	cdef void* vol
+
+	def __init__(self, vol):
+		self.vol = <void*> vol
+		self.is_proxy = True
+
+
+	cdef double SDF(self, double3 pos):
+		return sqrt((deref(self.it).second.x - pos.x)**2 + (deref(self.it).second.y - pos.y)**2 + (deref(self.it).second.z - pos.z)**2)
+
+
+def lock(msg):
+	def _lock(method):
+		def new_method(self, *args, **kwargs):
+			if self.lock:
+				raise RuntimeWarning(msg)
+			return method(self, *args, **kwargs)
+		return new_method
+	return _lock
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#   ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄ 
+#  ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
+#  ▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀ 
+#  ▐░▌          ▐░▌          ▐░▌          
+#  ▐░▌          ▐░█▄▄▄▄▄▄▄▄▄ ▐░▌ ▄▄▄▄▄▄▄▄ 
+#  ▐░▌          ▐░░░░░░░░░░░▌▐░▌▐░░░░░░░░▌
+#  ▐░▌           ▀▀▀▀▀▀▀▀▀█░▌▐░▌ ▀▀▀▀▀▀█░▌
+#  ▐░▌                    ▐░▌▐░▌       ▐░▌
+#  ▐░█▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌
+#  ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
+#   ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀ 
+#                                         
+
+
+cdef class CSGvol(Volume):
+
+	# Proxies
+	cdef Proxy the_proxy
+	cdef bint is_proxy
+
+
+	# Workspace
+	cdef int Nws
+	cdef list tmp_ws
+	cdef void** ws
+	cdef void** original_ws
+
+
+
+	# Ray Marching
+	cdef double global_sdf
+	cdef double sdf
+	cdef int i0 # position of closest volume in selfs workspace
+
+	# Ray Tracing
+	cdef opDEQUE op
+
+	# Boundary Crossing
+	cdef int i #position in outers work space
+
+	# CONSTRUCTING A VOLUME
+
+	def __init__(self):
+		# Opening lock, volume can be modified
+		self.lock = False
+
+		# proxies
+		self.the_proxy =  Proxy(self)
+		self.is_proxy = False
+
+		# Workspace
+		self.Nws = 1
+		self.tmp_ws = [self]
+
+	@lock("Modifiying volume after being closed")
+	def rotate(self, axis, angle):
+		return NotImplemented
+
+	@lock("Modifiying volume after being closed")
+	def translate(self, direction, displacement):
+		return NotImplemented
+
+	@lock("Modifiying volume after being closed")
+	def __or__(self, other):
+		return Union(self, other)
+
+	@lock("Modifiying volume after being closed")
+	def __add__(self, other):
+		return Union(self, other)
+
+	@lock("Modifiying volume after being closed")
+	def __and__(self, CSGvol other):
+		return Intersection(self, other)
+
+	@lock("Modifiying volume after being closed")
+	def __sub__(self, CSGvol other):
+		return Subtraction(self, other)
+
+	@lock("Context has been opened more than once.")
+	def __enter__(self):
+		return self
+
+	cdef void intersect(self, double3& pos, double3& dire, opDEQUE& op, intMAP& crosses):
+		raise RuntimeError(".intersect called from virtual")
+
+	# Filling the volume: vol << water
+	@lock("Modifiying volume after being closed")
+	def __lshift__(self, material):
+		self.fill(material)
+
+	@lock("Modifiying volume after being closed")
+	def fill(self, mat):
+		self.material = mat 
+
+
+	# Constructing BVH
+	@lock("Modifiying volume after being closed")
+	def __contains__(self, other):
+		self.tmp_ws.append(other)
+		other.setOuter(self)
+		return True
+
+	# Exit Code
+	def __exit__(self, *args, **kwargs):
+		self.lock = True
+		cdef Volume region
+		cdef int i
+		
+		self.ws = <void**> malloc(self.Nws * sizeof(void*))
+		self.original_ws = <void**>malloc(self.Nws * sizeof(void*))
+
+		for i, region in enumerate(self.tmp_inner):
+			self.ws[i] = <void*> region
+			self.original_ws[i] = <void*> region
+				
+
+			
+		
+		if not (isinstance(self.outer, InfiniteVolume) or isinstance(self, InfiniteVolume)):
+			print("here:")
+			proposed_mesh = self.mesh.boolean_cut(self.outer.mesh)
+			print(">>>>!")
+			if not proposed_mesh.number_of_cells == 0:
+				self.mesh = proposed_mesh
+
+
+
+
+	cdef void* make_proxy(self, STATE& state):
+		"""
+		Turn volume into a proxy:
+			To transform a volume into its proxy, the volume must
+			be intersected.
+		"""
+
+		#cdef intMAP crosses
+		self.intersect(state.pos, state.dire)
+
+
+		return <void*>self.the_proxy
+	
+
+	cdef double SDF(self, double3 pos):
+		raise RuntimeError("SDF FROM VOL WAS CALLED")
+
+	cdef double localSDF(self, STATE& state):
+		if self.cache:
+			return self.cached_intersect(state.last_displacement)
+		return self.SDF(state.pos)
+
+	cdef void globalSDF(self, STATE& state):
+
+
+
+		self.sdf = self.localSDF(state)
+		self.i0 = 0
+		self.global_sdf = self.sdf
+
+		cdef int i
+		for i in range(1, self.Nws):
+			(<V> self.ws[i]).sdf = (<V> self.ws[i]).localSDF(state)
+			if (<V> self.ws[i]).sdf < self.global_sdf:
+				self.global_sdf = (<V> self.ws[i]).sdf
+				self.i0 = i
+
+
+
+	cdef inline void final(self, STATE& state):
+		state.last_displacement = state.L
+
+		state.pos.x += state.dire.x*state.L
+		state.pos.y += state.dire.y*state.L
+		state.pos.z += state.dire.z*state.L
+
+		self.exit()
+
+	cdef inline void virtual_event(self, STATE& state, double dr):
+		state.last_displacement = dr
+
+		state.pos.x += state.dire.x*dr
+		state.pos.y += state.dire.y*dr
+		state.pos.z += state.dire.z*dr
+
+	cdef inline void exit(self):
+		if self.reset:
+			memcpy(self.ws, self.original_ws, self.Nws*sizeof(void*))
+			#self.ws = self.original_ws
+
+
+	cdef int intEVENT(self, STATE& state):
+		"""
+		Instruct nearest surface to intersect with the ray defined
+		in the particles state:
+
+			ray = state.pos + t*ray.dire  for t >= 0
+
+		Act according to the number of intersections found:
+
+			0 intersections
+			---------------
+			Particle hits L before hitting second nearest surface?
+
+				YES:
+					- Perform final displacement event.
+
+
+				NO: 
+					- Perform virtual displacement event;
+					- Substitute nearest surface by a point at
+					  infinity.
+
+
+			N intersections
+			---------------
+			- insert point at infinity in the intersecions map
+
+			We have three quantities:
+				L: distance to end of step
+				second_nearest: distance to second nearest surface
+				d: distance to intersection
+
+				if min() == L:
+					go to L; end step;
+
+				elif min() == second_nearest:
+					virtual step
+					make proxy
+					continue
+
+				elif min() == d:
+					go to d, finish loop
+
+
+
+		"""
+
+		# get the closest volume, easier to write this way...
+		cdef void* vol = self.ws[self.i0]
+
+		if (<V> vol).is_proxy:
+			self.proxy_boundary_crossing(state, vol)
+			self.exit()
+			return 2
+
+		# calculate intersections
+		cdef void* proxy = (<V> vol).make_proxy(state)
+
+
+		# look for distance to the second nearest surface
+		cdef double second_nearest = (<V> self.ws[0]).sdf
+		
+		cdef int i
+
+
+		for i in range(1, self.i0):
+			if (<V> self.ws[i]).sdf < second_nearest:
+				second_nearest = (<V> self.ws[i]).sdf
+
+		for i in range(self.i0+1, self.Nws):
+			if (<V> self.ws[i]).sdf < second_nearest:
+				second_nearest = (<V> self.ws[i]).sdf
+
+
+		# no intersections found
+		if deref((<Proxy> proxy).it).first == INF:
+
+			# min() = L
+			if second_nearest > state.L:
+				self.final(state)
+				self.exit()
+				return 0
+
+			# min() = second_nearest
+			self.virtual_event(state, second_nearest)
+			self.ws[self.i0] = proxy
+			self.reset = True
+			return 1
+
+
+
+
+		if deref((<Proxy> proxy).it).first < second_nearest:
+
+			# min() == L
+			if deref((<Proxy> proxy).it).first > state.L: 
+				self.final(state)
+				self.exit()
+				return 0
+
+			# min() == it.first 
+			# particle will definetly hit the surface
+			self.boundary_crossing(state, proxy)
+			return 2
+
+		# min() == L
+		if second_nearest > state.L:
+			self.final(state)
+			self.exit()
+			return 0
+
+	cdef void boundary_crossing(self, STATE& state, void* proxy):
+
+		state.pos = deref((<Proxy> proxy).it).second   # place particle at surface
+
+		# from inner to somewhere in outer
+		if self.i0 == 0:
+			state.current_region = (<V> self.outer).searchO(state)
+
+			# staying in outer, must make intersected volume proxy
+			if state.current_region == <void*> self.outer:
+				inc((<Proxy> proxy).it)
+				(<V> self.outer).ws[(<V> (<Proxy> proxy).vol).i] = proxy
+				self.outer.reset = True
+				self.reset()
+				return
+
+			# entering some adjacent volume, must make it proxy then
+			(<V> state.current_region).ws[0] = (<V> state.current_region).make_proxy(state)
+
+			self.reset()
+			return 
+
+
+		# from outer to inner
+		state.current_region = (<Proxy> proxy).vol
+		(<V> state.current_region).ws[0] = proxy
+		self.exit()
+		return
+
+	cdef void proxy_boundary_crossing(self, STATE& state, void* proxy):
+		"""
+		Boundary crossing event for proxies.
+		"""
+
+
+		state.pos = deref((<Proxy> proxy).it).second   # place particle at surface
+		cdef void* vol = (<Proxy> proxy).vol    # get the volume it represents
+
+		# from inner to somewhere in outer
+		if self.i0 == 0:
+
+			# search outer
+			state.current_region = (<V> self.outer).searchO(state)
+
+			# staying in outer, must make the already intersected volume proxy
+			if state.current_region == <void*> self.outer:
+				inc((<Proxy> proxy).it)
+				(<V> self.outer).ws[(<V> vol).i] = proxy
+				(<V> self.outer).reset = True
+				self.exit()
+				return
+
+			# entering some adjacent volume, must make it proxy then
+			(<V> state.current_region).i0 = 0
+			(<V> state.current_region).ws[0] = (<V> state.current_region).make_proxy(state)
+			self.reset()
+			return 
+
+
+		# from outer to inner
+		state.current_region = vol
+		inc((<Proxy> proxy).it)
+		(<V> state.current_region).ws[0] = proxy
+		self.exit()
+		return
+
+		#(<V> state.current_region).ws[(<V> vol).i]
+
+		#(<V> state.current_region).ws[(<V> vol).i] = (<V> vol).proxy(it)
+
+
+	cdef void* searchO(self, STATE& state):
+		cdef int i
+		cdef int ic = (<V> state.current_region).i
+
+		for i in range(ic):
+			if (<V> self.ws[i]).SDF(state.pos) < 0:
+				return self.ws[i]
+
+		for i in range(ic+1, self.Nws):
+			if (<V> self.ws[i]).SDF(state.pos) < 0:
+				return self.ws[i]
+		
+
+
+
+
+	cdef bint move(self, STATE& state):
+		cdef int case
+
+		while True:
+			self.globalSDF(state)
+
+			if self.global_sdf > state.L:
+				self.final(state)
+				return False
+
+			if self.global_sdf < eps:
+
+				case = self.intEVENT(state)
+
+				if case == 2: # boundary crossing
+					return True
+
+				if case == 0: # final displacement
+					return False
+
+				if case == 1: # virtual displacement, proxys have been set
+					continue
+
+			self.virtual_event(state, self.global_sdf)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+																															
+
+#   ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄        ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄       ▄▄ 
+#  ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌      ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌     ▐░░▌
+#   ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌     ▐░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌   ▐░▐░▌
+#       ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌▐░▌    ▐░▌▐░▌          ▐░▌          ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌▐░▌ ▐░▌▐░▌
+#       ▐░▌     ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌ ▐░▌   ▐░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄▄▄ ▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌ ▐░▐░▌ ▐░▌
+#       ▐░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌  ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌  ▐░▌
+#       ▐░▌     ▐░█▀▀▀▀█░█▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░▌   ▐░▌ ▐░▌ ▀▀▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░▌       ▐░▌▐░█▀▀▀▀█░█▀▀ ▐░▌   ▀   ▐░▌
+#       ▐░▌     ▐░▌     ▐░▌  ▐░▌       ▐░▌▐░▌    ▐░▌▐░▌          ▐░▌▐░▌          ▐░▌       ▐░▌▐░▌     ▐░▌  ▐░▌       ▐░▌
+#       ▐░▌     ▐░▌      ▐░▌ ▐░▌       ▐░▌▐░▌     ▐░▐░▌ ▄▄▄▄▄▄▄▄▄█░▌▐░▌          ▐░█▄▄▄▄▄▄▄█░▌▐░▌      ▐░▌ ▐░▌       ▐░▌
+#       ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌      ▐░░▌▐░░░░░░░░░░░▌▐░▌          ▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░▌       ▐░▌
+#        ▀       ▀         ▀  ▀         ▀  ▀        ▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀            ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀  ▀         ▀ 
+
+
+
+
+
+
+cdef cnp.ndarray new_rotationT(_axis, angle):
+
+		cdef cnp.ndarray axis = np.array(_axis)
+
+		axis = axis/np.sqrt(np.sum(axis**2))
+
+		cdef double ux = axis[0]
+		cdef double uy = axis[1]
+		cdef double uz = axis[2]
+
+
+		cdef cnp.ndarray T = np.zeros((4,4))
+
+		cdef double _cos = cos(angle)
+		cdef double oneMcos = 1 - _cos
+		cdef double _sin = sqrt(1 - _cos*_cos)
+
+		T[0, 0] = _cos + ux*ux*oneMcos
+		T[0, 1] = ux*uy*oneMcos - uz*_sin
+		T[0, 2] = ux*uz*oneMcos + uy*_sin
+
+		T[1, 0] = uy*ux*oneMcos + uz*_sin
+		T[1, 1] = _cos + uy*uy*oneMcos
+		T[1, 2] = uy*uz*oneMcos - ux*_sin
+
+		T[2, 0] = uz*ux*oneMcos-uy*_sin
+		T[2, 1] = uz*uy*oneMcos + ux*_sin
+		T[2, 2] = _cos + uz*uz*oneMcos
+
+		T[3, 3] = 1
+
+		return T
+
+cdef cnp.ndarray Carr_to_NParr(double* arr):
+	cdef cnp.ndarray numbers = np.zeros(size)
+	cdef int i
+	for i in range(16):
+		numbers[i] = arr[i]
+
+	numbers.shape = (4, 4)
+	return numbers
+
+cdef class Transform(CSGvol):
+	cdef Primitive primitive
+	cdef double[12] T, iT
+
+	def __init__(self, Primitive primitive, cnp.ndarray T, cnp.ndarray iT):
+		self.primitive = primitive
+
+		cdef int i
+		cdef double t, it
+		for i, (t, it) in enumerate(zip(T.flat, iT.flat)):
+			self.T[i] = t
+			self.iT[i] = it
+
+	cdef void to_numpy(self, cnp.ndarray to_modify):
+		cdef int i
+
+
+		for i in range(16)
+
+	def translate(self, double dx, double dy, double dz):
+		self.T[3]  += dx
+		self.T[7]  += dy
+		self.T[11] += dz
+
+		self.iT[3]  -= dx
+		self.iT[7]  -= dy
+		self.iT[11] -= dz
+		return self
+
+
+	def rotate(self, axis, angle):
+		cdef cnp.ndarray nT = new_rotationT(axis, angle)
+		cdef cnp.ndarray T = Carr_to_NParr(self.T)
+
+		nT @= T
+
+		cdef cnp.ndarray inT = np.linalg.inv(nT)
+
+		cdef int i
+		cdef double t, it
+		for i, (t, it) in enumerate(zip(T.flat, iT.flat)):
+			self.T[i] = t
+			self.iT[i] = it
+
+		return T
+
+
+	def matrix(self):
+		return Carr_to_NParr(self.T)
+
+	def inv_matrix(self):
+		return Carr_to_NParr(self.iT)
+
+
+	cdef void intersect(self, double3& pos, double3& dire, opDEQUE& op, intMAP& crosses):
+		cdef double3 rpos
+		rpos.x = self.iT[0]*pos.x + self.iT[1]*pos.y + self.iT[2] *pos.z  + self.iT[3]
+		rpos.y = self.iT[4]*pos.x + self.iT[5]*pos.y + self.iT[6] *pos.z  + self.iT[7]
+		rpos.z = self.iT[8]*pos.x + self.iT[9]*pos.y + self.iT[10]*pos.z  + self.iT[11]
+
+		cdef double3 rdire
+		rdire.x = self.iT[0]*dire.x + self.iT[1]*dire.y + self.iT[2] *dire.z  + self.iT[3]
+		rdire.y = self.iT[4]*dire.x + self.iT[5]*dire.y + self.iT[6] *dire.z  + self.iT[7]
+		rdire.z = self.iT[8]*dire.x + self.iT[9]*dire.y + self.iT[10]*dire.z  + self.iT[11]
+
+		self.primitive.intersect(rpos, rdire, op, crosses)
+
+
+cdef class Isometry(Transform):
+
+
+	def __init__(self, Primitive primitive, cnp.ndarray T, cnp.ndarray iT):
+		self.primitive = primitive
+
+		cdef int i
+		cdef double t, it
+		for i, (t, it) in enumerate(zip(T.flat, iT.flat)):
+			self.T[i] = t
+			self.iT[i] = it
+
+
+
+	cdef double SDF(self, double3& pos):
+		cdef double3 rpos
+		rpos.x = self.iT[0]*pos.x + self.iT[1]*pos.y + self.iT[2] *pos.z  + self.iT[3]
+		rpos.y = self.iT[4]*pos.x + self.iT[5]*pos.y + self.iT[6] *pos.z  + self.iT[7]
+		rpos.z = self.iT[8]*pos.x + self.iT[9]*pos.y + self.iT[10]*pos.z  + self.iT[11]
+		return self.primitive.SDF(rpos)
+
+
+
+	#def translate(self, double dx, double dy, double dz):
+	#	cdef cnp.ndarray T = np.zeros((4, 4))
+#
+	#	T[0, 0] = self.T[0]
+	#	T[0, 1] = self.T[1]
+	#	T[0, 2] = self.T[2]
+	#	T[0, 3] = dx
+#
+	#	T[1, 0] = self.T[3]
+	#	T[1, 1] = self.T[4]
+	#	T[1, 2] = self.T[5]
+	#	T[1, 3] = dy
+#
+
+	#	T[2, 0] = self.T[6]
+	#	T[2, 1] = self.T[7]
+	#	T[2, 2] = self.T[8]
+	#	T[2, 3] = dz
+
+	#	T[3, :] = np.array([0, 0, 0, 1])
+
+	#	cdef cnp.ndarray iT = np.linalg.inv(T)
+
+	#	cdef int i
+	#	cdef double t, it
+	#	for i, (t, it) in enumerate(zip(T.flat, iT.flat)):
+	#		self.T[i] = t
+	#		self.iT[i] = it
+
+	#	return self
+
+
+
+
+
+cdef class Identity(Isometry):
+	
+	def __init__(self, Primitive primitive):
+		self.primitive = primitive
+
+	cdef void itrPOS(self, double3& pos):
+		pass
+
+	def translate(self, dx, dy, dz):
+		return Translation(self.primitive, dx, dy, dz)
+
+	def rotate(self, axis, angle):
+		return Rotation(self.primitive, axis, angle)
+
+	def scale(self, s):
+		self.primitive.scale(s)
+
+	cdef void intersect(self, double3& pos, double3& dire, opDEQUE& op, intMAP& crosses):
+		self.primitive.intersect(pos, dire, op, crosses)
+
+	cdef double SDF(self, double3& pos):
+		return self.primitive.SDF(pos)
+
+	def matrix(self):
+		cdef cnp.ndarray m = np.zeros((4, 4))
+		cdef int i
+		for i in range(4):
+			m[i, i] = 1
+		return m
+
+
+cdef class NonIsometry(Transform):
+	pass
+
+
+
+
+
+cdef class Translation(Isometry):
+	cdef double dx, dy, dz
+
+	def __init__(self, Primitive primitive, dx, dy, dz):
+		self.primitive = primitive
+		self.dx = dx
+		self.dy = dy
+		self.dz = dz
+
+
+	cdef double SDF(self, double3 pos):
+		pos.x -= self.dx
+		pos.y -= self.dy
+		pos.z -= self.dz
+
+		return self.primitive.SDF(pos)
+
+	cdef void intersect(self, double3 pos, double3& dire, opDEQUE& op, intMAP& crosses):
+		pos.x -= self.dx
+		pos.y -= self.dy
+		pos.z -= self.dz
+
+		self.primitive.intersect(pos, dire, op, crosses)
+
+
+	cdef void itrPOS(self, double3& pos):
+		pos.x += self.dx
+		pos.y += self.dy
+		pos.z += self.dz
+
+
+	def translate(self, dx, dy, dz):
+		self.dx += dx
+		self.dy += dy
+		self.dz += dz
+		return self
+
+	def rotate(self, axis, angle):
+		"""
+		R * T yields a general isometry.
+		"""
+		cdef cnp.ndarray rot = new_rotationT(axis, angle)
+
+		cdef cnp.ndarray T = np.zeros((4, 4))
+
+		T[:3, :3] = rot
+		T[3, 3] = 1
+		T[:3, 3] = np.array([self.dx, self.dy, self.dz])
+
+		cdef cnp.ndarray iT = np.linalg.inv(T) 
+
+		return Isometry(self.primitive, T, iT)
+
+
+
+
+
+cdef class Rotation(Isometry):
+
+	def __init__(self,Primitive primitive, _axis, angle):
+		self.primitive = primitive
+
+
+
+		cdef cnp.ndarray T = new_rotationT(axis, angle)
+		cdef cnp.ndarray iT = np.linalg.inv(T)
+
+		cdef int i
+		cdef double t, it
+		for i, (t, it) in enumerate(zip(T.flat, iT.flat)):
+			self.T[i] = t
+			self.iT[i] = it
+
+
+	cdef double SDF(self, double3& pos):
+		cdef double3 rpos
+		rpos.x = self.iT[0]*pos.x + self.iT[1]*pos.y + self.iT[2]*pos.z
+		rpos.y = self.iT[3]*pos.x + self.iT[4]*pos.y + self.iT[5]*pos.z
+		rpos.z = self.iT[6]*pos.x + self.iT[7]*pos.y + self.iT[8]*pos.z
+
+		return self.primitive.SDF(rpos)
+
+	cdef void itrPOS(self, double3& pos):
+		cdef double3 tmp_pos = pos
+
+		pos.x = self.T[0]*tmp_pos.x + self.T[1]*tmp_pos.y + self.T[2]*tmp_pos.z
+		pos.y = self.T[3]*tmp_pos.x + self.T[4]*tmp_pos.y + self.T[5]*tmp_pos.z
+		pos.z = self.T[6]*tmp_pos.x + self.T[7]*tmp_pos.y + self.T[8]*tmp_pos.z
+
+
+	def translate(self, dx, dy, dz):
+		cdef cnp.ndarray T = np.zeros((4, 4))
+
+		T[0, 0] = self.T[0]
+		T[0, 1] = self.T[1]
+		T[0, 2] = self.T[2]
+		T[0, 3] = dx
+
+		T[1, 0] = self.T[3]
+		T[1, 1] = self.T[4]
+		T[1, 2] = self.T[5]
+		T[1, 3] = dy
+
+
+		T[2, 0] = self.T[6]
+		T[2, 1] = self.T[7]
+		T[2, 2] = self.T[8]
+		T[2, 3] = dz
+
+		T[3, :] = np.array([0, 0, 0, 1])
+
+		cdef cnp.ndarray iT = np.linalg.inv(T)
+
+		return Isometry(self, T, iT)
+
+	def rotate(self, axis, angle):
+		cdef cnp.ndarray rot = new_rotationT(axis, angle)
+		cdef cnp.ndarray T = Carr_to_NParr(self.T)
+
+		T = rot @ T
+		iT = np.linalg.inv(T)
+
+		cdef int i
+		cdef double t, it
+		for i, (t, it) in enumerate(zip(T.flat, iT.flat)):
+			self.T[i] = t
+			self.iT[i] = it
+
+		return self
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#   ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄        ▄  ▄▄▄▄▄▄▄▄▄▄▄ 
+#  ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌      ▐░▌▐░░░░░░░░░░░▌
+#  ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌ ▀▀▀▀█░█▀▀▀▀  ▀▀▀▀█░█▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌     ▐░▌▐░█▀▀▀▀▀▀▀▀▀ 
+#  ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌          ▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌          ▐░▌     ▐░▌       ▐░▌▐░▌▐░▌    ▐░▌▐░▌          
+#  ▐░▌       ▐░▌▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌     ▐░▌          ▐░▌     ▐░▌       ▐░▌▐░▌ ▐░▌   ▐░▌▐░█▄▄▄▄▄▄▄▄▄ 
+#  ▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌     ▐░▌          ▐░▌     ▐░▌       ▐░▌▐░▌  ▐░▌  ▐░▌▐░░░░░░░░░░░▌
+#  ▐░▌       ▐░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀█░█▀▀ ▐░█▀▀▀▀▀▀▀█░▌     ▐░▌          ▐░▌     ▐░▌       ▐░▌▐░▌   ▐░▌ ▐░▌ ▀▀▀▀▀▀▀▀▀█░▌
+#  ▐░▌       ▐░▌▐░▌          ▐░▌          ▐░▌     ▐░▌  ▐░▌       ▐░▌     ▐░▌          ▐░▌     ▐░▌       ▐░▌▐░▌    ▐░▌▐░▌          ▐░▌
+#  ▐░█▄▄▄▄▄▄▄█░▌▐░▌          ▐░█▄▄▄▄▄▄▄▄▄ ▐░▌      ▐░▌ ▐░▌       ▐░▌     ▐░▌      ▄▄▄▄█░█▄▄▄▄ ▐░█▄▄▄▄▄▄▄█░▌▐░▌     ▐░▐░▌ ▄▄▄▄▄▄▄▄▄█░▌
+#  ▐░░░░░░░░░░░▌▐░▌          ▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌      ▐░░▌▐░░░░░░░░░░░▌
+#   ▀▀▀▀▀▀▀▀▀▀▀  ▀            ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀  ▀         ▀       ▀       ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀        ▀▀  ▀▀▀▀▀▀▀▀▀▀▀ 
+
+
+cdef double delta = 1e-10
+
+cdef inline int sign(double d):
+	if d < -delta: return -1
+	if d > delta: return 1
+	return 0
+
+
+cdef class CSGop(CSGvol):
+	cdef CSGvol R, L
+	cdef double (*rule)(double, double)
+
+	def __init__(self, sign1, sign2):
+		pass
+
+	def translate(self, dx, dy, dz):
+		if isinstance(self.L, Transform):
+			self.L.primitive.translate(dx, dy, dz)
+		else: self.L.translate(dx, dy, dz)
+
+		if isinstance(self.R, Transform):
+			self.R.primitive.translate(dx, dy, dz)
+		else: self.R.translate(dx, dy, dz)
+
+
+	def rotate(self, axis, angle):
+		if isinstance(self.L, Transform):
+			self.L.primitive.rotate(axis, angle)
+		else: self.L.rotate(axis, angle)
+
+		if isinstance(self.R, Transform):
+			self.R.primitive.rotate(axis, angle)
+		else: self.R.rotate(axis, angle)
+
+	cdef double intersect(self, double3& pos, double3& dire):
+		return self.rule(self.L.intersect(pos, dire), self.R.intersect(pos, dire))
+
+	cdef double cached_intersect(self, double L):
+		return self.rule(self.L.cached_intersect(L), self.R.cached_intersect(L))
+
+cdef class Subtraction(CSGop):
+
+	"""
+	SDF:  max(-SDF_L, SDF_R)
+		
+	RAY TRACE:
+		
+		   L/R     IN    OUT     BORDER  
+		 -------- ---- -------- -------- 
+		  IN       OUT      IN       BORDER      
+		  OUT      OUT     OUT      OUT  
+		  BORDER   OUT  BORDER      
+		  
+		  1 = out
+		  -1 = in
+		  0 = border
+			
+	"""
+	def __init__(self, Volume L, Volume R):
+		# child nodes
+		self.L = L
+		self.R = R
+
+	cdef double cached_intersect(self, double L):
+		return fmax(-self.L.cached_intersect(L), self.R.cached_intersect(L))
+
+	cdef double SDF(self, double3& pos):
+		return fmax(-self.L.SDF(pos), self.R.SDF(pos))
+
+	def __repr__(self):
+		return "<Subtraction>"
+
+
+
+
+
+
+
+
+
+			   
+cdef class Union(CSGop):
+
+	"""
+	SDF:
+		min(SDF_a, SDF_b)
+		
+	RAY TRACE:
+		
+		   L/R     IN    OUT     BORDER  
+		 -------- ---- -------- -------- 
+		  IN       IN   IN       IN      
+		  OUT      IN   OUT      BORDER  
+		  BORDER   IN   BORDER      
+		  
+		  1 = out
+		  -1 = in
+		  0 = border
+			
+	"""
+	def __init__(self, Volume L, Volume R):
+		# child nodes
+		self.L = L
+		self.R = R
+		self.rule = &fmin
+
+	def __repr__(self):
+		return "<Union>"
+
+
+
+cdef class Intersection(CSGop):
+
+	"""
+	SDF:
+		max(SDF_a, SDF_b)
+		
+	RAY TRACE:
+		
+		   L/R     IN    OUT     BORDER  
+		 -------- ---- -------- -------- 
+		  IN       IN      OUT       BORDER      
+		  OUT      OUT     OUT      OUT  
+		  BORDER   BORDER  OUT      
+		  
+		  1 = out
+		  -1 = in
+		  0 = border
+			
+	"""
+	def __init__(self, Volume L, Volume R):
+		# child nodes
+		self.L = L
+		self.R = R
+		self.rule = &fmax
+
+
+	def __repr__(self):
+		return "<Intersection>"
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#   ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄       ▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄               ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄ 
+#  ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌     ▐░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌             ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
+#  ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌ ▀▀▀▀█░█▀▀▀▀ ▐░▌░▌   ▐░▐░▌ ▀▀▀▀█░█▀▀▀▀  ▀▀▀▀█░█▀▀▀▀  ▀▀▀▀█░█▀▀▀▀  ▐░▌           ▐░▌ ▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀ 
+#  ▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌     ▐░▌▐░▌ ▐░▌▐░▌     ▐░▌          ▐░▌          ▐░▌       ▐░▌         ▐░▌  ▐░▌          ▐░▌          
+#  ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌     ▐░▌     ▐░▌ ▐░▐░▌ ▐░▌     ▐░▌          ▐░▌          ▐░▌        ▐░▌       ▐░▌   ▐░█▄▄▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄▄▄ 
+#  ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌     ▐░▌     ▐░▌  ▐░▌  ▐░▌     ▐░▌          ▐░▌          ▐░▌         ▐░▌     ▐░▌    ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
+#  ▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀█░█▀▀      ▐░▌     ▐░▌   ▀   ▐░▌     ▐░▌          ▐░▌          ▐░▌          ▐░▌   ▐░▌     ▐░█▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀█░▌
+#  ▐░▌          ▐░▌     ▐░▌       ▐░▌     ▐░▌       ▐░▌     ▐░▌          ▐░▌          ▐░▌           ▐░▌ ▐░▌      ▐░▌                    ▐░▌
+#  ▐░▌          ▐░▌      ▐░▌  ▄▄▄▄█░█▄▄▄▄ ▐░▌       ▐░▌ ▄▄▄▄█░█▄▄▄▄      ▐░▌      ▄▄▄▄█░█▄▄▄▄        ▐░▐░▌       ▐░█▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄█░▌
+#  ▐░▌          ▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌     ▐░▌     ▐░░░░░░░░░░░▌        ▐░▌        ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
+#   ▀            ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀       ▀       ▀▀▀▀▀▀▀▀▀▀▀          ▀          ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀ 
+
+cdef class InfiniteVolume(CSGvol):
+	def __init__(self, vaccum = False):
+		super(InfiniteVolume, self).__init__()
+		if vaccum:
+			self.stop = True
+
+	cdef double SDF(self, double3& pos):
+		return INF
+
+	cdef void intersect(self, double3& pos, double3& dire):
+		return INF
+
+cdef class Primitive(CSGvol):
+	cdef Transform tr
+
+
+	def __init__(self):
+		self.tr = Identity(self)
+
+	def translate(self, dx, dy, dz):
+		self.tr = self.tr.translate(dx, dy, dz)
+
+	def rotate(self, axis, angle):
+		self.tr = self.tr.rotate(axis, angle)
+
+	@property
+	def inv_matrix(self):
+		return self.tr.matrix()
+
+	@property
+	def matrix(self):
+		return self.tr.inv_matrix()
+
+
+cdef class Sphere(Primitive):
+	cdef double r
+	cdef int Nmax
+	cdef double[2] crosses
+
+	def __init__(self, double r):
+		super(Sphere, self).__init__()
+		self.r = r
+
+	def __repr__(self):
+		return f"<Sphere: r = {self.r}>"
+
+	cdef double SDF(self, double3& pos):
+		return sqrt(pos.x*pos.x + pos.y*pos.y + pos.z*pos.z) - self.r
+
+	def scale(self, s):
+		self.r *= s
+		return self
+
+	cdef double cached_intersect(self, double L):
+
+		self.crosses[0] -= L
+		if self.crosses[0] <= 0:
+			self.crosses[0] = nan
+
+		self.crosses[1] -= L
+		if self.crosses[1] <= 0:
+			self.crosses[1] = nan
+
+		return fmin(self.crosses[0], self.crosses[1])
+
+
+	cdef double intersect(self, double3& pos, double3& dire):
+		# direction * origin
+		cdef double b = pos.x*dire.x + pos.y*dire.y + pos.z*dire.z
+		# b*b - (|o|**2 - r**2)
+		cdef double DELTA = b*b - pos.x*pos.x - pos.y*pos.y - pos.z*pos.z + self.r*self.r
+
+
+		if DELTA <= 0:
+			self.crosses[0] = nan
+			self.crosses[1] = nan
+			return nan
+
+
+		DELTA = sqrt(DELTA)
+		b *= -1
+
+		if b + DELTA >= 0:
+			self.crosses[1] = b + DELTA
+		else:
+			self.crosses[0] = nan
+			self.crosses[1] = nan
+			return nan
+
+ 
+		if b - DELTA >= 0:
+			self.crosses[0] = b - DELTA
+		else:
+			self.crosses[0] = nan
+
+		return fmin(self.crosses[0], self.crosses[1])
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
