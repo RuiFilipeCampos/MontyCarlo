@@ -17,3 +17,4 @@ class LinearInterpolation:
 		k = searchsorted(xAxis, x)
 		return y[k] + m[k]*(x[k+1] - x)
 
+print(2)

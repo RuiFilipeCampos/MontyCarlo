@@ -2,7 +2,7 @@
 
 
 
-from integration cimport Integrator
+from .integration cimport Integrator
 
 
 cdef class RationalInterpolation:

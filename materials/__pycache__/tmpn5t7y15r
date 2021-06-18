@@ -1,0 +1,15 @@
+
+from .electron.main cimport Electron
+
+cdef class Molecule:
+    cdef public dict formula
+
+
+cdef class Material:
+    cdef public dict formula
+    cdef public double density
+    cdef public object photon
+    cdef public Molecule molecule
+    cdef public Electron electron
+
+        

@@ -1,0 +1,78 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Nov 29 14:41:41 2020
+
+@author: Rui Campos
+"""
+
+from ...tools.data import getAxis
+from ...tools.interpolation import LinearInterpolation
+
+
+def getCS(ID, Z):
+    """
+    Parameters
+    ----------
+    Z : int
+        Atomic number of element.
+
+    Returns
+    -------
+    xAxis : numpy array
+        Energy values in MeV.
+    yAxis : numpy array
+        Cross section values in barn.
+        
+    TO DO : 
+        CHECK UNITS
+        place link to EPDL docs
+    """
+    
+    from ..database import EPDL, EADL
+    
+    #Aw = EADL[Z-1]['Aw']
+    
+    Iflag, CSdata = EPDL[Z-1][ID]
+    
+    E, CS = getAxis(CSdata)
+    
+    #changing units to cm^2
+    CS = CS * 1e-24
+    
+    lp = LinearInterpolation(Z, E, CS)
+    lp.final_init()
+    
+    return lp.eval
+
+
+
+
+def composeCS(ID, formula):
+    
+    fits = [getCS(ID, Z) for Z in formula]
+    coefs = list(formula.values())
+    N = len(fits)
+
+    #@njit
+    def CS(E):
+        return sum(fits[i](E)*coefs[i] for i in range(N))
+    return CS
+
+
+def getMFP(ID, formula, density):
+    
+    from ..database import EADL, Na
+    
+    Am = 0
+        
+    for Z in formula:
+        Am += formula[Z]*EADL[Z-1]['Aw']
+        
+        
+    N  = density * Na / Am
+    CS = composeCS(ID, formula)
+    
+    def mfp(E):
+        return 1/N/CS(E)
+    
+    return mfp

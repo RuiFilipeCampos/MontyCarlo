@@ -1,0 +1,99 @@
+
+
+
+
+
+
+cdef str directory
+
+
+
+from ..tools.interpol1 cimport LinLinInterpolation
+
+from ..tools.vectors cimport Vector
+from ..geometry.geometry cimport Volume 
+
+cimport numpy as cnp
+
+
+cdef class Shell:
+    cdef:
+        int Nvac, i, Nel, Z
+        double binding_energy,KE, avgR
+        dict kwargs
+        tuple args
+        public LinLinInterpolation CS
+        object rTrans, nrTrans
+        double Emax
+        object _trans
+        bint transFLAG
+        list trans
+    
+
+        
+    cpdef void setTransitions(self, Atom atom)
+
+        
+        
+        
+
+cdef class Atom:
+    cdef int Z
+    cdef list vacancies
+    cdef public list SHELLS
+    cdef str path
+    cdef double Aw
+    cdef dict EADL_dict, data
+    cdef public LinLinInterpolation CS
+    cdef int nSECONDARY
+    
+  
+        
+        
+
+        
+    cdef void _printShells(self)
+
+
+
+
+
+    cdef void _introduceVacancy(Atom self, Shell shell)
+
+
+    
+    cpdef printVacancies(self)
+    
+ 
+    
+    cdef list _run(self, Volume current_region, double x, double y, double z)
+    cdef void reset(self)
+    cpdef getBookmarkedText(self)
+    
+    
+
+
+cdef class Vacancy:
+    cdef Shell current_shell
+
+    
+    
+    @staticmethod
+    cdef Vacancy _new(Shell current_shell)
+    
+    
+    
+    
+    
+    cdef void move(Vacancy self, Shell shell)
+
+    
+    
+cdef class Transition:
+    cdef:
+        Shell j, k
+        double p, E
+        bint RADIATIVE
+    
+    @staticmethod
+    cdef Transition _new(Shell j, Shell k, double p, double E, bint RADIATIVE)

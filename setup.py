@@ -1,17 +1,38 @@
-import os
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Dec 27 12:41:36 2020
 
-old_file_name = "_geometry.pyx"
-new_file_name = "geometry.pyx"
-os.rename(old_file_name, new_file_name)
+@author: Rui Campos
+"""
+
+# from setuptools import setup
+from Cython.Build import cythonize
+
+# setup(
+#     ext_modules = cythonize("tools/*.pyx")
+# )
+
 
 
 try:
-	import setuptools  # important
-	from distutils.core import setup
-	from Cython.Build import cythonize
+    from setuptools import setup
+    from setuptools import Extension
+except ImportError:
+    from distutils.core import setup
+    from distutils.extension import Extension
 
-	setup(ext_modules=cythonize("geometry.pyx"))
-except: pass
+from Cython.Distutils import build_ext
+import numpy as np
 
-os.rename(new_file_name, old_file_name)
 
+ext_modules = [Extension("tools.*", ["MontyCarlo\\tools\\*.pyx"]),
+               Extension("particles.*", ["MontyCarlo\\particles\\*.pyx"]),
+               Extension("particles.*", ["MontyCarlo\\particles\\*.pyx"])]
+#ext_modules = [Extension("my_code_cython",["my_code_cython.pyx"]),
+#               Extension("another_code_cython",["another_code_cython.pyx"])]
+
+setup(
+    name= 'Generic model class',
+    cmdclass = {'build_ext': build_ext},
+    include_dirs = [np.get_include()],
+    ext_modules = cythonize(ext_modules))

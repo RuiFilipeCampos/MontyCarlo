@@ -13,6 +13,15 @@ def getAxis(text):
 
 
 
+def getTable(text):
+    line0 = text[0]
+    N = len(line0.split())
+    table = []    
+    for line in text:
+         tableLine = array([float(number) for number in line.split()])
+         table += [tableLine]
+    table = array(table)
+    return table
 
 
 def get_bookmarked_text(path):

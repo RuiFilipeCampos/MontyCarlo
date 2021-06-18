@@ -1,3 +1,7 @@
+print(">>>>>   IMPORTING RITA")
+
+
+
 cimport numpy as cnp
 
 import numpy as np
@@ -60,7 +64,9 @@ cdef class RationalInterpolation:
 		
 		cdef Interval I1, I2
 		cdef list errors = [I.error for I in self]
-		print( (x, y) for x, y in zip(self._intervals,errors) )
+        
+		#print( (x, y) for x, y in zip(self._intervals,errors) )
+        
 		cdef double err
 		cdef int k
 

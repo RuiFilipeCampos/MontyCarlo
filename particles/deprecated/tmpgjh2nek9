@@ -1,0 +1,25 @@
+from ..tools.vectors cimport Vector
+from ..geometry.primitives cimport Volume
+
+
+cdef double rand():
+cdef object choose(list cumul, list items)
+
+
+cdef class Particle:
+    cdef double E, theta, phi
+    cdef bint simulate_secondary
+    cdef Vector pos, ex, ey, ez
+    cdef Volume space
+    cdef Volume current_region
+    
+    cdef object current_material
+    cdef double imfp_T
+    cdef list   imfp_cumul
+    
+    
+    cdef int propagate(self) except -1
+    cdef change_direction(self, double cos, double phi)
+    #cdef public update_imfp(self)
+    cdef public update_references(self)
+    

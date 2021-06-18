@@ -23,17 +23,11 @@ cdef class LinearInterpolation:
 		self.yAxis = yAxis
 		self.Z = Z
 
-	def __hash__(self):
-		return self.Z
 
-	def multiply(self, other):
-		self.yAxis = self.yAxis*other
-
-
-	def final_init(self):
-		"""
-		Creates intervals.
-		"""
+# 	def final_init(self):
+# 		"""
+# 		Creates intervals.
+# 		"""
 
 		self.N = len(self.xAxis) - 1
 		self.x_max = self.xAxis[-1]
@@ -49,8 +43,13 @@ cdef class LinearInterpolation:
 			except ZeroDivisionError:
 				print(f"Zero difivision error ignored: Interval({x0}, {xf}, {y0}, {yf})")
 				pass
+            
+            
 
-
+	def __hash__(self):
+		return self.Z
+    
+    
 	def eval(self, x):
 		return self._eval(x)
 

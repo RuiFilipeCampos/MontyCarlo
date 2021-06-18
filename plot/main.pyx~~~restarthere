@@ -1,0 +1,193 @@
+
+from libc.math cimport pi, cos, atan, sqrt, atan2
+import numpy as np
+cimport numpy as cnp
+from ..geometry.main cimport Volume
+from ..particles.particle cimport Particle
+
+cdef class Ray(Particle):
+    
+    @staticmethod
+    cdef Ray _new(double x, double y, double z):
+        
+        cdef Ray self
+        self = <Ray>Ray.__new__(Ray)
+        
+        self.x = x
+        self.y = y
+        self.z = z
+        
+        self.ezx = 0
+        self.ezy = 0
+        self.ezz = 1
+        
+        
+        self.eyx = 0
+        self.eyy = 1
+        self.eyz = 0
+        return self
+        
+        
+        
+
+
+
+
+#sphere radius 100
+# camera at radius 500
+
+cdef struct double3:
+    double x, y, z
+
+cdef inline void to_spherical(double3 *P):
+    P.z = atan2(sqrt(P.x*P.x + P.y*P.y), P.z)
+    P.y = atan2(P.y, P.x) #Phi
+
+
+
+cpdef cnp.ndarray plot(self, Volume outer_volume, camera_direction = (0, 0), camera_distance = 10):
+    
+    # camera point
+    cdef double3 cam_p
+    cam_p.x = 0
+    cam_p.y = 0
+    cam_p.z = 0
+    
+    # image array
+    cdef double3 img_c
+    img_c.x = 0
+    img_c.y = 0
+    img_c.z = camera_distance
+    
+    cdef double pixel_size = 1
+    
+    cdef int Nx = 500
+    cdef int Ny = 500
+    
+    
+    cdef double[:, ::1] canvas = np.zeros((2*Nx, 2*Ny), dtype = float)
+    cdef cnp.ndarray rays  = np.empty((2*Nx, 2*Ny), dtype = object)
+    
+    #create rays
+    
+    cdef int ix, iy, iz
+    
+    
+    cdef double3 corner = img_c
+    cdef double dx, dy, dz
+    dx = .05
+    dy = .05
+    dz = .05
+    
+    corner.y += Ny*dy
+    corner.x += Nx*dx
+    
+    cdef double3 P
+    
+    
+
+    
+    
+    cdef Ray ray
+    #creating rays
+    # for ix in range(2*Nx):
+    #     for iy in range(2*Ny):
+                
+    #             P.y = corner.y - iy*dy
+    #             P.x = corner.x - ix*dx
+    #             P.z = corner.z
+                
+                
+                
+    #           #  print(P.x, P.y, P.z)
+                
+    #             ray = Ray._new(P.x, P.y, P.z)
+                
+    #             to_spherical(&P)
+                
+    #           #  print(P.y*180/pi, P.z*180/pi)
+                
+     
+                
+    #             ray.rotateAZIMUTH(cos(P.y))
+                
+    #             if not 0 < P.y < pi:
+    #                 ray.eyx = - ray.eyx
+                
+                
+    #             ray.rotateTHETA(cos(P.z))
+    #             ray.current_region = outer_volume
+    #             outer_volume.p = ray
+                
+    #             rays[ix, iy] = ray
+                
+    cdef bint cross
+    for ix in range(2*Nx):
+        for iy in range(2*Ny):
+                ray = rays[ix, iy]
+                
+                
+                P.y = corner.y - iy*dy
+                P.x = corner.x - ix*dx
+                P.z = corner.z
+                
+                
+                
+              #  print(P.x, P.y, P.z)
+                
+                ray = Ray._new(P.x, P.y, P.z)
+                
+                to_spherical(&P)
+                
+              #  print(P.y*180/pi, P.z*180/pi)
+                
+     
+                
+                ray.rotateAZIMUTH(cos(P.y))
+                
+                if not 0 < P.y < pi:
+                    ray.eyx = - ray.eyx
+                
+                
+                ray.rotateTHETA(cos(P.z))
+                ray.current_region = outer_volume
+                #outer_volume.p = ray
+                
+                outer_volume.p = ray
+                #ray.current_vol
+                #cross = outer_volume.move(1e3)
+               # print(cross)
+                if ray.current_region.move(1e3):
+                    canvas[ix, iy] = ray.z
+
+              #  print(ray.x, ray.y, ray.z)
+    
+    cdef cnp.ndarray c = np.array(canvas)
+    return c
+                
+                
+    
+    
+    
+    
+    
+    
+#     pass
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,110 @@
+
+
+cimport numpy as cnp
+
+from numpy import *
+
+
+cimport cython
+@cython.boundscheck(False)  # Deactivate bounds checking
+@cython.wraparound(False)   # Deactivate negative indexing.
+
+
+
+cdef class LinLinInterpolation:
+    
+    def __init__(self, xAxis, yAxis):
+        self.xAxis, self.yAxis = map(array, (xAxis, yAxis))
+        
+        self.m = diff(self.yAxis)/diff(self.xAxis)
+        
+    def _eval(self, x):
+        print(self.xAxis)
+        i = searchsorted(self.xAxis, x)
+        return self.yAxis[i] + self.m[i]*(x - self.xAxis[i])
+
+
+
+
+
+class LinLinInterpolation:
+    def __init__(self, xAxis, yAxis):
+        self.xAxis, self.yAxis = map(array, (xAxis, yAxis))
+        
+        self.m = diff(self.yAxis)/diff(self.xAxis)
+        
+    def _eval(x):
+        i = searchsorted(x, self.xAxis)
+        return self.yAxis[i] + self.m[i]*(x - self.x[i])
+        
+
+class LinearInterpolation:
+	def __init__(self, xAxis, yAxis):
+
+		self.xAxis = xAxis
+
+		M = []
+
+		for i in range(len(xAxis)):
+			m = (yAxis[i] - yAxis[i-1])/(xAxis[i] - yAxis[i-1])
+			M += [m]
+
+	def __call__(self, x):
+		k = searchsorted(xAxis, x)
+		return y[k] + m[k]*(x[k+1] - x)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+

@@ -1,0 +1,244 @@
+# distutils: language = c++
+# cython: profile=True
+
+
+
+
+
+from ..tools.vectors cimport Vector
+
+from .geometry cimport Interval, Volume
+
+
+from libc.math cimport fmin, fmax    
+
+#from numpy.math cimport INFINITY
+
+
+cdef class CSGvol(Volume):
+    
+    
+    # cdef Interval _getINTERSECTION(self, Vector origin, Vector direction):
+    #     cdef Interval I = self.getINTERSECTION(origin, direction)
+    #     I.REGION = self
+    #     return I
+
+    def __and__(CSGvol self, CSGvol other):
+        """Intersection of two regions. Example: new_region = region1 & region2"""
+        return AND(self, other)
+
+    
+    def __or__(CSGvol self, CSGvol other):
+        """Union of two regions. Example: new_region = region1 | region2"""
+        return OR(self, other)
+
+    def __invert__(CSGvol self):
+        return NOT(self)
+    
+    def CREATE_SPACE(self):
+        cdef CSGvol space = NOT(self)
+        space.imp = 0
+        
+        return space
+    
+    cdef double SDF(self, Vector P):
+        raise RuntimeError("SDF WAS CALLED FROM NODE.")
+
+
+cdef class AND(CSGvol):
+    cdef CSGvol VOL1, VOL2
+    
+    def __init__(self, CSGvol vol1, CSGvol vol2):
+        self.imp = 1
+        self.VOL1 = vol1
+        self.VOL2 = vol2
+    
+    cdef Interval getINTERSECTION(self, Vector origin, Vector direction):
+        cdef Interval I1, I2
+        I1 = self.VOL1.getINTERSECTION(origin, direction)
+        I2 = self.VOL2.getINTERSECTION(origin, direction)
+        return I1._AND(I2)
+    
+    cdef double getSDF(self, double x, double y, double z):
+        pass
+
+cdef class OR(CSGvol):
+    cdef CSGvol VOL1, VOL2
+    
+    def __init__(self, CSGvol vol1, CSGvol vol2):
+        self.imp = 1
+
+        self.VOL1 = vol1
+        self.VOL2 = vol2
+    
+    cdef Interval getINTERSECTION(self, Vector origin, Vector direction):
+        cdef Interval I1, I2
+        I1 = self.VOL1.getINTERSECTION(origin, direction)
+        I2 = self.VOL2.getINTERSECTION(origin, direction)
+        return I1._OR(I2)
+
+    cdef double getSDF(self, double x, double y, double z):
+        pass
+
+
+
+
+cdef class NOT(CSGvol):
+    cdef CSGvol VOL1
+    
+    def __init__(self, CSGvol vol1):
+        self.imp = 1
+
+        self.VOL1 = vol1
+    
+    cdef Interval getINTERSECTION(self, Vector origin, Vector direction):
+        cdef Interval I1 = self.VOL1.getINTERSECTION(origin, direction)
+        return I1._NOT()
+    
+    
+    cdef double getSDF(self, double x, double y, double z):
+        pass
+
+
+
+
+
+cimport cython
+@cython.boundscheck(False)
+@cython.wraparound(False) 
+@cython.initializedcheck(False)
+@cython.cdivision(True)
+cdef class Sphere(CSGvol):
+    cdef double r, c1, c2, c3
+    
+    def __init__(self, double r, center = (0, 0, 0)):
+        self.imp = 1
+
+        self.r = r
+        self.c1 = center[0]
+        self.c2 = center[1]
+        self.c3 = center[2]
+        self.inner = []
+    
+    
+    
+    cdef double SDF(self, Vector P):
+        return (P.x**2 + P.y**2 + P.z**2) - self.r
+    
+    cpdef Interval getINTERSECTION(self, Vector origin, Vector direction):
+        cdef long double d1, d2, d3
+        cdef long double oc1, oc2, oc3
+        cdef long double c1, c2, c3
+        
+        c1 = self.c1
+        c2 = self.c2
+        c3 = self.c3
+        
+        d1 = direction.x
+        d2 = direction.y
+        d3 = direction.z
+        
+        o1 = origin.x
+        o2 = origin.y
+        o3 = origin.z
+        oc1 = o1 - c1
+        oc2 = o2 - c2
+        oc3 = o3 - c3
+        
+        #cdef double a = d1**2 +d2**2 +d3**2
+        cdef long double b = 2*(d1*oc1 + d2*oc2 + d3*oc3)
+        cdef long double c = oc1**2 + oc2**2 + oc3**2 - self.r**2
+        cdef long double discriminant = b**2 - 4*c
+        
+        cdef Interval I
+        if discriminant <= 0:
+            I = Interval(0, 0)
+            I.EMPTY = True
+            return I
+        
+    
+        cdef long double t1, t2
+        
+        t1 = .5* (-b-discriminant**.5 )
+        t2 = .5* (-b+discriminant**.5 ) 
+        
+        
+        return Interval._new(t1, t2)
+    
+    cdef double getSDF(self, double x, double y, double z):
+        pass
+    
+    
+cdef class Plane(CSGvol):
+    cdef double d, nx, ny, nz
+    
+    def __init__(self, double displacement, orientation = (0, 0, 0)):
+        self.nx, self.ny, self.nz = orientation
+        self.d = displacement
+        self.imp = 1
+
+        
+        
+    cdef Interval getINTERSECTION(self, Vector origin, Vector direction):
+        cdef double d1, d2, d3
+        cdef double oc1, oc2, oc3
+        
+        d1 = direction.x
+        d2 = direction.y
+        d3 = direction.z
+        
+        o1 = origin.x
+        o2 = origin.y
+        o3 = origin.z
+        
+        cdef double on = o1*self.nx + o2*self.ny + o3*self.nz
+        cdef double dn = d1*self.nx + d2*self.ny + d3*self.nz
+        
+        cdef double t = -1*(on + self.d)/dn
+        
+        if t < 0: return Interval._new(-1*1e100, t)
+        else:     return Interval._new(t, 1e100)
+        
+        
+
+    
+cdef class Box(CSGvol):
+    cdef double x1, x2, y1, y2, z1, z2
+    
+    def new(self, xlim = (-1, 1), ylim = (-1, 1), zlim = (-1, 1)):
+        cdef CSGvol volX, volY, volZ
+        cdef CSGvol planeX1, planeX2, planeY1, planeY2, planeZ1, planeZ2
+        self.imp = 1
+        
+        planeX1 = Plane(xlim[0], orientation = (1, 0, 0))
+        planeX2 = Plane(xlim[1], orientation = (1, 0, 0))
+        volX = AND(planeX1, planeX2)
+        
+        planeY1 = Plane(ylim[0], orientation = (0, 1, 0))
+        planeY2 = Plane(ylim[1], orientation = (0, 1, 0))
+        volY = AND(planeY1, planeY2)
+        
+        planeZ1 = Plane(zlim[0], orientation = (0, 0, 1))
+        planeZ2 = Plane(zlim[1], orientation = (0, 0, 1))
+        volZ = AND(planeZ1, planeZ2)
+        
+        return AND(AND(volX, volY), volZ)
+        
+        
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

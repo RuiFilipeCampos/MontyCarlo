@@ -1,0 +1,119 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Nov 30 10:29:02 2020
+
+@author: Rui Campos
+"""
+
+
+def getIFF(Z):
+    import os
+        
+    path = directory + "\pickles\\" + str(Z)
+        
+    if not os.path.isfile(path):
+            
+        print("> *** photon/incoherent: Writing form factor...")
+            
+        from ...database import EPDL
+        from .FormFactorWriter import FormFactorWriter
+        
+        IFFdata = EPDL[Z-1][(7, 93, 0, 0, 0, 941)]
+        
+        #xAxis, yAxis = getAxis(FFdata)
+        
+        FormFactorWriter(FFdata, Z)
+        
+
+
+class IncoherentFormFactor:
+	"""Holds the form factor."""
+
+	# INIT PHASE
+	############################################################################
+	def __init__(self, upper_dir, S):
+		self.upper_dir = upper_dir
+		self.Z = upper_dir.Z
+
+		import os
+
+		path = directory + "\pickles\\" + str(upper_dir.Z)
+		
+		if not os.path.isfile(path):
+			print("> Writing Incoherent Form Factor...")
+			from .IncoherentFormFactorWriter import IncoherentFormFactorWriter
+			IncoherentFormFactorWriter(S, upper_dir.Z)
+			
+		import dill as pickle
+		with open(path, 'rb') as file:
+			self.param = pickle.load(file)
+
+		a1, a2, a3, a4, a5 = self.param
+		Z = self.Z
+
+		@njit
+		def _eval(x):
+			A = 1 + a1*x**2 + a2 * x**3 + a3 * x**4
+			B = 1 + a4*x**2 + a5 * x**4
+			return (1 - A/B**2)/Z
+
+		self._eval = _eval
+	############################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+	############################################################################
+	#COMPOSITION PHASE
+	#I am not sure about the rules for constructing the compound incoherent
+	#form factor.
+	############################################################################
+	def __add__(self, other):
+		eval1 = self._eval
+		eval2 = other._eval
+
+		@njit
+		def new_eval(x):
+			return eval1(x) + eval2(x)
+
+		new_self = IncoherentFormFactor.__new__(IncoherentFormFactor)
+		new_self._eval = new_eval
+
+		return new_self
+	
+	def __mul__(self, other):
+		eval_ = self._eval
+
+		@njit
+		def new_eval(x):
+			return other*eval_(x)
+		
+		new_self = IncoherentFormFactor.__new__(IncoherentFormFactor)
+		new_self._eval = new_eval
+		return new_self
+	############################################################################
+	############################################################################
+
+
+
+
+
+
+
+
+
+	#RUNTIME PHASE
+	############################################################################
+	def __call__(self, x):
+		return self._eval(x)
+	############################################################################
+	############################################################################
+	############################################################################
