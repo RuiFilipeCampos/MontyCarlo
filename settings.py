@@ -15,7 +15,7 @@ print("----")
 
 DEBUG = False
 
-__photonCUTOFF__   = 10e3
+__photonCUTOFF__   = 10e3  
 __electronCUTOFF__ = 100e3
 
 SURFACE_THICKNESS = .001e-4  #500 um
