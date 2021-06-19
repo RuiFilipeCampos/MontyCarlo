@@ -9,7 +9,7 @@ from .cppRelaxAPI cimport Atom as rAtom
 from .cppRelaxAPI cimport Transition as rTransition
 from .cppRelaxAPI cimport setADRESS_RAD
 from .cppRelaxAPI cimport setADRESS_NONRAD
-from .._random.random cimport genPTR
+from .._random.interface cimport genPTR
 
 from .cppRelaxAPI cimport PARTICLES
 from libc.string cimport memcpy 

@@ -52,7 +52,7 @@ from ..._init  cimport EAX
 
 
 
-from ..._random.mixmax.interface cimport mixmax_engine
+from ..._random.interface cimport mixmax_engine
 
 from collections import deque
 

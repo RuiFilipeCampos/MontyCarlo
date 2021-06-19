@@ -3,7 +3,7 @@
 # distutils: language = c++ 
 # distutils: extra_compile_args = -std=c++11
 
-from ..._random.mixmax.interface cimport mixmax_engine
+from ..._random.interface cimport mixmax_engine
 
 
 

@@ -19,7 +19,7 @@ from .positron.main cimport Positron
 from .photon.photon cimport Photon
 
 
-from .._random.mixmax.interface cimport mixmax_engine
+from .._random.interface cimport mixmax_engine
 from .cppRelaxAPI cimport Atom as rAtom
 from .cppRelaxAPI cimport Shell as rShell
 
