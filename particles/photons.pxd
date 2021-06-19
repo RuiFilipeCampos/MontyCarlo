@@ -44,7 +44,7 @@ errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 
 
 
-from .._random.mixmax.interface cimport mixmax_engine
+from .._random.interface cimport mixmax_engine
 
 
 #Local Imports

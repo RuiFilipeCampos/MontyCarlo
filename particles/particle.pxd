@@ -4,7 +4,7 @@ from ..materials.materials cimport Material, Atom, Shell
 cimport numpy as cnp
 #cdef double rand()
 #cdef object choose(list cumul, list items)
-from .._random.mixmax.interface cimport mixmax_engine
+from .._random.interface cimport mixmax_engine
 from ..types cimport double3
 
 DEF FULL_RECORD = True

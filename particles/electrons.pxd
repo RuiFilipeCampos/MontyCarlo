@@ -40,7 +40,7 @@ from ..materials.materials cimport Atom as _Atom
 #Error messages (to be moved to its own module)
 errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 
-from .._random.mixmax.interface cimport mixmax_engine
+from .._random.interface cimport mixmax_engine
 
 ## PYTHON IMPORTS
 #Local Imports

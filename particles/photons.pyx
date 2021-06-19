@@ -15,7 +15,7 @@ DEF _PP = True
 DEF _TP = True
 DEF _PH = True
 
-from .._random.mixmax.interface cimport mixmax_engine
+from .._random.interface cimport mixmax_engine
 
 
 
@@ -132,15 +132,7 @@ cdef double electronCUTOFF = __electronCUTOFF__
 
 cdef double minCUTOFF = min(photonCUTOFF, electronCUTOFF)
 
-
-
 IMFP_CUMUL.C0 = 0.
-
-
-
-
-
-
 
 cdef struct INCOHERENT:
     double t1
@@ -148,10 +140,6 @@ cdef struct INCOHERENT:
     double tau_min
     double tau, cos, N, D, sin2, x , T
     double k
-
-
-
-
 
 @cython.boundscheck(False)
 @cython.initializedcheck(False)

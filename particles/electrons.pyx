@@ -138,7 +138,7 @@ from ..types cimport double3
 
 
 
-from .._random.mixmax.interface cimport mixmax_engine
+from .._random.interface cimport mixmax_engine
 
 
 cdef extern from "math.h":

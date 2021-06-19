@@ -15,7 +15,7 @@ from geometry.main cimport Volume
 from collections import deque
 
 
-from _random.mixmax.interface cimport mixmax_engine
+from _random.interface cimport mixmax_engine
 
 
 from numpy.random import randint
