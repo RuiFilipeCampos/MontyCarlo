@@ -1,8 +1,0 @@
-cdef class Vector:
-    cdef public long double x, y, z, real
-    cdef public long double norm(self)
-    cdef public Vector normalize(self)
-    cdef public Vector _mult(self, Vector q)
-    cdef public Vector _conj(self)
-    cdef public Vector rotateCos(self, Vector axis, double cos)
-    cdef public Vector rotateAngle(self, Vector axis, double theta)
