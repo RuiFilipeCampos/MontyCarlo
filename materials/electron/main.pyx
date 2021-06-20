@@ -373,8 +373,7 @@ cdef class Electron:
         
         #SPrad, SPcol = map(np.array, (SPrad, SPcol) )
         import numpy as np
-        #np.save("softSP", self.softSP)
-        #np.save("eax", eax)
+
 
         integrand = 1/self.softSP
         integrand = CubicSpline(eax, integrand)
@@ -1299,10 +1298,6 @@ cdef class Elastic:
         self.sIMFP1A, self.sIMFP1B = getLinLin(eax, (sIMFP1 + inel_sIMFP1))
         self.sIMFP2A, self.sIMFP2B = getLinLin(eax, (sIMFP2 + inel_sIMFP2))
 
-
-        #np.save("sIMFP1", -sIMFP1 -inel_sIMFP1)
-        #np.save("sIMFP2", -sIMFP2 -inel_sIMFP2)
-        #np.save("_eax", eax)
 
 
         from numpy import array as arr

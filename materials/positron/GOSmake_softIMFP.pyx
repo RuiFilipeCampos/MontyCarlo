@@ -112,7 +112,7 @@ def do(formula, shells):
 
 
 			 
-			print(E, Wk, FK[j])
+			#print(E, Wk, FK[j])
 
 			# CONTRIBUTION FROM CLOSE
 			sc_avgMU  = quad(muDCSB,  Wk, Wmax, args=(eax[i],) )[0]
