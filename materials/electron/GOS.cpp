@@ -13,8 +13,8 @@
             "-fp:fast"
         ],
         "include_dirs": [
-            ".\\MontyCarlo\\materials",
-            ".\\MontyCarlo\\_random"
+            ".\\MontyCarlo\\_random",
+            ".\\MontyCarlo\\materials"
         ],
         "language": "c++",
         "name": "MontyCarlo.materials.electron.GOS",

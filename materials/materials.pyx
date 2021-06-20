@@ -1,20 +1,17 @@
 # distutils: language = c++
 
+"""
 
-print(">>>> IMPORTING materials.pyx")
+MAIN SOURCE OF INFO:
+    PENELOPE 11  - https://drive.google.com/file/d/1aIfsVbZUbIwjDzlvOwWBA_lN2XTu2VGd/
+    PENELOP 2018 - https://drive.google.com/file/d/1rb_wKkICOyL5UMuG4chuRxBQHuqR_8q1/
+"""
 
+#print(">>>> IMPORTING materials.pyx")
 
 
 cimport cython 
-
-
 from logger import MaterialLogger
-
-
-
-
-
-
 
 class map(dict):
     def __getattr__(self, key):
@@ -35,55 +32,24 @@ class map(dict):
 
 
 
-
-
-
-
-
-
-"""
-
-MAIN SOURCE OF INFO:
-    PENELOPE 11  - https://drive.google.com/file/d/1aIfsVbZUbIwjDzlvOwWBA_lN2XTu2VGd/
-    PENELOP 2018 - https://drive.google.com/file/d/1rb_wKkICOyL5UMuG4chuRxBQHuqR_8q1/
-"""
-
 from libc.stdlib cimport malloc, free
-
-#from numpy import * #array, geomspace, flip, load, searchsorted
-
-#from . import electron as el
-
-
-#from .electron.main import eax as _eax
-
-#cdef double eax[2695] 
-#eax[:] = _eax
 
 from .._init cimport LIMS
 from .._init cimport EAX
 from .._init import eax
 
-
-
 cdef extern from "<math.h>" nogil:
     double frexp(double x, int* exponent)
 
-#from .electron.main cimport LIMS
-
 from ..settings import __photonCUTOFF__, __electronCUTOFF__
-
-
 
 from .photon.photon import Photon
 from .electron.main cimport Electron
 
 import numpy as np
 import matplotlib.pyplot as plt
-print("END")
 
 from . import database as db
-print("END")
 
 def makeAlias(X, Y):
     X, Y = X.copy(), Y.copy()
@@ -114,10 +80,6 @@ def makeAlias(X, Y):
     
     points = sorted(points)
     return np.array(points)
-
-
-
-
 
 
 def makeLinLin(x, y):
