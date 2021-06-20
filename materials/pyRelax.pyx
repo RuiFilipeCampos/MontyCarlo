@@ -9,27 +9,13 @@ from .cppRelaxAPI cimport Atom as rAtom
 from .cppRelaxAPI cimport Transition as rTransition
 from .cppRelaxAPI cimport setADRESS_RAD
 from .cppRelaxAPI cimport setADRESS_NONRAD
-from .._random.interface cimport genPTR
-
+from .._random.random cimport genPTR
 from .cppRelaxAPI cimport PARTICLES
 from libc.string cimport memcpy 
 
 
-
-print(sizeof(rTransition))
-
-
-
-
-
-
-
-
-
 from libcpp.deque cimport deque
-
 from libcpp.vector cimport vector
-
 
 
 from cython.operator cimport dereference as deref
@@ -37,7 +23,6 @@ from cython.operator cimport dereference as deref
 import numpy as np #array, geomspace, flip, load, searchsorted
 from numpy.random import *
 
-#from ..particles.photons import choose
 from ..settings import __montecarlo__, __photonCUTOFF__, __electronCUTOFF__
 
 cdef double photonCUTOFF = __photonCUTOFF__
@@ -74,25 +59,12 @@ from libcpp.string cimport string
 
 #cimport numpy as cnp
 
-import numpy as np
-
-
-
-
-
-
-     
+import numpy as np   
 
 cdef class Atom:
-
-
-        
-        
-        
     def __init__(self, Z, double cut_off):
         cdef int i
 
-        
         #data processing in python
         self.Z = Z
         self.path = directory + "\\EADL\\" + str(Z) + ".txt"
@@ -108,29 +80,19 @@ cdef class Atom:
         number_el = np.ceil(number_el)
         binding_energy = self.data[(0, 91, 0, 0, 0, 913)][:, 1]*1e6
         
-        
         binding_energy = np.array(binding_energy)
         
-        
         # FOR PYTHON
-        
         self.BE = binding_energy
         self.number_el = number_el
-        
-        
         ################################
-        
-        
-        
-        
-        
+
         #permutation = binding_energy.argsort()
         
         #binding_energy = np.flip(binding_energy[permutation])
         #number_el = np.flip(number_el[permutation])
         #DESIGNATORS = np.flip(DESIGNATORS[permutation])
-        
-        
+
         
        # for x, y in zip(number_el, binding_energy):
       #      print(x, y)
@@ -201,10 +163,6 @@ cdef class Atom:
         number_el      = np.ascontiguousarray(number_el)
         binding_energy = np.ascontiguousarray(binding_energy)
                 
-        
-        
-        
-        
         
         self.Nsh = len(DESIGNATORS)
         
