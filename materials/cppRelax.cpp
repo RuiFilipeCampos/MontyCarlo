@@ -13,7 +13,7 @@
 #include <list>
 #include <forward_list>
 #include <stdlib.h> 
-#include "../_random/mixmax/mixmax.hpp"
+#include "../_random/mixmax_release_200final/mixmax.hpp"
 
 // will eventually clean this up 
 
