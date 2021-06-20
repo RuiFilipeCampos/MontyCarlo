@@ -5,17 +5,17 @@ print(">>>>>   IMPORTING SOURCES")
 
 from .particles.particle cimport STATE
 
-from particles.positrons cimport Positron
-from particles.photons cimport Photon
-from particles.electrons cimport Electron
-from particles.particle cimport Particle
+from .particles.positrons cimport Positron
+from .particles.photons cimport Photon
+from .particles.electrons cimport Electron
+from .particles.particle cimport Particle
 
-from geometry.main cimport Volume
+from .geometry.main cimport Volume
 
 from collections import deque
 
 
-from _random.interface cimport mixmax_engine
+from ._random.interface cimport mixmax_engine
 
 
 from numpy.random import randint

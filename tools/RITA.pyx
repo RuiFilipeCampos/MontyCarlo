@@ -7,7 +7,7 @@ cimport numpy as cnp
 import numpy as np
 
 #internal imports
-from integration cimport Integrator
+from .integration cimport Integrator
 
 
 cdef class RationalInterpolation:
