@@ -368,7 +368,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span style="background-color: #FFFF00">Yellow lines</span> hint at Python interaction.<br />
     Click on a line that starts with a "<code>+</code>" to see the C code that Cython generated for it.
 </p>
-<p>Raw output: <a href="electrons.cpp">electrons.cpp</a></p>
+<p>Raw output: <a href="electrons.c">electrons.c</a></p>
 <div class="cython"><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0001</span>: <span class="c"># cython: profile=False</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -447,18 +447,18 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </pre><pre class="cython line score-29" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0057</span>: <span class="k">from</span> <span class="nn">..settings</span> <span class="k">import</span> <span class="n">__photonCUTOFF__</span><span class="p">,</span> <span class="n">__electronCUTOFF__</span></pre>
 <pre class='cython code score-29 '>  __pyx_t_2 = <span class='py_c_api'>PyList_New</span>(2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s_photonCUTOFF_2);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s_photonCUTOFF_2);
-  <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_2, 0, __pyx_n_s_photonCUTOFF_2);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s_photonCUTOFF);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s_photonCUTOFF);
+  <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_2, 0, __pyx_n_s_photonCUTOFF);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s_electronCUTOFF);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s_electronCUTOFF);
   <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_2, 1, __pyx_n_s_electronCUTOFF);
   __pyx_t_1 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_settings, __pyx_t_2, 2);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_ImportFrom</span>(__pyx_t_1, __pyx_n_s_photonCUTOFF_2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)</span>
+  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_ImportFrom</span>(__pyx_t_1, __pyx_n_s_photonCUTOFF);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
-  if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_photonCUTOFF_2, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 57, __pyx_L1_error)</span>
+  if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_photonCUTOFF, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 57, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_ImportFrom</span>(__pyx_t_1, __pyx_n_s_electronCUTOFF);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -647,13 +647,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <pre class="cython line score-0">&#xA0;<span class="">0149</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0150</span>: <span class="c"># CONSTANTS AND GLOBALS</span></pre>
 <pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0151</span>: <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">CUTOFF</span> <span class="o">=</span> <span class="n">__photonCUTOFF__</span></pre>
-<pre class='cython code score-13 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_3, __pyx_n_s_photonCUTOFF_2);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)</span>
+<pre class='cython code score-13 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_3, __pyx_n_s_photonCUTOFF);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   __pyx_t_6 = __pyx_<span class='py_c_api'>PyFloat_AsDouble</span>(__pyx_t_3); if (unlikely((__pyx_t_6 == (double)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(0, 151, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_10MontyCarlo_9particles_9electrons_CUTOFF = __pyx_t_6;
 </pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0152</span>: <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">photonCUTOFF</span> <span class="o">=</span> <span class="n">__photonCUTOFF__</span></pre>
-<pre class='cython code score-13 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_3, __pyx_n_s_photonCUTOFF_2);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 152, __pyx_L1_error)</span>
+<pre class='cython code score-13 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_3, __pyx_n_s_photonCUTOFF);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 152, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   __pyx_t_6 = __pyx_<span class='py_c_api'>PyFloat_AsDouble</span>(__pyx_t_3); if (unlikely((__pyx_t_6 == (double)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(0, 152, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
@@ -661,7 +661,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </pre><pre class="cython line score-27" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0153</span>: <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">MIN_CUT_OFF</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">__photonCUTOFF__</span><span class="p">,</span> <span class="n">__electronCUTOFF__</span><span class="p">)</span></pre>
 <pre class='cython code score-27 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_3, __pyx_n_s_electronCUTOFF);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
-  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_photonCUTOFF_2);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 153, __pyx_L1_error)</span>
+  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_photonCUTOFF);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 153, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
   __pyx_t_1 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_t_3, __pyx_t_5, Py_LT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)</span>
   __pyx_t_7 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_1); if (unlikely(__pyx_t_7 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 153, __pyx_L1_error)</span>

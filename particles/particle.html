@@ -368,7 +368,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span style="background-color: #FFFF00">Yellow lines</span> hint at Python interaction.<br />
     Click on a line that starts with a "<code>+</code>" to see the C code that Cython generated for it.
 </p>
-<p>Raw output: <a href="particle.cpp">particle.cpp</a></p>
+<p>Raw output: <a href="particle.c">particle.c</a></p>
 <div class="cython"><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0001</span>: <span class="c"># distutils: language = c++</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -562,17 +562,14 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_deposit(struct _
 <pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0107</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">double</span> <span class="nf">ENERGY</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-3 '>static double __pyx_f_10MontyCarlo_9particles_8particle_8Particle_ENERGY(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   double __pyx_r;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("ENERGY", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("ENERGY", __pyx_f[0], 107, 0, <span class='error_goto'>__PYX_ERR(0, 107, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_1);
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.ENERGY", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -595,10 +592,8 @@ static PyObject *__pyx_f_10MontyCarlo_9particles_8particle_8Particle_get_record_
   PyObject *__pyx_v_traj = NULL;
   CYTHON_UNUSED int __pyx_v_i;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("get_record_pos", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("get_record_pos", __pyx_f[0], 111, 0, <span class='error_goto'>__PYX_ERR(0, 111, __pyx_L1_error)</span>);
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -657,7 +652,6 @@ static PyObject *__pyx_f_10MontyCarlo_9particles_8particle_8Particle_get_record_
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_traj);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -677,10 +671,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_8particle_8Particle_1get_recor
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_get_record_pos(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("get_record_pos", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("get_record_pos (wrapper)", __pyx_f[0], 111, 0, <span class='error_goto'>__PYX_ERR(0, 111, __pyx_L1_error)</span>);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   __pyx_t_1 = __pyx_f_10MontyCarlo_9particles_8particle_8Particle_get_record_pos(__pyx_v_self, 1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
@@ -695,7 +687,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_get_record
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -744,17 +735,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_get_record
 </pre><pre class="cython line score-0">&#xA0;<span class="">0120</span>: </pre>
 <pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0121</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-2 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_record(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("record", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("record", __pyx_f[0], 121, 0, <span class='error_goto'>__PYX_ERR(0, 121, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   goto __pyx_L0;
   __pyx_L1_error:;
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.record", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0122</span>:         <span class="sd">&quot;&quot;&quot;</span></pre>
@@ -790,10 +778,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_8particle_8Particle_3getEnergy
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("getEnergy", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("getEnergy", __pyx_f[0], 133, 0, <span class='error_goto'>__PYX_ERR(0, 133, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -802,7 +788,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -814,19 +799,12 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
   __pyx_t_1 = 0;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">0135</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0136</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">L</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_move(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, double __pyx_v_L) {
-  <span class='trace'>__Pyx_TraceDeclarations</span>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0136</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">L</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_move(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, double __pyx_v_L) {
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("move", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("move", __pyx_f[0], 136, 0, <span class='error_goto'>__PYX_ERR(0, 136, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.move", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0137</span>:         <span class="c"># self.state.pos.x += self.state.EZ.x*L</span></pre>
@@ -840,40 +818,27 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0143</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">pos</span><span class="o">.</span><span class="n">z</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">dire</span><span class="o">.</span><span class="n">z</span><span class="o">*</span><span class="n">L</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;state.pos.z = (__pyx_v_self-&gt;state.pos.z + (__pyx_v_self-&gt;state.dire.z * __pyx_v_L));
 </pre><pre class="cython line score-0">&#xA0;<span class="">0144</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0145</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_deposit(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
-  <span class='trace'>__Pyx_TraceDeclarations</span>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0145</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">deposit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_deposit(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("deposit", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("deposit", __pyx_f[0], 145, 0, <span class='error_goto'>__PYX_ERR(0, 145, __pyx_L1_error)</span>);
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.deposit", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0146</span>:         <span class="k">pass</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">0147</span>:         <span class="c">#self.current_region.voxels[self.index] += self.ENERGY()</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">0148</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0149</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0150</span>:     <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">rsqrt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">x</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static double __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rsqrt(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, double __pyx_v_x) {
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0150</span>:     <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">rsqrt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">x</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static double __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rsqrt(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, double __pyx_v_x) {
   double __pyx_v_y;
   double __pyx_r;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("rsqrt", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("rsqrt", __pyx_f[0], 150, 0, <span class='error_goto'>__PYX_ERR(0, 150, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.rsqrt", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -897,21 +862,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
 <pre class='cython code score-0 '>  __pyx_r = __pyx_v_y;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">0160</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0161</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_normalize(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0161</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_normalize(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   double __pyx_v_x;
   double __pyx_v_norm;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("normalize", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("normalize", __pyx_f[0], 161, 0, <span class='error_goto'>__PYX_ERR(0, 161, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.normalize", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0162</span>:         <span class="c"># cdef double x = self.eyx**2 + self.eyy**2 + self.eyz**2 </span></pre>
@@ -952,19 +910,12 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0193</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">dire</span><span class="o">.</span><span class="n">z</span> <span class="o">*=</span> <span class="n">norm</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;state.dire.z = (__pyx_v_self-&gt;state.dire.z * __pyx_v_norm);
 </pre><pre class="cython line score-0">&#xA0;<span class="">0194</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0195</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">invert_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_invert_axis(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
-  <span class='trace'>__Pyx_TraceDeclarations</span>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0195</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">invert_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_invert_axis(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("invert_axis", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("invert_axis", __pyx_f[0], 195, 0, <span class='error_goto'>__PYX_ERR(0, 195, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.invert_axis", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0196</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">axis</span><span class="o">.</span><span class="n">x</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1</span></pre>
@@ -975,19 +926,12 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;state.axis.z = (__pyx_v_self-&gt;state.axis.z * -1.0);
 </pre><pre class="cython line score-0">&#xA0;<span class="">0199</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0200</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0201</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">invert_dire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_invert_dire(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
-  <span class='trace'>__Pyx_TraceDeclarations</span>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0201</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">invert_dire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_invert_dire(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("invert_dire", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("invert_dire", __pyx_f[0], 201, 0, <span class='error_goto'>__PYX_ERR(0, 201, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.invert_dire", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0202</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">dire</span><span class="o">.</span><span class="n">x</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1</span></pre>
@@ -998,25 +942,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;state.dire.z = (__pyx_v_self-&gt;state.dire.z * -1.0);
 </pre><pre class="cython line score-0">&#xA0;<span class="">0205</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0206</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0207</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">throwAZIMUTH</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_throwAZIMUTH(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0207</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">throwAZIMUTH</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_throwAZIMUTH(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   double __pyx_v_x;
   double __pyx_v_y;
   double __pyx_v_a;
   double __pyx_v_w1;
   double __pyx_v_w2;
   double __pyx_v_w3;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("throwAZIMUTH", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("throwAZIMUTH", __pyx_f[0], 207, 0, <span class='error_goto'>__PYX_ERR(0, 207, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.throwAZIMUTH", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0208</span>:         <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">x</span><span class="p">,</span> <span class="nf">y</span><span class="p">,</span> <span class="nf">a</span><span class="p">,</span> <span class="nf">w1</span><span class="p">,</span> <span class="nf">w2</span><span class="p">,</span> <span class="nf">w3</span></pre>
@@ -1089,8 +1027,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
 <pre class="cython line score-0">&#xA0;<span class="">0248</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0249</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0250</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0251</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">rotateTHETA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">cos</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rotateTHETA(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, double __pyx_v_cos) {
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0251</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">rotateTHETA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">cos</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rotateTHETA(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, double __pyx_v_cos) {
   double __pyx_v_cos2sq;
   double __pyx_v_cos2;
   double __pyx_v_sin2sq;
@@ -1102,17 +1040,10 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
   double __pyx_v_ezx;
   double __pyx_v_ezy;
   double __pyx_v_ezz;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("rotateTHETA", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("rotateTHETA", __pyx_f[0], 251, 0, <span class='error_goto'>__PYX_ERR(0, 251, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.rotateTHETA", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0252</span>:         <span class="c"># spent an entire afternoon looking for a serious bug</span></pre>
@@ -1389,10 +1320,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
   double __pyx_v_ezx;
   double __pyx_v_ezy;
   double __pyx_v_ezz;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("rotateTHETAvers2", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("rotateTHETAvers2", __pyx_f[0], 473, 0, <span class='error_goto'>__PYX_ERR(0, 473, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   goto __pyx_L0;
@@ -1407,7 +1336,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_10);
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.rotateTHETAvers2", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0474</span>:         <span class="c"># spent an entire afternoon looking for a serious bug</span></pre>
@@ -1880,10 +1808,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
   double __pyx_v_ezx;
   double __pyx_v_ezy;
   double __pyx_v_ezz;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("rotateAZIMUTH", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("rotateAZIMUTH", __pyx_f[0], 578, 0, <span class='error_goto'>__PYX_ERR(0, 578, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   goto __pyx_L0;
@@ -1898,7 +1824,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_10);
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.rotateAZIMUTH", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0579</span>:         <span class="c"># spent an entire afternoon looking for a serious bug</span></pre>
@@ -2496,10 +2421,8 @@ static PyObject *__pyx_f_10MontyCarlo_9particles_8particle_8Particle_add_to_cell
   int __pyx_v_x;
   PyArrayObject *__pyx_v_points = 0;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("add_to_cell", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("add_to_cell", __pyx_f[0], 711, 0, <span class='error_goto'>__PYX_ERR(0, 711, __pyx_L1_error)</span>);
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -2597,7 +2520,6 @@ static PyObject *__pyx_f_10MontyCarlo_9particles_8particle_8Particle_add_to_cell
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_points);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -2679,10 +2601,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_8particle_8Particle_5add_to_ce
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_4add_to_cell(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, PyObject *__pyx_v_old_cell, PyObject *__pyx_v_old_points, int __pyx_v_Npoints) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("add_to_cell", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("add_to_cell (wrapper)", __pyx_f[0], 711, 0, <span class='error_goto'>__PYX_ERR(0, 711, __pyx_L1_error)</span>);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   __pyx_t_1 = __pyx_f_10MontyCarlo_9particles_8particle_8Particle_add_to_cell(__pyx_v_self, __pyx_v_old_cell, __pyx_v_old_points, __pyx_v_Npoints, 1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 711, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
@@ -2697,7 +2617,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_4add_to_ce
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -2904,10 +2823,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_6get_track
   int __pyx_v_i;
   PyArrayObject *__pyx_v_points = 0;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("get_track", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("get_track", __pyx_f[0], 743, 0, <span class='error_goto'>__PYX_ERR(0, 743, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -2920,7 +2837,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_6get_track
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_points);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -3076,10 +2992,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_8particle_8Particle_9track(PyO
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_8track(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("track", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("track", __pyx_f[0], 760, 0, <span class='error_goto'>__PYX_ERR(0, 760, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -3091,7 +3005,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_8track(str
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -3133,17 +3046,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_8track(str
 <pre class="cython line score-0">&#xA0;<span class="">0766</span>: </pre>
 <pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0767</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">update_references</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
 <pre class='cython code score-4 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_update_references(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("update_references", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("update_references", __pyx_f[0], 767, 0, <span class='error_goto'>__PYX_ERR(0, 767, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_2);
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle.update_references", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-6" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0768</span>:         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;update_references from particle.pyx was &quot;</span>          \</pre>
@@ -3160,16 +3070,13 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_8track(str
 <pre class="cython line score-0">&#xA0;<span class="">0771</span>: </pre>
 <pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0772</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mixmax_engine</span> <span class="o">*</span><span class="n">genPTR</span><span class="p">):</span></pre>
 <pre class='cython code score-3 '>static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle__run(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, CYTHON_UNUSED mixmax_engine *__pyx_v_genPTR) {
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("_run", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("_run", __pyx_f[0], 772, 0, <span class='error_goto'>__PYX_ERR(0, 772, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_1);
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.particle.Particle._run", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0773</span>:         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;&gt;&gt;&gt;&gt; _run called from particle&quot;</span><span class="p">)</span></pre>

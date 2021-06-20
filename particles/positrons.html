@@ -368,7 +368,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span style="background-color: #FFFF00">Yellow lines</span> hint at Python interaction.<br />
     Click on a line that starts with a "<code>+</code>" to see the C code that Cython generated for it.
 </p>
-<p>Raw output: <a href="positrons.cpp">positrons.cpp</a></p>
+<p>Raw output: <a href="positrons.c">positrons.c</a></p>
 <div class="cython"><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0001</span>: <span class="c"># profile = True</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -443,18 +443,18 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </pre><pre class="cython line score-29" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0053</span>: <span class="k">from</span> <span class="nn">..settings</span> <span class="k">import</span> <span class="n">__photonCUTOFF__</span><span class="p">,</span> <span class="n">__electronCUTOFF__</span></pre>
 <pre class='cython code score-29 '>  __pyx_t_2 = <span class='py_c_api'>PyList_New</span>(2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s_photonCUTOFF_2);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s_photonCUTOFF_2);
-  <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_2, 0, __pyx_n_s_photonCUTOFF_2);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s_photonCUTOFF);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s_photonCUTOFF);
+  <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_2, 0, __pyx_n_s_photonCUTOFF);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s_electronCUTOFF);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s_electronCUTOFF);
   <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_2, 1, __pyx_n_s_electronCUTOFF);
   __pyx_t_1 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_settings, __pyx_t_2, 2);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_ImportFrom</span>(__pyx_t_1, __pyx_n_s_photonCUTOFF_2);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)</span>
+  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_ImportFrom</span>(__pyx_t_1, __pyx_n_s_photonCUTOFF);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
-  if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_photonCUTOFF_2, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 53, __pyx_L1_error)</span>
+  if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_photonCUTOFF, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 53, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_ImportFrom</span>(__pyx_t_1, __pyx_n_s_electronCUTOFF);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -641,13 +641,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <pre class="cython line score-0">&#xA0;<span class="">0144</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0145</span>: <span class="c"># CONSTANTS AND GLOBALS</span></pre>
 <pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0146</span>: <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">CUTOFF</span> <span class="o">=</span> <span class="n">__photonCUTOFF__</span></pre>
-<pre class='cython code score-13 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_3, __pyx_n_s_photonCUTOFF_2);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 146, __pyx_L1_error)</span>
+<pre class='cython code score-13 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_3, __pyx_n_s_photonCUTOFF);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 146, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   __pyx_t_6 = __pyx_<span class='py_c_api'>PyFloat_AsDouble</span>(__pyx_t_3); if (unlikely((__pyx_t_6 == (double)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(0, 146, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_10MontyCarlo_9particles_9positrons_CUTOFF = __pyx_t_6;
 </pre><pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0147</span>: <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">photonCUTOFF</span> <span class="o">=</span> <span class="n">__photonCUTOFF__</span></pre>
-<pre class='cython code score-13 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_3, __pyx_n_s_photonCUTOFF_2);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 147, __pyx_L1_error)</span>
+<pre class='cython code score-13 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_3, __pyx_n_s_photonCUTOFF);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 147, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   __pyx_t_6 = __pyx_<span class='py_c_api'>PyFloat_AsDouble</span>(__pyx_t_3); if (unlikely((__pyx_t_6 == (double)-1) &amp;&amp; <span class='py_c_api'>PyErr_Occurred</span>())) <span class='error_goto'>__PYX_ERR(0, 147, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
@@ -655,7 +655,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </pre><pre class="cython line score-27" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0148</span>: <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">MIN_CUT_OFF</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">__photonCUTOFF__</span><span class="p">,</span> <span class="n">__electronCUTOFF__</span><span class="p">)</span></pre>
 <pre class='cython code score-27 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_3, __pyx_n_s_electronCUTOFF);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 148, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
-  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_photonCUTOFF_2);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 148, __pyx_L1_error)</span>
+  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_photonCUTOFF);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 148, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
   __pyx_t_1 = <span class='py_c_api'>PyObject_RichCompare</span>(__pyx_t_3, __pyx_t_5, Py_LT); <span class='refnanny'>__Pyx_XGOTREF</span>(__pyx_t_1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)</span>
   __pyx_t_7 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_1); if (unlikely(__pyx_t_7 &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 148, __pyx_L1_error)</span>
@@ -707,17 +707,14 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0163</span>: <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">double</span> <span class="nf">g</span><span class="p">(</span><span class="n">double</span> <span class="n">v</span><span class="p">,</span> <span class="n">double</span> <span class="n">gamma</span><span class="p">):</span></pre>
 <pre class='cython code score-2 '>static CYTHON_INLINE double __pyx_f_10MontyCarlo_9particles_9positrons_g(double __pyx_v_v, double __pyx_v_gamma) {
   double __pyx_r;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("g", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("g", __pyx_f[0], 163, 0, <span class='error_goto'>__PYX_ERR(0, 163, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.g", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -765,20 +762,14 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
 
 </pre><pre class="cython line score-0">&#xA0;<span class="">0173</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0174</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0175</span>:     <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">ENERGY</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static double __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_ENERGY(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0175</span>:     <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">ENERGY</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static double __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_ENERGY(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
   double __pyx_r;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("ENERGY", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("ENERGY", __pyx_f[0], 175, 0, <span class='error_goto'>__PYX_ERR(0, 175, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.Positron.ENERGY", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -792,10 +783,8 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
 <pre class='cython code score-5 '>static struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_f_10MontyCarlo_9particles_9positrons_8Positron__new(struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &amp;__pyx_v_state) {
   struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self = 0;
   struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("_new", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("_new", __pyx_f[0], 180, 0, <span class='error_goto'>__PYX_ERR(0, 180, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -806,7 +795,6 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_self);
   <span class='refnanny'>__Pyx_XGIVEREF</span>((PyObject *)__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -837,10 +825,8 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
   double __pyx_v_x;
   double __pyx_v_y;
   struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("_newISOTROPIC", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("_newISOTROPIC", __pyx_f[0], 189, 0, <span class='error_goto'>__PYX_ERR(0, 189, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -851,7 +837,6 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_self);
   <span class='refnanny'>__Pyx_XGIVEREF</span>((PyObject *)__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -936,10 +921,8 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
   double __pyx_v_tau;
   double __pyx_v_S_soft;
   int __pyx_v_delta;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("_run", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("_run", __pyx_f[0], 227, 0, <span class='error_goto'>__PYX_ERR(0, 227, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   goto __pyx_L0;
@@ -949,7 +932,6 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_3);
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.Positron._run", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0228</span>:         <span class="cp">IF</span> <span class="n">_DEBUG_BASIC</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s">&quot;&gt; Positron&quot;</span><span class="p">)</span></pre>
@@ -1225,20 +1207,12 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
 <pre class="cython line score-0">&#xA0;<span class="">0361</span>:     <span class="c">########                           METHODS                                  ########</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">0362</span>:     <span class="c">####################################################################################</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">0363</span>: </pre>
-<pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0364</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">update_references</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span></pre>
-<pre class='cython code score-3 '>static void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_update_references(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
-  <span class='trace'>__Pyx_TraceDeclarations</span>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0364</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">update_references</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span></pre>
+<pre class='cython code score-0 '>static void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_update_references(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("update_references", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("update_references", __pyx_f[0], 364, 0, <span class='error_goto'>__PYX_ERR(0, 364, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_1);
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.Positron.update_references", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0365</span>:         <span class="sd">&quot;&quot;&quot;</span></pre>
@@ -1313,21 +1287,15 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
 </pre><pre class="cython line score-0">&#xA0;<span class="">0384</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0385</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0386</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0387</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">update_imfp_cumul</span><span class="p">(</span><span class="n">Positron</span> <span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_update_imfp_cumul(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0387</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">update_imfp_cumul</span><span class="p">(</span><span class="n">Positron</span> <span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_update_imfp_cumul(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
   int __pyx_v_i;
   double __pyx_v_Emin;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("update_imfp_cumul", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("update_imfp_cumul", __pyx_f[0], 387, 0, <span class='error_goto'>__PYX_ERR(0, 387, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.Positron.update_imfp_cumul", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0388</span>:         <span class="sd">&quot;&quot;&quot;</span></pre>
@@ -1386,19 +1354,12 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
 <pre class="cython line score-0">&#xA0;<span class="">0415</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0416</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0417</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0418</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static CYTHON_INLINE void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron__delta(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
-  <span class='trace'>__Pyx_TraceDeclarations</span>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0418</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static CYTHON_INLINE void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron__delta(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("_delta", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("_delta", __pyx_f[0], 418, 0, <span class='error_goto'>__PYX_ERR(0, 418, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.Positron._delta", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0419</span>:         <span class="k">pass</span></pre>
@@ -1413,22 +1374,16 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
 <pre class="cython line score-0">&#xA0;<span class="">0427</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0428</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0429</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0430</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">update_imfp</span><span class="p">(</span><span class="n">Positron</span> <span class="bp">self</span><span class="p">)</span> <span class="p">:</span></pre>
-<pre class='cython code score-2 '>static void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_update_imfp(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0430</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">update_imfp</span><span class="p">(</span><span class="n">Positron</span> <span class="bp">self</span><span class="p">)</span> <span class="p">:</span></pre>
+<pre class='cython code score-0 '>static void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_update_imfp(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
   double __pyx_v_Emin;
   int __pyx_v_i;
   int __pyx_v_j;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("update_imfp", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("update_imfp", __pyx_f[0], 430, 0, <span class='error_goto'>__PYX_ERR(0, 430, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.Positron.update_imfp", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0431</span>: </pre>
@@ -1486,23 +1441,18 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
 <pre class="cython line score-0">&#xA0;<span class="">0463</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0464</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0465</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0466</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">sample_w</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">tau</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static CYTHON_INLINE void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_sample_w(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self, CYTHON_UNUSED double __pyx_v_tau) {
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0466</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">sample_w</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">tau</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static CYTHON_INLINE void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_sample_w(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self, CYTHON_UNUSED double __pyx_v_tau) {
   int __pyx_v_i;
   double __pyx_v_SP;
   double __pyx_v_STRAGG;
   double __pyx_v_sigma;
   double __pyx_v_avgW2;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("sample_w", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("sample_w", __pyx_f[0], 466, 0, <span class='error_goto'>__PYX_ERR(0, 466, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.Positron.sample_w", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0467</span>: </pre>
@@ -1583,25 +1533,18 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
 <pre class='cython code score-0 '>  goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">0509</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0510</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0511</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">do_hinge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static CYTHON_INLINE void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_do_hinge(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0511</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">do_hinge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static CYTHON_INLINE void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_do_hinge(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
   int __pyx_v_i;
   double __pyx_v_sIMFP1;
   double __pyx_v_sIMFP2;
   double __pyx_v_mu1;
   double __pyx_v_den;
   double __pyx_v_mu0;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("do_hinge", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("do_hinge", __pyx_f[0], 511, 0, <span class='error_goto'>__PYX_ERR(0, 511, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.Positron.do_hinge", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0512</span>:         <span class="sd">&quot;&quot;&quot;</span></pre>
@@ -1671,21 +1614,13 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
 <pre class="cython line score-0">&#xA0;<span class="">0555</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0556</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0557</span>: </pre>
-<pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0558</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">_elastic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-3 '>static CYTHON_INLINE void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron__elastic(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0558</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">_elastic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static CYTHON_INLINE void __pyx_f_10MontyCarlo_9particles_9positrons_8Positron__elastic(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
   int __pyx_v_i;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("_elastic", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("_elastic", __pyx_f[0], 558, 0, <span class='error_goto'>__PYX_ERR(0, 558, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_5);
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.Positron._elastic", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0559</span>:         <span class="k">cdef</span> <span class="kt">int</span> <span class="nf">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_index</span><span class="p">()</span></pre>
@@ -1744,10 +1679,8 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
   double __pyx_v_theta;
   double __pyx_v_dE;
   struct __pyx_obj_10MontyCarlo_9particles_7photons_Photon *__pyx_v_p = 0;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("_brem", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("_brem", __pyx_f[0], 585, 0, <span class='error_goto'>__PYX_ERR(0, 585, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   goto __pyx_L0;
@@ -1756,7 +1689,6 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.Positron._brem", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_p);
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0586</span>:         <span class="cp">IF</span> <span class="n">_SIGNAL_INTERACTION</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s">&quot;BREM&quot;</span><span class="p">)</span></pre>
@@ -1834,10 +1766,8 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
   struct model::PARTICLES __pyx_v_particles;
   struct __pyx_obj_10MontyCarlo_9particles_7photons_Photon *__pyx_v_ph = 0;
   double __pyx_v_E;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("_inelastic", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("_inelastic", __pyx_f[0], 614, 0, <span class='error_goto'>__PYX_ERR(0, 614, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   goto __pyx_L0;
@@ -1847,7 +1777,6 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_fi
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_el);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_ph);
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0615</span>:         <span class="cp">IF</span> <span class="n">_SIGNAL_INTERACTION</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s">&quot;INELASTIC&quot;</span><span class="p">)</span></pre>
@@ -2526,10 +2455,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_9positrons_8Positron_1getindex
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_9positrons_8Positron_getindex(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("getindex", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("getindex", __pyx_f[0], 1069, 0, <span class='error_goto'>__PYX_ERR(0, 1069, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -2538,7 +2465,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_9positrons_8Positron_getindex(
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -2550,8 +2476,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_9positrons_8Positron_getindex(
   __pyx_t_1 = 0;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">1071</span>: </pre>
-<pre class="cython line score-15" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1072</span>:     <span class="k">def</span> <span class="nf">setE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">E</span><span class="p">):</span></pre>
-<pre class='cython code score-15 '>/* Python wrapper */
+<pre class="cython line score-13" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1072</span>:     <span class="k">def</span> <span class="nf">setE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">double</span> <span class="n">E</span><span class="p">):</span></pre>
+<pre class='cython code score-13 '>/* Python wrapper */
 static PyObject *__pyx_pw_10MontyCarlo_9particles_9positrons_8Positron_3setE(PyObject *__pyx_v_self, PyObject *__pyx_arg_E); /*proto*/
 static PyObject *__pyx_pw_10MontyCarlo_9particles_9positrons_8Positron_3setE(PyObject *__pyx_v_self, PyObject *__pyx_arg_E) {
   double __pyx_v_E;
@@ -2579,28 +2505,20 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_9positrons_8Positron_3setE(PyO
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_9positrons_8Positron_2setE(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self, double __pyx_v_E) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("setE", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("setE", __pyx_f[0], 1072, 0, <span class='error_goto'>__PYX_ERR(0, 1072, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("MontyCarlo.particles.positrons.Positron.setE", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1073</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">E</span> <span class="o">=</span> <span class="n">E</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_self-&gt;__pyx_base.state.E = __pyx_v_E;
 </pre><pre class="cython line score-0">&#xA0;<span class="">1074</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1075</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">find_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_find_index(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1075</span>:     <span class="k">cdef</span> <span class="kr">inline</span> <span class="kt">int</span> <span class="nf">find_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static CYTHON_INLINE int __pyx_f_10MontyCarlo_9particles_9positrons_8Positron_find_index(struct __pyx_obj_10MontyCarlo_9particles_9positrons_Positron *__pyx_v_self) {
   int __pyx_v_i;
   int __pyx_v_k;
   int __pyx_v_START;
@@ -2608,17 +2526,11 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_9positrons_8Positron_2setE(str
   int __pyx_v_MID;
   double __pyx_v_xMID;
   int __pyx_r;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("find_index", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("find_index", __pyx_f[0], 1075, 0, <span class='error_goto'>__PYX_ERR(0, 1075, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.Positron.find_index", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -2785,10 +2697,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_9positrons_8Positron_2setE(str
   double __pyx_v_Eplus;
   double __pyx_v_Eminus;
   struct __pyx_obj_10MontyCarlo_9particles_7photons_Photon *__pyx_v_p = 0;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("_anihilation", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("_anihilation", __pyx_f[0], 1133, 0, <span class='error_goto'>__PYX_ERR(0, 1133, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   goto __pyx_L0;
@@ -2797,7 +2707,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_9positrons_8Positron_2setE(str
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.particles.positrons.Positron._anihilation", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_p);
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1134</span>:         <span class="k">cdef</span> <span class="kt">double</span> <span class="nf">gamma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">E</span><span class="o">/</span><span class="mf">0.511e6</span> <span class="o">+</span> <span class="mf">1</span></pre>

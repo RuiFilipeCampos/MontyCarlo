@@ -368,7 +368,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span style="background-color: #FFFF00">Yellow lines</span> hint at Python interaction.<br />
     Click on a line that starts with a "<code>+</code>" to see the C code that Cython generated for it.
 </p>
-<p>Raw output: <a href="materials.cpp">materials.cpp</a></p>
+<p>Raw output: <a href="materials.c">materials.c</a></p>
 <div class="cython"><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0001</span>: <span class="c"># distutils: language = c++</span></pre>
 <pre class='cython code score-8 '>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -487,11 +487,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_3map_1__getattr__(P
 
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_3map___getattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
-  <span class='trace'>__Pyx_TraceFrameInit</span>(__pyx_codeobj_)
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__getattr__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__getattr__", __pyx_f[0], 17, 0, <span class='error_goto'>__PYX_ERR(0, 17, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -502,20 +499,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_3map___getattr__(CY
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__51 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_self, __pyx_n_s_key);<span class='error_goto'> if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 17, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__51);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__51);
+  __pyx_tuple__38 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_self, __pyx_n_s_key);<span class='error_goto'> if (unlikely(!__pyx_tuple__38)) __PYX_ERR(0, 17, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__38);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__38);
 /* … */
-  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_CyFunction_New</span>(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_3map_1__getattr__, 0, __pyx_n_s_map___getattr, NULL, __pyx_n_s_MontyCarlo_materials_materials, __pyx_d, ((PyObject *)__pyx_codeobj_));<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 17, __pyx_L1_error)</span>
+  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_CyFunction_New</span>(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_3map_1__getattr__, 0, __pyx_n_s_map___getattr, NULL, __pyx_n_s_MontyCarlo_materials_materials, __pyx_d, ((PyObject *)__pyx_codeobj__39));<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 17, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   if (<span class='pyx_c_api'>__Pyx_SetNameInClass</span>(__pyx_t_3, __pyx_n_s_getattr, __pyx_t_4) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 17, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_codeobj_ = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__51, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_getattr, 17, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj_)) __PYX_ERR(0, 17, __pyx_L1_error)</span>
+  __pyx_codeobj__39 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__38, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_getattr, 17, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__39)) __PYX_ERR(0, 17, __pyx_L1_error)</span>
 </pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0018</span>:         <span class="k">try</span><span class="p">:</span></pre>
 <pre class='cython code score-5 '>  {
     /*try:*/ {
@@ -637,11 +633,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_3map_3__setattr__(P
 
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_3map_2__setattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key, PyObject *__pyx_v_value) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
-  <span class='trace'>__Pyx_TraceFrameInit</span>(__pyx_codeobj__2)
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__setattr__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__setattr__", __pyx_f[0], 23, 0, <span class='error_goto'>__PYX_ERR(0, 23, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
@@ -651,20 +644,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_3map_2__setattr__(C
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__52 = <span class='py_c_api'>PyTuple_Pack</span>(3, __pyx_n_s_self, __pyx_n_s_key, __pyx_n_s_value);<span class='error_goto'> if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 23, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__52);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__52);
+  __pyx_tuple__40 = <span class='py_c_api'>PyTuple_Pack</span>(3, __pyx_n_s_self, __pyx_n_s_key, __pyx_n_s_value);<span class='error_goto'> if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 23, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__40);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__40);
 /* … */
-  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_CyFunction_New</span>(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_3map_3__setattr__, 0, __pyx_n_s_map___setattr, NULL, __pyx_n_s_MontyCarlo_materials_materials, __pyx_d, ((PyObject *)__pyx_codeobj__2));<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 23, __pyx_L1_error)</span>
+  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_CyFunction_New</span>(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_3map_3__setattr__, 0, __pyx_n_s_map___setattr, NULL, __pyx_n_s_MontyCarlo_materials_materials, __pyx_d, ((PyObject *)__pyx_codeobj__41));<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 23, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   if (<span class='pyx_c_api'>__Pyx_SetNameInClass</span>(__pyx_t_3, __pyx_n_s_setattr, __pyx_t_4) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 23, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_codeobj__2 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_setattr, 23, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 23, __pyx_L1_error)</span>
+  __pyx_codeobj__41 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_setattr, 23, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__41)) __PYX_ERR(0, 23, __pyx_L1_error)</span>
 </pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0024</span>:         <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></pre>
 <pre class='cython code score-5 '>  if (unlikely(<span class='py_c_api'>PyObject_SetItem</span>(__pyx_v_self, __pyx_v_key, __pyx_v_value) &lt; 0)) <span class='error_goto'>__PYX_ERR(0, 24, __pyx_L1_error)</span>
 </pre><pre class="cython line score-0">&#xA0;<span class="">0025</span>: </pre>
@@ -736,11 +728,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_3map_5__delattr__(P
 
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_3map_4__delattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_key) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
-  <span class='trace'>__Pyx_TraceFrameInit</span>(__pyx_codeobj__3)
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__delattr__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__delattr__", __pyx_f[0], 26, 0, <span class='error_goto'>__PYX_ERR(0, 26, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
@@ -753,20 +742,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_3map_4__delattr__(C
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__53 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_self, __pyx_n_s_key);<span class='error_goto'> if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 26, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__53);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__53);
+  __pyx_tuple__42 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_self, __pyx_n_s_key);<span class='error_goto'> if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 26, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__42);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__42);
 /* … */
-  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_CyFunction_New</span>(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_3map_5__delattr__, 0, __pyx_n_s_map___delattr, NULL, __pyx_n_s_MontyCarlo_materials_materials, __pyx_d, ((PyObject *)__pyx_codeobj__3));<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 26, __pyx_L1_error)</span>
+  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_CyFunction_New</span>(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_3map_5__delattr__, 0, __pyx_n_s_map___delattr, NULL, __pyx_n_s_MontyCarlo_materials_materials, __pyx_d, ((PyObject *)__pyx_codeobj__43));<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 26, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   if (<span class='pyx_c_api'>__Pyx_SetNameInClass</span>(__pyx_t_3, __pyx_n_s_delattr, __pyx_t_4) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 26, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_codeobj__3 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__53, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_delattr, 26, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 26, __pyx_L1_error)</span>
+  __pyx_codeobj__43 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_delattr, 26, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__43)) __PYX_ERR(0, 26, __pyx_L1_error)</span>
 </pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0027</span>:         <span class="k">try</span><span class="p">:</span></pre>
 <pre class='cython code score-5 '>  {
     /*try:*/ {
@@ -869,9 +857,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_3map_4__delattr__(C
 </pre><pre class="cython line score-16" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0050</span>: <span class="k">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span></pre>
 <pre class='cython code score-16 '>  __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s__29);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s__29);
-  <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_1, 0, __pyx_n_s__29);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s__17);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s__17);
+  <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_1, 0, __pyx_n_s__17);
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_matplotlib_pyplot, __pyx_t_1, -1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
@@ -884,7 +872,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_3map_4__delattr__(C
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s_database);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s_database);
   <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_2, 0, __pyx_n_s_database);
-  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s__54, __pyx_t_2, 1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)</span>
+  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s__44, __pyx_t_2, 1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_ImportFrom</span>(__pyx_t_1, __pyx_n_s_database);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)</span>
@@ -971,11 +959,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_makeAlias(CYTHON_UN
   PyObject *__pyx_v_dy = NULL;
   PyObject *__pyx_v_point = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
-  <span class='trace'>__Pyx_TraceFrameInit</span>(__pyx_codeobj__4)
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("makeAlias", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("makeAlias", __pyx_f[0], 54, 0, <span class='error_goto'>__PYX_ERR(0, 54, __pyx_L1_error)</span>);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_X);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_Y);
 /* … */
@@ -1001,20 +986,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_makeAlias(CYTHON_UN
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_X);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_Y);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__55 = <span class='py_c_api'>PyTuple_Pack</span>(12, __pyx_n_s_X, __pyx_n_s_Y, __pyx_n_s_N, __pyx_n_s_points, __pyx_n_s_i_min, __pyx_n_s_i_max, __pyx_n_s_ymax, __pyx_n_s_ymin, __pyx_n_s_xmin, __pyx_n_s_xmax, __pyx_n_s_dy, __pyx_n_s_point);<span class='error_goto'> if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 54, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__55);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__55);
+  __pyx_tuple__45 = <span class='py_c_api'>PyTuple_Pack</span>(12, __pyx_n_s_X, __pyx_n_s_Y, __pyx_n_s_N, __pyx_n_s_points, __pyx_n_s_i_min, __pyx_n_s_i_max, __pyx_n_s_ymax, __pyx_n_s_ymin, __pyx_n_s_xmin, __pyx_n_s_xmax, __pyx_n_s_dy, __pyx_n_s_point);<span class='error_goto'> if (unlikely(!__pyx_tuple__45)) __PYX_ERR(0, 54, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__45);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__45);
 /* … */
   __pyx_t_1 = PyCFunction_NewEx(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_1makeAlias, NULL, __pyx_n_s_MontyCarlo_materials_materials);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_makeAlias, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 54, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_codeobj__4 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(2, 0, 12, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__55, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_makeAlias, 54, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 54, __pyx_L1_error)</span>
+  __pyx_codeobj__46 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(2, 0, 12, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_makeAlias, 54, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(0, 54, __pyx_L1_error)</span>
 </pre><pre class="cython line score-38" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0055</span>:     <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">Y</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></pre>
 <pre class='cython code score-38 '>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_X, __pyx_n_s_copy);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -1393,11 +1377,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_3makeLinLin(PyObjec
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_2makeLinLin(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, PyObject *__pyx_v_y) {
   PyObject *__pyx_v_m = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
-  <span class='trace'>__Pyx_TraceFrameInit</span>(__pyx_codeobj__5)
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("makeLinLin", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("makeLinLin", __pyx_f[0], 85, 0, <span class='error_goto'>__PYX_ERR(0, 85, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -1410,20 +1391,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_2makeLinLin(CYTHON_
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_m);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__56 = <span class='py_c_api'>PyTuple_Pack</span>(3, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_m);<span class='error_goto'> if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 85, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__56);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__56);
+  __pyx_tuple__47 = <span class='py_c_api'>PyTuple_Pack</span>(3, __pyx_n_s_x, __pyx_n_s_y, __pyx_n_s_m);<span class='error_goto'> if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 85, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__47);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__47);
 /* … */
   __pyx_t_1 = PyCFunction_NewEx(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_3makeLinLin, NULL, __pyx_n_s_MontyCarlo_materials_materials);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_makeLinLin, __pyx_t_1) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 85, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_codeobj__5 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__56, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_makeLinLin, 85, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 85, __pyx_L1_error)</span>
+  __pyx_codeobj__48 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_makeLinLin, 85, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 85, __pyx_L1_error)</span>
 </pre><pre class="cython line score-42" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0086</span>:     <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></pre>
 <pre class='cython code score-42 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_2, __pyx_n_s_np);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -1478,13 +1458,13 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_2makeLinLin(CYTHON_
 <pre class='cython code score-37 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   __pyx_t_4 = <span class='py_c_api'>PyNumber_Negative</span>(__pyx_v_m);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
-  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_v_x, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)</span>
+  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_v_x, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   __pyx_t_1 = <span class='py_c_api'>PyNumber_Multiply</span>(__pyx_t_4, __pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_v_y, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)</span>
+  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_v_y, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   __pyx_t_4 = <span class='py_c_api'>PyNumber_Add</span>(__pyx_t_1, __pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
@@ -1502,9 +1482,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_2makeLinLin(CYTHON_
   __pyx_t_3 = 0;
   goto __pyx_L0;
 /* … */
-  __pyx_slice__6 = <span class='py_c_api'>PySlice_New</span>(Py_None, __pyx_int_neg_1, Py_None);<span class='error_goto'> if (unlikely(!__pyx_slice__6)) __PYX_ERR(0, 90, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_slice__6);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_slice__6);
+  __pyx_slice_ = <span class='py_c_api'>PySlice_New</span>(Py_None, __pyx_int_neg_1, Py_None);<span class='error_goto'> if (unlikely(!__pyx_slice_)) __PYX_ERR(0, 90, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_slice_);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_slice_);
 </pre><pre class="cython line score-0">&#xA0;<span class="">0091</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0092</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0093</span>: </pre>
@@ -1623,7 +1603,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_2makeLinLin(CYTHON_
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_5) {
-          __pyx_t_8 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_5, __pyx_tuple__15, NULL);
+          __pyx_t_8 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_5, __pyx_tuple__8, NULL);
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
           if (unlikely(!__pyx_t_8)) <span class='error_goto'>__PYX_ERR(0, 99, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
@@ -1775,11 +1755,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_5rebuildShell(PyObj
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4rebuildShell(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_this) {
   struct __pyx_obj_10MontyCarlo_9materials_9materials_Shell *__pyx_v_self = 0;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
-  <span class='trace'>__Pyx_TraceFrameInit</span>(__pyx_codeobj__7)
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("rebuildShell", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("rebuildShell", __pyx_f[0], 113, 0, <span class='error_goto'>__PYX_ERR(0, 113, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -1793,20 +1770,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4rebuildShell(CYTHO
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_self);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__57 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_this, __pyx_n_s_self);<span class='error_goto'> if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 113, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__57);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__57);
+  __pyx_tuple__49 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_this, __pyx_n_s_self);<span class='error_goto'> if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 113, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__49);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__49);
 /* … */
   __pyx_t_3 = PyCFunction_NewEx(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_5rebuildShell, NULL, __pyx_n_s_MontyCarlo_materials_materials);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 113, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_rebuildShell, __pyx_t_3) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 113, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_codeobj__7 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__57, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_rebuildShell, 113, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 113, __pyx_L1_error)</span>
+  __pyx_codeobj__50 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__49, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_rebuildShell, 113, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__50)) __PYX_ERR(0, 113, __pyx_L1_error)</span>
 </pre><pre class="cython line score-0">&#xA0;<span class="">0114</span>:     <span class="k">cdef</span> <span class="kt">Shell</span> <span class="nf">self</span></pre>
 <pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0115</span>:     <span class="bp">self</span> <span class="o">=</span> <span class="p">&lt;</span><span class="kt">Shell</span><span class="p">&gt;</span><span class="n">Shell</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">Shell</span><span class="p">)</span></pre>
 <pre class='cython code score-2 '>  __pyx_t_1 = ((PyObject *)__pyx_tp_new_10MontyCarlo_9materials_9materials_Shell(((PyTypeObject *)__pyx_ptype_10MontyCarlo_9materials_9materials_Shell), __pyx_empty_tuple, NULL));<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)</span>
@@ -1925,10 +1901,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_5Shell_1__reduce__(
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_5Shell___reduce__(struct __pyx_obj_10MontyCarlo_9materials_9materials_Shell *__pyx_v_self) {
   PyObject *__pyx_v_this = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__reduce__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__reduce__", __pyx_f[0], 130, 0, <span class='error_goto'>__PYX_ERR(0, 130, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -1941,7 +1915,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_5Shell___reduce__(s
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_this);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -2255,10 +2228,8 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_5Shell_2__init__(struct _
   PyObject *__pyx_v_test = NULL;
   PyObject *__pyx_v_arr = NULL;
   int __pyx_r;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__init__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__init__", __pyx_f[0], 143, 0, <span class='error_goto'>__PYX_ERR(0, 143, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = 0;
@@ -2285,7 +2256,6 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_5Shell_2__init__(struct _
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_Yeax);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_test);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_arr);
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -2555,15 +2525,15 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_5Shell_2__init__(struct _
 </pre><pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0166</span>:             <span class="k">print</span><span class="p">(</span><span class="s">&quot;err&quot;</span><span class="p">)</span></pre>
 <pre class='cython code score-2 '>    if (<span class='pyx_c_api'>__Pyx_PrintOne</span>(0, __pyx_n_s_err) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 166, __pyx_L1_error)</span>
 </pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0167</span>:             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;materials.pyx :: .Shell: infinite values in one of the cross sections&quot;</span><span class="p">)</span></pre>
-<pre class='cython code score-10 '>    __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_builtin_ValueError, __pyx_tuple__8, NULL);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 167, __pyx_L1_error)</span>
+<pre class='cython code score-10 '>    __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_builtin_ValueError, __pyx_tuple__2, NULL);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 167, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
     <span class='pyx_c_api'>__Pyx_Raise</span>(__pyx_t_4, 0, 0, 0);
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
     <span class='error_goto'>__PYX_ERR(0, 167, __pyx_L1_error)</span>
 /* … */
-  __pyx_tuple__8 = <span class='py_c_api'>PyTuple_Pack</span>(1, __pyx_kp_s_materials_pyx_Shell_infinite_val);<span class='error_goto'> if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 167, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__8);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__8);
+  __pyx_tuple__2 = <span class='py_c_api'>PyTuple_Pack</span>(1, __pyx_kp_s_materials_pyx_Shell_infinite_val);<span class='error_goto'> if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 167, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__2);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__2);
 </pre><pre class="cython line score-0">&#xA0;<span class="">0168</span>: </pre>
 <pre class="cython line score-30" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0169</span>:         <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">Yeax</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="mf">0</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="bp">False</span> <span class="p">)</span></pre>
 <pre class='cython code score-30 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_4, __pyx_n_s_np);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 169, __pyx_L1_error)</span>
@@ -2722,7 +2692,7 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_5Shell_2__init__(struct _
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 173, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
-  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 173, __pyx_L1_error)</span>
+  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 173, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   if (unlikely(!__pyx_v_self-&gt;PHELa.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 173, __pyx_L1_error)</span>}
@@ -2747,7 +2717,7 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_5Shell_2__init__(struct _
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_7); __pyx_t_7 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_7, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 173, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_7);
-  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_7, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)</span>
+  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_7, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_7); __pyx_t_7 = 0;
   if (unlikely(!__pyx_v_self-&gt;PHELb.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 173, __pyx_L1_error)</span>}
@@ -2805,10 +2775,10 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_5Shell_2__init__(struct _
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_6);
   <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_4, 1, __pyx_t_6);
   __pyx_t_6 = 0;
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u__9);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u__3);
   __pyx_t_16 += 3;
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_u__9);
-  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_4, 2, __pyx_kp_u__9);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_u__3);
+  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_4, 2, __pyx_kp_u__3);
   __pyx_t_6 = <span class='pyx_c_api'>__Pyx_PyObject_FormatSimple</span>(__pyx_v_designator, __pyx_empty_unicode);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 173, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
   __pyx_t_17 = (<span class='pyx_c_api'>__Pyx_PyUnicode_MAX_CHAR_VALUE</span>(__pyx_t_6) &gt; __pyx_t_17) ? <span class='pyx_c_api'>__Pyx_PyUnicode_MAX_CHAR_VALUE</span>(__pyx_t_6) : __pyx_t_17;
@@ -2867,17 +2837,14 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_5Shell_2__init__(struct _
   double __pyx_v_rc;
   double __pyx_v_dx;
   double __pyx_r;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("sample_compton_profile", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("sample_compton_profile", __pyx_f[0], 187, 0, <span class='error_goto'>__PYX_ERR(0, 187, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.materials.materials.Shell.sample_compton_profile", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -3287,10 +3254,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_5Shell_5set_samplin
 
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_5Shell_4set_sampling_arrays(struct __pyx_obj_10MontyCarlo_9materials_9materials_Shell *__pyx_v_self, PyObject *__pyx_v_cCUMUL, PyObject *__pyx_v_cINVCUMUL, PyObject *__pyx_v_cumul) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("set_sampling_arrays", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("set_sampling_arrays", __pyx_f[0], 281, 0, <span class='error_goto'>__PYX_ERR(0, 281, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
@@ -3302,7 +3267,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_5Shell_4set_samplin
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -3341,10 +3305,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_5Shell_7log_compton
 
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_5Shell_6log_compton_profile(struct __pyx_obj_10MontyCarlo_9materials_9materials_Shell *__pyx_v_self, PyObject *__pyx_v_formula) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("log_compton_profile", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("log_compton_profile", __pyx_f[0], 286, 0, <span class='error_goto'>__PYX_ERR(0, 286, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
@@ -3358,7 +3320,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_5Shell_6log_compton
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -3417,10 +3378,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_5Shell_8construct_s
   PyObject *__pyx_v_cumul = NULL;
   PyObject *__pyx_v_spline = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("construct_sampler", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("construct_sampler", __pyx_f[0], 290, 0, <span class='error_goto'>__PYX_ERR(0, 290, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
@@ -3443,7 +3402,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_5Shell_8construct_s
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_cumul);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_spline);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -3694,10 +3652,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_5Shell_8construct_s
 <pre class="cython line score-0">&#xA0;<span class="">0307</span>: </pre>
 <pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0308</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">ionize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mixmax_engine</span> <span class="o">*</span><span class="n">genPTR</span><span class="p">,</span> <span class="n">PARTICLES</span><span class="o">*</span> <span class="n">particles</span><span class="p">,</span> <span class="n">double</span> <span class="n">E</span><span class="p">):</span></pre>
 <pre class='cython code score-3 '>static void __pyx_f_10MontyCarlo_9materials_9materials_5Shell_ionize(struct __pyx_obj_10MontyCarlo_9materials_9materials_Shell *__pyx_v_self, mixmax_engine *__pyx_v_genPTR, struct model::PARTICLES *__pyx_v_particles, double __pyx_v_E) {
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("ionize", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("ionize", __pyx_f[0], 308, 0, <span class='error_goto'>__PYX_ERR(0, 308, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   goto __pyx_L0;
@@ -3705,7 +3661,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_5Shell_8construct_s
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_1);
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.materials.materials.Shell.ionize", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-5" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0309</span>:         <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></pre>
@@ -3754,11 +3709,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_7reconstruct_Atom(P
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_6reconstruct_Atom(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_d) {
   struct __pyx_obj_10MontyCarlo_9materials_9materials_Atom *__pyx_v_self = 0;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
-  <span class='trace'>__Pyx_TraceFrameInit</span>(__pyx_codeobj__10)
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("reconstruct_Atom", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("reconstruct_Atom", __pyx_f[0], 320, 0, <span class='error_goto'>__PYX_ERR(0, 320, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -3776,20 +3728,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_6reconstruct_Atom(C
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_self);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__58 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_d, __pyx_n_s_self);<span class='error_goto'> if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 320, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__58);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__58);
+  __pyx_tuple__51 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_d, __pyx_n_s_self);<span class='error_goto'> if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 320, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__51);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__51);
 /* … */
   __pyx_t_2 = PyCFunction_NewEx(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_7reconstruct_Atom, NULL, __pyx_n_s_MontyCarlo_materials_materials);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 320, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_reconstruct_Atom, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 320, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_codeobj__10 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__58, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_reconstruct_Atom, 320, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 320, __pyx_L1_error)</span>
+  __pyx_codeobj__52 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__51, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_reconstruct_Atom, 320, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__52)) __PYX_ERR(0, 320, __pyx_L1_error)</span>
 </pre><pre class="cython line score-0">&#xA0;<span class="">0321</span>:     <span class="c">#cdef Atom self = Atom(d[&#39;Z&#39;], d[&#39;CUT_OFF&#39;], d[&#39;N&#39;], pickle = True)    </span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">0322</span>:     <span class="k">cdef</span> <span class="kt">Atom</span> <span class="nf">self</span></pre>
 <pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0323</span>:     <span class="bp">self</span> <span class="o">=</span> <span class="p">&lt;</span><span class="kt">Atom</span><span class="p">&gt;</span><span class="n">Atom</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">Atom</span><span class="p">)</span></pre>
@@ -3949,10 +3900,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_4Atom_1__reduce__(P
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4Atom___reduce__(struct __pyx_obj_10MontyCarlo_9materials_9materials_Atom *__pyx_v_self) {
   PyObject *__pyx_v_d = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__reduce__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__reduce__", __pyx_f[0], 337, 0, <span class='error_goto'>__PYX_ERR(0, 337, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -3965,7 +3914,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4Atom___reduce__(st
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_d);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -4247,10 +4195,8 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_4Atom_2__init__(struct __
   CYTHON_UNUSED Py_ssize_t __pyx_v__;
   PyObject *__pyx_v_si = NULL;
   int __pyx_r;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__init__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__init__", __pyx_f[0], 350, 0, <span class='error_goto'>__PYX_ERR(0, 350, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = 0;
@@ -4296,7 +4242,6 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_4Atom_2__init__(struct __
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_cCUMUL);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_cINVCUMUL);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_si);
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -4706,15 +4651,15 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_4Atom_2__init__(struct __
   __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_t_1, __pyx_n_s_level, __pyx_n_s_h4) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 395, __pyx_L1_error)</span>
-  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_2, __pyx_tuple__11, __pyx_t_1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 395, __pyx_L1_error)</span>
+  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_2, __pyx_tuple__4, __pyx_t_1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 395, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
 /* … */
-  __pyx_tuple__11 = <span class='py_c_api'>PyTuple_Pack</span>(1, __pyx_n_u_PHOTOELECTRIC);<span class='error_goto'> if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 395, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__11);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__11);
+  __pyx_tuple__4 = <span class='py_c_api'>PyTuple_Pack</span>(1, __pyx_n_u_PHOTOELECTRIC);<span class='error_goto'> if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 395, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__4);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__4);
 </pre><pre class="cython line score-0">&#xA0;<span class="">0396</span>: </pre>
 <pre class="cython line score-24" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0397</span>:         <span class="n">PHELa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arrSHELLS</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="o">.</span><span class="n">PHELa</span><span class="p">)</span></pre>
 <pre class='cython code score-24 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_1, __pyx_n_s_np);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 397, __pyx_L1_error)</span>
@@ -4922,7 +4867,7 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_4Atom_2__init__(struct __
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_1, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 408, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-  __pyx_t_6 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 408, __pyx_L1_error)</span>
+  __pyx_t_6 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 408, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self-&gt;PHELa, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);;<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 408, __pyx_L1_error)</span>
@@ -4946,7 +4891,7 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_4Atom_2__init__(struct __
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_4, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 408, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
-  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_4, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 408, __pyx_L1_error)</span>
+  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_4, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 408, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_15 = __pyx_memoryview_fromslice(__pyx_v_self-&gt;PHELb, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);;<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 408, __pyx_L1_error)</span>
@@ -5020,15 +4965,15 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_4Atom_2__init__(struct __
   __pyx_t_6 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 425, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_t_6, __pyx_n_s_level, __pyx_n_s_h4) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 425, __pyx_L1_error)</span>
-  __pyx_t_16 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_4, __pyx_tuple__12, __pyx_t_6);<span class='error_goto'> if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 425, __pyx_L1_error)</span>
+  __pyx_t_16 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_4, __pyx_tuple__5, __pyx_t_6);<span class='error_goto'> if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 425, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_16);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_6); __pyx_t_6 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_16); __pyx_t_16 = 0;
 /* … */
-  __pyx_tuple__12 = <span class='py_c_api'>PyTuple_Pack</span>(1, __pyx_n_u_COMPTON);<span class='error_goto'> if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 425, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__12);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__12);
+  __pyx_tuple__5 = <span class='py_c_api'>PyTuple_Pack</span>(1, __pyx_n_u_COMPTON);<span class='error_goto'> if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 425, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__5);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__5);
 </pre><pre class="cython line score-0">&#xA0;<span class="">0426</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0427</span>:         <span class="c"># ATOM STUFF</span></pre>
 <pre class="cython line score-19" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0428</span>:         <span class="n">Stable</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">EPDL</span><span class="p">[</span><span class="n">Z</span><span class="o">-</span><span class="mf">1</span><span class="p">][(</span><span class="mf">7</span><span class="p">,</span> <span class="mf">93</span><span class="p">,</span> <span class="mf">0</span><span class="p">,</span> <span class="mf">0</span><span class="p">,</span> <span class="mf">0</span><span class="p">,</span> <span class="mf">942</span><span class="p">)]</span></pre>
@@ -5043,15 +4988,15 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_4Atom_2__init__(struct __
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_6); __pyx_t_6 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_16); __pyx_t_16 = 0;
-  __pyx_t_16 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_4, __pyx_tuple__13);<span class='error_goto'> if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 428, __pyx_L1_error)</span>
+  __pyx_t_16 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_4, __pyx_tuple__6);<span class='error_goto'> if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 428, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_16);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_Stable = __pyx_t_16;
   __pyx_t_16 = 0;
 /* … */
-  __pyx_tuple__13 = <span class='py_c_api'>PyTuple_Pack</span>(6, __pyx_int_7, __pyx_int_93, __pyx_int_0, __pyx_int_0, __pyx_int_0, __pyx_int_942);<span class='error_goto'> if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 428, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__13);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__13);
+  __pyx_tuple__6 = <span class='py_c_api'>PyTuple_Pack</span>(6, __pyx_int_7, __pyx_int_93, __pyx_int_0, __pyx_int_0, __pyx_int_0, __pyx_int_942);<span class='error_goto'> if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 428, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__6);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__6);
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0429</span>:         <span class="n">h</span> <span class="o">=</span> <span class="mf">4.135667696e-15</span> <span class="c">#eV s</span></pre>
 <pre class='cython code score-0 '>  __pyx_v_h = 4.135667696e-15;
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0430</span>:         <span class="n">m_e</span> <span class="o">=</span> <span class="mf">9.10938e-31</span> <span class="c">#kg</span></pre>
@@ -6574,10 +6519,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4Atom_4get_profile(
   PyObject *__pyx_v_fig = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("get_profile", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("get_profile", __pyx_f[0], 552, 0, <span class='error_goto'>__PYX_ERR(0, 552, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -6601,7 +6544,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4Atom_4get_profile(
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_fig);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_i);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -6723,7 +6665,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4Atom_4get_profile(
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_6) {
-          __pyx_t_10 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_6, __pyx_tuple__15, NULL);
+          __pyx_t_10 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_6, __pyx_tuple__8, NULL);
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_6); __pyx_t_6 = 0;
           if (unlikely(!__pyx_t_10)) <span class='error_goto'>__PYX_ERR(0, 553, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_10);
@@ -6740,9 +6682,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4Atom_4get_profile(
     __pyx_L18:;
   }
 /* … */
-  __pyx_tuple__15 = <span class='py_c_api'>PyTuple_Pack</span>(3, Py_None, Py_None, Py_None);<span class='error_goto'> if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 553, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__15);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__15);
+  __pyx_tuple__8 = <span class='py_c_api'>PyTuple_Pack</span>(3, Py_None, Py_None, Py_None);<span class='error_goto'> if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 553, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__8);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__8);
 </pre><pre class="cython line score-18" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0554</span>:             <span class="n">raw_profile</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span></pre>
 <pre class='cython code score-18 '>          __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_file, __pyx_n_s_readlines);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 554, __pyx_L7_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
@@ -6819,7 +6761,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4Atom_4get_profile(
                 <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_t_7, function);
               }
             }
-            __pyx_t_2 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_12, __pyx_kp_s__14) : <span class='pyx_c_api'>__Pyx_PyObject_CallOneArg</span>(__pyx_t_7, __pyx_kp_s__14);
+            __pyx_t_2 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_12, __pyx_kp_s__7) : <span class='pyx_c_api'>__Pyx_PyObject_CallOneArg</span>(__pyx_t_7, __pyx_kp_s__7);
             <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_12); __pyx_t_12 = 0;
             if (unlikely(!__pyx_t_2)) <span class='error_goto'>__PYX_ERR(0, 555, __pyx_L7_error)</span>
             <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -7295,10 +7237,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4Atom_4get_profile(
   int __pyx_v_i;
   double __pyx_v_cumul;
   struct __pyx_obj_10MontyCarlo_9materials_9materials_Shell *__pyx_v_shell = 0;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("PHELchoose", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("PHELchoose", __pyx_f[0], 604, 0, <span class='error_goto'>__PYX_ERR(0, 604, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   goto __pyx_L0;
@@ -7308,7 +7248,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4Atom_4get_profile(
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.materials.materials.Atom.PHELchoose", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_shell);
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0605</span>:         <span class="sd">&quot;&quot;&quot;</span></pre>
@@ -7433,7 +7372,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4Atom_4get_profile(
 <pre class='cython code score-0 '>      goto __pyx_L4_break;
 </pre><pre class="cython line score-0">&#xA0;<span class="">0624</span>:         <span class="k">else</span><span class="p">:</span></pre>
 <pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0625</span>:             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;PHOTOELECTRIC DID NOT CHOOSE A SHELL&quot;</span><span class="p">)</span></pre>
-<pre class='cython code score-10 '>    __pyx_t_8 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_builtin_RuntimeError, __pyx_tuple__16, NULL);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 625, __pyx_L1_error)</span>
+<pre class='cython code score-10 '>    __pyx_t_8 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 625, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
     <span class='pyx_c_api'>__Pyx_Raise</span>(__pyx_t_8, 0, 0, 0);
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
@@ -7441,23 +7380,16 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_4Atom_4get_profile(
   }
   __pyx_L4_break:;
 /* … */
-  __pyx_tuple__16 = <span class='py_c_api'>PyTuple_Pack</span>(1, __pyx_kp_s_PHOTOELECTRIC_DID_NOT_CHOOSE_A_S);<span class='error_goto'> if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 625, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__16);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__16);
+  __pyx_tuple__9 = <span class='py_c_api'>PyTuple_Pack</span>(1, __pyx_kp_s_PHOTOELECTRIC_DID_NOT_CHOOSE_A_S);<span class='error_goto'> if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 625, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__9);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__9);
 </pre><pre class="cython line score-0">&#xA0;<span class="">0626</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0627</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">ionize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">int</span> <span class="n">shell_index</span><span class="p">,</span> <span class="n">mixmax_engine</span><span class="o">*</span> <span class="n">genPTR</span><span class="p">,</span> <span class="n">PARTICLES</span><span class="o">*</span> <span class="n">particles</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>static void __pyx_f_10MontyCarlo_9materials_9materials_4Atom_ionize(struct __pyx_obj_10MontyCarlo_9materials_9materials_Atom *__pyx_v_self, int __pyx_v_shell_index, mixmax_engine *__pyx_v_genPTR, struct model::PARTICLES *__pyx_v_particles) {
-  <span class='trace'>__Pyx_TraceDeclarations</span>
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0627</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">ionize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">int</span> <span class="n">shell_index</span><span class="p">,</span> <span class="n">mixmax_engine</span><span class="o">*</span> <span class="n">genPTR</span><span class="p">,</span> <span class="n">PARTICLES</span><span class="o">*</span> <span class="n">particles</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>static void __pyx_f_10MontyCarlo_9materials_9materials_4Atom_ionize(struct __pyx_obj_10MontyCarlo_9materials_9materials_Atom *__pyx_v_self, int __pyx_v_shell_index, mixmax_engine *__pyx_v_genPTR, struct model::PARTICLES *__pyx_v_particles) {
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("ionize", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("ionize", __pyx_f[0], 627, 0, <span class='error_goto'>__PYX_ERR(0, 627, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.materials.materials.Atom.ionize", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0628</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shell_index</span><span class="p">,</span> <span class="n">particles</span><span class="p">,</span> <span class="n">genPTR</span><span class="p">)</span></pre>
@@ -7483,11 +7415,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_9reconstruct_Molecu
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8reconstruct_Molecule(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_d) {
   struct __pyx_obj_10MontyCarlo_9materials_9materials_Molecule *__pyx_v_self = 0;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
-  <span class='trace'>__Pyx_TraceFrameInit</span>(__pyx_codeobj__17)
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("reconstruct_Molecule", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("reconstruct_Molecule", __pyx_f[0], 632, 0, <span class='error_goto'>__PYX_ERR(0, 632, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -7503,20 +7432,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8reconstruct_Molecu
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_self);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__59 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_d, __pyx_n_s_self);<span class='error_goto'> if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 632, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__59);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__59);
+  __pyx_tuple__53 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_d, __pyx_n_s_self);<span class='error_goto'> if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 632, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__53);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__53);
 /* … */
   __pyx_t_2 = PyCFunction_NewEx(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_9reconstruct_Molecule, NULL, __pyx_n_s_MontyCarlo_materials_materials);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 632, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_reconstruct_Molecule, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 632, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_codeobj__17 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__59, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_reconstruct_Molecule, 632, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 632, __pyx_L1_error)</span>
+  __pyx_codeobj__54 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__53, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_reconstruct_Molecule, 632, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__54)) __PYX_ERR(0, 632, __pyx_L1_error)</span>
 </pre><pre class="cython line score-0">&#xA0;<span class="">0633</span>:     <span class="c">#cdef Material self</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">0634</span>:     <span class="c">#self = &lt;Material&gt;Material.__new__(Material)</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">0635</span>: </pre>
@@ -7646,10 +7574,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Molecule_1__reduce
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Molecule___reduce__(struct __pyx_obj_10MontyCarlo_9materials_9materials_Molecule *__pyx_v_self) {
   PyObject *__pyx_v_d = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__reduce__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__reduce__", __pyx_f[0], 655, 0, <span class='error_goto'>__PYX_ERR(0, 655, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -7662,7 +7588,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Molecule___reduce_
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_d);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -7955,10 +7880,8 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   PyObject *__pyx_v_arr = NULL;
   PyObject *__pyx_v_index = NULL;
   int __pyx_r;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__init__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__init__", __pyx_f[0], 668, 0, <span class='error_goto'>__PYX_ERR(0, 668, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = 0;
@@ -7989,7 +7912,6 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_PHELb);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_arr);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_index);
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -8009,15 +7931,15 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyDict_NewPresized</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 671, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_t_2, __pyx_n_s_level, __pyx_n_s_h2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 671, __pyx_L1_error)</span>
-  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_3, __pyx_tuple__18, __pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 671, __pyx_L1_error)</span>
+  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_3, __pyx_tuple__10, __pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 671, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
 /* … */
-  __pyx_tuple__18 = <span class='py_c_api'>PyTuple_Pack</span>(1, __pyx_n_s_Molecule);<span class='error_goto'> if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 671, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__18);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__18);
+  __pyx_tuple__10 = <span class='py_c_api'>PyTuple_Pack</span>(1, __pyx_n_s_Molecule);<span class='error_goto'> if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 671, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__10);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__10);
 </pre><pre class="cython line score-0">&#xA0;<span class="">0672</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0673</span>:         <span class="c">### RANDOM IONIZATION</span></pre>
 <pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0674</span>:         <span class="bp">self</span><span class="o">.</span><span class="n">ALIAS</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">molecule_data</span><span class="o">.</span><span class="n">ALIAS</span></pre>
@@ -8722,7 +8644,7 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_8, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 716, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
-  __pyx_t_10 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_8, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 716, __pyx_L1_error)</span>
+  __pyx_t_10 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_8, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 716, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_10);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
   if (unlikely(!__pyx_v_self-&gt;PHELa.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 716, __pyx_L1_error)</span>}
@@ -8747,7 +8669,7 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_2, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 716, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
-  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_2, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 716, __pyx_L1_error)</span>
+  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_2, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 716, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   if (unlikely(!__pyx_v_self-&gt;PHELb.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 716, __pyx_L1_error)</span>}
@@ -8938,10 +8860,8 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
 <pre class='cython code score-6 '>static struct __pyx_obj_10MontyCarlo_9materials_9materials_Atom *__pyx_f_10MontyCarlo_9materials_9materials_8Molecule_get(struct __pyx_obj_10MontyCarlo_9materials_9materials_Molecule *__pyx_v_self, double __pyx_v_Z) {
   struct __pyx_obj_10MontyCarlo_9materials_9materials_Atom *__pyx_v_atom = 0;
   struct __pyx_obj_10MontyCarlo_9materials_9materials_Atom *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("get", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("get", __pyx_f[0], 726, 0, <span class='error_goto'>__PYX_ERR(0, 726, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = ((struct __pyx_obj_10MontyCarlo_9materials_9materials_Atom *)Py_None); <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
@@ -8954,7 +8874,6 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_atom);
   <span class='refnanny'>__Pyx_XGIVEREF</span>((PyObject *)__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -9028,10 +8947,8 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   double __pyx_v_r;
   double __pyx_v_cumul;
   int __pyx_v_i;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("PHELionize", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("PHELionize", __pyx_f[0], 734, 0, <span class='error_goto'>__PYX_ERR(0, 734, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   goto __pyx_L0;
@@ -9040,7 +8957,6 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_8);
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.materials.materials.Molecule.PHELionize", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0735</span>: </pre>
@@ -9168,7 +9084,7 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
 <pre class='cython code score-0 '>      goto __pyx_L4_break;
 </pre><pre class="cython line score-0">&#xA0;<span class="">0746</span>:         <span class="k">else</span><span class="p">:</span></pre>
 <pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0747</span>:             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;PHOTOELECTRIC  DID NOT CHOOSE AN ATOM&quot;</span><span class="p">)</span></pre>
-<pre class='cython code score-10 '>    __pyx_t_8 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_builtin_RuntimeError, __pyx_tuple__19, NULL);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 747, __pyx_L1_error)</span>
+<pre class='cython code score-10 '>    __pyx_t_8 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL);<span class='error_goto'> if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 747, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
     <span class='pyx_c_api'>__Pyx_Raise</span>(__pyx_t_8, 0, 0, 0);
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
@@ -9176,18 +9092,16 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   }
   __pyx_L4_break:;
 /* … */
-  __pyx_tuple__19 = <span class='py_c_api'>PyTuple_Pack</span>(1, __pyx_kp_s_PHOTOELECTRIC_DID_NOT_CHOOSE_AN);<span class='error_goto'> if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 747, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__19);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__19);
+  __pyx_tuple__11 = <span class='py_c_api'>PyTuple_Pack</span>(1, __pyx_kp_s_PHOTOELECTRIC_DID_NOT_CHOOSE_AN);<span class='error_goto'> if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 747, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__11);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__11);
 </pre><pre class="cython line score-0">&#xA0;<span class="">0748</span>: </pre>
 <pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0749</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">ionize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mixmax_engine</span> <span class="o">*</span><span class="n">genPTR</span><span class="p">,</span> <span class="n">PARTICLES</span><span class="o">*</span> <span class="n">particles</span><span class="p">):</span></pre>
 <pre class='cython code score-3 '>static void __pyx_f_10MontyCarlo_9materials_9materials_8Molecule_ionize(struct __pyx_obj_10MontyCarlo_9materials_9materials_Molecule *__pyx_v_self, mixmax_engine *__pyx_v_genPTR, struct model::PARTICLES *__pyx_v_particles) {
   double __pyx_v_r;
   int __pyx_v_N;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("ionize", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("ionize", __pyx_f[0], 749, 0, <span class='error_goto'>__PYX_ERR(0, 749, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   goto __pyx_L0;
@@ -9195,7 +9109,6 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_5);
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.materials.materials.Molecule.ionize", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">0750</span>: </pre>
@@ -9340,10 +9253,8 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
 <pre class="cython line score-0">&#xA0;<span class="">0765</span>: </pre>
 <pre class="cython line score-3" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0766</span>:     <span class="k">cdef</span> <span class="kt">void</span> <span class="nf">ionize_particular</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mixmax_engine</span> <span class="o">*</span><span class="n">genPTR</span><span class="p">,</span> <span class="n">PARTICLES</span><span class="o">*</span> <span class="n">particles</span><span class="p">,</span> <span class="nb">int</span> <span class="n">atom_index</span><span class="p">,</span> <span class="nb">int</span> <span class="n">shell_index</span><span class="p">):</span></pre>
 <pre class='cython code score-3 '>static void __pyx_f_10MontyCarlo_9materials_9materials_8Molecule_ionize_particular(struct __pyx_obj_10MontyCarlo_9materials_9materials_Molecule *__pyx_v_self, mixmax_engine *__pyx_v_genPTR, struct model::PARTICLES *__pyx_v_particles, int __pyx_v_atom_index, int __pyx_v_shell_index) {
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("ionize_particular", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("ionize_particular", __pyx_f[0], 766, 0, <span class='error_goto'>__PYX_ERR(0, 766, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   goto __pyx_L0;
@@ -9351,7 +9262,6 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_1);
   <span class='pyx_c_api'>__Pyx_WriteUnraisable</span>("MontyCarlo.materials.materials.Molecule.ionize_particular", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
 }
 </pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0767</span>:             <span class="p">(&lt;</span><span class="kt">Atom</span><span class="p">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrATOMS</span><span class="p">[</span><span class="n">atom_index</span><span class="p">])</span><span class="o">.</span><span class="n">ionize</span><span class="p">(</span><span class="n">shell_index</span><span class="p">,</span></pre>
@@ -9379,10 +9289,8 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   double __pyx_v_R;
   int __pyx_v_N;
   struct __pyx_obj_10MontyCarlo_9materials_9materials_Atom *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("choose_atom", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("choose_atom", __pyx_f[0], 771, 0, <span class='error_goto'>__PYX_ERR(0, 771, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -9391,7 +9299,6 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Molecule_2__init__(struc
   __pyx_r = 0;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>((PyObject *)__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -9597,11 +9504,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_12dynamic_dict_1__i
 
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_12dynamic_dict___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
-  <span class='trace'>__Pyx_TraceFrameInit</span>(__pyx_codeobj__20)
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__init__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__init__", __pyx_f[0], 788, 0, <span class='error_goto'>__PYX_ERR(0, 788, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
@@ -9613,23 +9517,22 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_12dynamic_dict___in
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__60 = <span class='py_c_api'>PyTuple_Pack</span>(3, __pyx_n_s_self, __pyx_n_s_args, __pyx_n_s_kwargs);<span class='error_goto'> if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 788, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__60);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__60);
+  __pyx_tuple__55 = <span class='py_c_api'>PyTuple_Pack</span>(3, __pyx_n_s_self, __pyx_n_s_args, __pyx_n_s_kwargs);<span class='error_goto'> if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 788, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__55);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__55);
 /* … */
-  __pyx_t_15 = <span class='pyx_c_api'>__Pyx_CyFunction_New</span>(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_12dynamic_dict_1__init__, 0, __pyx_n_s_dynamic_dict___init, NULL, __pyx_n_s_MontyCarlo_materials_materials, __pyx_d, ((PyObject *)__pyx_codeobj__20));<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 788, __pyx_L1_error)</span>
+  __pyx_t_15 = <span class='pyx_c_api'>__Pyx_CyFunction_New</span>(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_12dynamic_dict_1__init__, 0, __pyx_n_s_dynamic_dict___init, NULL, __pyx_n_s_MontyCarlo_materials_materials, __pyx_d, ((PyObject *)__pyx_codeobj__56));<span class='error_goto'> if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 788, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_15);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_15);
   <span class='py_c_api'>PyList_Append</span>(__pyx_t_1, __pyx_t_15);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_15);
   if (<span class='pyx_c_api'>__Pyx_SetNameInClass</span>(__pyx_t_4, __pyx_n_s_init, __pyx_t_15) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 788, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_15); __pyx_t_15 = 0;
-  __pyx_codeobj__20 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_init, 788, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 788, __pyx_L1_error)</span>
+  __pyx_codeobj__56 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__55, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_init, 788, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__56)) __PYX_ERR(0, 788, __pyx_L1_error)</span>
 </pre><pre class="cython line score-26" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0789</span>:         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></pre>
 <pre class='cython code score-26 '>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_CyFunction_GetClassObj</span>(__pyx_self);
   if (!__pyx_t_1) { <span class='py_c_api'>PyErr_SetString</span>(PyExc_SystemError, "super(): empty __class__ cell"); <span class='error_goto'>__PYX_ERR(0, 789, __pyx_L1_error)</span> }
@@ -9676,11 +9579,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_10calculate(CYTHON_
   PyObject *__pyx_v_Z = NULL;
   PyObject *__pyx_v_N = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
-  <span class='trace'>__Pyx_TraceFrameInit</span>(__pyx_codeobj__21)
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("calculate", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("calculate", __pyx_f[0], 792, 0, <span class='error_goto'>__PYX_ERR(0, 792, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -9697,20 +9597,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_10calculate(CYTHON_
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_Z);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_N);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__61 = <span class='py_c_api'>PyTuple_Pack</span>(6, __pyx_n_s_formula, __pyx_n_s_EADL, __pyx_n_s_Na, __pyx_n_s_Am, __pyx_n_s_Z, __pyx_n_s_N);<span class='error_goto'> if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 792, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__61);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__61);
+  __pyx_tuple__57 = <span class='py_c_api'>PyTuple_Pack</span>(6, __pyx_n_s_formula, __pyx_n_s_EADL, __pyx_n_s_Na, __pyx_n_s_Am, __pyx_n_s_Z, __pyx_n_s_N);<span class='error_goto'> if (unlikely(!__pyx_tuple__57)) __PYX_ERR(0, 792, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__57);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__57);
 /* … */
   __pyx_t_2 = PyCFunction_NewEx(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_11calculate, NULL, __pyx_n_s_MontyCarlo_materials_materials);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 792, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_calculate, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 792, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_codeobj__21 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__61, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_calculate, 792, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 792, __pyx_L1_error)</span>
+  __pyx_codeobj__58 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__57, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_calculate, 792, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__58)) __PYX_ERR(0, 792, __pyx_L1_error)</span>
 </pre><pre class="cython line score-21" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0793</span>:         <span class="k">from</span> <span class="nn">database</span> <span class="k">import</span> <span class="n">EADL</span><span class="p">,</span> <span class="n">Na</span></pre>
 <pre class='cython code score-21 '>  __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(2);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 793, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
@@ -9880,11 +9779,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_13rebuildMaterial(P
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_12rebuildMaterial(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_this) {
   struct __pyx_obj_10MontyCarlo_9materials_9materials_Material *__pyx_v_self = 0;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
-  <span class='trace'>__Pyx_TraceFrameInit</span>(__pyx_codeobj__22)
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("rebuildMaterial", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("rebuildMaterial", __pyx_f[0], 835, 0, <span class='error_goto'>__PYX_ERR(0, 835, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -9895,20 +9791,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_12rebuildMaterial(C
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>((PyObject *)__pyx_v_self);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__62 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_this, __pyx_n_s_self);<span class='error_goto'> if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 835, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__62);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__62);
+  __pyx_tuple__59 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_this, __pyx_n_s_self);<span class='error_goto'> if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 835, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__59);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__59);
 /* … */
   __pyx_t_2 = PyCFunction_NewEx(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_13rebuildMaterial, NULL, __pyx_n_s_MontyCarlo_materials_materials);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 835, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_rebuildMaterial, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 835, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_codeobj__22 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_rebuildMaterial, 835, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 835, __pyx_L1_error)</span>
+  __pyx_codeobj__60 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__59, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_rebuildMaterial, 835, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__60)) __PYX_ERR(0, 835, __pyx_L1_error)</span>
 </pre><pre class="cython line score-0">&#xA0;<span class="">0836</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">0837</span>:     <span class="k">cdef</span> <span class="kt">Material</span> <span class="nf">self</span></pre>
 <pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0838</span>:     <span class="bp">self</span> <span class="o">=</span> <span class="p">&lt;</span><span class="kt">Material</span><span class="p">&gt;</span><span class="n">Material</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">Material</span><span class="p">)</span></pre>
@@ -10166,11 +10061,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_14Mat(CYTHON_UNUSED
   PyObject *__pyx_v_f = NULL;
   PyObject *__pyx_v_mat = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
-  <span class='trace'>__Pyx_TraceFrameInit</span>(__pyx_codeobj__23)
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("Mat", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("Mat", __pyx_f[0], 860, 0, <span class='error_goto'>__PYX_ERR(0, 860, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -10188,20 +10080,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_14Mat(CYTHON_UNUSED
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_f);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_mat);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__63 = <span class='py_c_api'>PyTuple_Pack</span>(13, __pyx_n_s_formula, __pyx_n_s_density, __pyx_n_s_name, __pyx_n_s_C1, __pyx_n_s_C2, __pyx_n_s_Wcr, __pyx_n_s_Wcc, __pyx_n_s_saved, __pyx_n_s_the_path, __pyx_n_s_path, __pyx_n_s_pickle, __pyx_n_s_f, __pyx_n_s_mat_2);<span class='error_goto'> if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 860, __pyx_L1_error)</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__63);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__63);
+  __pyx_tuple__61 = <span class='py_c_api'>PyTuple_Pack</span>(13, __pyx_n_s_formula, __pyx_n_s_density, __pyx_n_s_name, __pyx_n_s_C1, __pyx_n_s_C2, __pyx_n_s_Wcr, __pyx_n_s_Wcc, __pyx_n_s_saved, __pyx_n_s_the_path, __pyx_n_s_path, __pyx_n_s_pickle, __pyx_n_s_f, __pyx_n_s_mat_2);<span class='error_goto'> if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 860, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__61);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__61);
 /* … */
   __pyx_t_2 = PyCFunction_NewEx(&amp;__pyx_mdef_10MontyCarlo_9materials_9materials_15Mat, NULL, __pyx_n_s_MontyCarlo_materials_materials);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 860, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_Mat, __pyx_t_2) &lt; 0) <span class='error_goto'>__PYX_ERR(0, 860, __pyx_L1_error)</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_codeobj__23 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(7, 0, 13, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__63, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_Mat, 860, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 860, __pyx_L1_error)</span>
+  __pyx_codeobj__62 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(7, 0, 13, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__61, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_materials_materials_p, __pyx_n_s_Mat, 860, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__62)) __PYX_ERR(0, 860, __pyx_L1_error)</span>
 </pre><pre class="cython line score-0">&#xA0;<span class="">0861</span>:                  <span class="n">C1</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">C2</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">0862</span>:                  <span class="n">Wcr</span> <span class="o">=</span> <span class="mf">10e3</span><span class="p">,</span> <span class="n">Wcc</span> <span class="o">=</span> <span class="mf">100e3</span><span class="p">):</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">0863</span>: </pre>
@@ -10413,7 +10304,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_14Mat(CYTHON_UNUSED
       /*finally:*/ {
         /*normal exit:*/{
           if (__pyx_t_7) {
-            __pyx_t_11 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_7, __pyx_tuple__15, NULL);
+            __pyx_t_11 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_7, __pyx_tuple__8, NULL);
             <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_7); __pyx_t_7 = 0;
             if (unlikely(!__pyx_t_11)) <span class='error_goto'>__PYX_ERR(0, 870, __pyx_L1_error)</span>
             <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_11);
@@ -10506,10 +10397,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_1__reduce
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material___reduce__(struct __pyx_obj_10MontyCarlo_9materials_9materials_Material *__pyx_v_self) {
   PyObject *__pyx_v_this = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__reduce__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__reduce__", __pyx_f[0], 884, 0, <span class='error_goto'>__PYX_ERR(0, 884, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -10521,7 +10410,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material___reduce_
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_this);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -10777,10 +10665,8 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Material_2__init__(struc
   PyObject *__pyx_v_to_save = NULL;
   PyObject *__pyx_v_f = NULL;
   int __pyx_r;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__init__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__init__", __pyx_f[0], 908, 0, <span class='error_goto'>__PYX_ERR(0, 908, __pyx_L1_error)</span>);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_formula);
 /* … */
   /* function exit code */
@@ -10800,7 +10686,6 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Material_2__init__(struc
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_to_save);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_f);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_formula);
-  <span class='trace'>__Pyx_TraceReturn</span>(Py_None, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -10832,10 +10717,10 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Material_2__init__(struc
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_4);
   <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_1, 1, __pyx_t_4);
   __pyx_t_4 = 0;
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u__24);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u__12);
   __pyx_t_2 += 1;
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_u__24);
-  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_1, 2, __pyx_kp_u__24);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_u__12);
+  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_1, 2, __pyx_kp_u__12);
   __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyUnicode_Join</span>(__pyx_t_1, 3, __pyx_t_2, __pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 916, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
@@ -11504,7 +11389,7 @@ static int __pyx_pf_10MontyCarlo_9materials_9materials_8Material_2__init__(struc
     /*finally:*/ {
       /*normal exit:*/{
         if (__pyx_t_10) {
-          __pyx_t_13 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_10, __pyx_tuple__15, NULL);
+          __pyx_t_13 = <span class='pyx_c_api'>__Pyx_PyObject_Call</span>(__pyx_t_10, __pyx_tuple__8, NULL);
           <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_10); __pyx_t_10 = 0;
           if (unlikely(!__pyx_t_13)) <span class='error_goto'>__PYX_ERR(0, 983, __pyx_L1_error)</span>
           <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_13);
@@ -11593,10 +11478,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_4__repr__
   PyObject *__pyx_v_Z = NULL;
   PyObject *__pyx_v_x = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__repr__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__repr__", __pyx_f[0], 990, 0, <span class='error_goto'>__PYX_ERR(0, 990, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -11612,7 +11495,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_4__repr__
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_Z);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_x);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -11621,10 +11503,10 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_4__repr__
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_t_2 = 0;
   __pyx_t_3 = 127;
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u__25);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u__13);
   __pyx_t_2 += 1;
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_u__25);
-  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_1, 0, __pyx_kp_u__25);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_u__13);
+  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_1, 0, __pyx_kp_u__13);
   __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_FormatSimple</span>(__pyx_v_self-&gt;name, __pyx_empty_unicode);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 991, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   __pyx_t_3 = (<span class='pyx_c_api'>__Pyx_PyUnicode_MAX_CHAR_VALUE</span>(__pyx_t_4) &gt; __pyx_t_3) ? <span class='pyx_c_api'>__Pyx_PyUnicode_MAX_CHAR_VALUE</span>(__pyx_t_4) : __pyx_t_3;
@@ -11632,10 +11514,10 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_4__repr__
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_4);
   <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_1, 1, __pyx_t_4);
   __pyx_t_4 = 0;
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u__26);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u__14);
   __pyx_t_2 += 2;
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_u__26);
-  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_1, 2, __pyx_kp_u__26);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_u__14);
+  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_1, 2, __pyx_kp_u__14);
   __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyUnicode_Join</span>(__pyx_t_1, 3, __pyx_t_2, __pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 991, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
@@ -11775,10 +11657,10 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_4__repr__
     <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_7);
     <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_4, 2, __pyx_t_7);
     __pyx_t_7 = 0;
-    <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u__27);
+    <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u__15);
     __pyx_t_10 += 4;
-    <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_u__27);
-    <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_4, 3, __pyx_kp_u__27);
+    <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_u__15);
+    <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_4, 3, __pyx_kp_u__15);
     __pyx_t_7 = <span class='pyx_c_api'>__Pyx_PyUnicode_Join</span>(__pyx_t_4, 4, __pyx_t_10, __pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 993, __pyx_L1_error)</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_7);
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
@@ -11862,10 +11744,10 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_4__repr__
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
   <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_4, 7, __pyx_t_1);
   __pyx_t_1 = 0;
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u__28);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_kp_u__16);
   __pyx_t_2 += 2;
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_u__28);
-  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_4, 8, __pyx_kp_u__28);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_kp_u__16);
+  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_4, 8, __pyx_kp_u__16);
   __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyUnicode_Join</span>(__pyx_t_4, 9, __pyx_t_2, __pyx_t_3);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 995, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
@@ -11881,8 +11763,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_4__repr__
   __pyx_r = __pyx_v_rep;
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">0998</span>: </pre>
-<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0999</span>:     <span class="k">def</span> <span class="nf">getEl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-2 '>/* Python wrapper */
+<pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">0999</span>:     <span class="k">def</span> <span class="nf">getEl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-0 '>/* Python wrapper */
 static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_7getEl(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_7getEl(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
@@ -11897,18 +11779,12 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_7getEl(Py
 
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_6getEl(struct __pyx_obj_10MontyCarlo_9materials_9materials_Material *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("getEl", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("getEl", __pyx_f[0], 999, 0, <span class='error_goto'>__PYX_ERR(0, 999, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("MontyCarlo.materials.materials.Material.getEl", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -11938,10 +11814,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_8plot_pho
   PyObject *__pyx_v_np = NULL;
   PyObject *__pyx_v_arr = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("plot_photonsIMFP", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("plot_photonsIMFP", __pyx_f[0], 1003, 0, <span class='error_goto'>__PYX_ERR(0, 1003, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
@@ -11962,16 +11836,15 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_8plot_pho
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_np);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_arr);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 </pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1004</span>:         <span class="k">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span></pre>
 <pre class='cython code score-10 '>  __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1004, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s__29);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s__29);
-  <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_1, 0, __pyx_n_s__29);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s__17);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s__17);
+  <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_1, 0, __pyx_n_s__17);
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_matplotlib_pyplot, __pyx_t_1, -1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1004, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
@@ -11998,7 +11871,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_8plot_pho
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_1, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1013, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1013, __pyx_L1_error)</span>
+  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1013, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(!__pyx_v_self-&gt;photon-&gt;coherent-&gt;__pyx_base.imfpA.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1013, __pyx_L1_error)</span>}
@@ -12023,7 +11896,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_8plot_pho
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1013, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
-  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1013, __pyx_L1_error)</span>
+  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1013, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   if (unlikely(!__pyx_v_self-&gt;photon-&gt;coherent-&gt;__pyx_base.imfpB.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1013, __pyx_L1_error)</span>}
@@ -12076,7 +11949,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_8plot_pho
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1014, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
-  __pyx_t_7 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1014, __pyx_L1_error)</span>
+  __pyx_t_7 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1014, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_7);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   if (unlikely(!__pyx_v_self-&gt;photon-&gt;incoherent-&gt;__pyx_base.imfpA.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1014, __pyx_L1_error)</span>}
@@ -12101,7 +11974,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_8plot_pho
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_1, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1014, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1014, __pyx_L1_error)</span>
+  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1014, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(!__pyx_v_self-&gt;photon-&gt;incoherent-&gt;__pyx_base.imfpB.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1014, __pyx_L1_error)</span>}
@@ -12154,7 +12027,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_8plot_pho
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_7);
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_1, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1015, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-  __pyx_t_6 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1015, __pyx_L1_error)</span>
+  __pyx_t_6 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1015, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(!__pyx_v_self-&gt;photon-&gt;pairproduction-&gt;__pyx_base.imfpA.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1015, __pyx_L1_error)</span>}
@@ -12179,7 +12052,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_8plot_pho
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1015, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
-  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1015, __pyx_L1_error)</span>
+  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1015, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   if (unlikely(!__pyx_v_self-&gt;photon-&gt;pairproduction-&gt;__pyx_base.imfpB.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1015, __pyx_L1_error)</span>}
@@ -12232,7 +12105,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_8plot_pho
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1016, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
-  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1016, __pyx_L1_error)</span>
+  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1016, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   if (unlikely(!__pyx_v_self-&gt;photon-&gt;tripletproduction-&gt;__pyx_base.imfpA.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1016, __pyx_L1_error)</span>}
@@ -12257,7 +12130,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_8plot_pho
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_1, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1016, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-  __pyx_t_7 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1016, __pyx_L1_error)</span>
+  __pyx_t_7 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1016, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_7);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(!__pyx_v_self-&gt;photon-&gt;tripletproduction-&gt;__pyx_base.imfpB.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1016, __pyx_L1_error)</span>}
@@ -12310,7 +12183,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_8plot_pho
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_1, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1017, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1017, __pyx_L1_error)</span>
+  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1017, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(!__pyx_v_self-&gt;molecule-&gt;PHELa.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1017, __pyx_L1_error)</span>}
@@ -12335,7 +12208,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_8plot_pho
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1017, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
-  __pyx_t_6 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1017, __pyx_L1_error)</span>
+  __pyx_t_6 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1017, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   if (unlikely(!__pyx_v_self-&gt;molecule-&gt;PHELb.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1017, __pyx_L1_error)</span>}
@@ -12522,10 +12395,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
   PyObject *__pyx_v_select = NULL;
   PyObject *__pyx_v_x = NULL;
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("plot_photonsMFP", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("plot_photonsMFP", __pyx_f[0], 1027, 0, <span class='error_goto'>__PYX_ERR(0, 1027, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
@@ -12547,16 +12418,15 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_select);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_x);
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 </pre><pre class="cython line score-10" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1028</span>:         <span class="k">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span></pre>
 <pre class='cython code score-10 '>  __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1028, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s__29);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s__29);
-  <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_1, 0, __pyx_n_s__29);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s__17);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s__17);
+  <span class='py_macro_api'>PyList_SET_ITEM</span>(__pyx_t_1, 0, __pyx_n_s__17);
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_Import</span>(__pyx_n_s_matplotlib_pyplot, __pyx_t_1, -1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1028, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
@@ -12600,7 +12470,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_3, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1036, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
-  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_3, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1036, __pyx_L1_error)</span>
+  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_3, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1036, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
   if (unlikely(!__pyx_v_self-&gt;photon-&gt;coherent-&gt;__pyx_base.imfpB.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1036, __pyx_L1_error)</span>}
@@ -12638,7 +12508,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1037, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
-  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1037, __pyx_L1_error)</span>
+  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1037, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyNumber_Divide</span>(__pyx_int_1, __pyx_v_imfp);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1037, __pyx_L1_error)</span>
@@ -12684,7 +12554,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_1, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1039, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-  __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1039, __pyx_L1_error)</span>
+  __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_1, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1039, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(!__pyx_v_self-&gt;photon-&gt;incoherent-&gt;__pyx_base.imfpB.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1039, __pyx_L1_error)</span>}
@@ -12722,7 +12592,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_4, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1040, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
-  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_4, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1040, __pyx_L1_error)</span>
+  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_4, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1040, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyNumber_Divide</span>(__pyx_int_1, __pyx_v_imfp);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1040, __pyx_L1_error)</span>
@@ -12768,7 +12638,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1042, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
-  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1042, __pyx_L1_error)</span>
+  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1042, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   if (unlikely(!__pyx_v_self-&gt;photon-&gt;pairproduction-&gt;__pyx_base.imfpB.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1042, __pyx_L1_error)</span>}
@@ -12814,7 +12684,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
 </pre><pre class="cython line score-8" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1045</span>:         <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">eax</span><span class="p">[:</span><span class="o">-</span><span class="mf">1</span><span class="p">])[</span><span class="n">select</span><span class="p">]</span></pre>
 <pre class='cython code score-8 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1045, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
-  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1045, __pyx_L1_error)</span>
+  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1045, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_3, __pyx_v_select);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1045, __pyx_L1_error)</span>
@@ -12868,7 +12738,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_2, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1048, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
-  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_2, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1048, __pyx_L1_error)</span>
+  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_2, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1048, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   if (unlikely(!__pyx_v_self-&gt;photon-&gt;tripletproduction-&gt;__pyx_base.imfpB.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1048, __pyx_L1_error)</span>}
@@ -12914,7 +12784,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
 </pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1051</span>:         <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">eax</span><span class="p">[:</span><span class="o">-</span><span class="mf">1</span><span class="p">])[</span><span class="n">select</span><span class="p">]</span></pre>
 <pre class='cython code score-9 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_2, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1051, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
-  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_2, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1051, __pyx_L1_error)</span>
+  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_2, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1051, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_1, __pyx_v_select);<span class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1051, __pyx_L1_error)</span>
@@ -12970,7 +12840,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_4, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1056, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
-  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_4, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1056, __pyx_L1_error)</span>
+  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_4, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1056, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(!__pyx_v_self-&gt;molecule-&gt;PHELb.memview)) {<span class='py_c_api'>PyErr_SetString</span>(PyExc_AttributeError,"Memoryview is not initialized");<span class='error_goto'>__PYX_ERR(0, 1056, __pyx_L1_error)</span>}
@@ -13016,7 +12886,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
 </pre><pre class="cython line score-9" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1059</span>:         <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">eax</span><span class="p">[:</span><span class="o">-</span><span class="mf">1</span><span class="p">])[</span><span class="n">select</span><span class="p">]</span></pre>
 <pre class='cython code score-9 '>  <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_4, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1059, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
-  __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_4, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1059, __pyx_L1_error)</span>
+  __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_4, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1059, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetItem</span>(__pyx_t_5, __pyx_v_select);<span class='error_goto'> if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1059, __pyx_L1_error)</span>
@@ -13029,7 +12899,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_10plot_ph
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
   <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_t_5, __pyx_n_s_eax);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1060, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
-  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice__6, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1060, __pyx_L1_error)</span>
+  __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_t_5, 0, -1L, NULL, NULL, &amp;__pyx_slice_, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1060, __pyx_L1_error)</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyNumber_Divide</span>(__pyx_int_1, __pyx_v_imfp);<span class='error_goto'> if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1060, __pyx_L1_error)</span>
@@ -13185,10 +13055,8 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_13EXTRACT
 
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_12EXTRACT_ALL(struct __pyx_obj_10MontyCarlo_9materials_9materials_Material *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("EXTRACT_ALL", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("EXTRACT_ALL", __pyx_f[0], 1071, 0, <span class='error_goto'>__PYX_ERR(0, 1071, __pyx_L1_error)</span>);
 /* … */
   /* function exit code */
   __pyx_L1_error:;
@@ -13200,7 +13068,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_12EXTRACT
   __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
@@ -13235,8 +13102,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_12EXTRACT
 <pre class="cython line score-0">&#xA0;<span class="">1075</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">1076</span>:     <span class="c">#Eventually I should find a good naming convention</span></pre>
 <pre class="cython line score-0">&#xA0;<span class="">1077</span>:     <span class="nd">@property</span></pre>
-<pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1078</span>:     <span class="k">def</span> <span class="nf">el</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">electron</span></pre>
-<pre class='cython code score-4 '>/* Python wrapper */
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1078</span>:     <span class="k">def</span> <span class="nf">el</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">electron</span></pre>
+<pre class='cython code score-2 '>/* Python wrapper */
 static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_2el_1__get__(PyObject *__pyx_v_self); /*proto*/
 static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_2el_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
@@ -13251,29 +13118,23 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_2el_1__ge
 
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_2el___get__(struct __pyx_obj_10MontyCarlo_9materials_9materials_Material *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__get__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__get__", __pyx_f[0], 1078, 0, <span class='error_goto'>__PYX_ERR(0, 1078, __pyx_L1_error)</span>);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(((PyObject *)__pyx_v_self-&gt;electron));
   __pyx_r = ((PyObject *)__pyx_v_self-&gt;electron);
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("MontyCarlo.materials.materials.Material.el.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">1079</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">1080</span>:     <span class="nd">@property</span></pre>
-<pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1081</span>:     <span class="k">def</span> <span class="nf">po</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">positron</span></pre>
-<pre class='cython code score-4 '>/* Python wrapper */
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1081</span>:     <span class="k">def</span> <span class="nf">po</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">positron</span></pre>
+<pre class='cython code score-2 '>/* Python wrapper */
 static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_2po_1__get__(PyObject *__pyx_v_self); /*proto*/
 static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_2po_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
@@ -13288,29 +13149,23 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_2po_1__ge
 
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_2po___get__(struct __pyx_obj_10MontyCarlo_9materials_9materials_Material *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__get__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__get__", __pyx_f[0], 1081, 0, <span class='error_goto'>__PYX_ERR(0, 1081, __pyx_L1_error)</span>);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(((PyObject *)__pyx_v_self-&gt;positron));
   __pyx_r = ((PyObject *)__pyx_v_self-&gt;positron);
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("MontyCarlo.materials.materials.Material.po.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">1082</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">1083</span>:     <span class="nd">@property</span></pre>
-<pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1084</span>:     <span class="k">def</span> <span class="nf">ph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">photon</span></pre>
-<pre class='cython code score-4 '>/* Python wrapper */
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1084</span>:     <span class="k">def</span> <span class="nf">ph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">photon</span></pre>
+<pre class='cython code score-2 '>/* Python wrapper */
 static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_2ph_1__get__(PyObject *__pyx_v_self); /*proto*/
 static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_2ph_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
@@ -13325,29 +13180,23 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_2ph_1__ge
 
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_2ph___get__(struct __pyx_obj_10MontyCarlo_9materials_9materials_Material *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__get__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__get__", __pyx_f[0], 1084, 0, <span class='error_goto'>__PYX_ERR(0, 1084, __pyx_L1_error)</span>);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(((PyObject *)__pyx_v_self-&gt;photon));
   __pyx_r = ((PyObject *)__pyx_v_self-&gt;photon);
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("MontyCarlo.materials.materials.Material.ph.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 </pre><pre class="cython line score-0">&#xA0;<span class="">1085</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">1086</span>:     <span class="nd">@property</span></pre>
-<pre class="cython line score-4" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1087</span>:     <span class="k">def</span> <span class="nf">mol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">molecule</span></pre>
-<pre class='cython code score-4 '>/* Python wrapper */
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">1087</span>:     <span class="k">def</span> <span class="nf">mol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">molecule</span></pre>
+<pre class='cython code score-2 '>/* Python wrapper */
 static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_3mol_1__get__(PyObject *__pyx_v_self); /*proto*/
 static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_3mol_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
@@ -13362,22 +13211,16 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_9materials_8Material_3mol_1__g
 
 static PyObject *__pyx_pf_10MontyCarlo_9materials_9materials_8Material_3mol___get__(struct __pyx_obj_10MontyCarlo_9materials_9materials_Material *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  <span class='trace'>__Pyx_TraceDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__get__", 0);
-  <span class='trace'>__Pyx_TraceCall</span>("__get__", __pyx_f[0], 1087, 0, <span class='error_goto'>__PYX_ERR(0, 1087, __pyx_L1_error)</span>);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
   <span class='pyx_macro_api'>__Pyx_INCREF</span>(((PyObject *)__pyx_v_self-&gt;molecule));
   __pyx_r = ((PyObject *)__pyx_v_self-&gt;molecule);
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("MontyCarlo.materials.materials.Material.mol.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
-  <span class='trace'>__Pyx_TraceReturn</span>(__pyx_r, 0);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }

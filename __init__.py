@@ -1,11 +1,17 @@
-#from ._init import eax 
+import sys
+print(sys.path)
 
-from . import _init
+from ._init import eax
+
+from .plotter import *
+
+#from MontyCarlo.init import eax 
+
 
 
 
 #print("IMPORTING GEOMETRY")
-from .geometry.main import *
+from MontyCarlo.geometry.main import *
 from .geometry.CSG import Sphere
 
 
