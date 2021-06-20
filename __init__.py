@@ -1,4 +1,7 @@
-from ._init import eax 
+#from ._init import eax 
+
+from . import _init
+
 
 
 #print("IMPORTING GEOMETRY")
