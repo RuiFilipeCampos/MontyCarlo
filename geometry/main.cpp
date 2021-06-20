@@ -4,9 +4,7 @@
 {
     "distutils": {
         "depends": [
-            "MontyCarlo\\_random\\mixmax\\interface.cpp",
-            "MontyCarlo\\_random\\mixmax\\interface.h",
-            "MontyCarlo\\_random\\mixmax\\mixmax.hpp",
+            "MontyCarlo\\_random\\mixmax_release_200final\\mixmax.hpp",
             "MontyCarlo\\materials\\cppRelax.cpp",
             "MontyCarlo\\materials\\cppRelax.h"
         ],
@@ -15,7 +13,7 @@
             "-fp:fast"
         ],
         "include_dirs": [
-            ".\\MontyCarlo\\_random\\mixmax",
+            ".\\MontyCarlo\\_random",
             ".\\MontyCarlo\\materials"
         ],
         "language": "c++",
@@ -648,9 +646,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #define __PYX_HAVE_API__MontyCarlo__geometry__main
 /* Early includes */
 #include <math.h>
-#include "interface.cpp"
-#include "interface.h"
-#include "mixmax.hpp"
+#include "mixmax_release_200final/mixmax.hpp"
 #include <string.h>
 #include <stdio.h>
 #include "numpy/arrayobject.h"
@@ -908,7 +904,6 @@ static const char *__pyx_f[] = {
   "type.pxd",
   "MontyCarlo\\tools\\interpol1.pxd",
   "MontyCarlo\\tools\\CubicInverseTransform.pxd",
-  "MontyCarlo\\_random\\random.pxd",
   "MontyCarlo\\materials\\pyRelax.pxd",
   "MontyCarlo\\tools\\vectors.pxd",
   "MontyCarlo\\materials\\electron\\GOS.pxd",
@@ -1256,7 +1251,6 @@ struct __pyx_obj_10MontyCarlo_5tools_9interpol1_FastCubicSpline;
 struct __pyx_obj_10MontyCarlo_5tools_9interpol1_CSa;
 struct __pyx_obj_10MontyCarlo_5tools_9interpol1_LogLinInterpolation;
 struct __pyx_obj_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline;
-struct __pyx_obj_10MontyCarlo_7_random_6random_rng;
 struct __pyx_obj_10MontyCarlo_9materials_7pyRelax_Atom;
 struct __pyx_obj_10MontyCarlo_5tools_7vectors_Vector;
 struct __pyx_obj_10MontyCarlo_9materials_8electron_3GOS_CMolecule;
@@ -1344,15 +1338,6 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  * cdef inline object PyArray_MultiIterNew1(a):
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
-
-/* "_random/random.pxd":5
- * from .mixmax.interface cimport mixmax_engine
- * 
- * ctypedef double (*func)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-typedef double *__pyx_t_10MontyCarlo_7_random_6random_func;
 
 /* "cppRelaxAPI.pxd":19
  * 		vector[double] ELECTRONS;
@@ -1447,7 +1432,7 @@ struct __pyx_ctuple_double__and_double {
   double f1;
 };
 
-/* "electron/main.pxd":19
+/* "electron/main.pxd":21
  * #from numpy import array
  * #cdef double[::1] _eax
  * ctypedef CubicInverseTransform.aFastCubicSpline CITA             # <<<<<<<<<<<<<<
@@ -1717,19 +1702,6 @@ struct __pyx_obj_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline {
 };
 
 
-/* "_random/random.pxd":8
- * 
- * 
- * cdef class rng:             # <<<<<<<<<<<<<<
- *     cdef func gen
- * 
- */
-struct __pyx_obj_10MontyCarlo_7_random_6random_rng {
-  PyObject_HEAD
-  __pyx_t_10MontyCarlo_7_random_6random_func gen;
-};
-
-
 /* "materials/pyRelax.pxd":24
  * 
  * 
@@ -1995,7 +1967,7 @@ struct __pyx_obj_10MontyCarlo_9materials_8electron_4BREM_sampler {
 };
 
 
-/* "electron/main.pxd":22
+/* "electron/main.pxd":24
  * 
  * #cdef int[:, ::1] LIMS
  * cdef class Electron:             # <<<<<<<<<<<<<<
@@ -2024,7 +1996,7 @@ struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_Electron {
 };
 
 
-/* "electron/main.pxd":49
+/* "electron/main.pxd":51
  * from . cimport GOS
  * from . cimport GOSfinal
  * cdef class Inelastic:             # <<<<<<<<<<<<<<
@@ -2051,7 +2023,7 @@ struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_Inelastic {
 };
 
 
-/* "electron/main.pxd":66
+/* "electron/main.pxd":68
  * 
  * from . cimport BREM
  * cdef class Brem:             # <<<<<<<<<<<<<<
@@ -2072,7 +2044,7 @@ struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_Brem {
 };
 
 
-/* "electron/main.pxd":77
+/* "electron/main.pxd":79
  * 
  * 
  * cdef class DIST:             # <<<<<<<<<<<<<<
@@ -2089,7 +2061,7 @@ struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_DIST {
 };
 
 
-/* "electron/main.pxd":81
+/* "electron/main.pxd":83
  *     cdef double sample(self, mixmax_engine *genPTR)
  * 
  * cdef class Elastic:             # <<<<<<<<<<<<<<
@@ -3128,7 +3100,7 @@ struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4BREM_sampler {
 static struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4BREM_sampler *__pyx_vtabptr_10MontyCarlo_9materials_8electron_4BREM_sampler;
 
 
-/* "electron/main.pxd":22
+/* "electron/main.pxd":24
  * 
  * #cdef int[:, ::1] LIMS
  * cdef class Electron:             # <<<<<<<<<<<<<<
@@ -3143,7 +3115,7 @@ struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Electron {
 static struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Electron *__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Electron;
 
 
-/* "electron/main.pxd":49
+/* "electron/main.pxd":51
  * from . cimport GOS
  * from . cimport GOSfinal
  * cdef class Inelastic:             # <<<<<<<<<<<<<<
@@ -3158,7 +3130,7 @@ struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Inelastic {
 static struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Inelastic *__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Inelastic;
 
 
-/* "electron/main.pxd":66
+/* "electron/main.pxd":68
  * 
  * from . cimport BREM
  * cdef class Brem:             # <<<<<<<<<<<<<<
@@ -3172,7 +3144,7 @@ struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Brem {
 static struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Brem *__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Brem;
 
 
-/* "electron/main.pxd":77
+/* "electron/main.pxd":79
  * 
  * 
  * cdef class DIST:             # <<<<<<<<<<<<<<
@@ -3186,7 +3158,7 @@ struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_DIST {
 static struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_DIST *__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_DIST;
 
 
-/* "electron/main.pxd":81
+/* "electron/main.pxd":83
  *     cdef double sample(self, mixmax_engine *genPTR)
  * 
  * cdef class Elastic:             # <<<<<<<<<<<<<<
@@ -4430,7 +4402,7 @@ static PyObject *__pyx_memoryview_assign_item_from_object(struct __pyx_memoryvie
 static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp); /* proto*/
 static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp, PyObject *__pyx_v_value); /* proto*/
 
-/* Module declarations from 'MontyCarlo._random.mixmax.interface' */
+/* Module declarations from 'MontyCarlo._random.interface' */
 
 /* Module declarations from 'cpython.buffer' */
 
@@ -4480,11 +4452,6 @@ static PyTypeObject *__pyx_ptype_10MontyCarlo_5tools_9interpol1_LogLinInterpolat
 static PyTypeObject *__pyx_ptype_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline = 0;
 
 /* Module declarations from 'MontyCarlo.materials.electron' */
-
-/* Module declarations from 'MontyCarlo._random.random' */
-static PyTypeObject *__pyx_ptype_10MontyCarlo_7_random_6random_rng = 0;
-static mixmax_engine **__pyx_vp_10MontyCarlo_7_random_6random_genPTR = 0;
-#define __pyx_v_10MontyCarlo_7_random_6random_genPTR (*__pyx_vp_10MontyCarlo_7_random_6random_genPTR)
 
 /* Module declarations from 'libcpp.deque' */
 
@@ -22335,191 +22302,186 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline) __PYX_ERR(5, 8, __pyx_L1_error)
   __pyx_vtabptr_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline = (struct __pyx_vtabstruct_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline)) __PYX_ERR(5, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo._random.random"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 8, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_ptype_10MontyCarlo_7_random_6random_rng = __Pyx_ImportType(__pyx_t_1, "MontyCarlo._random.random", "rng", sizeof(struct __pyx_obj_10MontyCarlo_7_random_6random_rng), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_7_random_6random_rng) __PYX_ERR(6, 8, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.pyRelax"); if (unlikely(!__pyx_t_1)) __PYX_ERR(7, 24, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.pyRelax"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.pyRelax", "Atom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_7pyRelax_Atom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom) __PYX_ERR(7, 24, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom)) __PYX_ERR(7, 24, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom) __PYX_ERR(6, 24, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom)) __PYX_ERR(6, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.vectors"); if (unlikely(!__pyx_t_1)) __PYX_ERR(8, 1, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.vectors"); if (unlikely(!__pyx_t_1)) __PYX_ERR(7, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_5tools_7vectors_Vector = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.vectors", "Vector", sizeof(struct __pyx_obj_10MontyCarlo_5tools_7vectors_Vector), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_7vectors_Vector) __PYX_ERR(8, 1, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_7vectors_Vector = (struct __pyx_vtabstruct_10MontyCarlo_5tools_7vectors_Vector*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_7vectors_Vector->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_7vectors_Vector)) __PYX_ERR(8, 1, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_7vectors_Vector) __PYX_ERR(7, 1, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_7vectors_Vector = (struct __pyx_vtabstruct_10MontyCarlo_5tools_7vectors_Vector*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_7vectors_Vector->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_7vectors_Vector)) __PYX_ERR(7, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.GOS"); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 29, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.GOS"); if (unlikely(!__pyx_t_1)) __PYX_ERR(8, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CMolecule = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOS", "CMolecule", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_3GOS_CMolecule), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CMolecule) __PYX_ERR(9, 29, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_CMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CMolecule)) __PYX_ERR(9, 29, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CMolecule) __PYX_ERR(8, 29, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_CMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CMolecule)) __PYX_ERR(8, 29, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CAtom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOS", "CAtom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_3GOS_CAtom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CAtom) __PYX_ERR(9, 60, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_CAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CAtom)) __PYX_ERR(9, 60, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CAtom) __PYX_ERR(8, 60, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_CAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CAtom)) __PYX_ERR(8, 60, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CShell = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOS", "CShell", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_3GOS_CShell), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CShell) __PYX_ERR(9, 86, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_CShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CShell)) __PYX_ERR(9, 86, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CShell) __PYX_ERR(8, 86, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_CShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CShell)) __PYX_ERR(8, 86, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Close = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOS", "Close", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_3GOS_Close), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Close) __PYX_ERR(9, 110, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Close = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_Close*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Close->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Close)) __PYX_ERR(9, 110, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Close) __PYX_ERR(8, 110, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Close = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_Close*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Close->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Close)) __PYX_ERR(8, 110, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Distant = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOS", "Distant", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_3GOS_Distant), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Distant) __PYX_ERR(9, 141, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Distant = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_Distant*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Distant->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Distant)) __PYX_ERR(9, 141, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Distant) __PYX_ERR(8, 141, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Distant = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_Distant*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Distant->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Distant)) __PYX_ERR(8, 141, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.GOSfinal"); if (unlikely(!__pyx_t_1)) __PYX_ERR(10, 13, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.GOSfinal"); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOSfinal", "gosMolecule", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule) __PYX_ERR(10, 13, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule)) __PYX_ERR(10, 13, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule) __PYX_ERR(9, 13, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule)) __PYX_ERR(9, 13, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOSfinal", "gosAtom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom) __PYX_ERR(10, 22, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom)) __PYX_ERR(10, 22, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom) __PYX_ERR(9, 22, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom)) __PYX_ERR(9, 22, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOSfinal", "gosShell", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell) __PYX_ERR(10, 35, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell)) __PYX_ERR(10, 35, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell) __PYX_ERR(9, 35, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell)) __PYX_ERR(9, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.BREM"); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 14, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.BREM"); if (unlikely(!__pyx_t_1)) __PYX_ERR(10, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8electron_4BREM_sampler = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.BREM", "sampler", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_4BREM_sampler), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4BREM_sampler) __PYX_ERR(11, 14, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4BREM_sampler = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4BREM_sampler*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4BREM_sampler->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4BREM_sampler)) __PYX_ERR(11, 14, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4BREM_sampler) __PYX_ERR(10, 14, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4BREM_sampler = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4BREM_sampler*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4BREM_sampler->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4BREM_sampler)) __PYX_ERR(10, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.main"); if (unlikely(!__pyx_t_1)) __PYX_ERR(12, 22, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.main"); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8electron_4main_Electron = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.main", "Electron", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_Electron), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Electron) __PYX_ERR(12, 22, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Electron = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Electron*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Electron->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Electron)) __PYX_ERR(12, 22, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Electron) __PYX_ERR(11, 24, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Electron = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Electron*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Electron->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Electron)) __PYX_ERR(11, 24, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_4main_Inelastic = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.main", "Inelastic", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_Inelastic), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Inelastic) __PYX_ERR(12, 49, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Inelastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Inelastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Inelastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Inelastic)) __PYX_ERR(12, 49, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Inelastic) __PYX_ERR(11, 51, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Inelastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Inelastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Inelastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Inelastic)) __PYX_ERR(11, 51, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_4main_Brem = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.main", "Brem", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_Brem), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Brem) __PYX_ERR(12, 66, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Brem = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Brem*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Brem->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Brem)) __PYX_ERR(12, 66, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Brem) __PYX_ERR(11, 68, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Brem = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Brem*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Brem->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Brem)) __PYX_ERR(11, 68, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_4main_DIST = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.main", "DIST", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_DIST), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_DIST) __PYX_ERR(12, 77, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_DIST = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_DIST*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_DIST->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_DIST)) __PYX_ERR(12, 77, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_DIST) __PYX_ERR(11, 79, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_DIST = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_DIST*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_DIST->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_DIST)) __PYX_ERR(11, 79, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_4main_Elastic = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.main", "Elastic", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_Elastic), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Elastic) __PYX_ERR(12, 81, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Elastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Elastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Elastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Elastic)) __PYX_ERR(12, 81, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Elastic) __PYX_ERR(11, 83, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Elastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Elastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Elastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Elastic)) __PYX_ERR(11, 83, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.GOS"); if (unlikely(!__pyx_t_1)) __PYX_ERR(13, 29, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.GOS"); if (unlikely(!__pyx_t_1)) __PYX_ERR(12, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CMolecule = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOS", "CMolecule", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_3GOS_CMolecule), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CMolecule) __PYX_ERR(13, 29, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_CMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CMolecule)) __PYX_ERR(13, 29, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CMolecule) __PYX_ERR(12, 29, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_CMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CMolecule)) __PYX_ERR(12, 29, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CAtom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOS", "CAtom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_3GOS_CAtom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CAtom) __PYX_ERR(13, 60, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_CAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CAtom)) __PYX_ERR(13, 60, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CAtom) __PYX_ERR(12, 60, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_CAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CAtom)) __PYX_ERR(12, 60, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CShell = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOS", "CShell", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_3GOS_CShell), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CShell) __PYX_ERR(13, 86, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_CShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CShell)) __PYX_ERR(13, 86, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CShell) __PYX_ERR(12, 86, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_CShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CShell)) __PYX_ERR(12, 86, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Close = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOS", "Close", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_3GOS_Close), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Close) __PYX_ERR(13, 110, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Close = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_Close*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Close->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Close)) __PYX_ERR(13, 110, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Close) __PYX_ERR(12, 110, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Close = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_Close*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Close->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Close)) __PYX_ERR(12, 110, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Distant = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOS", "Distant", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_3GOS_Distant), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Distant) __PYX_ERR(13, 141, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Distant = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_Distant*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Distant->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Distant)) __PYX_ERR(13, 141, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Distant) __PYX_ERR(12, 141, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Distant = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_Distant*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Distant->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Distant)) __PYX_ERR(12, 141, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.GOSfinal"); if (unlikely(!__pyx_t_1)) __PYX_ERR(14, 13, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.GOSfinal"); if (unlikely(!__pyx_t_1)) __PYX_ERR(13, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOSfinal", "gosMolecule", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule) __PYX_ERR(14, 13, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule)) __PYX_ERR(14, 13, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule) __PYX_ERR(13, 13, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule)) __PYX_ERR(13, 13, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOSfinal", "gosAtom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom) __PYX_ERR(14, 22, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom)) __PYX_ERR(14, 22, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom) __PYX_ERR(13, 22, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom)) __PYX_ERR(13, 22, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOSfinal", "gosShell", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell) __PYX_ERR(14, 35, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell)) __PYX_ERR(14, 35, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell) __PYX_ERR(13, 35, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell)) __PYX_ERR(13, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.BREM"); if (unlikely(!__pyx_t_1)) __PYX_ERR(15, 14, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.BREM"); if (unlikely(!__pyx_t_1)) __PYX_ERR(14, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8positron_4BREM_sampler = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.BREM", "sampler", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4BREM_sampler), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4BREM_sampler) __PYX_ERR(15, 14, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4BREM_sampler = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4BREM_sampler*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4BREM_sampler->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4BREM_sampler)) __PYX_ERR(15, 14, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4BREM_sampler) __PYX_ERR(14, 14, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4BREM_sampler = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4BREM_sampler*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4BREM_sampler->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4BREM_sampler)) __PYX_ERR(14, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.main"); if (unlikely(!__pyx_t_1)) __PYX_ERR(16, 22, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.main"); if (unlikely(!__pyx_t_1)) __PYX_ERR(15, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8positron_4main_Positron = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.main", "Positron", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4main_Positron), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Positron) __PYX_ERR(16, 22, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Positron = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Positron*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Positron->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Positron)) __PYX_ERR(16, 22, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Positron) __PYX_ERR(15, 22, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Positron = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Positron*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Positron->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Positron)) __PYX_ERR(15, 22, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_4main_Anihilation = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.main", "Anihilation", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4main_Anihilation), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Anihilation) __PYX_ERR(16, 50, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Anihilation = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Anihilation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Anihilation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Anihilation)) __PYX_ERR(16, 50, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Anihilation) __PYX_ERR(15, 50, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Anihilation = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Anihilation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Anihilation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Anihilation)) __PYX_ERR(15, 50, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_4main_Inelastic = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.main", "Inelastic", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4main_Inelastic), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Inelastic) __PYX_ERR(16, 62, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Inelastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Inelastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Inelastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Inelastic)) __PYX_ERR(16, 62, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Inelastic) __PYX_ERR(15, 62, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Inelastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Inelastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Inelastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Inelastic)) __PYX_ERR(15, 62, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_4main_Brem = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.main", "Brem", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4main_Brem), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Brem) __PYX_ERR(16, 82, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Brem = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Brem*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Brem->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Brem)) __PYX_ERR(16, 82, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Brem) __PYX_ERR(15, 82, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Brem = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Brem*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Brem->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Brem)) __PYX_ERR(15, 82, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_4main_DIST = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.main", "DIST", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4main_DIST), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_DIST) __PYX_ERR(16, 93, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_DIST = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_DIST*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_DIST->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_DIST)) __PYX_ERR(16, 93, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_DIST) __PYX_ERR(15, 93, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_DIST = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_DIST*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_DIST->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_DIST)) __PYX_ERR(15, 93, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_4main_Elastic = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.main", "Elastic", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4main_Elastic), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Elastic) __PYX_ERR(16, 97, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Elastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Elastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Elastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Elastic)) __PYX_ERR(16, 97, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Elastic) __PYX_ERR(15, 97, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Elastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Elastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Elastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Elastic)) __PYX_ERR(15, 97, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.integration"); if (unlikely(!__pyx_t_1)) __PYX_ERR(17, 1, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.integration"); if (unlikely(!__pyx_t_1)) __PYX_ERR(16, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_5tools_11integration_Integrator = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.integration", "Integrator", sizeof(struct __pyx_obj_10MontyCarlo_5tools_11integration_Integrator), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_11integration_Integrator) __PYX_ERR(17, 1, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_11integration_Integrator = (struct __pyx_vtabstruct_10MontyCarlo_5tools_11integration_Integrator*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_11integration_Integrator->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_11integration_Integrator)) __PYX_ERR(17, 1, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_11integration_Integrator) __PYX_ERR(16, 1, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_11integration_Integrator = (struct __pyx_vtabstruct_10MontyCarlo_5tools_11integration_Integrator*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_11integration_Integrator->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_11integration_Integrator)) __PYX_ERR(16, 1, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_5tools_11integration_Interval = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.integration", "Interval", sizeof(struct __pyx_obj_10MontyCarlo_5tools_11integration_Interval), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_11integration_Interval) __PYX_ERR(17, 16, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_11integration_Interval = (struct __pyx_vtabstruct_10MontyCarlo_5tools_11integration_Interval*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_11integration_Interval->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_11integration_Interval)) __PYX_ERR(17, 16, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_11integration_Interval) __PYX_ERR(16, 16, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_11integration_Interval = (struct __pyx_vtabstruct_10MontyCarlo_5tools_11integration_Interval*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_11integration_Interval->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_11integration_Interval)) __PYX_ERR(16, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.RITA"); if (unlikely(!__pyx_t_1)) __PYX_ERR(18, 8, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.RITA"); if (unlikely(!__pyx_t_1)) __PYX_ERR(17, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_5tools_4RITA_RationalInterpolation = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.RITA", "RationalInterpolation", sizeof(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_4RITA_RationalInterpolation) __PYX_ERR(18, 8, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_4RITA_RationalInterpolation = (struct __pyx_vtabstruct_10MontyCarlo_5tools_4RITA_RationalInterpolation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_4RITA_RationalInterpolation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_4RITA_RationalInterpolation)) __PYX_ERR(18, 8, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_4RITA_RationalInterpolation) __PYX_ERR(17, 8, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_4RITA_RationalInterpolation = (struct __pyx_vtabstruct_10MontyCarlo_5tools_4RITA_RationalInterpolation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_4RITA_RationalInterpolation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_4RITA_RationalInterpolation)) __PYX_ERR(17, 8, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_5tools_4RITA_Interval = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.RITA", "Interval", sizeof(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_4RITA_Interval) __PYX_ERR(18, 25, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_4RITA_Interval = (struct __pyx_vtabstruct_10MontyCarlo_5tools_4RITA_Interval*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_4RITA_Interval->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_4RITA_Interval)) __PYX_ERR(18, 25, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_4RITA_Interval) __PYX_ERR(17, 25, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_4RITA_Interval = (struct __pyx_vtabstruct_10MontyCarlo_5tools_4RITA_Interval*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_4RITA_Interval->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_4RITA_Interval)) __PYX_ERR(17, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.photon.CrossSection"); if (unlikely(!__pyx_t_1)) __PYX_ERR(19, 21, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.photon.CrossSection"); if (unlikely(!__pyx_t_1)) __PYX_ERR(18, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_6photon_12CrossSection_CSLOGIC = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.photon.CrossSection", "CSLOGIC", sizeof(struct __pyx_obj_10MontyCarlo_9materials_6photon_12CrossSection_CSLOGIC), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_12CrossSection_CSLOGIC) __PYX_ERR(19, 21, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_12CrossSection_CSLOGIC) __PYX_ERR(18, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.photon.photon"); if (unlikely(!__pyx_t_1)) __PYX_ERR(20, 21, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.photon.photon"); if (unlikely(!__pyx_t_1)) __PYX_ERR(19, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Photon = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.photon.photon", "Photon", sizeof(struct __pyx_obj_10MontyCarlo_9materials_6photon_6photon_Photon), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Photon) __PYX_ERR(20, 21, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Photon) __PYX_ERR(19, 21, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Coherent = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.photon.photon", "Coherent", sizeof(struct __pyx_obj_10MontyCarlo_9materials_6photon_6photon_Coherent), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Coherent) __PYX_ERR(20, 32, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Coherent = (struct __pyx_vtabstruct_10MontyCarlo_9materials_6photon_6photon_Coherent*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Coherent->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Coherent)) __PYX_ERR(20, 32, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Coherent) __PYX_ERR(19, 32, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Coherent = (struct __pyx_vtabstruct_10MontyCarlo_9materials_6photon_6photon_Coherent*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Coherent->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Coherent)) __PYX_ERR(19, 32, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Incoherent = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.photon.photon", "Incoherent", sizeof(struct __pyx_obj_10MontyCarlo_9materials_6photon_6photon_Incoherent), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Incoherent) __PYX_ERR(20, 51, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Incoherent) __PYX_ERR(19, 51, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Pairproduction = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.photon.photon", "Pairproduction", sizeof(struct __pyx_obj_10MontyCarlo_9materials_6photon_6photon_Pairproduction), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Pairproduction) __PYX_ERR(20, 57, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Pairproduction = (struct __pyx_vtabstruct_10MontyCarlo_9materials_6photon_6photon_Pairproduction*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Pairproduction->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Pairproduction)) __PYX_ERR(20, 57, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Pairproduction) __PYX_ERR(19, 57, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Pairproduction = (struct __pyx_vtabstruct_10MontyCarlo_9materials_6photon_6photon_Pairproduction*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Pairproduction->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Pairproduction)) __PYX_ERR(19, 57, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Tripletproduction = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.photon.photon", "Tripletproduction", sizeof(struct __pyx_obj_10MontyCarlo_9materials_6photon_6photon_Tripletproduction), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Tripletproduction) __PYX_ERR(20, 91, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Tripletproduction) __PYX_ERR(19, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.materials"); if (unlikely(!__pyx_t_1)) __PYX_ERR(21, 33, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.materials"); if (unlikely(!__pyx_t_1)) __PYX_ERR(20, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_9materials_Shell = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.materials", "Shell", sizeof(struct __pyx_obj_10MontyCarlo_9materials_9materials_Shell), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Shell) __PYX_ERR(21, 33, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_9materials_Shell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_9materials_Shell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_9materials_Shell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_9materials_Shell)) __PYX_ERR(21, 33, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Shell) __PYX_ERR(20, 33, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_9materials_Shell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_9materials_Shell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_9materials_Shell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_9materials_Shell)) __PYX_ERR(20, 33, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_9materials_Atom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.materials", "Atom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_9materials_Atom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Atom) __PYX_ERR(21, 45, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_9materials_Atom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_9materials_Atom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_9materials_Atom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_9materials_Atom)) __PYX_ERR(21, 45, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Atom) __PYX_ERR(20, 45, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_9materials_Atom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_9materials_Atom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_9materials_Atom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_9materials_Atom)) __PYX_ERR(20, 45, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_9materials_Molecule = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.materials", "Molecule", sizeof(struct __pyx_obj_10MontyCarlo_9materials_9materials_Molecule), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Molecule) __PYX_ERR(21, 57, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_9materials_Molecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_9materials_Molecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_9materials_Molecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_9materials_Molecule)) __PYX_ERR(21, 57, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Molecule) __PYX_ERR(20, 57, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_9materials_Molecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_9materials_Molecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_9materials_Molecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_9materials_Molecule)) __PYX_ERR(20, 57, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_9materials_Material = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.materials", "Material", sizeof(struct __pyx_obj_10MontyCarlo_9materials_9materials_Material), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Material) __PYX_ERR(21, 79, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Material) __PYX_ERR(20, 79, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.particles.particle"); if (unlikely(!__pyx_t_1)) __PYX_ERR(22, 24, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.particles.particle"); if (unlikely(!__pyx_t_1)) __PYX_ERR(21, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9particles_8particle_Particle = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.particles.particle", "Particle", sizeof(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9particles_8particle_Particle) __PYX_ERR(22, 24, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9particles_8particle_Particle = (struct __pyx_vtabstruct_10MontyCarlo_9particles_8particle_Particle*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9particles_8particle_Particle->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9particles_8particle_Particle)) __PYX_ERR(22, 24, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9particles_8particle_Particle) __PYX_ERR(21, 24, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9particles_8particle_Particle = (struct __pyx_vtabstruct_10MontyCarlo_9particles_8particle_Particle*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9particles_8particle_Particle->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9particles_8particle_Particle)) __PYX_ERR(21, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -22537,10 +22499,6 @@ static int __Pyx_modinit_variable_import_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_variable_import_code", 0);
   /*--- Variable import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo._random.random"); if (!__pyx_t_1) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_ImportVoidPtr(__pyx_t_1, "genPTR", (void **)&__pyx_vp_10MontyCarlo_7_random_6random_genPTR, "mixmax_engine *") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.pyRelax"); if (!__pyx_t_1) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_ImportVoidPtr(__pyx_t_1, "directory", (void **)&__pyx_vp_10MontyCarlo_9materials_7pyRelax_directory, "PyObject *") < 0) __PYX_ERR(0, 1, __pyx_L1_error)

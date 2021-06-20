@@ -9,7 +9,16 @@ from .cppRelaxAPI cimport Atom as rAtom
 from .cppRelaxAPI cimport Transition as rTransition
 from .cppRelaxAPI cimport setADRESS_RAD
 from .cppRelaxAPI cimport setADRESS_NONRAD
-from .._random.random cimport genPTR
+
+#from .._random.random cimport genPTR # only for debug purposes
+
+from .._random.interface cimport mixmax_engine
+
+
+# only for debug purposes
+cdef mixmax_engine gen = mixmax_engine(0,0,0,123);
+cdef mixmax_engine *genPTR = &gen;
+
 from .cppRelaxAPI cimport PARTICLES
 from libc.string cimport memcpy 
 

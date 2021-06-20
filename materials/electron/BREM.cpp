@@ -4,9 +4,7 @@
 {
     "distutils": {
         "depends": [
-            "MontyCarlo\\_random\\mixmax\\interface.cpp",
-            "MontyCarlo\\_random\\mixmax\\interface.h",
-            "MontyCarlo\\_random\\mixmax\\mixmax.hpp"
+            "MontyCarlo\\_random\\mixmax_release_200final\\mixmax.hpp"
         ],
         "extra_compile_args": [
             "-std=c++11",
@@ -14,7 +12,7 @@
             "-fp:fast"
         ],
         "include_dirs": [
-            ".\\MontyCarlo\\_random\\mixmax"
+            ".\\MontyCarlo\\_random"
         ],
         "language": "c++",
         "name": "MontyCarlo.materials.electron.BREM",
@@ -645,9 +643,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #define __PYX_HAVE__MontyCarlo__materials__electron__BREM
 #define __PYX_HAVE_API__MontyCarlo__materials__electron__BREM
 /* Early includes */
-#include "interface.cpp"
-#include "interface.h"
-#include "mixmax.hpp"
+#include "mixmax_release_200final/mixmax.hpp"
 #include <math.h>
 #include "pythread.h"
 #include <string.h>
@@ -2149,7 +2145,7 @@ static PyTypeObject *__pyx_ptype_10MontyCarlo_5tools_9interpol1_FastCubicSpline 
 static PyTypeObject *__pyx_ptype_10MontyCarlo_5tools_9interpol1_CSa = 0;
 static PyTypeObject *__pyx_ptype_10MontyCarlo_5tools_9interpol1_LogLinInterpolation = 0;
 
-/* Module declarations from 'MontyCarlo._random.mixmax.interface' */
+/* Module declarations from 'MontyCarlo._random.interface' */
 
 /* Module declarations from 'cython.view' */
 

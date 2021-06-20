@@ -4,9 +4,7 @@
 {
     "distutils": {
         "depends": [
-            "MontyCarlo\\_random\\mixmax\\interface.cpp",
-            "MontyCarlo\\_random\\mixmax\\interface.h",
-            "MontyCarlo\\_random\\mixmax\\mixmax.hpp",
+            "MontyCarlo\\_random\\mixmax_release_200final\\mixmax.hpp",
             "MontyCarlo\\materials\\cppRelax.cpp",
             "MontyCarlo\\materials\\cppRelax.h"
         ],
@@ -16,7 +14,7 @@
         ],
         "include_dirs": [
             ".\\MontyCarlo\\materials",
-            ".\\MontyCarlo\\_random\\mixmax"
+            ".\\MontyCarlo\\_random"
         ],
         "language": "c++",
         "name": "MontyCarlo.materials.pyRelax",
@@ -647,9 +645,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #define __PYX_HAVE__MontyCarlo__materials__pyRelax
 #define __PYX_HAVE_API__MontyCarlo__materials__pyRelax
 /* Early includes */
-#include "interface.cpp"
-#include "interface.h"
-#include "mixmax.hpp"
+#include "mixmax_release_200final/mixmax.hpp"
 #include "ios"
 #include "new"
 #include "stdexcept"
@@ -875,7 +871,6 @@ static const char *__pyx_f[] = {
   "MontyCarlo\\materials\\pyRelax.pyx",
   "stringsource",
   "MontyCarlo\\materials\\pyRelax.pxd",
-  "MontyCarlo\\_random\\random.pxd",
 };
 /* MemviewSliceStruct.proto */
 struct __pyx_memoryview_obj;
@@ -987,21 +982,11 @@ typedef struct {
 
 
 /*--- Type declarations ---*/
-struct __pyx_obj_10MontyCarlo_7_random_6random_rng;
 struct __pyx_obj_10MontyCarlo_9materials_7pyRelax_Atom;
 struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
 struct __pyx_memoryviewslice_obj;
-
-/* "_random/random.pxd":5
- * from .mixmax.interface cimport mixmax_engine
- * 
- * ctypedef double (*func)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-typedef double *__pyx_t_10MontyCarlo_7_random_6random_func;
 
 /* "cppRelaxAPI.pxd":19
  * 		vector[double] ELECTRONS;
@@ -1011,19 +996,6 @@ typedef double *__pyx_t_10MontyCarlo_7_random_6random_func;
  * 
  */
 typedef void *__pyx_t_10MontyCarlo_9materials_11cppRelaxAPI_f;
-
-/* "_random/random.pxd":8
- * 
- * 
- * cdef class rng:             # <<<<<<<<<<<<<<
- *     cdef func gen
- * 
- */
-struct __pyx_obj_10MontyCarlo_7_random_6random_rng {
-  PyObject_HEAD
-  __pyx_t_10MontyCarlo_7_random_6random_func gen;
-};
-
 
 /* "MontyCarlo/materials/pyRelax.pxd":24
  * 
@@ -1132,12 +1104,12 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "MontyCarlo/materials/pyRelax.pyx":86
- * 
+/* "MontyCarlo/materials/pyRelax.pyx":73
+ * import numpy as np
  * 
  * cdef class Atom:             # <<<<<<<<<<<<<<
- * 
- * 
+ *     def __init__(self, Z, double cut_off):
+ *         cdef int i
  */
 
 struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom {
@@ -1904,17 +1876,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStrNoError(PyObject* obj, P
 /* SetupReduce.proto */
 static int __Pyx_setup_reduce(PyObject* type_obj);
 
-/* TypeImport.proto */
-#ifndef __PYX_HAVE_RT_ImportType_proto
-#define __PYX_HAVE_RT_ImportType_proto
-enum __Pyx_ImportType_CheckSize {
-   __Pyx_ImportType_CheckSize_Error = 0,
-   __Pyx_ImportType_CheckSize_Warn = 1,
-   __Pyx_ImportType_CheckSize_Ignore = 2
-};
-static PyTypeObject *__Pyx_ImportType(PyObject* module, const char *module_name, const char *class_name, size_t size, enum __Pyx_ImportType_CheckSize check_size);
-#endif
-
 /* CLineInTraceback.proto */
 #ifdef CYTHON_CLINE_IN_TRACEBACK
 #define __Pyx_CLineForTraceback(tstate, c_line)  (((CYTHON_CLINE_IN_TRACEBACK)) ? c_line : 0)
@@ -2106,9 +2067,6 @@ static int __Pyx_ExportVoidPtr(PyObject *name, void *p, const char *sig);
 /* FunctionExport.proto */
 static int __Pyx_ExportFunction(const char *name, void (*f)(void), const char *sig);
 
-/* VoidPtrImport.proto */
-static int __Pyx_ImportVoidPtr(PyObject *module, const char *name, void **p, const char *sig);
-
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
@@ -2127,12 +2085,7 @@ static PyObject *__pyx_memoryview_assign_item_from_object(struct __pyx_memoryvie
 static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp); /* proto*/
 static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp, PyObject *__pyx_v_value); /* proto*/
 
-/* Module declarations from 'MontyCarlo._random.mixmax.interface' */
-
-/* Module declarations from 'MontyCarlo._random.random' */
-static PyTypeObject *__pyx_ptype_10MontyCarlo_7_random_6random_rng = 0;
-static mixmax_engine **__pyx_vp_10MontyCarlo_7_random_6random_genPTR = 0;
-#define __pyx_v_10MontyCarlo_7_random_6random_genPTR (*__pyx_vp_10MontyCarlo_7_random_6random_genPTR)
+/* Module declarations from 'MontyCarlo._random.interface' */
 
 /* Module declarations from 'libcpp.deque' */
 
@@ -2157,6 +2110,8 @@ static PyTypeObject *__pyx_MemviewEnum_type = 0;
 static PyTypeObject *__pyx_memoryview_type = 0;
 static PyTypeObject *__pyx_memoryviewslice_type = 0;
 static PyObject *__pyx_v_10MontyCarlo_9materials_7pyRelax_directory = 0;
+static mixmax_engine __pyx_v_10MontyCarlo_9materials_7pyRelax_gen;
+static mixmax_engine *__pyx_v_10MontyCarlo_9materials_7pyRelax_genPTR;
 static double __pyx_v_10MontyCarlo_9materials_7pyRelax_photonCUTOFF;
 static double __pyx_v_10MontyCarlo_9materials_7pyRelax_electronCUTOFF;
 static PyObject *generic = 0;
@@ -2238,6 +2193,7 @@ static const char __pyx_k_Nsh[] = ", Nsh = ";
 static const char __pyx_k__38[] = "*";
 static const char __pyx_k__39[] = "";
 static const char __pyx_k_end[] = "end";
+static const char __pyx_k_gen[] = "gen";
 static const char __pyx_k_get[] = "get";
 static const char __pyx_k_map[] = "map";
 static const char __pyx_k_new[] = "__new__";
@@ -2285,6 +2241,7 @@ static const char __pyx_k_append[] = "append";
 static const char __pyx_k_arange[] = "arange";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_format[] = "format";
+static const char __pyx_k_genPTR[] = "genPTR";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_insert[] = "insert";
 static const char __pyx_k_name_2[] = "__name__";
@@ -2468,6 +2425,8 @@ static PyObject *__pyx_n_s_flags;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_fortran;
 static PyObject *__pyx_n_u_fortran;
+static PyObject *__pyx_n_s_gen;
+static PyObject *__pyx_n_s_genPTR;
 static PyObject *__pyx_n_s_generic;
 static PyObject *__pyx_n_s_get;
 static PyObject *__pyx_n_s_getAxis;
@@ -2697,9 +2656,9 @@ static PyObject *__pyx_tuple__45;
 static PyObject *__pyx_codeobj__46;
 /* Late includes */
 
-/* "MontyCarlo/materials/pyRelax.pyx":92
+/* "MontyCarlo/materials/pyRelax.pyx":74
  * 
- * 
+ * cdef class Atom:
  *     def __init__(self, Z, double cut_off):             # <<<<<<<<<<<<<<
  *         cdef int i
  * 
@@ -2739,11 +2698,11 @@ static int __pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_1__init__(PyObject *_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_cut_off)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 92, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 74, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 92, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 74, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2752,11 +2711,11 @@ static int __pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_1__init__(PyObject *_
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_Z = values[0];
-    __pyx_v_cut_off = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_cut_off == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L3_error)
+    __pyx_v_cut_off = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_cut_off == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 74, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 92, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 74, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("MontyCarlo.materials.pyRelax.Atom.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2834,49 +2793,49 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":97
+  /* "MontyCarlo/materials/pyRelax.pyx":78
  * 
  *         #data processing in python
  *         self.Z = Z             # <<<<<<<<<<<<<<
  *         self.path = directory + "\\EADL\\" + str(Z) + ".txt"
  *         self.Aw, self.EADL_dict = self.getBookmarkedText()
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_Z); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 97, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_Z); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L1_error)
   __pyx_v_self->Z = __pyx_t_1;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":98
+  /* "MontyCarlo/materials/pyRelax.pyx":79
  *         #data processing in python
  *         self.Z = Z
  *         self.path = directory + "\\EADL\\" + str(Z) + ".txt"             # <<<<<<<<<<<<<<
  *         self.Aw, self.EADL_dict = self.getBookmarkedText()
  * 
  */
-  __pyx_t_2 = PyNumber_Add(__pyx_v_10MontyCarlo_9materials_7pyRelax_directory, __pyx_kp_s_EADL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_v_10MontyCarlo_9materials_7pyRelax_directory, __pyx_kp_s_EADL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_Z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_Z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyNumber_Add(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Add(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyNumber_Add(__pyx_t_4, __pyx_kp_s_txt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_4, __pyx_kp_s_txt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 98, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_3);
   __Pyx_GOTREF(__pyx_v_self->path);
   __Pyx_DECREF(__pyx_v_self->path);
   __pyx_v_self->path = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":99
+  /* "MontyCarlo/materials/pyRelax.pyx":80
  *         self.Z = Z
  *         self.path = directory + "\\EADL\\" + str(Z) + ".txt"
  *         self.Aw, self.EADL_dict = self.getBookmarkedText()             # <<<<<<<<<<<<<<
  * 
  *         self.data = {Id:getTable(self.EADL_dict[Id]) for Id in self.EADL_dict}
  */
-  __pyx_t_3 = ((struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom *)__pyx_v_self->__pyx_vtab)->getBookmarkedText(__pyx_v_self, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_3 = ((struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom *)__pyx_v_self->__pyx_vtab)->getBookmarkedText(__pyx_v_self, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if ((likely(PyTuple_CheckExact(__pyx_t_3))) || (PyList_CheckExact(__pyx_t_3))) {
     PyObject* sequence = __pyx_t_3;
@@ -2884,7 +2843,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 99, __pyx_L1_error)
+      __PYX_ERR(0, 80, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -2897,15 +2856,15 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_INCREF(__pyx_t_4);
     __Pyx_INCREF(__pyx_t_2);
     #else
-    __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     #endif
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_5 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 99, __pyx_L1_error)
+    __pyx_t_5 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_6 = Py_TYPE(__pyx_t_5)->tp_iternext;
@@ -2913,7 +2872,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_GOTREF(__pyx_t_4);
     index = 1; __pyx_t_2 = __pyx_t_6(__pyx_t_5); if (unlikely(!__pyx_t_2)) goto __pyx_L3_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_2);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_6(__pyx_t_5), 2) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_6(__pyx_t_5), 2) < 0) __PYX_ERR(0, 80, __pyx_L1_error)
     __pyx_t_6 = NULL;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     goto __pyx_L4_unpacking_done;
@@ -2921,12 +2880,12 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_6 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 99, __pyx_L1_error)
+    __PYX_ERR(0, 80, __pyx_L1_error)
     __pyx_L4_unpacking_done:;
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 99, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 80, __pyx_L1_error)
   __pyx_v_self->Aw = __pyx_t_7;
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->EADL_dict);
@@ -2934,7 +2893,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   __pyx_v_self->EADL_dict = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":101
+  /* "MontyCarlo/materials/pyRelax.pyx":82
  *         self.Aw, self.EADL_dict = self.getBookmarkedText()
  * 
  *         self.data = {Id:getTable(self.EADL_dict[Id]) for Id in self.EADL_dict}             # <<<<<<<<<<<<<<
@@ -2942,14 +2901,14 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  *         number_el = self.data[(0, 91, 0, 0, 0, 912)]
  */
   { /* enter inner scope */
-    __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L7_error)
+    __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 82, __pyx_L7_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_8 = 0;
     if (unlikely(__pyx_v_self->EADL_dict == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-      __PYX_ERR(0, 101, __pyx_L7_error)
+      __PYX_ERR(0, 82, __pyx_L7_error)
     }
-    __pyx_t_4 = __Pyx_dict_iterator(__pyx_v_self->EADL_dict, 1, ((PyObject *)NULL), (&__pyx_t_9), (&__pyx_t_1)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L7_error)
+    __pyx_t_4 = __Pyx_dict_iterator(__pyx_v_self->EADL_dict, 1, ((PyObject *)NULL), (&__pyx_t_9), (&__pyx_t_1)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L7_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_2);
     __pyx_t_2 = __pyx_t_4;
@@ -2957,17 +2916,17 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     while (1) {
       __pyx_t_10 = __Pyx_dict_iter_next(__pyx_t_2, __pyx_t_9, &__pyx_t_8, &__pyx_t_4, NULL, NULL, __pyx_t_1);
       if (unlikely(__pyx_t_10 == 0)) break;
-      if (unlikely(__pyx_t_10 == -1)) __PYX_ERR(0, 101, __pyx_L7_error)
+      if (unlikely(__pyx_t_10 == -1)) __PYX_ERR(0, 82, __pyx_L7_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_Id, __pyx_t_4);
       __pyx_t_4 = 0;
-      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_getTable); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 101, __pyx_L7_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_getTable); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 82, __pyx_L7_error)
       __Pyx_GOTREF(__pyx_t_5);
       if (unlikely(__pyx_v_self->EADL_dict == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 101, __pyx_L7_error)
+        __PYX_ERR(0, 82, __pyx_L7_error)
       }
-      __pyx_t_11 = __Pyx_PyDict_GetItem(__pyx_v_self->EADL_dict, __pyx_7genexpr__pyx_v_Id); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 101, __pyx_L7_error)
+      __pyx_t_11 = __Pyx_PyDict_GetItem(__pyx_v_self->EADL_dict, __pyx_7genexpr__pyx_v_Id); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 82, __pyx_L7_error)
       __Pyx_GOTREF(__pyx_t_11);
       __pyx_t_12 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -2982,10 +2941,10 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
       __pyx_t_4 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_12, __pyx_t_11) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_11);
       __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 101, __pyx_L7_error)
+      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L7_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_t_3, (PyObject*)__pyx_7genexpr__pyx_v_Id, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 101, __pyx_L7_error)
+      if (unlikely(PyDict_SetItem(__pyx_t_3, (PyObject*)__pyx_7genexpr__pyx_v_Id, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 82, __pyx_L7_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3002,7 +2961,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   __pyx_v_self->data = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":103
+  /* "MontyCarlo/materials/pyRelax.pyx":84
  *         self.data = {Id:getTable(self.EADL_dict[Id]) for Id in self.EADL_dict}
  * 
  *         number_el = self.data[(0, 91, 0, 0, 0, 912)]             # <<<<<<<<<<<<<<
@@ -3011,31 +2970,31 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
   if (unlikely(__pyx_v_self->data == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 103, __pyx_L1_error)
+    __PYX_ERR(0, 84, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->data, __pyx_tuple_); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->data, __pyx_tuple_); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_number_el = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":104
+  /* "MontyCarlo/materials/pyRelax.pyx":85
  * 
  *         number_el = self.data[(0, 91, 0, 0, 0, 912)]
  *         DESIGNATORS = [int(design) for design in number_el[:, 0]]             # <<<<<<<<<<<<<<
  *         DESIGNATORS = np.array(DESIGNATORS)
  * 
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_number_el, __pyx_tuple__3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_number_el, __pyx_tuple__3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
     __pyx_t_4 = __pyx_t_2; __Pyx_INCREF(__pyx_t_4); __pyx_t_9 = 0;
     __pyx_t_13 = NULL;
   } else {
-    __pyx_t_9 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_9 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_13 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_13 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 85, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
@@ -3043,17 +3002,17 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
       if (likely(PyList_CheckExact(__pyx_t_4))) {
         if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_4)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 85, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_4, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_4, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 104, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 85, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_4, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_4, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -3063,7 +3022,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 104, __pyx_L1_error)
+          else __PYX_ERR(0, 85, __pyx_L1_error)
         }
         break;
       }
@@ -3071,25 +3030,25 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     }
     __Pyx_XDECREF_SET(__pyx_v_design, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_v_design); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_v_design); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_2))) __PYX_ERR(0, 104, __pyx_L1_error)
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_2))) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_DESIGNATORS = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":105
+  /* "MontyCarlo/materials/pyRelax.pyx":86
  *         number_el = self.data[(0, 91, 0, 0, 0, 912)]
  *         DESIGNATORS = [int(design) for design in number_el[:, 0]]
  *         DESIGNATORS = np.array(DESIGNATORS)             # <<<<<<<<<<<<<<
  * 
  *         number_el = number_el[:, 1]
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -3104,34 +3063,34 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   }
   __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v_DESIGNATORS) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_DESIGNATORS);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 105, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF_SET(__pyx_v_DESIGNATORS, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":107
+  /* "MontyCarlo/materials/pyRelax.pyx":88
  *         DESIGNATORS = np.array(DESIGNATORS)
  * 
  *         number_el = number_el[:, 1]             # <<<<<<<<<<<<<<
  *         number_el = np.ceil(number_el)
  *         binding_energy = self.data[(0, 91, 0, 0, 0, 913)][:, 1]*1e6
  */
-  __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_number_el, __pyx_tuple__4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_number_el, __pyx_tuple__4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF_SET(__pyx_v_number_el, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":108
+  /* "MontyCarlo/materials/pyRelax.pyx":89
  * 
  *         number_el = number_el[:, 1]
  *         number_el = np.ceil(number_el)             # <<<<<<<<<<<<<<
  *         binding_energy = self.data[(0, 91, 0, 0, 0, 913)][:, 1]*1e6
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ceil); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ceil); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -3146,44 +3105,44 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_2, __pyx_v_number_el) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_number_el);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF_SET(__pyx_v_number_el, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":109
+  /* "MontyCarlo/materials/pyRelax.pyx":90
  *         number_el = number_el[:, 1]
  *         number_el = np.ceil(number_el)
  *         binding_energy = self.data[(0, 91, 0, 0, 0, 913)][:, 1]*1e6             # <<<<<<<<<<<<<<
  * 
- * 
+ *         binding_energy = np.array(binding_energy)
  */
   if (unlikely(__pyx_v_self->data == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 109, __pyx_L1_error)
+    __PYX_ERR(0, 90, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->data, __pyx_tuple__5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->data, __pyx_tuple__5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_tuple__4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_tuple__4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyNumber_Multiply(__pyx_t_4, __pyx_float_1e6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Multiply(__pyx_t_4, __pyx_float_1e6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_binding_energy = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":112
- * 
+  /* "MontyCarlo/materials/pyRelax.pyx":92
+ *         binding_energy = self.data[(0, 91, 0, 0, 0, 913)][:, 1]*1e6
  * 
  *         binding_energy = np.array(binding_energy)             # <<<<<<<<<<<<<<
  * 
- * 
+ *         # FOR PYTHON
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -3198,18 +3157,18 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   }
   __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v_binding_energy) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_binding_energy);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF_SET(__pyx_v_binding_energy, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":117
- *         # FOR PYTHON
+  /* "MontyCarlo/materials/pyRelax.pyx":95
  * 
+ *         # FOR PYTHON
  *         self.BE = binding_energy             # <<<<<<<<<<<<<<
  *         self.number_el = number_el
- * 
+ *         ################################
  */
   __Pyx_INCREF(__pyx_v_binding_energy);
   __Pyx_GIVEREF(__pyx_v_binding_energy);
@@ -3217,11 +3176,11 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   __Pyx_DECREF(__pyx_v_self->BE);
   __pyx_v_self->BE = __pyx_v_binding_energy;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":118
- * 
+  /* "MontyCarlo/materials/pyRelax.pyx":96
+ *         # FOR PYTHON
  *         self.BE = binding_energy
  *         self.number_el = number_el             # <<<<<<<<<<<<<<
- * 
+ *         ################################
  * 
  */
   __Pyx_INCREF(__pyx_v_number_el);
@@ -3230,16 +3189,16 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   __Pyx_DECREF(__pyx_v_self->number_el);
   __pyx_v_self->number_el = __pyx_v_number_el;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":200
+  /* "MontyCarlo/materials/pyRelax.pyx":171
  *         # self.translate = translate
  *         #guarantee c contiguity
  *         DESIGNATORS    = np.ascontiguousarray(DESIGNATORS)             # <<<<<<<<<<<<<<
  *         number_el      = np.ascontiguousarray(number_el)
  *         binding_energy = np.ascontiguousarray(binding_energy)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ascontiguousarray); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ascontiguousarray); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -3254,22 +3213,22 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_2, __pyx_v_DESIGNATORS) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_DESIGNATORS);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 200, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF_SET(__pyx_v_DESIGNATORS, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":201
+  /* "MontyCarlo/materials/pyRelax.pyx":172
  *         #guarantee c contiguity
  *         DESIGNATORS    = np.ascontiguousarray(DESIGNATORS)
  *         number_el      = np.ascontiguousarray(number_el)             # <<<<<<<<<<<<<<
  *         binding_energy = np.ascontiguousarray(binding_energy)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_ascontiguousarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_ascontiguousarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -3284,22 +3243,22 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   }
   __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v_number_el) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_number_el);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 201, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF_SET(__pyx_v_number_el, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":202
+  /* "MontyCarlo/materials/pyRelax.pyx":173
  *         DESIGNATORS    = np.ascontiguousarray(DESIGNATORS)
  *         number_el      = np.ascontiguousarray(number_el)
  *         binding_energy = np.ascontiguousarray(binding_energy)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ascontiguousarray); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ascontiguousarray); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -3314,23 +3273,23 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_2, __pyx_v_binding_energy) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_binding_energy);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 202, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF_SET(__pyx_v_binding_energy, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":209
+  /* "MontyCarlo/materials/pyRelax.pyx":176
  * 
  * 
  *         self.Nsh = len(DESIGNATORS)             # <<<<<<<<<<<<<<
  * 
  *         cdef int Ntransitions = 0
  */
-  __pyx_t_9 = PyObject_Length(__pyx_v_DESIGNATORS); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 209, __pyx_L1_error)
+  __pyx_t_9 = PyObject_Length(__pyx_v_DESIGNATORS); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 176, __pyx_L1_error)
   __pyx_v_self->Nsh = __pyx_t_9;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":211
+  /* "MontyCarlo/materials/pyRelax.pyx":178
  *         self.Nsh = len(DESIGNATORS)
  * 
  *         cdef int Ntransitions = 0             # <<<<<<<<<<<<<<
@@ -3339,7 +3298,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
   __pyx_v_Ntransitions = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":213
+  /* "MontyCarlo/materials/pyRelax.pyx":180
  *         cdef int Ntransitions = 0
  *         #I have no choice  :(((((((
  *         for i in range(self.Nsh):             # <<<<<<<<<<<<<<
@@ -3351,19 +3310,19 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_10; __pyx_t_14+=1) {
     __pyx_v_i = __pyx_t_14;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":214
+    /* "MontyCarlo/materials/pyRelax.pyx":181
  *         #I have no choice  :(((((((
  *         for i in range(self.Nsh):
  *             designator = DESIGNATORS[i]             # <<<<<<<<<<<<<<
  *             rTrans  = self.data.get((0, 92, 91, designator, 7, 931), None)
  *             nrTrans = self.data.get((0, 92, 91, designator, 9, 932), None)
  */
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_DESIGNATORS, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 214, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_DESIGNATORS, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_XDECREF_SET(__pyx_v_designator, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":215
+    /* "MontyCarlo/materials/pyRelax.pyx":182
  *         for i in range(self.Nsh):
  *             designator = DESIGNATORS[i]
  *             rTrans  = self.data.get((0, 92, 91, designator, 7, 931), None)             # <<<<<<<<<<<<<<
@@ -3372,9 +3331,9 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
     if (unlikely(__pyx_v_self->data == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "get");
-      __PYX_ERR(0, 215, __pyx_L1_error)
+      __PYX_ERR(0, 182, __pyx_L1_error)
     }
-    __pyx_t_3 = PyTuple_New(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 215, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_GIVEREF(__pyx_int_0);
@@ -3394,13 +3353,13 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_INCREF(__pyx_int_931);
     __Pyx_GIVEREF(__pyx_int_931);
     PyTuple_SET_ITEM(__pyx_t_3, 5, __pyx_int_931);
-    __pyx_t_4 = __Pyx_PyDict_GetItemDefault(__pyx_v_self->data, __pyx_t_3, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 215, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_GetItemDefault(__pyx_v_self->data, __pyx_t_3, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_rTrans, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":216
+    /* "MontyCarlo/materials/pyRelax.pyx":183
  *             designator = DESIGNATORS[i]
  *             rTrans  = self.data.get((0, 92, 91, designator, 7, 931), None)
  *             nrTrans = self.data.get((0, 92, 91, designator, 9, 932), None)             # <<<<<<<<<<<<<<
@@ -3409,9 +3368,9 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
     if (unlikely(__pyx_v_self->data == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "get");
-      __PYX_ERR(0, 216, __pyx_L1_error)
+      __PYX_ERR(0, 183, __pyx_L1_error)
     }
-    __pyx_t_4 = PyTuple_New(6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 216, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 183, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_GIVEREF(__pyx_int_0);
@@ -3431,13 +3390,13 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_INCREF(__pyx_int_932);
     __Pyx_GIVEREF(__pyx_int_932);
     PyTuple_SET_ITEM(__pyx_t_4, 5, __pyx_int_932);
-    __pyx_t_3 = __Pyx_PyDict_GetItemDefault(__pyx_v_self->data, __pyx_t_4, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 216, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItemDefault(__pyx_v_self->data, __pyx_t_4, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 183, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_XDECREF_SET(__pyx_v_nrTrans, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":217
+    /* "MontyCarlo/materials/pyRelax.pyx":184
  *             rTrans  = self.data.get((0, 92, 91, designator, 7, 931), None)
  *             nrTrans = self.data.get((0, 92, 91, designator, 9, 932), None)
  *             if rTrans is None and nrTrans is None: continue             # <<<<<<<<<<<<<<
@@ -3459,20 +3418,20 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
       goto __pyx_L13_continue;
     }
 
-    /* "MontyCarlo/materials/pyRelax.pyx":218
+    /* "MontyCarlo/materials/pyRelax.pyx":185
  *             nrTrans = self.data.get((0, 92, 91, designator, 9, 932), None)
  *             if rTrans is None and nrTrans is None: continue
  *             Ntransitions += len(rTrans) + len(nrTrans)             # <<<<<<<<<<<<<<
  * 
  *         self.rTRANSITIONarr = <rTransition*>malloc(Ntransitions * sizeof(rTransition))
  */
-    __pyx_t_9 = PyObject_Length(__pyx_v_rTrans); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 218, __pyx_L1_error)
-    __pyx_t_8 = PyObject_Length(__pyx_v_nrTrans); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 218, __pyx_L1_error)
+    __pyx_t_9 = PyObject_Length(__pyx_v_rTrans); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 185, __pyx_L1_error)
+    __pyx_t_8 = PyObject_Length(__pyx_v_nrTrans); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 185, __pyx_L1_error)
     __pyx_v_Ntransitions = (__pyx_v_Ntransitions + (__pyx_t_9 + __pyx_t_8));
     __pyx_L13_continue:;
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":220
+  /* "MontyCarlo/materials/pyRelax.pyx":187
  *             Ntransitions += len(rTrans) + len(nrTrans)
  * 
  *         self.rTRANSITIONarr = <rTransition*>malloc(Ntransitions * sizeof(rTransition))             # <<<<<<<<<<<<<<
@@ -3481,7 +3440,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
   __pyx_v_self->rTRANSITIONarr = ((struct model::Transition *)malloc((__pyx_v_Ntransitions * (sizeof(struct model::Transition)))));
 
-  /* "MontyCarlo/materials/pyRelax.pyx":228
+  /* "MontyCarlo/materials/pyRelax.pyx":195
  * 
  *         #initialize all shells - store their references
  *         self.rSHELLarr = <rShell*>malloc(self.Nsh * sizeof(rShell))             # <<<<<<<<<<<<<<
@@ -3490,7 +3449,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
   __pyx_v_self->rSHELLarr = ((model::Shell *)malloc((__pyx_v_self->Nsh * (sizeof(model::Shell)))));
 
-  /* "MontyCarlo/materials/pyRelax.pyx":231
+  /* "MontyCarlo/materials/pyRelax.pyx":198
  * 
  * 
  *         if not self.rSHELLarr: raise MemoryError()             # <<<<<<<<<<<<<<
@@ -3499,58 +3458,58 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
   __pyx_t_15 = ((!(__pyx_v_self->rSHELLarr != 0)) != 0);
   if (unlikely(__pyx_t_15)) {
-    PyErr_NoMemory(); __PYX_ERR(0, 231, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 198, __pyx_L1_error)
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":234
+  /* "MontyCarlo/materials/pyRelax.pyx":201
  * 
  * 
  *         self.DESIGNATORS = np.array(DESIGNATORS, dtype = float)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 234, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 234, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 234, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_v_DESIGNATORS);
   __Pyx_GIVEREF(__pyx_v_DESIGNATORS);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_DESIGNATORS);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 234, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(0, 234, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 234, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_18 = __Pyx_PyObject_to_MemoryviewSlice_ds_double(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_18.memview)) __PYX_ERR(0, 234, __pyx_L1_error)
+  __pyx_t_18 = __Pyx_PyObject_to_MemoryviewSlice_ds_double(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_18.memview)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->DESIGNATORS, 0);
   __pyx_v_self->DESIGNATORS = __pyx_t_18;
   __pyx_t_18.memview = NULL;
   __pyx_t_18.data = NULL;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":249
+  /* "MontyCarlo/materials/pyRelax.pyx":216
  * 
  * 
  *         size = <int>(sum(number_el + 1))             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_5 = __Pyx_PyInt_AddObjC(__pyx_v_number_el, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_AddObjC(__pyx_v_number_el, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_size = ((int)__pyx_t_1);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":252
+  /* "MontyCarlo/materials/pyRelax.pyx":219
  * 
  * 
  *         self.temp_frac = <double*>malloc(size * sizeof(double))             # <<<<<<<<<<<<<<
@@ -3559,7 +3518,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
   __pyx_v_self->temp_frac = ((double *)malloc((__pyx_v_size * (sizeof(double)))));
 
-  /* "MontyCarlo/materials/pyRelax.pyx":255
+  /* "MontyCarlo/materials/pyRelax.pyx":222
  *       #  print(<int>self.temp_frac)
  * 
  *         if self.temp_frac == NULL: raise MemoryError()             # <<<<<<<<<<<<<<
@@ -3568,10 +3527,10 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
   __pyx_t_15 = ((__pyx_v_self->temp_frac == NULL) != 0);
   if (unlikely(__pyx_t_15)) {
-    PyErr_NoMemory(); __PYX_ERR(0, 255, __pyx_L1_error)
+    PyErr_NoMemory(); __PYX_ERR(0, 222, __pyx_L1_error)
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":258
+  /* "MontyCarlo/materials/pyRelax.pyx":225
  *        # else: print(">>>  rTRANSITIONarr  :: sucessful allocation ")
  *         cdef rShell _SHELL
  *         size = 0             # <<<<<<<<<<<<<<
@@ -3580,7 +3539,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
   __pyx_v_size = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":260
+  /* "MontyCarlo/materials/pyRelax.pyx":227
  *         size = 0
  *         cdef bint dontSIMULATE
  *         for i in range(self.Nsh):             # <<<<<<<<<<<<<<
@@ -3592,79 +3551,79 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_10; __pyx_t_14+=1) {
     __pyx_v_i = __pyx_t_14;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":267
+    /* "MontyCarlo/materials/pyRelax.pyx":234
  *             #print(frac)
  * 
  *             for ll in range(size, size + int(number_el[i]) + 1):             # <<<<<<<<<<<<<<
  *             #for ll in range(i,  i + size + 1):
  * 
  */
-    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 234, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_number_el, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_number_el, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 234, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyNumber_Int(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyNumber_Int(__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 234, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 234, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_t_5, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_t_5, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 234, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_19 = __Pyx_PyInt_As_long(__pyx_t_3); if (unlikely((__pyx_t_19 == (long)-1) && PyErr_Occurred())) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_19 = __Pyx_PyInt_As_long(__pyx_t_3); if (unlikely((__pyx_t_19 == (long)-1) && PyErr_Occurred())) __PYX_ERR(0, 234, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_20 = __pyx_t_19;
     for (__pyx_t_21 = __pyx_v_size; __pyx_t_21 < __pyx_t_20; __pyx_t_21+=1) {
       __pyx_v_ll = __pyx_t_21;
 
-      /* "MontyCarlo/materials/pyRelax.pyx":272
+      /* "MontyCarlo/materials/pyRelax.pyx":239
  *                 #print(frac[ll - i])
  *                 #self.temp_frac[ll] = frac[ll - i]
  *                 self.temp_frac[ll] = <double>(ll-size)/int(number_el[i])             # <<<<<<<<<<<<<<
  * 
  *                # print("in loop frac", (ll-size)/int(number_el[i]), ll)
  */
-      __pyx_t_3 = PyFloat_FromDouble(((double)(__pyx_v_ll - __pyx_v_size))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_3 = PyFloat_FromDouble(((double)(__pyx_v_ll - __pyx_v_size))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_number_el, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_number_el, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 239, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       (__pyx_v_self->temp_frac[__pyx_v_ll]) = __pyx_t_7;
     }
 
-    /* "MontyCarlo/materials/pyRelax.pyx":278
+    /* "MontyCarlo/materials/pyRelax.pyx":245
  * 
  *             # #print(np.array(frac))
  *             kl = size + int(number_el[i])             # <<<<<<<<<<<<<<
  *           #  print("final index? kl = ", kl)
  * 
  */
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_size); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 278, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_size); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_number_el, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 278, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_number_el, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyNumber_Int(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 278, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyNumber_Int(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Add(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 278, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Add(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_21 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_21 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 278, __pyx_L1_error)
+    __pyx_t_21 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_21 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 245, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_kl = __pyx_t_21;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":281
+    /* "MontyCarlo/materials/pyRelax.pyx":248
  *           #  print("final index? kl = ", kl)
  * 
  *             test_frac = deref(&self.temp_frac[0] + kl )             # <<<<<<<<<<<<<<
@@ -3673,57 +3632,57 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
     __pyx_v_test_frac = (*((&(__pyx_v_self->temp_frac[0])) + __pyx_v_kl));
 
-    /* "MontyCarlo/materials/pyRelax.pyx":286
+    /* "MontyCarlo/materials/pyRelax.pyx":253
  * 
  * 
  *             self.rSHELLarr[i] = rShell(&self.temp_frac[0] + kl ,  binding_energy[i] <= cut_off)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_binding_energy, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 286, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_binding_energy, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 253, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_cut_off); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 286, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_cut_off); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 253, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 286, __pyx_L1_error)
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_LE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 253, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_15 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely((__pyx_t_15 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 286, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely((__pyx_t_15 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 253, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     try {
       __pyx_t_22 = model::Shell(((&(__pyx_v_self->temp_frac[0])) + __pyx_v_kl), __pyx_t_15);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 286, __pyx_L1_error)
+      __PYX_ERR(0, 253, __pyx_L1_error)
     }
     (__pyx_v_self->rSHELLarr[__pyx_v_i]) = __pyx_t_22;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":300
+    /* "MontyCarlo/materials/pyRelax.pyx":267
  *             #     print("")
  *             # print("ADRESS", <int>self.rSHELLarr[i].frac)
  *             size += int(number_el[i]) + 1             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_size); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 300, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_size); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_number_el, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 300, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_number_el, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 300, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 300, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 300, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_21 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_21 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 300, __pyx_L1_error)
+    __pyx_t_21 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_21 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 267, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_size = __pyx_t_21;
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":308
+  /* "MontyCarlo/materials/pyRelax.pyx":275
  * 
  * 
  *         self.rSHELLarr[self.Nsh-1].LAST = 1             # <<<<<<<<<<<<<<
@@ -3732,7 +3691,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
   (__pyx_v_self->rSHELLarr[(__pyx_v_self->Nsh - 1)]).LAST = 1;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":310
+  /* "MontyCarlo/materials/pyRelax.pyx":277
  *         self.rSHELLarr[self.Nsh-1].LAST = 1
  * 
  *         for i in range(self.Nsh):             # <<<<<<<<<<<<<<
@@ -3744,7 +3703,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_10; __pyx_t_14+=1) {
     __pyx_v_i = __pyx_t_14;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":311
+    /* "MontyCarlo/materials/pyRelax.pyx":278
  * 
  *         for i in range(self.Nsh):
  *             test_frac = deref(self.rSHELLarr[i].frac)             # <<<<<<<<<<<<<<
@@ -3754,7 +3713,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __pyx_v_test_frac = (*(__pyx_v_self->rSHELLarr[__pyx_v_i]).frac);
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":318
+  /* "MontyCarlo/materials/pyRelax.pyx":285
  *         #self.temp_frac = <double*>malloc(size * sizeof(double))
  * 
  *         &self.rSHELLarr[0]             # <<<<<<<<<<<<<<
@@ -3763,7 +3722,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
   (void)((&(__pyx_v_self->rSHELLarr[0])));
 
-  /* "MontyCarlo/materials/pyRelax.pyx":320
+  /* "MontyCarlo/materials/pyRelax.pyx":287
  *         &self.rSHELLarr[0]
  * 
  *         self.rATOM = rAtom(&self.rSHELLarr[0], self.Nsh, Ntransitions)             # <<<<<<<<<<<<<<
@@ -3774,18 +3733,18 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __pyx_t_23 = model::Atom((&(__pyx_v_self->rSHELLarr[0])), __pyx_v_self->Nsh, __pyx_v_Ntransitions);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 320, __pyx_L1_error)
+    __PYX_ERR(0, 287, __pyx_L1_error)
   }
   __pyx_v_self->rATOM = __pyx_t_23;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":335
+  /* "MontyCarlo/materials/pyRelax.pyx":302
  * 
  * 
  *         self.NTR = []             # <<<<<<<<<<<<<<
  *         self.PROBS = []
  *         cdef int Ntr
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 335, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 302, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->NTR);
@@ -3793,14 +3752,14 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   __pyx_v_self->NTR = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":336
+  /* "MontyCarlo/materials/pyRelax.pyx":303
  * 
  *         self.NTR = []
  *         self.PROBS = []             # <<<<<<<<<<<<<<
  *         cdef int Ntr
  *         cdef int ii
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 336, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 303, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->PROBS);
@@ -3808,7 +3767,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   __pyx_v_self->PROBS = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":340
+  /* "MontyCarlo/materials/pyRelax.pyx":307
  *         cdef int ii
  * 
  *         designator = None             # <<<<<<<<<<<<<<
@@ -3818,7 +3777,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   __Pyx_INCREF(Py_None);
   __Pyx_XDECREF_SET(__pyx_v_designator, Py_None);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":349
+  /* "MontyCarlo/materials/pyRelax.pyx":316
  * 
  * 
  *         size = 0             # <<<<<<<<<<<<<<
@@ -3827,7 +3786,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
   __pyx_v_size = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":350
+  /* "MontyCarlo/materials/pyRelax.pyx":317
  * 
  *         size = 0
  *         cdef int ind = 0             # <<<<<<<<<<<<<<
@@ -3836,7 +3795,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
   __pyx_v_ind = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":353
+  /* "MontyCarlo/materials/pyRelax.pyx":320
  * 
  *       #  print("ashdjhsakjhdsakjh -------------")
  *         for i in range(self.Nsh):             # <<<<<<<<<<<<<<
@@ -3848,7 +3807,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_10; __pyx_t_14+=1) {
     __pyx_v_i = __pyx_t_14;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":354
+    /* "MontyCarlo/materials/pyRelax.pyx":321
  *       #  print("ashdjhsakjhdsakjh -------------")
  *         for i in range(self.Nsh):
  *             previous_designator = designator             # <<<<<<<<<<<<<<
@@ -3858,40 +3817,40 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_INCREF(__pyx_v_designator);
     __Pyx_XDECREF_SET(__pyx_v_previous_designator, __pyx_v_designator);
 
-    /* "MontyCarlo/materials/pyRelax.pyx":356
+    /* "MontyCarlo/materials/pyRelax.pyx":323
  *             previous_designator = designator
  * 
  *             designator = DESIGNATORS[i]             # <<<<<<<<<<<<<<
  * 
  *             if designator == previous_designator:
  */
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_DESIGNATORS, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 356, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_DESIGNATORS, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 323, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF_SET(__pyx_v_designator, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":358
+    /* "MontyCarlo/materials/pyRelax.pyx":325
  *             designator = DESIGNATORS[i]
  * 
  *             if designator == previous_designator:             # <<<<<<<<<<<<<<
  *                 print("this happened, line 334")
  *                 continue
  */
-    __pyx_t_2 = PyObject_RichCompare(__pyx_v_designator, __pyx_v_previous_designator, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 358, __pyx_L1_error)
-    __pyx_t_15 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_15 < 0)) __PYX_ERR(0, 358, __pyx_L1_error)
+    __pyx_t_2 = PyObject_RichCompare(__pyx_v_designator, __pyx_v_previous_designator, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 325, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_15 < 0)) __PYX_ERR(0, 325, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_15) {
 
-      /* "MontyCarlo/materials/pyRelax.pyx":359
+      /* "MontyCarlo/materials/pyRelax.pyx":326
  * 
  *             if designator == previous_designator:
  *                 print("this happened, line 334")             # <<<<<<<<<<<<<<
  *                 continue
  * 
  */
-      if (__Pyx_PrintOne(0, __pyx_kp_s_this_happened_line_334) < 0) __PYX_ERR(0, 359, __pyx_L1_error)
+      if (__Pyx_PrintOne(0, __pyx_kp_s_this_happened_line_334) < 0) __PYX_ERR(0, 326, __pyx_L1_error)
 
-      /* "MontyCarlo/materials/pyRelax.pyx":360
+      /* "MontyCarlo/materials/pyRelax.pyx":327
  *             if designator == previous_designator:
  *                 print("this happened, line 334")
  *                 continue             # <<<<<<<<<<<<<<
@@ -3900,7 +3859,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
       goto __pyx_L26_continue;
 
-      /* "MontyCarlo/materials/pyRelax.pyx":358
+      /* "MontyCarlo/materials/pyRelax.pyx":325
  *             designator = DESIGNATORS[i]
  * 
  *             if designator == previous_designator:             # <<<<<<<<<<<<<<
@@ -3909,20 +3868,20 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
     }
 
-    /* "MontyCarlo/materials/pyRelax.pyx":363
+    /* "MontyCarlo/materials/pyRelax.pyx":330
  * 
  * 
  *             rSHELLptr = self.fetchFD(DESIGNATORS[i])             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_DESIGNATORS, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 363, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_DESIGNATORS, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 330, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_21 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_21 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 363, __pyx_L1_error)
+    __pyx_t_21 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_21 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 330, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_rSHELLptr = ((struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom *)__pyx_v_self->__pyx_vtab)->fetchFD(__pyx_v_self, __pyx_t_21);
 
-    /* "MontyCarlo/materials/pyRelax.pyx":370
+    /* "MontyCarlo/materials/pyRelax.pyx":337
  * 
  *            # print("FRAC:", deref(rSHELLptr.frac))
  *             rTrans  = self.data.get((0, 92, 91, designator, 7, 931), None)             # <<<<<<<<<<<<<<
@@ -3931,9 +3890,9 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
     if (unlikely(__pyx_v_self->data == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "get");
-      __PYX_ERR(0, 370, __pyx_L1_error)
+      __PYX_ERR(0, 337, __pyx_L1_error)
     }
-    __pyx_t_2 = PyTuple_New(6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 370, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 337, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_GIVEREF(__pyx_int_0);
@@ -3953,13 +3912,13 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_INCREF(__pyx_int_931);
     __Pyx_GIVEREF(__pyx_int_931);
     PyTuple_SET_ITEM(__pyx_t_2, 5, __pyx_int_931);
-    __pyx_t_3 = __Pyx_PyDict_GetItemDefault(__pyx_v_self->data, __pyx_t_2, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 370, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItemDefault(__pyx_v_self->data, __pyx_t_2, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 337, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF_SET(__pyx_v_rTrans, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":371
+    /* "MontyCarlo/materials/pyRelax.pyx":338
  *            # print("FRAC:", deref(rSHELLptr.frac))
  *             rTrans  = self.data.get((0, 92, 91, designator, 7, 931), None)
  *             nrTrans = self.data.get((0, 92, 91, designator, 9, 932), None)             # <<<<<<<<<<<<<<
@@ -3968,9 +3927,9 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
     if (unlikely(__pyx_v_self->data == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "get");
-      __PYX_ERR(0, 371, __pyx_L1_error)
+      __PYX_ERR(0, 338, __pyx_L1_error)
     }
-    __pyx_t_3 = PyTuple_New(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 371, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 338, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_GIVEREF(__pyx_int_0);
@@ -3990,13 +3949,13 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_INCREF(__pyx_int_932);
     __Pyx_GIVEREF(__pyx_int_932);
     PyTuple_SET_ITEM(__pyx_t_3, 5, __pyx_int_932);
-    __pyx_t_2 = __Pyx_PyDict_GetItemDefault(__pyx_v_self->data, __pyx_t_3, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 371, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_GetItemDefault(__pyx_v_self->data, __pyx_t_3, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 338, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_nrTrans, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":373
+    /* "MontyCarlo/materials/pyRelax.pyx":340
  *             nrTrans = self.data.get((0, 92, 91, designator, 9, 932), None)
  * 
  *             if rTrans is None and nrTrans is None:             # <<<<<<<<<<<<<<
@@ -4016,7 +3975,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __pyx_L30_bool_binop_done:;
     if (__pyx_t_15) {
 
-      /* "MontyCarlo/materials/pyRelax.pyx":374
+      /* "MontyCarlo/materials/pyRelax.pyx":341
  * 
  *             if rTrans is None and nrTrans is None:
  *                 self.NTR.append(0)             # <<<<<<<<<<<<<<
@@ -4025,11 +3984,11 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
       if (unlikely(__pyx_v_self->NTR == Py_None)) {
         PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-        __PYX_ERR(0, 374, __pyx_L1_error)
+        __PYX_ERR(0, 341, __pyx_L1_error)
       }
-      __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_self->NTR, __pyx_int_0); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 374, __pyx_L1_error)
+      __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_self->NTR, __pyx_int_0); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 341, __pyx_L1_error)
 
-      /* "MontyCarlo/materials/pyRelax.pyx":375
+      /* "MontyCarlo/materials/pyRelax.pyx":342
  *             if rTrans is None and nrTrans is None:
  *                 self.NTR.append(0)
  *                 rSHELLptr.dontSIMULATE = 1             # <<<<<<<<<<<<<<
@@ -4038,7 +3997,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
       __pyx_v_rSHELLptr->dontSIMULATE = 1;
 
-      /* "MontyCarlo/materials/pyRelax.pyx":378
+      /* "MontyCarlo/materials/pyRelax.pyx":345
  *                 #rSHELLptr.Nt = 0
  * 
  *                 previous_designator = designator             # <<<<<<<<<<<<<<
@@ -4048,7 +4007,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
       __Pyx_INCREF(__pyx_v_designator);
       __Pyx_DECREF_SET(__pyx_v_previous_designator, __pyx_v_designator);
 
-      /* "MontyCarlo/materials/pyRelax.pyx":380
+      /* "MontyCarlo/materials/pyRelax.pyx":347
  *                 previous_designator = designator
  * 
  *                 continue             # <<<<<<<<<<<<<<
@@ -4057,7 +4016,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
       goto __pyx_L26_continue;
 
-      /* "MontyCarlo/materials/pyRelax.pyx":373
+      /* "MontyCarlo/materials/pyRelax.pyx":340
  *             nrTrans = self.data.get((0, 92, 91, designator, 9, 932), None)
  * 
  *             if rTrans is None and nrTrans is None:             # <<<<<<<<<<<<<<
@@ -4066,19 +4025,19 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
     }
 
-    /* "MontyCarlo/materials/pyRelax.pyx":389
+    /* "MontyCarlo/materials/pyRelax.pyx":356
  * 
  * 
  *             rTrans = np.insert(rTrans, 1, 0, axis = 1)             # <<<<<<<<<<<<<<
  * 
  *             _trans = append(rTrans, nrTrans)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 389, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 356, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_insert); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 389, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_insert); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 356, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 389, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 356, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_v_rTrans);
     __Pyx_GIVEREF(__pyx_v_rTrans);
@@ -4089,10 +4048,10 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_GIVEREF(__pyx_int_0);
     PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_int_0);
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 389, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 356, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_axis, __pyx_int_1) < 0) __PYX_ERR(0, 389, __pyx_L1_error)
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 389, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_axis, __pyx_int_1) < 0) __PYX_ERR(0, 356, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 356, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4100,14 +4059,14 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_DECREF_SET(__pyx_v_rTrans, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":391
+    /* "MontyCarlo/materials/pyRelax.pyx":358
  *             rTrans = np.insert(rTrans, 1, 0, axis = 1)
  * 
  *             _trans = append(rTrans, nrTrans)             # <<<<<<<<<<<<<<
  *             _trans = concatenate((rTrans, nrTrans), axis = 0)
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_append); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 391, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_append); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 358, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_2 = NULL;
     __pyx_t_21 = 0;
@@ -4124,7 +4083,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_rTrans, __pyx_v_nrTrans};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 391, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 358, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_4);
     } else
@@ -4132,13 +4091,13 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_rTrans, __pyx_v_nrTrans};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 391, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 358, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_4);
     } else
     #endif
     {
-      __pyx_t_3 = PyTuple_New(2+__pyx_t_21); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 391, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(2+__pyx_t_21); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 358, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       if (__pyx_t_2) {
         __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2); __pyx_t_2 = NULL;
@@ -4149,7 +4108,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
       __Pyx_INCREF(__pyx_v_nrTrans);
       __Pyx_GIVEREF(__pyx_v_nrTrans);
       PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_21, __pyx_v_nrTrans);
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 391, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 358, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
@@ -4157,16 +4116,16 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_XDECREF_SET(__pyx_v__trans, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":392
+    /* "MontyCarlo/materials/pyRelax.pyx":359
  * 
  *             _trans = append(rTrans, nrTrans)
  *             _trans = concatenate((rTrans, nrTrans), axis = 0)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_concatenate); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 392, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_concatenate); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 392, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_INCREF(__pyx_v_rTrans);
     __Pyx_GIVEREF(__pyx_v_rTrans);
@@ -4174,15 +4133,15 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_INCREF(__pyx_v_nrTrans);
     __Pyx_GIVEREF(__pyx_v_nrTrans);
     PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_v_nrTrans);
-    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 392, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5);
     __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 392, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_axis, __pyx_int_0) < 0) __PYX_ERR(0, 392, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 392, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_axis, __pyx_int_0) < 0) __PYX_ERR(0, 359, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 359, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4190,34 +4149,34 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_DECREF_SET(__pyx_v__trans, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":395
+    /* "MontyCarlo/materials/pyRelax.pyx":362
  * 
  * 
  *             probs = _trans[:, 2]             # <<<<<<<<<<<<<<
  *             probs = probs/sum(probs)
  *             self.PROBS.append(probs)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v__trans, __pyx_tuple__6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 395, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v__trans, __pyx_tuple__6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 362, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_XDECREF_SET(__pyx_v_probs, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":396
+    /* "MontyCarlo/materials/pyRelax.pyx":363
  * 
  *             probs = _trans[:, 2]
  *             probs = probs/sum(probs)             # <<<<<<<<<<<<<<
  *             self.PROBS.append(probs)
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_v_probs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 396, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_v_probs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 363, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_v_probs, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 396, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_v_probs, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 363, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF_SET(__pyx_v_probs, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":397
+    /* "MontyCarlo/materials/pyRelax.pyx":364
  *             probs = _trans[:, 2]
  *             probs = probs/sum(probs)
  *             self.PROBS.append(probs)             # <<<<<<<<<<<<<<
@@ -4226,24 +4185,24 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
     if (unlikely(__pyx_v_self->PROBS == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-      __PYX_ERR(0, 397, __pyx_L1_error)
+      __PYX_ERR(0, 364, __pyx_L1_error)
     }
-    __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_self->PROBS, __pyx_v_probs); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 397, __pyx_L1_error)
+    __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_self->PROBS, __pyx_v_probs); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 364, __pyx_L1_error)
 
-    /* "MontyCarlo/materials/pyRelax.pyx":399
+    /* "MontyCarlo/materials/pyRelax.pyx":366
  *             self.PROBS.append(probs)
  * 
  *             indexes = np.arange(0, len(probs))             # <<<<<<<<<<<<<<
  *             ALIASES = makeAlias(indexes, probs)
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 399, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 366, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 366, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_8 = PyObject_Length(__pyx_v_probs); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 399, __pyx_L1_error)
-    __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 399, __pyx_L1_error)
+    __pyx_t_8 = PyObject_Length(__pyx_v_probs); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 366, __pyx_L1_error)
+    __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 366, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_4 = NULL;
     __pyx_t_21 = 0;
@@ -4260,7 +4219,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_int_0, __pyx_t_2};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 399, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4269,14 +4228,14 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_int_0, __pyx_t_2};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 399, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_11 = PyTuple_New(2+__pyx_t_21); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 399, __pyx_L1_error)
+      __pyx_t_11 = PyTuple_New(2+__pyx_t_21); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -4287,7 +4246,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_21, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_11, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 399, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_11, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 366, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     }
@@ -4295,14 +4254,14 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_XDECREF_SET(__pyx_v_indexes, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":400
+    /* "MontyCarlo/materials/pyRelax.pyx":367
  * 
  *             indexes = np.arange(0, len(probs))
  *             ALIASES = makeAlias(indexes, probs)             # <<<<<<<<<<<<<<
  * 
  *             ## construct array of transitions for this shell
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_makeAlias); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_makeAlias); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 367, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_11 = NULL;
     __pyx_t_21 = 0;
@@ -4319,7 +4278,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[3] = {__pyx_t_11, __pyx_v_indexes, __pyx_v_probs};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 400, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 367, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
       __Pyx_GOTREF(__pyx_t_5);
     } else
@@ -4327,13 +4286,13 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[3] = {__pyx_t_11, __pyx_v_indexes, __pyx_v_probs};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 400, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_21, 2+__pyx_t_21); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 367, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
       __Pyx_GOTREF(__pyx_t_5);
     } else
     #endif
     {
-      __pyx_t_2 = PyTuple_New(2+__pyx_t_21); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 400, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(2+__pyx_t_21); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 367, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       if (__pyx_t_11) {
         __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_11); __pyx_t_11 = NULL;
@@ -4344,7 +4303,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
       __Pyx_INCREF(__pyx_v_probs);
       __Pyx_GIVEREF(__pyx_v_probs);
       PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_21, __pyx_v_probs);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 400, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 367, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
@@ -4352,17 +4311,17 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __Pyx_XDECREF_SET(__pyx_v_ALIASES, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":404
+    /* "MontyCarlo/materials/pyRelax.pyx":371
  *             ## construct array of transitions for this shell
  * 
  *             Ntr = len(_trans)             # <<<<<<<<<<<<<<
  *             self.NTR.append(Ntr)
  * 
  */
-    __pyx_t_8 = PyObject_Length(__pyx_v__trans); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 404, __pyx_L1_error)
+    __pyx_t_8 = PyObject_Length(__pyx_v__trans); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 371, __pyx_L1_error)
     __pyx_v_Ntr = __pyx_t_8;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":405
+    /* "MontyCarlo/materials/pyRelax.pyx":372
  * 
  *             Ntr = len(_trans)
  *             self.NTR.append(Ntr)             # <<<<<<<<<<<<<<
@@ -4371,26 +4330,26 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
     if (unlikely(__pyx_v_self->NTR == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-      __PYX_ERR(0, 405, __pyx_L1_error)
+      __PYX_ERR(0, 372, __pyx_L1_error)
     }
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_Ntr); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 405, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_Ntr); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 372, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_self->NTR, __pyx_t_5); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 405, __pyx_L1_error)
+    __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_self->NTR, __pyx_t_5); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 372, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":412
+    /* "MontyCarlo/materials/pyRelax.pyx":379
  * 
  * 
  *             RAD = []             # <<<<<<<<<<<<<<
  *             for ii in range(Ntr):
  * 
  */
-    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 412, __pyx_L1_error)
+    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 379, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_XDECREF_SET(__pyx_v_RAD, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":413
+    /* "MontyCarlo/materials/pyRelax.pyx":380
  * 
  *             RAD = []
  *             for ii in range(Ntr):             # <<<<<<<<<<<<<<
@@ -4402,39 +4361,39 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     for (__pyx_t_26 = 0; __pyx_t_26 < __pyx_t_25; __pyx_t_26+=1) {
       __pyx_v_ii = __pyx_t_26;
 
-      /* "MontyCarlo/materials/pyRelax.pyx":417
+      /* "MontyCarlo/materials/pyRelax.pyx":384
  *                 #ptr = rTRANSITIONarr[i]
  * 
  *                 trans = _trans[ii]             # <<<<<<<<<<<<<<
  *                 j, k, p, E = trans[0], int(trans[1]), trans[2], trans[3]
  *                 E = 1e6*E
  */
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v__trans, __pyx_v_ii, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 417, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v__trans, __pyx_v_ii, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 384, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_XDECREF_SET(__pyx_v_trans, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "MontyCarlo/materials/pyRelax.pyx":418
+      /* "MontyCarlo/materials/pyRelax.pyx":385
  * 
  *                 trans = _trans[ii]
  *                 j, k, p, E = trans[0], int(trans[1]), trans[2], trans[3]             # <<<<<<<<<<<<<<
  *                 E = 1e6*E
  *                 if k == 0:
  */
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_trans, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 418, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_trans, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 385, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_trans, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 418, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_trans, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 385, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 418, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 385, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_trans, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 418, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_trans, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 385, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 418, __pyx_L1_error)
+      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 385, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_trans, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 418, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_trans, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 385, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_27 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_27 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 418, __pyx_L1_error)
+      __pyx_t_27 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_27 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 385, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_5);
       __pyx_t_5 = 0;
@@ -4443,7 +4402,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
       __pyx_v_p = __pyx_t_7;
       __pyx_v_E = __pyx_t_27;
 
-      /* "MontyCarlo/materials/pyRelax.pyx":419
+      /* "MontyCarlo/materials/pyRelax.pyx":386
  *                 trans = _trans[ii]
  *                 j, k, p, E = trans[0], int(trans[1]), trans[2], trans[3]
  *                 E = 1e6*E             # <<<<<<<<<<<<<<
@@ -4452,39 +4411,39 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
       __pyx_v_E = (1e6 * __pyx_v_E);
 
-      /* "MontyCarlo/materials/pyRelax.pyx":420
+      /* "MontyCarlo/materials/pyRelax.pyx":387
  *                 j, k, p, E = trans[0], int(trans[1]), trans[2], trans[3]
  *                 E = 1e6*E
  *                 if k == 0:             # <<<<<<<<<<<<<<
  *                     #rSHELLptr.constructRadiative( ii, E, self.fetchFD(j))
  * 
  */
-      __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_v_k, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 420, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_v_k, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 387, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_15 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_15 < 0)) __PYX_ERR(0, 420, __pyx_L1_error)
+      __pyx_t_15 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_15 < 0)) __PYX_ERR(0, 387, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       if (__pyx_t_15) {
 
-        /* "MontyCarlo/materials/pyRelax.pyx":425
+        /* "MontyCarlo/materials/pyRelax.pyx":392
  * 
  *                     #self.rTRANSITIONarr[size + ii] = constructRadiative(E, self.fetchFD(j))
  *                     RAD.append(0)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-        __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_RAD, __pyx_int_0); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 425, __pyx_L1_error)
+        __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_RAD, __pyx_int_0); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 392, __pyx_L1_error)
 
-        /* "MontyCarlo/materials/pyRelax.pyx":432
+        /* "MontyCarlo/materials/pyRelax.pyx":399
  * 
  * 
  *                     self.rTRANSITIONarr[size + ii].j = self.fetchFD(j)             # <<<<<<<<<<<<<<
  *                     #rTRANSITIONarr[ii].k = &NULL_SHELL
  *                     self.rTRANSITIONarr[size + ii].E = E
  */
-        __pyx_t_28 = __Pyx_PyInt_As_int(__pyx_v_j); if (unlikely((__pyx_t_28 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 432, __pyx_L1_error)
+        __pyx_t_28 = __Pyx_PyInt_As_int(__pyx_v_j); if (unlikely((__pyx_t_28 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 399, __pyx_L1_error)
         (__pyx_v_self->rTRANSITIONarr[(__pyx_v_size + __pyx_v_ii)]).j = ((struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom *)__pyx_v_self->__pyx_vtab)->fetchFD(__pyx_v_self, __pyx_t_28);
 
-        /* "MontyCarlo/materials/pyRelax.pyx":434
+        /* "MontyCarlo/materials/pyRelax.pyx":401
  *                     self.rTRANSITIONarr[size + ii].j = self.fetchFD(j)
  *                     #rTRANSITIONarr[ii].k = &NULL_SHELL
  *                     self.rTRANSITIONarr[size + ii].E = E             # <<<<<<<<<<<<<<
@@ -4493,7 +4452,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
         (__pyx_v_self->rTRANSITIONarr[(__pyx_v_size + __pyx_v_ii)]).E = __pyx_v_E;
 
-        /* "MontyCarlo/materials/pyRelax.pyx":436
+        /* "MontyCarlo/materials/pyRelax.pyx":403
  *                     self.rTRANSITIONarr[size + ii].E = E
  * 
  *                     setADRESS_RAD(  &self.rTRANSITIONarr[size + ii]  )             # <<<<<<<<<<<<<<
@@ -4502,7 +4461,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
         model::setADRESS_RAD((&(__pyx_v_self->rTRANSITIONarr[(__pyx_v_size + __pyx_v_ii)])));
 
-        /* "MontyCarlo/materials/pyRelax.pyx":441
+        /* "MontyCarlo/materials/pyRelax.pyx":408
  *                     #self.rTRANSITIONarr[size + ii].perform =  getRADadress()
  * 
  *                     continue             # <<<<<<<<<<<<<<
@@ -4511,7 +4470,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
         goto __pyx_L32_continue;
 
-        /* "MontyCarlo/materials/pyRelax.pyx":420
+        /* "MontyCarlo/materials/pyRelax.pyx":387
  *                 j, k, p, E = trans[0], int(trans[1]), trans[2], trans[3]
  *                 E = 1e6*E
  *                 if k == 0:             # <<<<<<<<<<<<<<
@@ -4520,36 +4479,36 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
       }
 
-      /* "MontyCarlo/materials/pyRelax.pyx":444
+      /* "MontyCarlo/materials/pyRelax.pyx":411
  *                 #rSHELLptr.constructnonRadiative(ii, E, self.fetchFD(j), self.fetchFD(k))
  *                 #self.rTRANSITIONarr[size + ii] = constructnonRadiative(E, self.fetchFD(j), self.fetchFD(k))
  *                 RAD.append(1)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-      __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_RAD, __pyx_int_1); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 444, __pyx_L1_error)
+      __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_RAD, __pyx_int_1); if (unlikely(__pyx_t_24 == ((int)-1))) __PYX_ERR(0, 411, __pyx_L1_error)
 
-      /* "MontyCarlo/materials/pyRelax.pyx":448
+      /* "MontyCarlo/materials/pyRelax.pyx":415
  * 
  *                 #rSHELLptr.newTransition(self.fetchFD(j), self.fetchFD(k), p, E, False)
  *                 self.rTRANSITIONarr[size + ii].j = self.fetchFD(j)             # <<<<<<<<<<<<<<
  *                 self.rTRANSITIONarr[size + ii].k = self.fetchFD(k)
  *                 self.rTRANSITIONarr[size + ii].E = E
  */
-      __pyx_t_28 = __Pyx_PyInt_As_int(__pyx_v_j); if (unlikely((__pyx_t_28 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 448, __pyx_L1_error)
+      __pyx_t_28 = __Pyx_PyInt_As_int(__pyx_v_j); if (unlikely((__pyx_t_28 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 415, __pyx_L1_error)
       (__pyx_v_self->rTRANSITIONarr[(__pyx_v_size + __pyx_v_ii)]).j = ((struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom *)__pyx_v_self->__pyx_vtab)->fetchFD(__pyx_v_self, __pyx_t_28);
 
-      /* "MontyCarlo/materials/pyRelax.pyx":449
+      /* "MontyCarlo/materials/pyRelax.pyx":416
  *                 #rSHELLptr.newTransition(self.fetchFD(j), self.fetchFD(k), p, E, False)
  *                 self.rTRANSITIONarr[size + ii].j = self.fetchFD(j)
  *                 self.rTRANSITIONarr[size + ii].k = self.fetchFD(k)             # <<<<<<<<<<<<<<
  *                 self.rTRANSITIONarr[size + ii].E = E
  *                 setADRESS_NONRAD(  &self.rTRANSITIONarr[size + ii]  )
  */
-      __pyx_t_28 = __Pyx_PyInt_As_int(__pyx_v_k); if (unlikely((__pyx_t_28 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 449, __pyx_L1_error)
+      __pyx_t_28 = __Pyx_PyInt_As_int(__pyx_v_k); if (unlikely((__pyx_t_28 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 416, __pyx_L1_error)
       (__pyx_v_self->rTRANSITIONarr[(__pyx_v_size + __pyx_v_ii)]).k = ((struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom *)__pyx_v_self->__pyx_vtab)->fetchFD(__pyx_v_self, __pyx_t_28);
 
-      /* "MontyCarlo/materials/pyRelax.pyx":450
+      /* "MontyCarlo/materials/pyRelax.pyx":417
  *                 self.rTRANSITIONarr[size + ii].j = self.fetchFD(j)
  *                 self.rTRANSITIONarr[size + ii].k = self.fetchFD(k)
  *                 self.rTRANSITIONarr[size + ii].E = E             # <<<<<<<<<<<<<<
@@ -4558,7 +4517,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
  */
       (__pyx_v_self->rTRANSITIONarr[(__pyx_v_size + __pyx_v_ii)]).E = __pyx_v_E;
 
-      /* "MontyCarlo/materials/pyRelax.pyx":451
+      /* "MontyCarlo/materials/pyRelax.pyx":418
  *                 self.rTRANSITIONarr[size + ii].k = self.fetchFD(k)
  *                 self.rTRANSITIONarr[size + ii].E = E
  *                 setADRESS_NONRAD(  &self.rTRANSITIONarr[size + ii]  )             # <<<<<<<<<<<<<<
@@ -4569,7 +4528,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
       __pyx_L32_continue:;
     }
 
-    /* "MontyCarlo/materials/pyRelax.pyx":454
+    /* "MontyCarlo/materials/pyRelax.pyx":421
  * 
  *             #print(ALIASES)
  *             for ii in range(Ntr):             # <<<<<<<<<<<<<<
@@ -4581,40 +4540,40 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     for (__pyx_t_26 = 0; __pyx_t_26 < __pyx_t_25; __pyx_t_26+=1) {
       __pyx_v_ii = __pyx_t_26;
 
-      /* "MontyCarlo/materials/pyRelax.pyx":456
+      /* "MontyCarlo/materials/pyRelax.pyx":423
  *             for ii in range(Ntr):
  *                 #rSHELLptr.set_alias(ii, ALIASES[ii][1],  ALIASES[ii][2],  RAD[ii])
  *                 self.rTRANSITIONarr[size + ii].p = <double>ALIASES[ii][1]             # <<<<<<<<<<<<<<
  *                 self.rTRANSITIONarr[size + ii].t = &(self.rTRANSITIONarr[size + <int>ALIASES[ii][2]])
  * 
  */
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_ALIASES, __pyx_v_ii, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 456, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_ALIASES, __pyx_v_ii, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 423, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 456, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 423, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_27 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_27 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 456, __pyx_L1_error)
+      __pyx_t_27 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_27 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 423, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       (__pyx_v_self->rTRANSITIONarr[(__pyx_v_size + __pyx_v_ii)]).p = ((double)__pyx_t_27);
 
-      /* "MontyCarlo/materials/pyRelax.pyx":457
+      /* "MontyCarlo/materials/pyRelax.pyx":424
  *                 #rSHELLptr.set_alias(ii, ALIASES[ii][1],  ALIASES[ii][2],  RAD[ii])
  *                 self.rTRANSITIONarr[size + ii].p = <double>ALIASES[ii][1]
  *                 self.rTRANSITIONarr[size + ii].t = &(self.rTRANSITIONarr[size + <int>ALIASES[ii][2]])             # <<<<<<<<<<<<<<
  * 
  * 
  */
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_ALIASES, __pyx_v_ii, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 457, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_ALIASES, __pyx_v_ii, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 424, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_5, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 457, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_5, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 424, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_28 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_28 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 457, __pyx_L1_error)
+      __pyx_t_28 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_28 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 424, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       (__pyx_v_self->rTRANSITIONarr[(__pyx_v_size + __pyx_v_ii)]).t = (&(__pyx_v_self->rTRANSITIONarr[(__pyx_v_size + ((int)__pyx_t_28))]));
     }
 
-    /* "MontyCarlo/materials/pyRelax.pyx":460
+    /* "MontyCarlo/materials/pyRelax.pyx":427
  * 
  * 
  *             rSHELLptr.setTRANSITIONS(&self.rTRANSITIONarr[size], Ntr - 1)             # <<<<<<<<<<<<<<
@@ -4625,10 +4584,10 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
       __pyx_v_rSHELLptr->setTRANSITIONS((&(__pyx_v_self->rTRANSITIONarr[__pyx_v_size])), (__pyx_v_Ntr - 1));
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 460, __pyx_L1_error)
+      __PYX_ERR(0, 427, __pyx_L1_error)
     }
 
-    /* "MontyCarlo/materials/pyRelax.pyx":461
+    /* "MontyCarlo/materials/pyRelax.pyx":428
  * 
  *             rSHELLptr.setTRANSITIONS(&self.rTRANSITIONarr[size], Ntr - 1)
  *             size += Ntr             # <<<<<<<<<<<<<<
@@ -4639,7 +4598,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __pyx_L26_continue:;
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":464
+  /* "MontyCarlo/materials/pyRelax.pyx":431
  * 
  * 
  *         for i in range(self.Nsh):             # <<<<<<<<<<<<<<
@@ -4651,7 +4610,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_10; __pyx_t_14+=1) {
     __pyx_v_i = __pyx_t_14;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":465
+    /* "MontyCarlo/materials/pyRelax.pyx":432
  * 
  *         for i in range(self.Nsh):
  *             test_frac = deref(self.rSHELLarr[i].frac)             # <<<<<<<<<<<<<<
@@ -4661,9 +4620,9 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
     __pyx_v_test_frac = (*(__pyx_v_self->rSHELLarr[__pyx_v_i]).frac);
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":92
+  /* "MontyCarlo/materials/pyRelax.pyx":74
  * 
- * 
+ * cdef class Atom:
  *     def __init__(self, Z, double cut_off):             # <<<<<<<<<<<<<<
  *         cdef int i
  * 
@@ -4704,7 +4663,7 @@ static int __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom___init__(struct __pyx
   return __pyx_r;
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":471
+/* "MontyCarlo/materials/pyRelax.pyx":438
  * 
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -4727,7 +4686,7 @@ static void __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_2__dealloc__(struct 
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":473
+  /* "MontyCarlo/materials/pyRelax.pyx":440
  *     def __dealloc__(self):
  * 
  *         free(self.rTRANSITIONarr)             # <<<<<<<<<<<<<<
@@ -4736,7 +4695,7 @@ static void __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_2__dealloc__(struct 
  */
   free(__pyx_v_self->rTRANSITIONarr);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":474
+  /* "MontyCarlo/materials/pyRelax.pyx":441
  * 
  *         free(self.rTRANSITIONarr)
  *         free(self.temp_frac)             # <<<<<<<<<<<<<<
@@ -4745,7 +4704,7 @@ static void __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_2__dealloc__(struct 
  */
   free(__pyx_v_self->temp_frac);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":475
+  /* "MontyCarlo/materials/pyRelax.pyx":442
  *         free(self.rTRANSITIONarr)
  *         free(self.temp_frac)
  *         free(self.rSHELLarr)             # <<<<<<<<<<<<<<
@@ -4754,7 +4713,7 @@ static void __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_2__dealloc__(struct 
  */
   free(__pyx_v_self->rSHELLarr);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":471
+  /* "MontyCarlo/materials/pyRelax.pyx":438
  * 
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -4766,7 +4725,7 @@ static void __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_2__dealloc__(struct 
   __Pyx_RefNannyFinishContext();
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":481
+/* "MontyCarlo/materials/pyRelax.pyx":448
  * 
  * 
  *     def sampleT(self, int shell_index, int N):             # <<<<<<<<<<<<<<
@@ -4808,11 +4767,11 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_5sampleT(PyObje
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_N)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("sampleT", 1, 2, 2, 1); __PYX_ERR(0, 481, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("sampleT", 1, 2, 2, 1); __PYX_ERR(0, 448, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "sampleT") < 0)) __PYX_ERR(0, 481, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "sampleT") < 0)) __PYX_ERR(0, 448, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4820,12 +4779,12 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_5sampleT(PyObje
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_shell_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_shell_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 481, __pyx_L3_error)
-    __pyx_v_N = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 481, __pyx_L3_error)
+    __pyx_v_shell_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_shell_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 448, __pyx_L3_error)
+    __pyx_v_N = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 448, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("sampleT", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 481, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("sampleT", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 448, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("MontyCarlo.materials.pyRelax.Atom.sampleT", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4863,29 +4822,29 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_4sampleT(struct
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sampleT", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":483
+  /* "MontyCarlo/materials/pyRelax.pyx":450
  *     def sampleT(self, int shell_index, int N):
  * 
  *         from numpy.random import rand             # <<<<<<<<<<<<<<
  *         cdef rShell* shell = self.fetchFI(shell_index)
  * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 483, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 450, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_rand);
   __Pyx_GIVEREF(__pyx_n_s_rand);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_rand);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy_random, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 483, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy_random, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_rand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 483, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_rand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 450, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_t_1);
   __pyx_v_rand = __pyx_t_1;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":484
+  /* "MontyCarlo/materials/pyRelax.pyx":451
  * 
  *         from numpy.random import rand
  *         cdef rShell* shell = self.fetchFI(shell_index)             # <<<<<<<<<<<<<<
@@ -4894,31 +4853,31 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_4sampleT(struct
  */
   __pyx_v_shell = ((struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom *)__pyx_v_self->__pyx_vtab)->fetchFI(__pyx_v_self, __pyx_v_shell_index);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":486
+  /* "MontyCarlo/materials/pyRelax.pyx":453
  *         cdef rShell* shell = self.fetchFI(shell_index)
  * 
  *         import time             # <<<<<<<<<<<<<<
  *         cdef double t0, tf
  *         cdef int i
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 486, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 453, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_time = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":490
+  /* "MontyCarlo/materials/pyRelax.pyx":457
  *         cdef int i
  *         cdef double r
  *         cdef int[::1] sample = np.arange(0, N)             # <<<<<<<<<<<<<<
  * 
  *         t0 = time.perf_counter_ns()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 490, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 457, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 490, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 457, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 490, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 457, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -4935,7 +4894,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_4sampleT(struct
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_int_0, __pyx_t_1};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 490, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 457, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4944,14 +4903,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_4sampleT(struct
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_int_0, __pyx_t_1};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 490, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 457, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 490, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 457, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -4962,25 +4921,25 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_4sampleT(struct
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 490, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 457, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 490, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 457, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_sample = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":492
+  /* "MontyCarlo/materials/pyRelax.pyx":459
  *         cdef int[::1] sample = np.arange(0, N)
  * 
  *         t0 = time.perf_counter_ns()             # <<<<<<<<<<<<<<
  *         for i in range(N):
  *             shell.sample_transition()
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 492, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 459, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -4994,14 +4953,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_4sampleT(struct
   }
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 492, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 459, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 492, __pyx_L1_error)
+  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 459, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_t0 = __pyx_t_8;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":493
+  /* "MontyCarlo/materials/pyRelax.pyx":460
  * 
  *         t0 = time.perf_counter_ns()
  *         for i in range(N):             # <<<<<<<<<<<<<<
@@ -5013,7 +4972,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_4sampleT(struct
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":494
+    /* "MontyCarlo/materials/pyRelax.pyx":461
  *         t0 = time.perf_counter_ns()
  *         for i in range(N):
  *             shell.sample_transition()             # <<<<<<<<<<<<<<
@@ -5024,18 +4983,18 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_4sampleT(struct
       __pyx_v_shell->sample_transition();
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 494, __pyx_L1_error)
+      __PYX_ERR(0, 461, __pyx_L1_error)
     }
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":495
+  /* "MontyCarlo/materials/pyRelax.pyx":462
  *         for i in range(N):
  *             shell.sample_transition()
  *         tf = time.perf_counter_ns()             # <<<<<<<<<<<<<<
  *         print(f"{(tf-t0)/N}ns per run")
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 495, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 462, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -5049,14 +5008,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_4sampleT(struct
   }
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 495, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 462, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 495, __pyx_L1_error)
+  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 462, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_tf = __pyx_t_8;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":496
+  /* "MontyCarlo/materials/pyRelax.pyx":463
  *             shell.sample_transition()
  *         tf = time.perf_counter_ns()
  *         print(f"{(tf-t0)/N}ns per run")             # <<<<<<<<<<<<<<
@@ -5066,20 +5025,20 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_4sampleT(struct
   __pyx_t_8 = (__pyx_v_tf - __pyx_v_t0);
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 496, __pyx_L1_error)
+    __PYX_ERR(0, 463, __pyx_L1_error)
   }
-  __pyx_t_2 = PyFloat_FromDouble((__pyx_t_8 / __pyx_v_N)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 496, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble((__pyx_t_8 / __pyx_v_N)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 463, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 496, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 463, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_t_3, __pyx_kp_u_ns_per_run); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 496, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_t_3, __pyx_kp_u_ns_per_run); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 463, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 496, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 463, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":481
+  /* "MontyCarlo/materials/pyRelax.pyx":448
  * 
  * 
  *     def sampleT(self, int shell_index, int N):             # <<<<<<<<<<<<<<
@@ -5108,7 +5067,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_4sampleT(struct
   return __pyx_r;
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":498
+/* "MontyCarlo/materials/pyRelax.pyx":465
  *         print(f"{(tf-t0)/N}ns per run")
  * 
  *     def sample(self, int shell_index, int N):             # <<<<<<<<<<<<<<
@@ -5150,11 +5109,11 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_7sample(PyObjec
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_N)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("sample", 1, 2, 2, 1); __PYX_ERR(0, 498, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("sample", 1, 2, 2, 1); __PYX_ERR(0, 465, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "sample") < 0)) __PYX_ERR(0, 498, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "sample") < 0)) __PYX_ERR(0, 465, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5162,12 +5121,12 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_7sample(PyObjec
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_shell_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_shell_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 498, __pyx_L3_error)
-    __pyx_v_N = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 498, __pyx_L3_error)
+    __pyx_v_shell_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_shell_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 465, __pyx_L3_error)
+    __pyx_v_N = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 465, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("sample", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 498, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("sample", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 465, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("MontyCarlo.materials.pyRelax.Atom.sample", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5208,29 +5167,29 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sample", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":500
+  /* "MontyCarlo/materials/pyRelax.pyx":467
  *     def sample(self, int shell_index, int N):
  * 
  *         from numpy.random import rand             # <<<<<<<<<<<<<<
  *         cdef rShell* shell = self.fetchFI(shell_index)
  * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 500, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_rand);
   __Pyx_GIVEREF(__pyx_n_s_rand);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_rand);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy_random, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 500, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy_random, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_rand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 500, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_rand); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_t_1);
   __pyx_v_rand = __pyx_t_1;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":501
+  /* "MontyCarlo/materials/pyRelax.pyx":468
  * 
  *         from numpy.random import rand
  *         cdef rShell* shell = self.fetchFI(shell_index)             # <<<<<<<<<<<<<<
@@ -5239,31 +5198,31 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
  */
   __pyx_v_shell = ((struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom *)__pyx_v_self->__pyx_vtab)->fetchFI(__pyx_v_self, __pyx_v_shell_index);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":503
+  /* "MontyCarlo/materials/pyRelax.pyx":470
  *         cdef rShell* shell = self.fetchFI(shell_index)
  * 
  *         import time             # <<<<<<<<<<<<<<
  *         cdef double t0, tf
  *         cdef int i
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 503, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 470, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_time = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":507
+  /* "MontyCarlo/materials/pyRelax.pyx":474
  *         cdef int i
  *         cdef double r
  *         cdef int[::1] sample = np.arange(0, N)             # <<<<<<<<<<<<<<
  * 
  *         t0 = time.perf_counter_ns()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 507, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 507, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 507, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -5280,7 +5239,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_int_0, __pyx_t_1};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 507, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 474, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5289,14 +5248,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_int_0, __pyx_t_1};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 507, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 474, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 507, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 474, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -5307,25 +5266,25 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 507, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 474, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 507, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_sample = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":509
+  /* "MontyCarlo/materials/pyRelax.pyx":476
  *         cdef int[::1] sample = np.arange(0, N)
  * 
  *         t0 = time.perf_counter_ns()             # <<<<<<<<<<<<<<
  *         for i in range(N):
  *             sample[i] = <int> shell.sample_transition()
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 509, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -5339,14 +5298,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
   }
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 509, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 509, __pyx_L1_error)
+  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_t0 = __pyx_t_8;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":510
+  /* "MontyCarlo/materials/pyRelax.pyx":477
  * 
  *         t0 = time.perf_counter_ns()
  *         for i in range(N):             # <<<<<<<<<<<<<<
@@ -5358,7 +5317,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":511
+    /* "MontyCarlo/materials/pyRelax.pyx":478
  *         t0 = time.perf_counter_ns()
  *         for i in range(N):
  *             sample[i] = <int> shell.sample_transition()             # <<<<<<<<<<<<<<
@@ -5369,7 +5328,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
       __pyx_t_11 = __pyx_v_shell->sample_transition();
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 511, __pyx_L1_error)
+      __PYX_ERR(0, 478, __pyx_L1_error)
     }
     __pyx_t_12 = __pyx_v_i;
     __pyx_t_13 = -1;
@@ -5379,19 +5338,19 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
     } else if (unlikely(__pyx_t_12 >= __pyx_v_sample.shape[0])) __pyx_t_13 = 0;
     if (unlikely(__pyx_t_13 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_13);
-      __PYX_ERR(0, 511, __pyx_L1_error)
+      __PYX_ERR(0, 478, __pyx_L1_error)
     }
     *((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_sample.data) + __pyx_t_12)) )) = ((int)__pyx_t_11);
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":512
+  /* "MontyCarlo/materials/pyRelax.pyx":479
  *         for i in range(N):
  *             sample[i] = <int> shell.sample_transition()
  *         tf = time.perf_counter_ns()             # <<<<<<<<<<<<<<
  *         print(f"{(tf-t0)/N}ns per run")
  *         return sample
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 512, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 479, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -5405,14 +5364,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
   }
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 512, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 479, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 512, __pyx_L1_error)
+  __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 479, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_tf = __pyx_t_8;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":513
+  /* "MontyCarlo/materials/pyRelax.pyx":480
  *             sample[i] = <int> shell.sample_transition()
  *         tf = time.perf_counter_ns()
  *         print(f"{(tf-t0)/N}ns per run")             # <<<<<<<<<<<<<<
@@ -5422,20 +5381,20 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
   __pyx_t_8 = (__pyx_v_tf - __pyx_v_t0);
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 513, __pyx_L1_error)
+    __PYX_ERR(0, 480, __pyx_L1_error)
   }
-  __pyx_t_2 = PyFloat_FromDouble((__pyx_t_8 / __pyx_v_N)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 513, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble((__pyx_t_8 / __pyx_v_N)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 480, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 513, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_FormatSimple(__pyx_t_2, __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 480, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_t_3, __pyx_kp_u_ns_per_run); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 513, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyUnicode_Concat(__pyx_t_3, __pyx_kp_u_ns_per_run); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 480, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 513, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, __pyx_t_2) < 0) __PYX_ERR(0, 480, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":514
+  /* "MontyCarlo/materials/pyRelax.pyx":481
  *         tf = time.perf_counter_ns()
  *         print(f"{(tf-t0)/N}ns per run")
  *         return sample             # <<<<<<<<<<<<<<
@@ -5443,13 +5402,13 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_sample, 1, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_sample, 1, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 481, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":498
+  /* "MontyCarlo/materials/pyRelax.pyx":465
  *         print(f"{(tf-t0)/N}ns per run")
  * 
  *     def sample(self, int shell_index, int N):             # <<<<<<<<<<<<<<
@@ -5476,7 +5435,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_6sample(struct 
   return __pyx_r;
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":521
+/* "MontyCarlo/materials/pyRelax.pyx":488
  * 
  * 
  *     cdef rShell* fetchFD(self, int designator):             # <<<<<<<<<<<<<<
@@ -5502,7 +5461,7 @@ static model::Shell *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_fetchFD(stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fetchFD", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":524
+  /* "MontyCarlo/materials/pyRelax.pyx":491
  *          """Takes a EADL shell designator and returns a reference to an rShell object"""
  *          cdef int i
  *          for i in range(self.Nsh):             # <<<<<<<<<<<<<<
@@ -5514,14 +5473,14 @@ static model::Shell *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_fetchFD(stru
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":525
+    /* "MontyCarlo/materials/pyRelax.pyx":492
  *          cdef int i
  *          for i in range(self.Nsh):
  *              if self.DESIGNATORS[i] == designator:             # <<<<<<<<<<<<<<
  *                  return self.rATOM.fetchFI(i)
  *          else:
  */
-    if (unlikely(!__pyx_v_self->DESIGNATORS.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 525, __pyx_L1_error)}
+    if (unlikely(!__pyx_v_self->DESIGNATORS.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 492, __pyx_L1_error)}
     __pyx_t_4 = __pyx_v_i;
     __pyx_t_5 = -1;
     if (__pyx_t_4 < 0) {
@@ -5530,12 +5489,12 @@ static model::Shell *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_fetchFD(stru
     } else if (unlikely(__pyx_t_4 >= __pyx_v_self->DESIGNATORS.shape[0])) __pyx_t_5 = 0;
     if (unlikely(__pyx_t_5 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(0, 525, __pyx_L1_error)
+      __PYX_ERR(0, 492, __pyx_L1_error)
     }
     __pyx_t_6 = (((*((double *) ( /* dim=0 */ (__pyx_v_self->DESIGNATORS.data + __pyx_t_4 * __pyx_v_self->DESIGNATORS.strides[0]) ))) == __pyx_v_designator) != 0);
     if (__pyx_t_6) {
 
-      /* "MontyCarlo/materials/pyRelax.pyx":526
+      /* "MontyCarlo/materials/pyRelax.pyx":493
  *          for i in range(self.Nsh):
  *              if self.DESIGNATORS[i] == designator:
  *                  return self.rATOM.fetchFI(i)             # <<<<<<<<<<<<<<
@@ -5546,12 +5505,12 @@ static model::Shell *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_fetchFD(stru
         __pyx_t_7 = __pyx_v_self->rATOM.fetchFI(__pyx_v_i);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 526, __pyx_L1_error)
+        __PYX_ERR(0, 493, __pyx_L1_error)
       }
       __pyx_r = __pyx_t_7;
       goto __pyx_L0;
 
-      /* "MontyCarlo/materials/pyRelax.pyx":525
+      /* "MontyCarlo/materials/pyRelax.pyx":492
  *          cdef int i
  *          for i in range(self.Nsh):
  *              if self.DESIGNATORS[i] == designator:             # <<<<<<<<<<<<<<
@@ -5562,30 +5521,30 @@ static model::Shell *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_fetchFD(stru
   }
   /*else*/ {
 
-    /* "MontyCarlo/materials/pyRelax.pyx":528
+    /* "MontyCarlo/materials/pyRelax.pyx":495
  *                  return self.rATOM.fetchFI(i)
  *          else:
  *              raise ValueError(">>>  pyRelax.pyx > .fetchFD > SHELL NOT FOUND designator = " + str(designator))             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_designator); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 528, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_designator); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 495, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 528, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 495, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = PyNumber_Add(__pyx_kp_s_pyRelax_pyx_fetchFD_SHELL_NOT_F, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 528, __pyx_L1_error)
+    __pyx_t_8 = PyNumber_Add(__pyx_kp_s_pyRelax_pyx_fetchFD_SHELL_NOT_F, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 495, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_builtin_ValueError, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 528, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_builtin_ValueError, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 495, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_Raise(__pyx_t_9, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __PYX_ERR(0, 528, __pyx_L1_error)
+    __PYX_ERR(0, 495, __pyx_L1_error)
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":521
+  /* "MontyCarlo/materials/pyRelax.pyx":488
  * 
  * 
  *     cdef rShell* fetchFD(self, int designator):             # <<<<<<<<<<<<<<
@@ -5604,7 +5563,7 @@ static model::Shell *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_fetchFD(stru
   return __pyx_r;
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":533
+/* "MontyCarlo/materials/pyRelax.pyx":500
  * 
  * 
  *     cdef rShell* fetchFI(self, int index):             # <<<<<<<<<<<<<<
@@ -5621,7 +5580,7 @@ static model::Shell *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_fetchFI(stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fetchFI", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":534
+  /* "MontyCarlo/materials/pyRelax.pyx":501
  * 
  *     cdef rShell* fetchFI(self, int index):
  *          return self.rATOM.fetchFI(index)             # <<<<<<<<<<<<<<
@@ -5632,12 +5591,12 @@ static model::Shell *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_fetchFI(stru
     __pyx_t_1 = __pyx_v_self->rATOM.fetchFI(__pyx_v_index);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 534, __pyx_L1_error)
+    __PYX_ERR(0, 501, __pyx_L1_error)
   }
   __pyx_r = __pyx_t_1;
   goto __pyx_L0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":533
+  /* "MontyCarlo/materials/pyRelax.pyx":500
  * 
  * 
  *     cdef rShell* fetchFI(self, int index):             # <<<<<<<<<<<<<<
@@ -5654,7 +5613,7 @@ static model::Shell *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_fetchFI(stru
   return __pyx_r;
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":539
+/* "MontyCarlo/materials/pyRelax.pyx":506
  * 
  * 
  *     def __len__(self): return int(self.Nsh)             # <<<<<<<<<<<<<<
@@ -5688,7 +5647,7 @@ static Py_ssize_t __pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_8__len__(struc
   return __pyx_r;
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":546
+/* "MontyCarlo/materials/pyRelax.pyx":513
  * 
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -5727,14 +5686,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_10__str__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__str__", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":547
+  /* "MontyCarlo/materials/pyRelax.pyx":514
  * 
  *     def __str__(self):
  *         rep = f"<Atom Z = {self.Z}, Aw = {self.Aw}, Nsh = {self.Nsh}> \n"             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = PyTuple_New(7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 547, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = 0;
   __pyx_t_3 = 127;
@@ -5742,7 +5701,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_10__str__(struc
   __pyx_t_2 += 10;
   __Pyx_GIVEREF(__pyx_kp_u_Atom_Z);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_Atom_Z);
-  __pyx_t_4 = __Pyx_PyUnicode_From_int(__pyx_v_self->Z, 0, ' ', 'd'); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 547, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyUnicode_From_int(__pyx_v_self->Z, 0, ' ', 'd'); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_4);
@@ -5752,9 +5711,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_10__str__(struc
   __pyx_t_2 += 7;
   __Pyx_GIVEREF(__pyx_kp_u_Aw);
   PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_Aw);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->Aw); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 547, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->Aw); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 547, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_3;
@@ -5766,7 +5725,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_10__str__(struc
   __pyx_t_2 += 8;
   __Pyx_GIVEREF(__pyx_kp_u_Nsh);
   PyTuple_SET_ITEM(__pyx_t_1, 4, __pyx_kp_u_Nsh);
-  __pyx_t_5 = __Pyx_PyUnicode_From_int(__pyx_v_self->Nsh, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 547, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_From_int(__pyx_v_self->Nsh, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_5);
@@ -5776,13 +5735,13 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_10__str__(struc
   __pyx_t_2 += 3;
   __Pyx_GIVEREF(__pyx_kp_u__7);
   PyTuple_SET_ITEM(__pyx_t_1, 6, __pyx_kp_u__7);
-  __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 547, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_rep = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":551
+  /* "MontyCarlo/materials/pyRelax.pyx":518
  * 
  * 
  *         for i in range(self.Nsh):             # <<<<<<<<<<<<<<
@@ -5794,14 +5753,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_10__str__(struc
   for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
     __pyx_v_i = __pyx_t_8;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":552
+    /* "MontyCarlo/materials/pyRelax.pyx":519
  * 
  *         for i in range(self.Nsh):
  *             rep += f"    <Shell #{i} #el = {self.number_el[i]}, E = {self.BE[i]}> \n"             # <<<<<<<<<<<<<<
  * 
  *         return rep
  */
-    __pyx_t_5 = PyTuple_New(7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 519, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_2 = 0;
     __pyx_t_3 = 127;
@@ -5809,7 +5768,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_10__str__(struc
     __pyx_t_2 += 12;
     __Pyx_GIVEREF(__pyx_kp_u_Shell);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u_Shell);
-    __pyx_t_1 = __Pyx_PyUnicode_From_int(__pyx_v_i, 0, ' ', 'd'); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyUnicode_From_int(__pyx_v_i, 0, ' ', 'd'); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 519, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_1);
@@ -5819,9 +5778,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_10__str__(struc
     __pyx_t_2 += 7;
     __Pyx_GIVEREF(__pyx_kp_u_el);
     PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u_el);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->number_el, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->number_el, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 519, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 519, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_3;
@@ -5833,9 +5792,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_10__str__(struc
     __pyx_t_2 += 6;
     __Pyx_GIVEREF(__pyx_kp_u_E);
     PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_kp_u_E);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_self->BE, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_self->BE, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 519, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 519, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_3;
@@ -5847,17 +5806,17 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_10__str__(struc
     __pyx_t_2 += 3;
     __Pyx_GIVEREF(__pyx_kp_u__7);
     PyTuple_SET_ITEM(__pyx_t_5, 6, __pyx_kp_u__7);
-    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 519, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 519, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v_rep, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":554
+  /* "MontyCarlo/materials/pyRelax.pyx":521
  *             rep += f"    <Shell #{i} #el = {self.number_el[i]}, E = {self.BE[i]}> \n"
  * 
  *         return rep             # <<<<<<<<<<<<<<
@@ -5869,7 +5828,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_10__str__(struc
   __pyx_r = __pyx_v_rep;
   goto __pyx_L0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":546
+  /* "MontyCarlo/materials/pyRelax.pyx":513
  * 
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -5891,7 +5850,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_10__str__(struc
   return __pyx_r;
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":593
+/* "MontyCarlo/materials/pyRelax.pyx":560
  * 
  * 
  *     def EMPTYrunT(self, int shell_index, double CUT_OFF, int N):             # <<<<<<<<<<<<<<
@@ -5936,17 +5895,17 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_13EMPTYrunT(PyO
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_CUT_OFF)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("EMPTYrunT", 1, 3, 3, 1); __PYX_ERR(0, 593, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("EMPTYrunT", 1, 3, 3, 1); __PYX_ERR(0, 560, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_N)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("EMPTYrunT", 1, 3, 3, 2); __PYX_ERR(0, 593, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("EMPTYrunT", 1, 3, 3, 2); __PYX_ERR(0, 560, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "EMPTYrunT") < 0)) __PYX_ERR(0, 593, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "EMPTYrunT") < 0)) __PYX_ERR(0, 560, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -5955,13 +5914,13 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_13EMPTYrunT(PyO
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_shell_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_shell_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 593, __pyx_L3_error)
-    __pyx_v_CUT_OFF = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_CUT_OFF == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 593, __pyx_L3_error)
-    __pyx_v_N = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 593, __pyx_L3_error)
+    __pyx_v_shell_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_shell_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 560, __pyx_L3_error)
+    __pyx_v_CUT_OFF = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_CUT_OFF == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 560, __pyx_L3_error)
+    __pyx_v_N = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 560, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("EMPTYrunT", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 593, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("EMPTYrunT", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 560, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("MontyCarlo.materials.pyRelax.Atom.EMPTYrunT", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5993,26 +5952,26 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_12EMPTYrunT(CYT
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("EMPTYrunT", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":594
+  /* "MontyCarlo/materials/pyRelax.pyx":561
  * 
  *     def EMPTYrunT(self, int shell_index, double CUT_OFF, int N):
  *         import time             # <<<<<<<<<<<<<<
  *         cdef double t0, tf
  *         cdef int i
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 594, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 561, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_time = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":598
+  /* "MontyCarlo/materials/pyRelax.pyx":565
  *         cdef int i
  * 
  *         t0 = time.perf_counter_ns()             # <<<<<<<<<<<<<<
  *         for i in range(N):
  *             pass
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 598, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 565, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -6026,14 +5985,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_12EMPTYrunT(CYT
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 598, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 565, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 598, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 565, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_t0 = __pyx_t_4;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":599
+  /* "MontyCarlo/materials/pyRelax.pyx":566
  * 
  *         t0 = time.perf_counter_ns()
  *         for i in range(N):             # <<<<<<<<<<<<<<
@@ -6046,14 +6005,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_12EMPTYrunT(CYT
     __pyx_v_i = __pyx_t_7;
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":601
+  /* "MontyCarlo/materials/pyRelax.pyx":568
  *         for i in range(N):
  *             pass
  *         tf = time.perf_counter_ns()             # <<<<<<<<<<<<<<
  *         print(f"{(tf-t0)/N}ns per run")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 601, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 568, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -6067,14 +6026,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_12EMPTYrunT(CYT
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 601, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 568, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 601, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 568, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_tf = __pyx_t_4;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":602
+  /* "MontyCarlo/materials/pyRelax.pyx":569
  *             pass
  *         tf = time.perf_counter_ns()
  *         print(f"{(tf-t0)/N}ns per run")             # <<<<<<<<<<<<<<
@@ -6084,20 +6043,20 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_12EMPTYrunT(CYT
   __pyx_t_4 = (__pyx_v_tf - __pyx_v_t0);
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 602, __pyx_L1_error)
+    __PYX_ERR(0, 569, __pyx_L1_error)
   }
-  __pyx_t_1 = PyFloat_FromDouble((__pyx_t_4 / __pyx_v_N)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 602, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble((__pyx_t_4 / __pyx_v_N)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 569, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 602, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 569, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyUnicode_Concat(__pyx_t_2, __pyx_kp_u_ns_per_run); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 602, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyUnicode_Concat(__pyx_t_2, __pyx_kp_u_ns_per_run); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 569, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 602, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 569, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":593
+  /* "MontyCarlo/materials/pyRelax.pyx":560
  * 
  * 
  *     def EMPTYrunT(self, int shell_index, double CUT_OFF, int N):             # <<<<<<<<<<<<<<
@@ -6121,7 +6080,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_12EMPTYrunT(CYT
   return __pyx_r;
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":604
+/* "MontyCarlo/materials/pyRelax.pyx":571
  *         print(f"{(tf-t0)/N}ns per run")
  * 
  *     cdef void run(self, int index, PARTICLES* particles, mixmax_engine *genPTR):             # <<<<<<<<<<<<<<
@@ -6136,7 +6095,7 @@ static void __pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_run(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("run", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":607
+  /* "MontyCarlo/materials/pyRelax.pyx":574
  * 
  *         #print("RUNNING RELAX")
  *         self.rATOM.run(index, particles, genPTR)             # <<<<<<<<<<<<<<
@@ -6147,10 +6106,10 @@ static void __pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_run(struct __pyx_obj_
     __pyx_v_self->rATOM.run(__pyx_v_index, __pyx_v_particles, __pyx_v_genPTR);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 607, __pyx_L1_error)
+    __PYX_ERR(0, 574, __pyx_L1_error)
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":604
+  /* "MontyCarlo/materials/pyRelax.pyx":571
  *         print(f"{(tf-t0)/N}ns per run")
  * 
  *     cdef void run(self, int index, PARTICLES* particles, mixmax_engine *genPTR):             # <<<<<<<<<<<<<<
@@ -6166,7 +6125,7 @@ static void __pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_run(struct __pyx_obj_
   __Pyx_RefNannyFinishContext();
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":611
+/* "MontyCarlo/materials/pyRelax.pyx":578
  * 
  * 
  *     def run2(self, int shell_index, int N):             # <<<<<<<<<<<<<<
@@ -6208,11 +6167,11 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_15run2(PyObject
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_N)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("run2", 1, 2, 2, 1); __PYX_ERR(0, 611, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("run2", 1, 2, 2, 1); __PYX_ERR(0, 578, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "run2") < 0)) __PYX_ERR(0, 611, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "run2") < 0)) __PYX_ERR(0, 578, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6220,12 +6179,12 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_15run2(PyObject
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_shell_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_shell_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 611, __pyx_L3_error)
-    __pyx_v_N = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 611, __pyx_L3_error)
+    __pyx_v_shell_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_shell_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 578, __pyx_L3_error)
+    __pyx_v_N = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 578, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("run2", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 611, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("run2", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 578, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("MontyCarlo.materials.pyRelax.Atom.run2", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6258,26 +6217,26 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_14run2(struct _
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("run2", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":612
+  /* "MontyCarlo/materials/pyRelax.pyx":579
  * 
  *     def run2(self, int shell_index, int N):
  *         import time             # <<<<<<<<<<<<<<
  *         cdef double t0, tf
  *         cdef int i
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 612, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 579, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_time = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":618
+  /* "MontyCarlo/materials/pyRelax.pyx":585
  * 
  * 
  *         t0 = time.perf_counter_ns()             # <<<<<<<<<<<<<<
  *         for i in range(N):
  *             self.rATOM.run(shell_index, &particles, genPTR)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 618, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 585, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -6291,14 +6250,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_14run2(struct _
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 618, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 585, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 618, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 585, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_t0 = __pyx_t_4;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":619
+  /* "MontyCarlo/materials/pyRelax.pyx":586
  * 
  *         t0 = time.perf_counter_ns()
  *         for i in range(N):             # <<<<<<<<<<<<<<
@@ -6310,7 +6269,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_14run2(struct _
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":620
+    /* "MontyCarlo/materials/pyRelax.pyx":587
  *         t0 = time.perf_counter_ns()
  *         for i in range(N):
  *             self.rATOM.run(shell_index, &particles, genPTR)             # <<<<<<<<<<<<<<
@@ -6318,21 +6277,21 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_14run2(struct _
  * 
  */
     try {
-      __pyx_v_self->rATOM.run(__pyx_v_shell_index, (&__pyx_v_particles), __pyx_v_10MontyCarlo_7_random_6random_genPTR);
+      __pyx_v_self->rATOM.run(__pyx_v_shell_index, (&__pyx_v_particles), __pyx_v_10MontyCarlo_9materials_7pyRelax_genPTR);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 620, __pyx_L1_error)
+      __PYX_ERR(0, 587, __pyx_L1_error)
     }
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":623
+  /* "MontyCarlo/materials/pyRelax.pyx":590
  * 
  * 
  *         tf = time.perf_counter_ns()             # <<<<<<<<<<<<<<
  *         print(f"{(tf-t0)/N}ns per run")
  *         return (tf-t0)/N
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 623, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 590, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -6346,14 +6305,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_14run2(struct _
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 623, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 590, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 623, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 590, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_tf = __pyx_t_4;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":624
+  /* "MontyCarlo/materials/pyRelax.pyx":591
  * 
  *         tf = time.perf_counter_ns()
  *         print(f"{(tf-t0)/N}ns per run")             # <<<<<<<<<<<<<<
@@ -6363,20 +6322,20 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_14run2(struct _
   __pyx_t_4 = (__pyx_v_tf - __pyx_v_t0);
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 624, __pyx_L1_error)
+    __PYX_ERR(0, 591, __pyx_L1_error)
   }
-  __pyx_t_1 = PyFloat_FromDouble((__pyx_t_4 / __pyx_v_N)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 624, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble((__pyx_t_4 / __pyx_v_N)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 591, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 624, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 591, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyUnicode_Concat(__pyx_t_2, __pyx_kp_u_ns_per_run); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 624, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyUnicode_Concat(__pyx_t_2, __pyx_kp_u_ns_per_run); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 591, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 624, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 591, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":625
+  /* "MontyCarlo/materials/pyRelax.pyx":592
  *         tf = time.perf_counter_ns()
  *         print(f"{(tf-t0)/N}ns per run")
  *         return (tf-t0)/N             # <<<<<<<<<<<<<<
@@ -6387,15 +6346,15 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_14run2(struct _
   __pyx_t_4 = (__pyx_v_tf - __pyx_v_t0);
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 625, __pyx_L1_error)
+    __PYX_ERR(0, 592, __pyx_L1_error)
   }
-  __pyx_t_1 = PyFloat_FromDouble((__pyx_t_4 / __pyx_v_N)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 625, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble((__pyx_t_4 / __pyx_v_N)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 592, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":611
+  /* "MontyCarlo/materials/pyRelax.pyx":578
  * 
  * 
  *     def run2(self, int shell_index, int N):             # <<<<<<<<<<<<<<
@@ -6417,7 +6376,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_14run2(struct _
   return __pyx_r;
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":627
+/* "MontyCarlo/materials/pyRelax.pyx":594
  *         return (tf-t0)/N
  * 
  *     def get_spectrum(self, int shell_index, int N = 100_000):             # <<<<<<<<<<<<<<
@@ -6463,7 +6422,7 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_17get_spectrum(
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_spectrum") < 0)) __PYX_ERR(0, 627, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_spectrum") < 0)) __PYX_ERR(0, 594, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -6474,16 +6433,16 @@ static PyObject *__pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_17get_spectrum(
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_shell_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_shell_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 627, __pyx_L3_error)
+    __pyx_v_shell_index = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_shell_index == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 594, __pyx_L3_error)
     if (values[1]) {
-      __pyx_v_N = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 627, __pyx_L3_error)
+      __pyx_v_N = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_N == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 594, __pyx_L3_error)
     } else {
       __pyx_v_N = ((int)0x186A0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_spectrum", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 627, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("get_spectrum", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 594, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("MontyCarlo.materials.pyRelax.Atom.get_spectrum", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6541,50 +6500,50 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_spectrum", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":629
+  /* "MontyCarlo/materials/pyRelax.pyx":596
  *     def get_spectrum(self, int shell_index, int N = 100_000):
  * 
  *         import time             # <<<<<<<<<<<<<<
  *         cdef double t0, tf
  *         cdef int i
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 629, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 596, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_time = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":637
+  /* "MontyCarlo/materials/pyRelax.pyx":604
  *         cdef int size
  * 
  *         photon = {}             # <<<<<<<<<<<<<<
  *         electron = {}
  *         cdef int _
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 637, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 604, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_photon = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":638
+  /* "MontyCarlo/materials/pyRelax.pyx":605
  * 
  *         photon = {}
  *         electron = {}             # <<<<<<<<<<<<<<
  *         cdef int _
  *         t0 = time.perf_counter_ns()
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 638, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 605, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_electron = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":640
+  /* "MontyCarlo/materials/pyRelax.pyx":607
  *         electron = {}
  *         cdef int _
  *         t0 = time.perf_counter_ns()             # <<<<<<<<<<<<<<
  *         for i in range(N):
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 640, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 607, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -6598,14 +6557,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 640, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 607, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 640, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 607, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_t0 = __pyx_t_4;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":641
+  /* "MontyCarlo/materials/pyRelax.pyx":608
  *         cdef int _
  *         t0 = time.perf_counter_ns()
  *         for i in range(N):             # <<<<<<<<<<<<<<
@@ -6617,7 +6576,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":644
+    /* "MontyCarlo/materials/pyRelax.pyx":611
  * 
  * 
  *             self.rATOM.run(shell_index, &particles, genPTR)             # <<<<<<<<<<<<<<
@@ -6625,13 +6584,13 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
  * 
  */
     try {
-      __pyx_v_self->rATOM.run(__pyx_v_shell_index, (&__pyx_v_particles), __pyx_v_10MontyCarlo_7_random_6random_genPTR);
+      __pyx_v_self->rATOM.run(__pyx_v_shell_index, (&__pyx_v_particles), __pyx_v_10MontyCarlo_9materials_7pyRelax_genPTR);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 644, __pyx_L1_error)
+      __PYX_ERR(0, 611, __pyx_L1_error)
     }
 
-    /* "MontyCarlo/materials/pyRelax.pyx":645
+    /* "MontyCarlo/materials/pyRelax.pyx":612
  * 
  *             self.rATOM.run(shell_index, &particles, genPTR)
  *             size = particles.PHOTONS.size()             # <<<<<<<<<<<<<<
@@ -6640,7 +6599,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
  */
     __pyx_v_size = __pyx_v_particles.PHOTONS.size();
 
-    /* "MontyCarlo/materials/pyRelax.pyx":648
+    /* "MontyCarlo/materials/pyRelax.pyx":615
  * 
  * 
  *             for _ in range(size):             # <<<<<<<<<<<<<<
@@ -6652,7 +6611,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
     for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
       __pyx_v__ = __pyx_t_10;
 
-      /* "MontyCarlo/materials/pyRelax.pyx":650
+      /* "MontyCarlo/materials/pyRelax.pyx":617
  *             for _ in range(size):
  * 
  *                 E = particles.PHOTONS.back()             # <<<<<<<<<<<<<<
@@ -6661,7 +6620,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
  */
       __pyx_v_E = __pyx_v_particles.PHOTONS.back();
 
-      /* "MontyCarlo/materials/pyRelax.pyx":651
+      /* "MontyCarlo/materials/pyRelax.pyx":618
  * 
  *                 E = particles.PHOTONS.back()
  *                 particles.PHOTONS.pop_back()             # <<<<<<<<<<<<<<
@@ -6670,7 +6629,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
  */
       __pyx_v_particles.PHOTONS.pop_back();
 
-      /* "MontyCarlo/materials/pyRelax.pyx":654
+      /* "MontyCarlo/materials/pyRelax.pyx":621
  * 
  * 
  *                 try:             # <<<<<<<<<<<<<<
@@ -6686,25 +6645,25 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
         __Pyx_XGOTREF(__pyx_t_13);
         /*try:*/ {
 
-          /* "MontyCarlo/materials/pyRelax.pyx":655
+          /* "MontyCarlo/materials/pyRelax.pyx":622
  * 
  *                 try:
  *                     photon[E] += 1             # <<<<<<<<<<<<<<
  *                 except KeyError:
  *                     photon[E] = 1
  */
-          __pyx_t_1 = PyFloat_FromDouble(__pyx_v_E); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 655, __pyx_L7_error)
+          __pyx_t_1 = PyFloat_FromDouble(__pyx_v_E); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 622, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_photon, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 655, __pyx_L7_error)
+          __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_photon, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 622, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 655, __pyx_L7_error)
+          __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_t_2, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 622, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(PyDict_SetItem(__pyx_v_photon, __pyx_t_1, __pyx_t_3) < 0)) __PYX_ERR(0, 655, __pyx_L7_error)
+          if (unlikely(PyDict_SetItem(__pyx_v_photon, __pyx_t_1, __pyx_t_3) < 0)) __PYX_ERR(0, 622, __pyx_L7_error)
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":654
+          /* "MontyCarlo/materials/pyRelax.pyx":621
  * 
  * 
  *                 try:             # <<<<<<<<<<<<<<
@@ -6721,7 +6680,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
         __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "MontyCarlo/materials/pyRelax.pyx":656
+        /* "MontyCarlo/materials/pyRelax.pyx":623
  *                 try:
  *                     photon[E] += 1
  *                 except KeyError:             # <<<<<<<<<<<<<<
@@ -6731,21 +6690,21 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
         __pyx_t_14 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
         if (__pyx_t_14) {
           __Pyx_AddTraceback("MontyCarlo.materials.pyRelax.Atom.get_spectrum", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_3, &__pyx_t_2) < 0) __PYX_ERR(0, 656, __pyx_L9_except_error)
+          if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_3, &__pyx_t_2) < 0) __PYX_ERR(0, 623, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_GOTREF(__pyx_t_2);
 
-          /* "MontyCarlo/materials/pyRelax.pyx":657
+          /* "MontyCarlo/materials/pyRelax.pyx":624
  *                     photon[E] += 1
  *                 except KeyError:
  *                     photon[E] = 1             # <<<<<<<<<<<<<<
  * 
  *             size = particles.ELECTRONS.size()
  */
-          __pyx_t_15 = PyFloat_FromDouble(__pyx_v_E); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 657, __pyx_L9_except_error)
+          __pyx_t_15 = PyFloat_FromDouble(__pyx_v_E); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 624, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_15);
-          if (unlikely(PyDict_SetItem(__pyx_v_photon, __pyx_t_15, __pyx_int_1) < 0)) __PYX_ERR(0, 657, __pyx_L9_except_error)
+          if (unlikely(PyDict_SetItem(__pyx_v_photon, __pyx_t_15, __pyx_int_1) < 0)) __PYX_ERR(0, 624, __pyx_L9_except_error)
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
           __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
           __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6755,7 +6714,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
         goto __pyx_L9_except_error;
         __pyx_L9_except_error:;
 
-        /* "MontyCarlo/materials/pyRelax.pyx":654
+        /* "MontyCarlo/materials/pyRelax.pyx":621
  * 
  * 
  *                 try:             # <<<<<<<<<<<<<<
@@ -6776,7 +6735,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
       }
     }
 
-    /* "MontyCarlo/materials/pyRelax.pyx":659
+    /* "MontyCarlo/materials/pyRelax.pyx":626
  *                     photon[E] = 1
  * 
  *             size = particles.ELECTRONS.size()             # <<<<<<<<<<<<<<
@@ -6785,7 +6744,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
  */
     __pyx_v_size = __pyx_v_particles.ELECTRONS.size();
 
-    /* "MontyCarlo/materials/pyRelax.pyx":660
+    /* "MontyCarlo/materials/pyRelax.pyx":627
  * 
  *             size = particles.ELECTRONS.size()
  *             for _ in range(size):             # <<<<<<<<<<<<<<
@@ -6797,7 +6756,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
     for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
       __pyx_v__ = __pyx_t_10;
 
-      /* "MontyCarlo/materials/pyRelax.pyx":661
+      /* "MontyCarlo/materials/pyRelax.pyx":628
  *             size = particles.ELECTRONS.size()
  *             for _ in range(size):
  *                 E = particles.ELECTRONS.back()             # <<<<<<<<<<<<<<
@@ -6806,7 +6765,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
  */
       __pyx_v_E = __pyx_v_particles.ELECTRONS.back();
 
-      /* "MontyCarlo/materials/pyRelax.pyx":662
+      /* "MontyCarlo/materials/pyRelax.pyx":629
  *             for _ in range(size):
  *                 E = particles.ELECTRONS.back()
  *                 particles.ELECTRONS.pop_back()             # <<<<<<<<<<<<<<
@@ -6815,7 +6774,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
  */
       __pyx_v_particles.ELECTRONS.pop_back();
 
-      /* "MontyCarlo/materials/pyRelax.pyx":663
+      /* "MontyCarlo/materials/pyRelax.pyx":630
  *                 E = particles.ELECTRONS.back()
  *                 particles.ELECTRONS.pop_back()
  *                 try:             # <<<<<<<<<<<<<<
@@ -6831,25 +6790,25 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
         __Pyx_XGOTREF(__pyx_t_11);
         /*try:*/ {
 
-          /* "MontyCarlo/materials/pyRelax.pyx":664
+          /* "MontyCarlo/materials/pyRelax.pyx":631
  *                 particles.ELECTRONS.pop_back()
  *                 try:
  *                     electron[E] += 1             # <<<<<<<<<<<<<<
  *                 except KeyError:
  *                     electron[E] = 1
  */
-          __pyx_t_2 = PyFloat_FromDouble(__pyx_v_E); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 664, __pyx_L19_error)
+          __pyx_t_2 = PyFloat_FromDouble(__pyx_v_E); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 631, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_electron, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 664, __pyx_L19_error)
+          __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_electron, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 631, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_t_3, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 664, __pyx_L19_error)
+          __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_t_3, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 631, __pyx_L19_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          if (unlikely(PyDict_SetItem(__pyx_v_electron, __pyx_t_2, __pyx_t_1) < 0)) __PYX_ERR(0, 664, __pyx_L19_error)
+          if (unlikely(PyDict_SetItem(__pyx_v_electron, __pyx_t_2, __pyx_t_1) < 0)) __PYX_ERR(0, 631, __pyx_L19_error)
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":663
+          /* "MontyCarlo/materials/pyRelax.pyx":630
  *                 E = particles.ELECTRONS.back()
  *                 particles.ELECTRONS.pop_back()
  *                 try:             # <<<<<<<<<<<<<<
@@ -6867,7 +6826,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
         __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "MontyCarlo/materials/pyRelax.pyx":665
+        /* "MontyCarlo/materials/pyRelax.pyx":632
  *                 try:
  *                     electron[E] += 1
  *                 except KeyError:             # <<<<<<<<<<<<<<
@@ -6877,21 +6836,21 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
         __pyx_t_14 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
         if (__pyx_t_14) {
           __Pyx_AddTraceback("MontyCarlo.materials.pyRelax.Atom.get_spectrum", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_1, &__pyx_t_3) < 0) __PYX_ERR(0, 665, __pyx_L21_except_error)
+          if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_1, &__pyx_t_3) < 0) __PYX_ERR(0, 632, __pyx_L21_except_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_GOTREF(__pyx_t_3);
 
-          /* "MontyCarlo/materials/pyRelax.pyx":666
+          /* "MontyCarlo/materials/pyRelax.pyx":633
  *                     electron[E] += 1
  *                 except KeyError:
  *                     electron[E] = 1             # <<<<<<<<<<<<<<
  * 
  *         en = []
  */
-          __pyx_t_15 = PyFloat_FromDouble(__pyx_v_E); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 666, __pyx_L21_except_error)
+          __pyx_t_15 = PyFloat_FromDouble(__pyx_v_E); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 633, __pyx_L21_except_error)
           __Pyx_GOTREF(__pyx_t_15);
-          if (unlikely(PyDict_SetItem(__pyx_v_electron, __pyx_t_15, __pyx_int_1) < 0)) __PYX_ERR(0, 666, __pyx_L21_except_error)
+          if (unlikely(PyDict_SetItem(__pyx_v_electron, __pyx_t_15, __pyx_int_1) < 0)) __PYX_ERR(0, 633, __pyx_L21_except_error)
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
           __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6901,7 +6860,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
         goto __pyx_L21_except_error;
         __pyx_L21_except_error:;
 
-        /* "MontyCarlo/materials/pyRelax.pyx":663
+        /* "MontyCarlo/materials/pyRelax.pyx":630
  *                 E = particles.ELECTRONS.back()
  *                 particles.ELECTRONS.pop_back()
  *                 try:             # <<<<<<<<<<<<<<
@@ -6923,46 +6882,46 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
     }
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":668
+  /* "MontyCarlo/materials/pyRelax.pyx":635
  *                     electron[E] = 1
  * 
  *         en = []             # <<<<<<<<<<<<<<
  *         ph = []
  *         for key, value in photon.items():
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 668, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 635, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_en = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":669
+  /* "MontyCarlo/materials/pyRelax.pyx":636
  * 
  *         en = []
  *         ph = []             # <<<<<<<<<<<<<<
  *         for key, value in photon.items():
  *             en.append(key)
  */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 669, __pyx_L1_error)
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 636, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_ph = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":670
+  /* "MontyCarlo/materials/pyRelax.pyx":637
  *         en = []
  *         ph = []
  *         for key, value in photon.items():             # <<<<<<<<<<<<<<
  *             en.append(key)
  *             ph.append(value)
  */
-  __pyx_t_3 = __Pyx_PyDict_Items(__pyx_v_photon); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 670, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_Items(__pyx_v_photon); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 637, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
     __pyx_t_1 = __pyx_t_3; __Pyx_INCREF(__pyx_t_1); __pyx_t_16 = 0;
     __pyx_t_17 = NULL;
   } else {
-    __pyx_t_16 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 670, __pyx_L1_error)
+    __pyx_t_16 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 637, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_17 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 670, __pyx_L1_error)
+    __pyx_t_17 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 637, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
@@ -6970,17 +6929,17 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_16 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_16); __Pyx_INCREF(__pyx_t_3); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 670, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_16); __Pyx_INCREF(__pyx_t_3); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 637, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 670, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 637, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_16 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_16); __Pyx_INCREF(__pyx_t_3); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 670, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_16); __Pyx_INCREF(__pyx_t_3); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 637, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 670, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 637, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -6990,7 +6949,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 670, __pyx_L1_error)
+          else __PYX_ERR(0, 637, __pyx_L1_error)
         }
         break;
       }
@@ -7002,7 +6961,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 670, __pyx_L1_error)
+        __PYX_ERR(0, 637, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -7015,15 +6974,15 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
       __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_t_15);
       #else
-      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 670, __pyx_L1_error)
+      __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 637, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_15 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 670, __pyx_L1_error)
+      __pyx_t_15 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 637, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_15);
       #endif
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_18 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 670, __pyx_L1_error)
+      __pyx_t_18 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 637, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_18);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_19 = Py_TYPE(__pyx_t_18)->tp_iternext;
@@ -7031,7 +6990,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
       __Pyx_GOTREF(__pyx_t_2);
       index = 1; __pyx_t_15 = __pyx_t_19(__pyx_t_18); if (unlikely(!__pyx_t_15)) goto __pyx_L31_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_15);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_19(__pyx_t_18), 2) < 0) __PYX_ERR(0, 670, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_19(__pyx_t_18), 2) < 0) __PYX_ERR(0, 637, __pyx_L1_error)
       __pyx_t_19 = NULL;
       __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
       goto __pyx_L32_unpacking_done;
@@ -7039,7 +6998,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
       __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
       __pyx_t_19 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 670, __pyx_L1_error)
+      __PYX_ERR(0, 637, __pyx_L1_error)
       __pyx_L32_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_2);
@@ -7047,25 +7006,25 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
     __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_15);
     __pyx_t_15 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":671
+    /* "MontyCarlo/materials/pyRelax.pyx":638
  *         ph = []
  *         for key, value in photon.items():
  *             en.append(key)             # <<<<<<<<<<<<<<
  *             ph.append(value)
  * 
  */
-    __pyx_t_20 = __Pyx_PyObject_Append(__pyx_v_en, __pyx_v_key); if (unlikely(__pyx_t_20 == ((int)-1))) __PYX_ERR(0, 671, __pyx_L1_error)
+    __pyx_t_20 = __Pyx_PyObject_Append(__pyx_v_en, __pyx_v_key); if (unlikely(__pyx_t_20 == ((int)-1))) __PYX_ERR(0, 638, __pyx_L1_error)
 
-    /* "MontyCarlo/materials/pyRelax.pyx":672
+    /* "MontyCarlo/materials/pyRelax.pyx":639
  *         for key, value in photon.items():
  *             en.append(key)
  *             ph.append(value)             # <<<<<<<<<<<<<<
  * 
  *         en = np.array(en)
  */
-    __pyx_t_20 = __Pyx_PyObject_Append(__pyx_v_ph, __pyx_v_value); if (unlikely(__pyx_t_20 == ((int)-1))) __PYX_ERR(0, 672, __pyx_L1_error)
+    __pyx_t_20 = __Pyx_PyObject_Append(__pyx_v_ph, __pyx_v_value); if (unlikely(__pyx_t_20 == ((int)-1))) __PYX_ERR(0, 639, __pyx_L1_error)
 
-    /* "MontyCarlo/materials/pyRelax.pyx":670
+    /* "MontyCarlo/materials/pyRelax.pyx":637
  *         en = []
  *         ph = []
  *         for key, value in photon.items():             # <<<<<<<<<<<<<<
@@ -7075,16 +7034,16 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":674
+  /* "MontyCarlo/materials/pyRelax.pyx":641
  *             ph.append(value)
  * 
  *         en = np.array(en)             # <<<<<<<<<<<<<<
  *         ph = np.array(ph)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 674, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 641, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 674, __pyx_L1_error)
+  __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 641, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -7099,22 +7058,22 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_15, __pyx_t_3, __pyx_v_en) : __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_v_en);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 674, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 641, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
   __Pyx_DECREF_SET(__pyx_v_en, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":675
+  /* "MontyCarlo/materials/pyRelax.pyx":642
  * 
  *         en = np.array(en)
  *         ph = np.array(ph)             # <<<<<<<<<<<<<<
  * 
  *         permute = en.argsort()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_15, __pyx_n_s_np); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 675, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_15, __pyx_n_s_np); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 642, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_15, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 675, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_15, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 642, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
   __pyx_t_15 = NULL;
@@ -7129,20 +7088,20 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   }
   __pyx_t_1 = (__pyx_t_15) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_15, __pyx_v_ph) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_ph);
   __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 675, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 642, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF_SET(__pyx_v_ph, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":677
+  /* "MontyCarlo/materials/pyRelax.pyx":644
  *         ph = np.array(ph)
  * 
  *         permute = en.argsort()             # <<<<<<<<<<<<<<
  *         en = en[permute]
  *         ph = ph[permute]
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_en, __pyx_n_s_argsort); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 677, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_en, __pyx_n_s_argsort); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 644, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_15 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -7156,76 +7115,76 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   }
   __pyx_t_1 = (__pyx_t_15) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_15) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 677, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 644, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_permute = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":678
+  /* "MontyCarlo/materials/pyRelax.pyx":645
  * 
  *         permute = en.argsort()
  *         en = en[permute]             # <<<<<<<<<<<<<<
  *         ph = ph[permute]
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_en, __pyx_v_permute); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 678, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_en, __pyx_v_permute); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 645, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF_SET(__pyx_v_en, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":679
+  /* "MontyCarlo/materials/pyRelax.pyx":646
  *         permute = en.argsort()
  *         en = en[permute]
  *         ph = ph[permute]             # <<<<<<<<<<<<<<
  * 
  *         en2 = []
  */
-  __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_ph, __pyx_v_permute); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 679, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_ph, __pyx_v_permute); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 646, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF_SET(__pyx_v_ph, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":681
+  /* "MontyCarlo/materials/pyRelax.pyx":648
  *         ph = ph[permute]
  * 
  *         en2 = []             # <<<<<<<<<<<<<<
  *         el = []
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 681, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 648, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_en2 = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":682
+  /* "MontyCarlo/materials/pyRelax.pyx":649
  * 
  *         en2 = []
  *         el = []             # <<<<<<<<<<<<<<
  * 
  *         for key, value in electron.items():
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 682, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 649, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_el = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":684
+  /* "MontyCarlo/materials/pyRelax.pyx":651
  *         el = []
  * 
  *         for key, value in electron.items():             # <<<<<<<<<<<<<<
  *             en2.append(key)
  *             el.append(value)
  */
-  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_electron); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 684, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_electron); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 651, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_16 = 0;
     __pyx_t_17 = NULL;
   } else {
-    __pyx_t_16 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 684, __pyx_L1_error)
+    __pyx_t_16 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 651, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_17 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 684, __pyx_L1_error)
+    __pyx_t_17 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 651, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -7233,17 +7192,17 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
       if (likely(PyList_CheckExact(__pyx_t_3))) {
         if (__pyx_t_16 >= PyList_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_16); __Pyx_INCREF(__pyx_t_1); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 684, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_16); __Pyx_INCREF(__pyx_t_1); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 651, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 684, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 651, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_16 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_16); __Pyx_INCREF(__pyx_t_1); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 684, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_16); __Pyx_INCREF(__pyx_t_1); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 651, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 684, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 651, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -7253,7 +7212,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 684, __pyx_L1_error)
+          else __PYX_ERR(0, 651, __pyx_L1_error)
         }
         break;
       }
@@ -7265,7 +7224,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 684, __pyx_L1_error)
+        __PYX_ERR(0, 651, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -7278,15 +7237,15 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
       __Pyx_INCREF(__pyx_t_15);
       __Pyx_INCREF(__pyx_t_2);
       #else
-      __pyx_t_15 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 684, __pyx_L1_error)
+      __pyx_t_15 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 651, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_15);
-      __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 684, __pyx_L1_error)
+      __pyx_t_2 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 651, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_18 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 684, __pyx_L1_error)
+      __pyx_t_18 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 651, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_18);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_19 = Py_TYPE(__pyx_t_18)->tp_iternext;
@@ -7294,7 +7253,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
       __Pyx_GOTREF(__pyx_t_15);
       index = 1; __pyx_t_2 = __pyx_t_19(__pyx_t_18); if (unlikely(!__pyx_t_2)) goto __pyx_L35_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_2);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_19(__pyx_t_18), 2) < 0) __PYX_ERR(0, 684, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_19(__pyx_t_18), 2) < 0) __PYX_ERR(0, 651, __pyx_L1_error)
       __pyx_t_19 = NULL;
       __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
       goto __pyx_L36_unpacking_done;
@@ -7302,7 +7261,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
       __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
       __pyx_t_19 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 684, __pyx_L1_error)
+      __PYX_ERR(0, 651, __pyx_L1_error)
       __pyx_L36_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_15);
@@ -7310,25 +7269,25 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
     __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":685
+    /* "MontyCarlo/materials/pyRelax.pyx":652
  * 
  *         for key, value in electron.items():
  *             en2.append(key)             # <<<<<<<<<<<<<<
  *             el.append(value)
  *         en2 = np.array(en2)
  */
-    __pyx_t_20 = __Pyx_PyObject_Append(__pyx_v_en2, __pyx_v_key); if (unlikely(__pyx_t_20 == ((int)-1))) __PYX_ERR(0, 685, __pyx_L1_error)
+    __pyx_t_20 = __Pyx_PyObject_Append(__pyx_v_en2, __pyx_v_key); if (unlikely(__pyx_t_20 == ((int)-1))) __PYX_ERR(0, 652, __pyx_L1_error)
 
-    /* "MontyCarlo/materials/pyRelax.pyx":686
+    /* "MontyCarlo/materials/pyRelax.pyx":653
  *         for key, value in electron.items():
  *             en2.append(key)
  *             el.append(value)             # <<<<<<<<<<<<<<
  *         en2 = np.array(en2)
  *         el = np.array(el)
  */
-    __pyx_t_20 = __Pyx_PyObject_Append(__pyx_v_el, __pyx_v_value); if (unlikely(__pyx_t_20 == ((int)-1))) __PYX_ERR(0, 686, __pyx_L1_error)
+    __pyx_t_20 = __Pyx_PyObject_Append(__pyx_v_el, __pyx_v_value); if (unlikely(__pyx_t_20 == ((int)-1))) __PYX_ERR(0, 653, __pyx_L1_error)
 
-    /* "MontyCarlo/materials/pyRelax.pyx":684
+    /* "MontyCarlo/materials/pyRelax.pyx":651
  *         el = []
  * 
  *         for key, value in electron.items():             # <<<<<<<<<<<<<<
@@ -7338,16 +7297,16 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":687
+  /* "MontyCarlo/materials/pyRelax.pyx":654
  *             en2.append(key)
  *             el.append(value)
  *         en2 = np.array(en2)             # <<<<<<<<<<<<<<
  *         el = np.array(el)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 687, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 654, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 687, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_array); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 654, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -7362,22 +7321,22 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   }
   __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_1, __pyx_v_en2) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_en2);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 687, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 654, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF_SET(__pyx_v_en2, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":688
+  /* "MontyCarlo/materials/pyRelax.pyx":655
  *             el.append(value)
  *         en2 = np.array(en2)
  *         el = np.array(el)             # <<<<<<<<<<<<<<
  * 
  *         permute = en2.argsort()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 688, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 655, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 688, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 655, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -7392,20 +7351,20 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_2, __pyx_v_el) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_el);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 688, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 655, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF_SET(__pyx_v_el, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":690
+  /* "MontyCarlo/materials/pyRelax.pyx":657
  *         el = np.array(el)
  * 
  *         permute = en2.argsort()             # <<<<<<<<<<<<<<
  *         en2 = en2[permute]
  *         el = el[permute]
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_en2, __pyx_n_s_argsort); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 690, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_en2, __pyx_n_s_argsort); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 657, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -7419,44 +7378,44 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 690, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 657, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF_SET(__pyx_v_permute, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":691
+  /* "MontyCarlo/materials/pyRelax.pyx":658
  * 
  *         permute = en2.argsort()
  *         en2 = en2[permute]             # <<<<<<<<<<<<<<
  *         el = el[permute]
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_en2, __pyx_v_permute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 691, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_en2, __pyx_v_permute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 658, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF_SET(__pyx_v_en2, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":692
+  /* "MontyCarlo/materials/pyRelax.pyx":659
  *         permute = en2.argsort()
  *         en2 = en2[permute]
  *         el = el[permute]             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_el, __pyx_v_permute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 692, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_el, __pyx_v_permute); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 659, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF_SET(__pyx_v_el, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":695
+  /* "MontyCarlo/materials/pyRelax.pyx":662
  * 
  * 
  *         tf = time.perf_counter_ns()             # <<<<<<<<<<<<<<
  *         return en, ph, en2, el
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 695, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_perf_counter_ns); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 662, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -7470,14 +7429,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   }
   __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 695, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 662, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 695, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 662, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_tf = __pyx_t_4;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":696
+  /* "MontyCarlo/materials/pyRelax.pyx":663
  * 
  *         tf = time.perf_counter_ns()
  *         return en, ph, en2, el             # <<<<<<<<<<<<<<
@@ -7485,7 +7444,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyTuple_New(4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 696, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 663, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_v_en);
   __Pyx_GIVEREF(__pyx_v_en);
@@ -7503,7 +7462,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":627
+  /* "MontyCarlo/materials/pyRelax.pyx":594
  *         return (tf-t0)/N
  * 
  *     def get_spectrum(self, int shell_index, int N = 100_000):             # <<<<<<<<<<<<<<
@@ -7536,7 +7495,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_16get_spectrum(
   return __pyx_r;
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":728
+/* "MontyCarlo/materials/pyRelax.pyx":695
  * 
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -7576,14 +7535,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":729
+  /* "MontyCarlo/materials/pyRelax.pyx":696
  * 
  *     def __repr__(self):
  *         rep = f"<Atom Z = {self.Z}, Aw = {self.Aw}, Nsh = {self.Nsh}> \n"             # <<<<<<<<<<<<<<
  * 
  *         if self.Nsh > 5:
  */
-  __pyx_t_1 = PyTuple_New(7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 729, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 696, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = 0;
   __pyx_t_3 = 127;
@@ -7591,7 +7550,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
   __pyx_t_2 += 10;
   __Pyx_GIVEREF(__pyx_kp_u_Atom_Z);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_Atom_Z);
-  __pyx_t_4 = __Pyx_PyUnicode_From_int(__pyx_v_self->Z, 0, ' ', 'd'); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 729, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyUnicode_From_int(__pyx_v_self->Z, 0, ' ', 'd'); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 696, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_4);
@@ -7601,9 +7560,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
   __pyx_t_2 += 7;
   __Pyx_GIVEREF(__pyx_kp_u_Aw);
   PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_Aw);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->Aw); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 729, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->Aw); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 696, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 729, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 696, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_3;
@@ -7615,7 +7574,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
   __pyx_t_2 += 8;
   __Pyx_GIVEREF(__pyx_kp_u_Nsh);
   PyTuple_SET_ITEM(__pyx_t_1, 4, __pyx_kp_u_Nsh);
-  __pyx_t_5 = __Pyx_PyUnicode_From_int(__pyx_v_self->Nsh, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 729, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_From_int(__pyx_v_self->Nsh, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 696, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_5);
@@ -7625,13 +7584,13 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
   __pyx_t_2 += 3;
   __Pyx_GIVEREF(__pyx_kp_u__7);
   PyTuple_SET_ITEM(__pyx_t_1, 6, __pyx_kp_u__7);
-  __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 729, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 696, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_rep = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":731
+  /* "MontyCarlo/materials/pyRelax.pyx":698
  *         rep = f"<Atom Z = {self.Z}, Aw = {self.Aw}, Nsh = {self.Nsh}> \n"
  * 
  *         if self.Nsh > 5:             # <<<<<<<<<<<<<<
@@ -7641,14 +7600,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
   __pyx_t_6 = ((__pyx_v_self->Nsh > 5) != 0);
   if (__pyx_t_6) {
 
-    /* "MontyCarlo/materials/pyRelax.pyx":732
+    /* "MontyCarlo/materials/pyRelax.pyx":699
  * 
  *         if self.Nsh > 5:
  *             rep += f"    <Shell #{0} #el = {self.number_el[0]}, E = {self.BE[0]}> \n"             # <<<<<<<<<<<<<<
  *             rep += f"    <Shell #{1} #el = {self.number_el[1]}, E = {self.BE[1]}> \n"
  *             rep += f"        ... + {self.Nsh - 4} shells +  ...       \n"
  */
-    __pyx_t_5 = PyTuple_New(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 699, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_2 = 0;
     __pyx_t_3 = 127;
@@ -7656,9 +7615,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 20;
     __Pyx_GIVEREF(__pyx_kp_u_Shell_0_el);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u_Shell_0_el);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->number_el, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 732, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->number_el, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 699, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 732, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 699, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_3;
@@ -7670,9 +7629,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 6;
     __Pyx_GIVEREF(__pyx_kp_u_E);
     PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u_E);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_self->BE, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 732, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_self->BE, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 699, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 732, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 699, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_3;
@@ -7684,23 +7643,23 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 3;
     __Pyx_GIVEREF(__pyx_kp_u__7);
     PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_kp_u__7);
-    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 5, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 732, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 5, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 699, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 699, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v_rep, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":733
+    /* "MontyCarlo/materials/pyRelax.pyx":700
  *         if self.Nsh > 5:
  *             rep += f"    <Shell #{0} #el = {self.number_el[0]}, E = {self.BE[0]}> \n"
  *             rep += f"    <Shell #{1} #el = {self.number_el[1]}, E = {self.BE[1]}> \n"             # <<<<<<<<<<<<<<
  *             rep += f"        ... + {self.Nsh - 4} shells +  ...       \n"
  *             rep += f"    <Shell #{self.Nsh-2} #el = {self.number_el[-2]}, E = {self.BE[-2]}> \n"
  */
-    __pyx_t_5 = PyTuple_New(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 733, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 700, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_2 = 0;
     __pyx_t_3 = 127;
@@ -7708,9 +7667,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 20;
     __Pyx_GIVEREF(__pyx_kp_u_Shell_1_el);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u_Shell_1_el);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->number_el, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 733, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->number_el, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 700, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 733, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 700, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_3;
@@ -7722,9 +7681,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 6;
     __Pyx_GIVEREF(__pyx_kp_u_E);
     PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u_E);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_self->BE, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 733, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_self->BE, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 700, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 733, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 700, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_3;
@@ -7736,23 +7695,23 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 3;
     __Pyx_GIVEREF(__pyx_kp_u__7);
     PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_kp_u__7);
-    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 5, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 733, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 5, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 700, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 733, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 700, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v_rep, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":734
+    /* "MontyCarlo/materials/pyRelax.pyx":701
  *             rep += f"    <Shell #{0} #el = {self.number_el[0]}, E = {self.BE[0]}> \n"
  *             rep += f"    <Shell #{1} #el = {self.number_el[1]}, E = {self.BE[1]}> \n"
  *             rep += f"        ... + {self.Nsh - 4} shells +  ...       \n"             # <<<<<<<<<<<<<<
  *             rep += f"    <Shell #{self.Nsh-2} #el = {self.number_el[-2]}, E = {self.BE[-2]}> \n"
  *             rep += f"    <Shell #{self.Nsh-1} #el = {self.number_el[-1]}, E = {self.BE[-1]}> \n"
  */
-    __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 734, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 701, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_2 = 0;
     __pyx_t_3 = 127;
@@ -7760,7 +7719,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 14;
     __Pyx_GIVEREF(__pyx_kp_u__8);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u__8);
-    __pyx_t_1 = __Pyx_PyUnicode_From_long((__pyx_v_self->Nsh - 4), 0, ' ', 'd'); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 734, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyUnicode_From_long((__pyx_v_self->Nsh - 4), 0, ' ', 'd'); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 701, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_1);
@@ -7770,23 +7729,23 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 22;
     __Pyx_GIVEREF(__pyx_kp_u_shells);
     PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u_shells);
-    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 3, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 734, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 3, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 701, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 734, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 701, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v_rep, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":735
+    /* "MontyCarlo/materials/pyRelax.pyx":702
  *             rep += f"    <Shell #{1} #el = {self.number_el[1]}, E = {self.BE[1]}> \n"
  *             rep += f"        ... + {self.Nsh - 4} shells +  ...       \n"
  *             rep += f"    <Shell #{self.Nsh-2} #el = {self.number_el[-2]}, E = {self.BE[-2]}> \n"             # <<<<<<<<<<<<<<
  *             rep += f"    <Shell #{self.Nsh-1} #el = {self.number_el[-1]}, E = {self.BE[-1]}> \n"
  *             return rep
  */
-    __pyx_t_5 = PyTuple_New(7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 702, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_2 = 0;
     __pyx_t_3 = 127;
@@ -7794,7 +7753,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 12;
     __Pyx_GIVEREF(__pyx_kp_u_Shell);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u_Shell);
-    __pyx_t_1 = __Pyx_PyUnicode_From_long((__pyx_v_self->Nsh - 2), 0, ' ', 'd'); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyUnicode_From_long((__pyx_v_self->Nsh - 2), 0, ' ', 'd'); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 702, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_1);
@@ -7804,9 +7763,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 7;
     __Pyx_GIVEREF(__pyx_kp_u_el);
     PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u_el);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->number_el, -2L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->number_el, -2L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 702, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 702, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_3;
@@ -7818,9 +7777,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 6;
     __Pyx_GIVEREF(__pyx_kp_u_E);
     PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_kp_u_E);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_self->BE, -2L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_self->BE, -2L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 702, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 702, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_3;
@@ -7832,23 +7791,23 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 3;
     __Pyx_GIVEREF(__pyx_kp_u__7);
     PyTuple_SET_ITEM(__pyx_t_5, 6, __pyx_kp_u__7);
-    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 702, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 702, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v_rep, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":736
+    /* "MontyCarlo/materials/pyRelax.pyx":703
  *             rep += f"        ... + {self.Nsh - 4} shells +  ...       \n"
  *             rep += f"    <Shell #{self.Nsh-2} #el = {self.number_el[-2]}, E = {self.BE[-2]}> \n"
  *             rep += f"    <Shell #{self.Nsh-1} #el = {self.number_el[-1]}, E = {self.BE[-1]}> \n"             # <<<<<<<<<<<<<<
  *             return rep
  * 
  */
-    __pyx_t_5 = PyTuple_New(7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 736, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 703, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_2 = 0;
     __pyx_t_3 = 127;
@@ -7856,7 +7815,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 12;
     __Pyx_GIVEREF(__pyx_kp_u_Shell);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u_Shell);
-    __pyx_t_1 = __Pyx_PyUnicode_From_long((__pyx_v_self->Nsh - 1), 0, ' ', 'd'); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 736, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyUnicode_From_long((__pyx_v_self->Nsh - 1), 0, ' ', 'd'); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 703, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_1);
@@ -7866,9 +7825,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 7;
     __Pyx_GIVEREF(__pyx_kp_u_el);
     PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u_el);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->number_el, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 736, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->number_el, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 703, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 736, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 703, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_3;
@@ -7880,9 +7839,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 6;
     __Pyx_GIVEREF(__pyx_kp_u_E);
     PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_kp_u_E);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_self->BE, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 736, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_self->BE, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 703, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 736, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 703, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_3;
@@ -7894,16 +7853,16 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 3;
     __Pyx_GIVEREF(__pyx_kp_u__7);
     PyTuple_SET_ITEM(__pyx_t_5, 6, __pyx_kp_u__7);
-    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 736, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 703, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 736, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 703, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v_rep, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":737
+    /* "MontyCarlo/materials/pyRelax.pyx":704
  *             rep += f"    <Shell #{self.Nsh-2} #el = {self.number_el[-2]}, E = {self.BE[-2]}> \n"
  *             rep += f"    <Shell #{self.Nsh-1} #el = {self.number_el[-1]}, E = {self.BE[-1]}> \n"
  *             return rep             # <<<<<<<<<<<<<<
@@ -7915,7 +7874,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_r = __pyx_v_rep;
     goto __pyx_L0;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":731
+    /* "MontyCarlo/materials/pyRelax.pyx":698
  *         rep = f"<Atom Z = {self.Z}, Aw = {self.Aw}, Nsh = {self.Nsh}> \n"
  * 
  *         if self.Nsh > 5:             # <<<<<<<<<<<<<<
@@ -7924,7 +7883,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
  */
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":739
+  /* "MontyCarlo/materials/pyRelax.pyx":706
  *             return rep
  * 
  *         for i in range(self.Nsh):             # <<<<<<<<<<<<<<
@@ -7936,14 +7895,14 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
     __pyx_v_i = __pyx_t_9;
 
-    /* "MontyCarlo/materials/pyRelax.pyx":740
+    /* "MontyCarlo/materials/pyRelax.pyx":707
  * 
  *         for i in range(self.Nsh):
  *             rep += f"    <Shell #{i} #el = {self.number_el[i]}, E = {self.BE[i]}> \n"             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_5 = PyTuple_New(7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 740, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 707, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_2 = 0;
     __pyx_t_3 = 127;
@@ -7951,7 +7910,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 12;
     __Pyx_GIVEREF(__pyx_kp_u_Shell);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u_Shell);
-    __pyx_t_1 = __Pyx_PyUnicode_From_int(__pyx_v_i, 0, ' ', 'd'); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 740, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyUnicode_From_int(__pyx_v_i, 0, ' ', 'd'); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 707, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_2 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_1);
@@ -7961,9 +7920,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 7;
     __Pyx_GIVEREF(__pyx_kp_u_el);
     PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u_el);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->number_el, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 740, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->number_el, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 707, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 740, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_FormatSimple(__pyx_t_1, __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 707, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_3;
@@ -7975,9 +7934,9 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 6;
     __Pyx_GIVEREF(__pyx_kp_u_E);
     PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_kp_u_E);
-    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_self->BE, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 740, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_self->BE, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 707, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 740, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_FormatSimple(__pyx_t_4, __pyx_empty_unicode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 707, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_3 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) > __pyx_t_3) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_1) : __pyx_t_3;
@@ -7989,17 +7948,17 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
     __pyx_t_2 += 3;
     __Pyx_GIVEREF(__pyx_kp_u__7);
     PyTuple_SET_ITEM(__pyx_t_5, 6, __pyx_kp_u__7);
-    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 740, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyUnicode_Join(__pyx_t_5, 7, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 707, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 740, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Concat(__pyx_v_rep, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 707, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v_rep, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":745
+  /* "MontyCarlo/materials/pyRelax.pyx":712
  * 
  * 
  *         return rep             # <<<<<<<<<<<<<<
@@ -8011,7 +7970,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
   __pyx_r = __pyx_v_rep;
   goto __pyx_L0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":728
+  /* "MontyCarlo/materials/pyRelax.pyx":695
  * 
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -8033,7 +7992,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_18__repr__(stru
   return __pyx_r;
 }
 
-/* "MontyCarlo/materials/pyRelax.pyx":816
+/* "MontyCarlo/materials/pyRelax.pyx":783
  * 
  * 
  *     cpdef getBookmarkedText(self):             # <<<<<<<<<<<<<<
@@ -8100,7 +8059,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getBookmarkedText); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 816, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getBookmarkedText); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 783, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10MontyCarlo_9materials_7pyRelax_4Atom_21getBookmarkedText)) {
         __Pyx_XDECREF(__pyx_r);
@@ -8117,7 +8076,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 816, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 783, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -8138,7 +8097,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
     #endif
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":817
+  /* "MontyCarlo/materials/pyRelax.pyx":784
  * 
  *     cpdef getBookmarkedText(self):
  *         cdef str path = self.path             # <<<<<<<<<<<<<<
@@ -8150,7 +8109,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
   __pyx_v_path = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":819
+  /* "MontyCarlo/materials/pyRelax.pyx":786
  *         cdef str path = self.path
  * 
  *         with open(path, "r") as file:             # <<<<<<<<<<<<<<
@@ -8158,7 +8117,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
  *                 text = [line.strip('\n') for line in text]
  */
   /*with:*/ {
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 819, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 786, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_v_path);
     __Pyx_GIVEREF(__pyx_v_path);
@@ -8166,12 +8125,12 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
     __Pyx_INCREF(__pyx_n_s_r);
     __Pyx_GIVEREF(__pyx_n_s_r);
     PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_r);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 819, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 786, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_5 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 819, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 786, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_enter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 819, __pyx_L3_error)
+    __pyx_t_3 = __Pyx_PyObject_LookupSpecial(__pyx_t_2, __pyx_n_s_enter); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 786, __pyx_L3_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -8185,7 +8144,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
     }
     __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 819, __pyx_L3_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 786, __pyx_L3_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_3 = __pyx_t_1;
@@ -8203,14 +8162,14 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
           __pyx_v_file = __pyx_t_3;
           __pyx_t_3 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":820
+          /* "MontyCarlo/materials/pyRelax.pyx":787
  * 
  *         with open(path, "r") as file:
  *                 text = file.readlines()             # <<<<<<<<<<<<<<
  *                 text = [line.strip('\n') for line in text]
  * 
  */
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_readlines); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 820, __pyx_L7_error)
+          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_file, __pyx_n_s_readlines); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 787, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
           __pyx_t_1 = NULL;
           if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8224,45 +8183,45 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
           }
           __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
           __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-          if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 820, __pyx_L7_error)
+          if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 787, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __pyx_v_text = __pyx_t_3;
           __pyx_t_3 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":821
+          /* "MontyCarlo/materials/pyRelax.pyx":788
  *         with open(path, "r") as file:
  *                 text = file.readlines()
  *                 text = [line.strip('\n') for line in text]             # <<<<<<<<<<<<<<
  * 
  *                 bookmarks = [0]
  */
-          __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 821, __pyx_L7_error)
+          __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 788, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_3);
           if (likely(PyList_CheckExact(__pyx_v_text)) || PyTuple_CheckExact(__pyx_v_text)) {
             __pyx_t_2 = __pyx_v_text; __Pyx_INCREF(__pyx_t_2); __pyx_t_9 = 0;
             __pyx_t_10 = NULL;
           } else {
-            __pyx_t_9 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_text); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 821, __pyx_L7_error)
+            __pyx_t_9 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_text); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 788, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_10 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 821, __pyx_L7_error)
+            __pyx_t_10 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 788, __pyx_L7_error)
           }
           for (;;) {
             if (likely(!__pyx_t_10)) {
               if (likely(PyList_CheckExact(__pyx_t_2))) {
                 if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_2)) break;
                 #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 821, __pyx_L7_error)
+                __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 788, __pyx_L7_error)
                 #else
-                __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 821, __pyx_L7_error)
+                __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 788, __pyx_L7_error)
                 __Pyx_GOTREF(__pyx_t_1);
                 #endif
               } else {
                 if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
                 #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 821, __pyx_L7_error)
+                __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 788, __pyx_L7_error)
                 #else
-                __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 821, __pyx_L7_error)
+                __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 788, __pyx_L7_error)
                 __Pyx_GOTREF(__pyx_t_1);
                 #endif
               }
@@ -8272,7 +8231,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
                 PyObject* exc_type = PyErr_Occurred();
                 if (exc_type) {
                   if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                  else __PYX_ERR(0, 821, __pyx_L7_error)
+                  else __PYX_ERR(0, 788, __pyx_L7_error)
                 }
                 break;
               }
@@ -8280,7 +8239,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
             }
             __Pyx_XDECREF_SET(__pyx_v_line, __pyx_t_1);
             __pyx_t_1 = 0;
-            __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_strip); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 821, __pyx_L7_error)
+            __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_line, __pyx_n_s_strip); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 788, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_4);
             __pyx_t_11 = NULL;
             if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -8294,24 +8253,24 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
             }
             __pyx_t_1 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_11, __pyx_kp_s__9) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s__9);
             __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-            if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 821, __pyx_L7_error)
+            if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 788, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_1))) __PYX_ERR(0, 821, __pyx_L7_error)
+            if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_1))) __PYX_ERR(0, 788, __pyx_L7_error)
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           }
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_DECREF_SET(__pyx_v_text, __pyx_t_3);
           __pyx_t_3 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":823
+          /* "MontyCarlo/materials/pyRelax.pyx":790
  *                 text = [line.strip('\n') for line in text]
  * 
  *                 bookmarks = [0]             # <<<<<<<<<<<<<<
  * 
  *                 for n, line in enumerate(text):
  */
-          __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 823, __pyx_L7_error)
+          __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 790, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_INCREF(__pyx_int_0);
           __Pyx_GIVEREF(__pyx_int_0);
@@ -8319,7 +8278,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
           __pyx_v_bookmarks = ((PyObject*)__pyx_t_3);
           __pyx_t_3 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":825
+          /* "MontyCarlo/materials/pyRelax.pyx":792
  *                 bookmarks = [0]
  * 
  *                 for n, line in enumerate(text):             # <<<<<<<<<<<<<<
@@ -8332,26 +8291,26 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
             __pyx_t_2 = __pyx_v_text; __Pyx_INCREF(__pyx_t_2); __pyx_t_9 = 0;
             __pyx_t_10 = NULL;
           } else {
-            __pyx_t_9 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_text); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 825, __pyx_L7_error)
+            __pyx_t_9 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_text); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 792, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_10 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 825, __pyx_L7_error)
+            __pyx_t_10 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 792, __pyx_L7_error)
           }
           for (;;) {
             if (likely(!__pyx_t_10)) {
               if (likely(PyList_CheckExact(__pyx_t_2))) {
                 if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_2)) break;
                 #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 825, __pyx_L7_error)
+                __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 792, __pyx_L7_error)
                 #else
-                __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 825, __pyx_L7_error)
+                __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 792, __pyx_L7_error)
                 __Pyx_GOTREF(__pyx_t_1);
                 #endif
               } else {
                 if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
                 #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 825, __pyx_L7_error)
+                __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_1); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 792, __pyx_L7_error)
                 #else
-                __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 825, __pyx_L7_error)
+                __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 792, __pyx_L7_error)
                 __Pyx_GOTREF(__pyx_t_1);
                 #endif
               }
@@ -8361,7 +8320,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
                 PyObject* exc_type = PyErr_Occurred();
                 if (exc_type) {
                   if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                  else __PYX_ERR(0, 825, __pyx_L7_error)
+                  else __PYX_ERR(0, 792, __pyx_L7_error)
                 }
                 break;
               }
@@ -8371,43 +8330,43 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
             __pyx_t_1 = 0;
             __Pyx_INCREF(__pyx_t_3);
             __Pyx_XDECREF_SET(__pyx_v_n, __pyx_t_3);
-            __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_t_3, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 825, __pyx_L7_error)
+            __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_t_3, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 792, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_3);
             __pyx_t_3 = __pyx_t_1;
             __pyx_t_1 = 0;
 
-            /* "MontyCarlo/materials/pyRelax.pyx":826
+            /* "MontyCarlo/materials/pyRelax.pyx":793
  * 
  *                 for n, line in enumerate(text):
  *                         if line == "                                                                       1":             # <<<<<<<<<<<<<<
  *                                 bookmarks += [n + 1]
  * 
  */
-            __pyx_t_12 = (__Pyx_PyString_Equals(__pyx_v_line, __pyx_kp_s_1, Py_EQ)); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 826, __pyx_L7_error)
+            __pyx_t_12 = (__Pyx_PyString_Equals(__pyx_v_line, __pyx_kp_s_1, Py_EQ)); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 793, __pyx_L7_error)
             if (__pyx_t_12) {
 
-              /* "MontyCarlo/materials/pyRelax.pyx":827
+              /* "MontyCarlo/materials/pyRelax.pyx":794
  *                 for n, line in enumerate(text):
  *                         if line == "                                                                       1":
  *                                 bookmarks += [n + 1]             # <<<<<<<<<<<<<<
  * 
  *                 #gather all bookmarked text into a dict
  */
-              __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_v_n, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 827, __pyx_L7_error)
+              __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_v_n, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 794, __pyx_L7_error)
               __Pyx_GOTREF(__pyx_t_1);
-              __pyx_t_4 = PyList_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 827, __pyx_L7_error)
+              __pyx_t_4 = PyList_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 794, __pyx_L7_error)
               __Pyx_GOTREF(__pyx_t_4);
               __Pyx_GIVEREF(__pyx_t_1);
               PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
               __pyx_t_1 = 0;
-              __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_bookmarks, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 827, __pyx_L7_error)
+              __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_bookmarks, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 794, __pyx_L7_error)
               __Pyx_GOTREF(__pyx_t_1);
               __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
               __Pyx_DECREF_SET(__pyx_v_bookmarks, ((PyObject*)__pyx_t_1));
               __pyx_t_1 = 0;
 
-              /* "MontyCarlo/materials/pyRelax.pyx":826
+              /* "MontyCarlo/materials/pyRelax.pyx":793
  * 
  *                 for n, line in enumerate(text):
  *                         if line == "                                                                       1":             # <<<<<<<<<<<<<<
@@ -8416,7 +8375,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
  */
             }
 
-            /* "MontyCarlo/materials/pyRelax.pyx":825
+            /* "MontyCarlo/materials/pyRelax.pyx":792
  *                 bookmarks = [0]
  * 
  *                 for n, line in enumerate(text):             # <<<<<<<<<<<<<<
@@ -8427,90 +8386,90 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":830
+          /* "MontyCarlo/materials/pyRelax.pyx":797
  * 
  *                 #gather all bookmarked text into a dict
  *                 bookmark_ = bookmarks[0:-1]             # <<<<<<<<<<<<<<
  *                 _ookmarks = bookmarks[1:]
  * 
  */
-          __pyx_t_3 = __Pyx_PyList_GetSlice(__pyx_v_bookmarks, 0, -1L); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 830, __pyx_L7_error)
+          __pyx_t_3 = __Pyx_PyList_GetSlice(__pyx_v_bookmarks, 0, -1L); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 797, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_3);
           __pyx_v_bookmark_ = ((PyObject*)__pyx_t_3);
           __pyx_t_3 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":831
+          /* "MontyCarlo/materials/pyRelax.pyx":798
  *                 #gather all bookmarked text into a dict
  *                 bookmark_ = bookmarks[0:-1]
  *                 _ookmarks = bookmarks[1:]             # <<<<<<<<<<<<<<
  * 
  *                 line0 = text[0]
  */
-          __pyx_t_3 = __Pyx_PyList_GetSlice(__pyx_v_bookmarks, 1, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 831, __pyx_L7_error)
+          __pyx_t_3 = __Pyx_PyList_GetSlice(__pyx_v_bookmarks, 1, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 798, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_3);
           __pyx_v__ookmarks = ((PyObject*)__pyx_t_3);
           __pyx_t_3 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":833
+          /* "MontyCarlo/materials/pyRelax.pyx":800
  *                 _ookmarks = bookmarks[1:]
  * 
  *                 line0 = text[0]             # <<<<<<<<<<<<<<
  *                 Z  = int(line0[0:3])
  *                 Aw = float(line0[13:24])
  */
-          __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_text, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 833, __pyx_L7_error)
+          __pyx_t_3 = __Pyx_GetItemInt_List(__pyx_v_text, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 800, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_3);
           __pyx_v_line0 = __pyx_t_3;
           __pyx_t_3 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":834
+          /* "MontyCarlo/materials/pyRelax.pyx":801
  * 
  *                 line0 = text[0]
  *                 Z  = int(line0[0:3])             # <<<<<<<<<<<<<<
  *                 Aw = float(line0[13:24])
  * 
  */
-          __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_line0, 0, 3, NULL, NULL, &__pyx_slice__10, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 834, __pyx_L7_error)
+          __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_line0, 0, 3, NULL, NULL, &__pyx_slice__10, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 801, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 834, __pyx_L7_error)
+          __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 801, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __pyx_v_Z = __pyx_t_2;
           __pyx_t_2 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":835
+          /* "MontyCarlo/materials/pyRelax.pyx":802
  *                 line0 = text[0]
  *                 Z  = int(line0[0:3])
  *                 Aw = float(line0[13:24])             # <<<<<<<<<<<<<<
  * 
  * 
  */
-          __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_line0, 13, 24, NULL, NULL, &__pyx_slice__11, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 835, __pyx_L7_error)
+          __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_line0, 13, 24, NULL, NULL, &__pyx_slice__11, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 802, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_2); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 835, __pyx_L7_error)
+          __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_2); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 802, __pyx_L7_error)
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __pyx_v_Aw = __pyx_t_13;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":838
+          /* "MontyCarlo/materials/pyRelax.pyx":805
  * 
  * 
  *                 bookmarked_text = {}             # <<<<<<<<<<<<<<
  * 
  *                 for i, j in zip(bookmark_, _ookmarks):
  */
-          __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 838, __pyx_L7_error)
+          __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 805, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
           __pyx_v_bookmarked_text = ((PyObject*)__pyx_t_2);
           __pyx_t_2 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":840
+          /* "MontyCarlo/materials/pyRelax.pyx":807
  *                 bookmarked_text = {}
  * 
  *                 for i, j in zip(bookmark_, _ookmarks):             # <<<<<<<<<<<<<<
  *                         line1, line2 = text[i], text[i+1]
  * 
  */
-          __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 840, __pyx_L7_error)
+          __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 807, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_INCREF(__pyx_v_bookmark_);
           __Pyx_GIVEREF(__pyx_v_bookmark_);
@@ -8518,16 +8477,16 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
           __Pyx_INCREF(__pyx_v__ookmarks);
           __Pyx_GIVEREF(__pyx_v__ookmarks);
           PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v__ookmarks);
-          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 840, __pyx_L7_error)
+          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 807, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
             __pyx_t_2 = __pyx_t_3; __Pyx_INCREF(__pyx_t_2); __pyx_t_9 = 0;
             __pyx_t_10 = NULL;
           } else {
-            __pyx_t_9 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 840, __pyx_L7_error)
+            __pyx_t_9 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 807, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_10 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 840, __pyx_L7_error)
+            __pyx_t_10 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 807, __pyx_L7_error)
           }
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           for (;;) {
@@ -8535,17 +8494,17 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
               if (likely(PyList_CheckExact(__pyx_t_2))) {
                 if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_2)) break;
                 #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_3); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 840, __pyx_L7_error)
+                __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_3); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 807, __pyx_L7_error)
                 #else
-                __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 840, __pyx_L7_error)
+                __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 807, __pyx_L7_error)
                 __Pyx_GOTREF(__pyx_t_3);
                 #endif
               } else {
                 if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
                 #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-                __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_3); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 840, __pyx_L7_error)
+                __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_9); __Pyx_INCREF(__pyx_t_3); __pyx_t_9++; if (unlikely(0 < 0)) __PYX_ERR(0, 807, __pyx_L7_error)
                 #else
-                __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 840, __pyx_L7_error)
+                __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 807, __pyx_L7_error)
                 __Pyx_GOTREF(__pyx_t_3);
                 #endif
               }
@@ -8555,7 +8514,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
                 PyObject* exc_type = PyErr_Occurred();
                 if (exc_type) {
                   if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                  else __PYX_ERR(0, 840, __pyx_L7_error)
+                  else __PYX_ERR(0, 807, __pyx_L7_error)
                 }
                 break;
               }
@@ -8567,7 +8526,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
               if (unlikely(size != 2)) {
                 if (size > 2) __Pyx_RaiseTooManyValuesError(2);
                 else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-                __PYX_ERR(0, 840, __pyx_L7_error)
+                __PYX_ERR(0, 807, __pyx_L7_error)
               }
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
               if (likely(PyTuple_CheckExact(sequence))) {
@@ -8580,15 +8539,15 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
               __Pyx_INCREF(__pyx_t_1);
               __Pyx_INCREF(__pyx_t_4);
               #else
-              __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 840, __pyx_L7_error)
+              __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 807, __pyx_L7_error)
               __Pyx_GOTREF(__pyx_t_1);
-              __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 840, __pyx_L7_error)
+              __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 807, __pyx_L7_error)
               __Pyx_GOTREF(__pyx_t_4);
               #endif
               __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
             } else {
               Py_ssize_t index = -1;
-              __pyx_t_11 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 840, __pyx_L7_error)
+              __pyx_t_11 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 807, __pyx_L7_error)
               __Pyx_GOTREF(__pyx_t_11);
               __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
               __pyx_t_14 = Py_TYPE(__pyx_t_11)->tp_iternext;
@@ -8596,7 +8555,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
               __Pyx_GOTREF(__pyx_t_1);
               index = 1; __pyx_t_4 = __pyx_t_14(__pyx_t_11); if (unlikely(!__pyx_t_4)) goto __pyx_L20_unpacking_failed;
               __Pyx_GOTREF(__pyx_t_4);
-              if (__Pyx_IternextUnpackEndCheck(__pyx_t_14(__pyx_t_11), 2) < 0) __PYX_ERR(0, 840, __pyx_L7_error)
+              if (__Pyx_IternextUnpackEndCheck(__pyx_t_14(__pyx_t_11), 2) < 0) __PYX_ERR(0, 807, __pyx_L7_error)
               __pyx_t_14 = NULL;
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
               goto __pyx_L21_unpacking_done;
@@ -8604,7 +8563,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
               __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
               __pyx_t_14 = NULL;
               if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-              __PYX_ERR(0, 840, __pyx_L7_error)
+              __PYX_ERR(0, 807, __pyx_L7_error)
               __pyx_L21_unpacking_done:;
             }
             __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
@@ -8612,18 +8571,18 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
             __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_4);
             __pyx_t_4 = 0;
 
-            /* "MontyCarlo/materials/pyRelax.pyx":841
+            /* "MontyCarlo/materials/pyRelax.pyx":808
  * 
  *                 for i, j in zip(bookmark_, _ookmarks):
  *                         line1, line2 = text[i], text[i+1]             # <<<<<<<<<<<<<<
  * 
  *                        #on line 1
  */
-            __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_text, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 841, __pyx_L7_error)
+            __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_text, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 808, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_3);
-            __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 841, __pyx_L7_error)
+            __pyx_t_4 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 808, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_4);
-            __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_text, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 841, __pyx_L7_error)
+            __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_text, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 808, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
             __Pyx_XDECREF_SET(__pyx_v_line1, __pyx_t_3);
@@ -8631,104 +8590,104 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
             __Pyx_XDECREF_SET(__pyx_v_line2, __pyx_t_1);
             __pyx_t_1 = 0;
 
-            /* "MontyCarlo/materials/pyRelax.pyx":844
+            /* "MontyCarlo/materials/pyRelax.pyx":811
  * 
  *                        #on line 1
  *                         Yi = float(line1[7:9])    #particle identifier             # <<<<<<<<<<<<<<
  *                         Yo = float(line1[10:12])  #secondary particle designator
  * 
  */
-            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line1, 7, 9, NULL, NULL, &__pyx_slice__12, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 844, __pyx_L7_error)
+            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line1, 7, 9, NULL, NULL, &__pyx_slice__12, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 811, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 844, __pyx_L7_error)
+            __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 811, __pyx_L7_error)
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __pyx_v_Yi = __pyx_t_13;
 
-            /* "MontyCarlo/materials/pyRelax.pyx":845
+            /* "MontyCarlo/materials/pyRelax.pyx":812
  *                        #on line 1
  *                         Yi = float(line1[7:9])    #particle identifier
  *                         Yo = float(line1[10:12])  #secondary particle designator             # <<<<<<<<<<<<<<
  * 
  *                         #on line 2
  */
-            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line1, 10, 12, NULL, NULL, &__pyx_slice__13, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 845, __pyx_L7_error)
+            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line1, 10, 12, NULL, NULL, &__pyx_slice__13, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 812, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 845, __pyx_L7_error)
+            __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 812, __pyx_L7_error)
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __pyx_v_Yo = __pyx_t_13;
 
-            /* "MontyCarlo/materials/pyRelax.pyx":848
+            /* "MontyCarlo/materials/pyRelax.pyx":815
  * 
  *                         #on line 2
  *                         C  = float(line2[0:2])    #reaction descriptor             # <<<<<<<<<<<<<<
  *                         I  = float(line2[2:5])    #reaction property
  *                         S  = float(line2[5:8])    #reaction modifier
  */
-            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line2, 0, 2, NULL, NULL, &__pyx_slice__14, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 848, __pyx_L7_error)
+            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line2, 0, 2, NULL, NULL, &__pyx_slice__14, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 815, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 848, __pyx_L7_error)
+            __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 815, __pyx_L7_error)
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __pyx_v_C = __pyx_t_13;
 
-            /* "MontyCarlo/materials/pyRelax.pyx":849
+            /* "MontyCarlo/materials/pyRelax.pyx":816
  *                         #on line 2
  *                         C  = float(line2[0:2])    #reaction descriptor
  *                         I  = float(line2[2:5])    #reaction property             # <<<<<<<<<<<<<<
  *                         S  = float(line2[5:8])    #reaction modifier
  *                         X1 = float(line2[22:32])  #subshell designator
  */
-            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line2, 2, 5, NULL, NULL, &__pyx_slice__15, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 849, __pyx_L7_error)
+            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line2, 2, 5, NULL, NULL, &__pyx_slice__15, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 816, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 849, __pyx_L7_error)
+            __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 816, __pyx_L7_error)
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __pyx_v_I = __pyx_t_13;
 
-            /* "MontyCarlo/materials/pyRelax.pyx":850
+            /* "MontyCarlo/materials/pyRelax.pyx":817
  *                         C  = float(line2[0:2])    #reaction descriptor
  *                         I  = float(line2[2:5])    #reaction property
  *                         S  = float(line2[5:8])    #reaction modifier             # <<<<<<<<<<<<<<
  *                         X1 = float(line2[22:32])  #subshell designator
  * 
  */
-            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line2, 5, 8, NULL, NULL, &__pyx_slice__16, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 850, __pyx_L7_error)
+            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line2, 5, 8, NULL, NULL, &__pyx_slice__16, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 817, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 850, __pyx_L7_error)
+            __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 817, __pyx_L7_error)
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __pyx_v_S = __pyx_t_13;
 
-            /* "MontyCarlo/materials/pyRelax.pyx":851
+            /* "MontyCarlo/materials/pyRelax.pyx":818
  *                         I  = float(line2[2:5])    #reaction property
  *                         S  = float(line2[5:8])    #reaction modifier
  *                         X1 = float(line2[22:32])  #subshell designator             # <<<<<<<<<<<<<<
  * 
  *                         flags = (Yi, C, S, X1, Yo, I)
  */
-            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line2, 22, 32, NULL, NULL, &__pyx_slice__17, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 851, __pyx_L7_error)
+            __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_line2, 22, 32, NULL, NULL, &__pyx_slice__17, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 818, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 851, __pyx_L7_error)
+            __pyx_t_13 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_13 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 818, __pyx_L7_error)
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __pyx_v_X1 = __pyx_t_13;
 
-            /* "MontyCarlo/materials/pyRelax.pyx":853
+            /* "MontyCarlo/materials/pyRelax.pyx":820
  *                         X1 = float(line2[22:32])  #subshell designator
  * 
  *                         flags = (Yi, C, S, X1, Yo, I)             # <<<<<<<<<<<<<<
  * 
  *                         flags = tuple(map(int, flags))
  */
-            __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Yi); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 853, __pyx_L7_error)
+            __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Yi); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 820, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_3 = PyFloat_FromDouble(__pyx_v_C); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 853, __pyx_L7_error)
+            __pyx_t_3 = PyFloat_FromDouble(__pyx_v_C); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 820, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_3);
-            __pyx_t_4 = PyFloat_FromDouble(__pyx_v_S); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 853, __pyx_L7_error)
+            __pyx_t_4 = PyFloat_FromDouble(__pyx_v_S); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 820, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_4);
-            __pyx_t_11 = PyFloat_FromDouble(__pyx_v_X1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 853, __pyx_L7_error)
+            __pyx_t_11 = PyFloat_FromDouble(__pyx_v_X1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 820, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_11);
-            __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Yo); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 853, __pyx_L7_error)
+            __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Yo); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 820, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_16 = PyFloat_FromDouble(__pyx_v_I); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 853, __pyx_L7_error)
+            __pyx_t_16 = PyFloat_FromDouble(__pyx_v_I); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 820, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_16);
-            __pyx_t_17 = PyTuple_New(6); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 853, __pyx_L7_error)
+            __pyx_t_17 = PyTuple_New(6); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 820, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_17);
             __Pyx_GIVEREF(__pyx_t_1);
             PyTuple_SET_ITEM(__pyx_t_17, 0, __pyx_t_1);
@@ -8751,14 +8710,14 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
             __Pyx_XDECREF_SET(__pyx_v_flags, __pyx_t_17);
             __pyx_t_17 = 0;
 
-            /* "MontyCarlo/materials/pyRelax.pyx":855
+            /* "MontyCarlo/materials/pyRelax.pyx":822
  *                         flags = (Yi, C, S, X1, Yo, I)
  * 
  *                         flags = tuple(map(int, flags))             # <<<<<<<<<<<<<<
  *                         bookmarked_text[flags] = text[i+2:j-1]
  * 
  */
-            __pyx_t_17 = PyTuple_New(2); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 855, __pyx_L7_error)
+            __pyx_t_17 = PyTuple_New(2); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 822, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_17);
             __Pyx_INCREF(((PyObject *)(&PyInt_Type)));
             __Pyx_GIVEREF(((PyObject *)(&PyInt_Type)));
@@ -8766,34 +8725,34 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
             __Pyx_INCREF(__pyx_v_flags);
             __Pyx_GIVEREF(__pyx_v_flags);
             PyTuple_SET_ITEM(__pyx_t_17, 1, __pyx_v_flags);
-            __pyx_t_16 = __Pyx_PyObject_Call(__pyx_builtin_map, __pyx_t_17, NULL); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 855, __pyx_L7_error)
+            __pyx_t_16 = __Pyx_PyObject_Call(__pyx_builtin_map, __pyx_t_17, NULL); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 822, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_16);
             __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
-            __pyx_t_17 = __Pyx_PySequence_Tuple(__pyx_t_16); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 855, __pyx_L7_error)
+            __pyx_t_17 = __Pyx_PySequence_Tuple(__pyx_t_16); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 822, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_17);
             __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
             __Pyx_DECREF_SET(__pyx_v_flags, __pyx_t_17);
             __pyx_t_17 = 0;
 
-            /* "MontyCarlo/materials/pyRelax.pyx":856
+            /* "MontyCarlo/materials/pyRelax.pyx":823
  * 
  *                         flags = tuple(map(int, flags))
  *                         bookmarked_text[flags] = text[i+2:j-1]             # <<<<<<<<<<<<<<
  * 
  *         return Aw, bookmarked_text
  */
-            __pyx_t_17 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_2, 2, 0, 0); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 856, __pyx_L7_error)
+            __pyx_t_17 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_2, 2, 0, 0); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 823, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_17);
-            __pyx_t_16 = __Pyx_PyInt_SubtractObjC(__pyx_v_j, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 856, __pyx_L7_error)
+            __pyx_t_16 = __Pyx_PyInt_SubtractObjC(__pyx_v_j, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 823, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_16);
-            __pyx_t_15 = __Pyx_PyObject_GetSlice(__pyx_v_text, 0, 0, &__pyx_t_17, &__pyx_t_16, NULL, 0, 0, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 856, __pyx_L7_error)
+            __pyx_t_15 = __Pyx_PyObject_GetSlice(__pyx_v_text, 0, 0, &__pyx_t_17, &__pyx_t_16, NULL, 0, 0, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 823, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_15);
             __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
             __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
-            if (unlikely(PyDict_SetItem(__pyx_v_bookmarked_text, __pyx_v_flags, __pyx_t_15) < 0)) __PYX_ERR(0, 856, __pyx_L7_error)
+            if (unlikely(PyDict_SetItem(__pyx_v_bookmarked_text, __pyx_v_flags, __pyx_t_15) < 0)) __PYX_ERR(0, 823, __pyx_L7_error)
             __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
 
-            /* "MontyCarlo/materials/pyRelax.pyx":840
+            /* "MontyCarlo/materials/pyRelax.pyx":807
  *                 bookmarked_text = {}
  * 
  *                 for i, j in zip(bookmark_, _ookmarks):             # <<<<<<<<<<<<<<
@@ -8803,7 +8762,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
           }
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-          /* "MontyCarlo/materials/pyRelax.pyx":819
+          /* "MontyCarlo/materials/pyRelax.pyx":786
  *         cdef str path = self.path
  * 
  *         with open(path, "r") as file:             # <<<<<<<<<<<<<<
@@ -8826,20 +8785,20 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         /*except:*/ {
           __Pyx_AddTraceback("MontyCarlo.materials.pyRelax.Atom.getBookmarkedText", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_15, &__pyx_t_16) < 0) __PYX_ERR(0, 819, __pyx_L9_except_error)
+          if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_15, &__pyx_t_16) < 0) __PYX_ERR(0, 786, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_GOTREF(__pyx_t_15);
           __Pyx_GOTREF(__pyx_t_16);
-          __pyx_t_17 = PyTuple_Pack(3, __pyx_t_2, __pyx_t_15, __pyx_t_16); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 819, __pyx_L9_except_error)
+          __pyx_t_17 = PyTuple_Pack(3, __pyx_t_2, __pyx_t_15, __pyx_t_16); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 786, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_17);
           __pyx_t_18 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_17, NULL);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
-          if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 819, __pyx_L9_except_error)
+          if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 786, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_18);
           __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_18);
           __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
-          if (__pyx_t_12 < 0) __PYX_ERR(0, 819, __pyx_L9_except_error)
+          if (__pyx_t_12 < 0) __PYX_ERR(0, 786, __pyx_L9_except_error)
           __pyx_t_19 = ((!(__pyx_t_12 != 0)) != 0);
           if (__pyx_t_19) {
             __Pyx_GIVEREF(__pyx_t_2);
@@ -8847,7 +8806,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
             __Pyx_XGIVEREF(__pyx_t_16);
             __Pyx_ErrRestoreWithState(__pyx_t_2, __pyx_t_15, __pyx_t_16);
             __pyx_t_2 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; 
-            __PYX_ERR(0, 819, __pyx_L9_except_error)
+            __PYX_ERR(0, 786, __pyx_L9_except_error)
           }
           __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
@@ -8873,7 +8832,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
         if (__pyx_t_5) {
           __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__18, NULL);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 819, __pyx_L1_error)
+          if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 786, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
@@ -8888,7 +8847,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
     __pyx_L25:;
   }
 
-  /* "MontyCarlo/materials/pyRelax.pyx":858
+  /* "MontyCarlo/materials/pyRelax.pyx":825
  *                         bookmarked_text[flags] = text[i+2:j-1]
  * 
  *         return Aw, bookmarked_text             # <<<<<<<<<<<<<<
@@ -8896,10 +8855,10 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_16 = PyFloat_FromDouble(__pyx_v_Aw); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 858, __pyx_L1_error)
+  __pyx_t_16 = PyFloat_FromDouble(__pyx_v_Aw); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 825, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
-  if (unlikely(!__pyx_v_bookmarked_text)) { __Pyx_RaiseUnboundLocalError("bookmarked_text"); __PYX_ERR(0, 858, __pyx_L1_error) }
-  __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 858, __pyx_L1_error)
+  if (unlikely(!__pyx_v_bookmarked_text)) { __Pyx_RaiseUnboundLocalError("bookmarked_text"); __PYX_ERR(0, 825, __pyx_L1_error) }
+  __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 825, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   __Pyx_GIVEREF(__pyx_t_16);
   PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_16);
@@ -8911,7 +8870,7 @@ static PyObject *__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedTex
   __pyx_t_15 = 0;
   goto __pyx_L0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":816
+  /* "MontyCarlo/materials/pyRelax.pyx":783
  * 
  * 
  *     cpdef getBookmarkedText(self):             # <<<<<<<<<<<<<<
@@ -8975,7 +8934,7 @@ static PyObject *__pyx_pf_10MontyCarlo_9materials_7pyRelax_4Atom_20getBookmarked
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("getBookmarkedText", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedText(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 816, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedText(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 783, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -23394,10 +23353,10 @@ static int __pyx_import_star_set(PyObject *o, PyObject* py_name, char *name) {
     "__pyx_buffer",
     "__pyx_ctuple_Py_ssize_t",
     "__pyx_ctuple_Py_ssize_t_struct",
-    "__pyx_ctuple_cac69__double__and_double__and_double__and_double__and_double__and_double__etc",
-    "__pyx_ctuple_cac69__double__and_double__and_double__and_double__and_double__and_double__etc_struct",
     "__pyx_ctuple_char__ptr",
     "__pyx_ctuple_char__ptr_struct",
+    "__pyx_ctuple_fec25__double__and_double__and_double__and_double__and_double__and_double__etc",
+    "__pyx_ctuple_fec25__double__and_double__and_double__and_double__and_double__and_double__etc_struct",
     "__pyx_ctuple_int",
     "__pyx_ctuple_int__and_Py_ssize_t",
     "__pyx_ctuple_int__and_Py_ssize_t__and_Py_ssize_t",
@@ -23414,8 +23373,6 @@ static int __pyx_import_star_set(PyObject *o, PyObject* py_name, char *name) {
     "__pyx_ctuple_long__and_long__and_long__and_long__and_long__and_long_struct",
     "__pyx_ctuple_long__and_long__and_long_struct",
     "__pyx_ctuple_long_struct",
-    "__pyx_ctuple_size_t",
-    "__pyx_ctuple_size_t_struct",
     "__pyx_memoryview",
     "_memoryviewslice",
     "array",
@@ -23461,11 +23418,15 @@ static int __pyx_import_star_set(PyObject *o, PyObject* py_name, char *name) {
     __pyx_v_10MontyCarlo_9materials_7pyRelax_directory = ((PyObject*)o);
   }
   else if (__Pyx_StrEq(name, "electronCUTOFF")) {
-    __pyx_v_10MontyCarlo_9materials_7pyRelax_electronCUTOFF = __pyx_PyFloat_AsDouble(o); if (unlikely((__pyx_v_10MontyCarlo_9materials_7pyRelax_electronCUTOFF == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L2_error)
+    __pyx_v_10MontyCarlo_9materials_7pyRelax_electronCUTOFF = __pyx_PyFloat_AsDouble(o); if (unlikely((__pyx_v_10MontyCarlo_9materials_7pyRelax_electronCUTOFF == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 38, __pyx_L2_error)
+  }
+  else if (__Pyx_StrEq(name, "gen")) {
+    PyErr_Format(PyExc_TypeError, "Cannot convert Python object gen to mixmax_engine");
+    __PYX_ERR(0, 19, __pyx_L2_error)
   }
   else if (__Pyx_StrEq(name, "genPTR")) {
     PyErr_Format(PyExc_TypeError, "Cannot convert Python object genPTR to mixmax_engine *");
-    __PYX_ERR(3, 11, __pyx_L2_error)
+    __PYX_ERR(0, 20, __pyx_L2_error)
   }
   else if (__Pyx_StrEq(name, "generic")) {
     Py_INCREF(o);
@@ -23483,7 +23444,7 @@ static int __pyx_import_star_set(PyObject *o, PyObject* py_name, char *name) {
     indirect_contiguous = o;
   }
   else if (__Pyx_StrEq(name, "photonCUTOFF")) {
-    __pyx_v_10MontyCarlo_9materials_7pyRelax_photonCUTOFF = __pyx_PyFloat_AsDouble(o); if (unlikely((__pyx_v_10MontyCarlo_9materials_7pyRelax_photonCUTOFF == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L2_error)
+    __pyx_v_10MontyCarlo_9materials_7pyRelax_photonCUTOFF = __pyx_PyFloat_AsDouble(o); if (unlikely((__pyx_v_10MontyCarlo_9materials_7pyRelax_photonCUTOFF == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 37, __pyx_L2_error)
   }
   else if (__Pyx_StrEq(name, "stderr")) {
     PyErr_Format(PyExc_TypeError, "Cannot convert Python object stderr to FILE *");
@@ -23733,6 +23694,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 0, 1, 1},
   {&__pyx_n_u_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
+  {&__pyx_n_s_gen, __pyx_k_gen, sizeof(__pyx_k_gen), 0, 0, 1, 1},
+  {&__pyx_n_s_genPTR, __pyx_k_genPTR, sizeof(__pyx_k_genPTR), 0, 0, 1, 1},
   {&__pyx_n_s_generic, __pyx_k_generic, sizeof(__pyx_k_generic), 0, 0, 1, 1},
   {&__pyx_n_s_get, __pyx_k_get, sizeof(__pyx_k_get), 0, 0, 1, 1},
   {&__pyx_n_s_getAxis, __pyx_k_getAxis, sizeof(__pyx_k_getAxis), 0, 0, 1, 1},
@@ -23827,15 +23790,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 213, __pyx_L1_error)
-  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(0, 231, __pyx_L1_error)
-  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 249, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 528, __pyx_L1_error)
-  __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) __PYX_ERR(0, 656, __pyx_L1_error)
-  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 819, __pyx_L1_error)
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 825, __pyx_L1_error)
-  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 840, __pyx_L1_error)
-  __pyx_builtin_map = __Pyx_GetBuiltinName(__pyx_n_s_map); if (!__pyx_builtin_map) __PYX_ERR(0, 855, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 216, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 495, __pyx_L1_error)
+  __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) __PYX_ERR(0, 623, __pyx_L1_error)
+  __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) __PYX_ERR(0, 786, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 792, __pyx_L1_error)
+  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 807, __pyx_L1_error)
+  __pyx_builtin_map = __Pyx_GetBuiltinName(__pyx_n_s_map); if (!__pyx_builtin_map) __PYX_ERR(0, 822, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_Ellipsis = __Pyx_GetBuiltinName(__pyx_n_s_Ellipsis); if (!__pyx_builtin_Ellipsis) __PYX_ERR(1, 404, __pyx_L1_error)
   __pyx_builtin_id = __Pyx_GetBuiltinName(__pyx_n_s_id); if (!__pyx_builtin_id) __PYX_ERR(1, 613, __pyx_L1_error)
@@ -23849,160 +23812,160 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":103
+  /* "MontyCarlo/materials/pyRelax.pyx":84
  *         self.data = {Id:getTable(self.EADL_dict[Id]) for Id in self.EADL_dict}
  * 
  *         number_el = self.data[(0, 91, 0, 0, 0, 912)]             # <<<<<<<<<<<<<<
  *         DESIGNATORS = [int(design) for design in number_el[:, 0]]
  *         DESIGNATORS = np.array(DESIGNATORS)
  */
-  __pyx_tuple_ = PyTuple_Pack(6, __pyx_int_0, __pyx_int_91, __pyx_int_0, __pyx_int_0, __pyx_int_0, __pyx_int_912); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(6, __pyx_int_0, __pyx_int_91, __pyx_int_0, __pyx_int_0, __pyx_int_0, __pyx_int_912); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":104
+  /* "MontyCarlo/materials/pyRelax.pyx":85
  * 
  *         number_el = self.data[(0, 91, 0, 0, 0, 912)]
  *         DESIGNATORS = [int(design) for design in number_el[:, 0]]             # <<<<<<<<<<<<<<
  *         DESIGNATORS = np.array(DESIGNATORS)
  * 
  */
-  __pyx_slice__2 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__2)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_slice__2 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__2)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__2);
   __Pyx_GIVEREF(__pyx_slice__2);
-  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_slice__2, __pyx_int_0); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_slice__2, __pyx_int_0); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":107
+  /* "MontyCarlo/materials/pyRelax.pyx":88
  *         DESIGNATORS = np.array(DESIGNATORS)
  * 
  *         number_el = number_el[:, 1]             # <<<<<<<<<<<<<<
  *         number_el = np.ceil(number_el)
  *         binding_energy = self.data[(0, 91, 0, 0, 0, 913)][:, 1]*1e6
  */
-  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_slice__2, __pyx_int_1); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(2, __pyx_slice__2, __pyx_int_1); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":109
+  /* "MontyCarlo/materials/pyRelax.pyx":90
  *         number_el = number_el[:, 1]
  *         number_el = np.ceil(number_el)
  *         binding_energy = self.data[(0, 91, 0, 0, 0, 913)][:, 1]*1e6             # <<<<<<<<<<<<<<
  * 
- * 
+ *         binding_energy = np.array(binding_energy)
  */
-  __pyx_tuple__5 = PyTuple_Pack(6, __pyx_int_0, __pyx_int_91, __pyx_int_0, __pyx_int_0, __pyx_int_0, __pyx_int_913); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(6, __pyx_int_0, __pyx_int_91, __pyx_int_0, __pyx_int_0, __pyx_int_0, __pyx_int_913); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":395
+  /* "MontyCarlo/materials/pyRelax.pyx":362
  * 
  * 
  *             probs = _trans[:, 2]             # <<<<<<<<<<<<<<
  *             probs = probs/sum(probs)
  *             self.PROBS.append(probs)
  */
-  __pyx_tuple__6 = PyTuple_Pack(2, __pyx_slice__2, __pyx_int_2); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 395, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(2, __pyx_slice__2, __pyx_int_2); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 362, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":834
+  /* "MontyCarlo/materials/pyRelax.pyx":801
  * 
  *                 line0 = text[0]
  *                 Z  = int(line0[0:3])             # <<<<<<<<<<<<<<
  *                 Aw = float(line0[13:24])
  * 
  */
-  __pyx_slice__10 = PySlice_New(__pyx_int_0, __pyx_int_3, Py_None); if (unlikely(!__pyx_slice__10)) __PYX_ERR(0, 834, __pyx_L1_error)
+  __pyx_slice__10 = PySlice_New(__pyx_int_0, __pyx_int_3, Py_None); if (unlikely(!__pyx_slice__10)) __PYX_ERR(0, 801, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__10);
   __Pyx_GIVEREF(__pyx_slice__10);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":835
+  /* "MontyCarlo/materials/pyRelax.pyx":802
  *                 line0 = text[0]
  *                 Z  = int(line0[0:3])
  *                 Aw = float(line0[13:24])             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_slice__11 = PySlice_New(__pyx_int_13, __pyx_int_24, Py_None); if (unlikely(!__pyx_slice__11)) __PYX_ERR(0, 835, __pyx_L1_error)
+  __pyx_slice__11 = PySlice_New(__pyx_int_13, __pyx_int_24, Py_None); if (unlikely(!__pyx_slice__11)) __PYX_ERR(0, 802, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__11);
   __Pyx_GIVEREF(__pyx_slice__11);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":844
+  /* "MontyCarlo/materials/pyRelax.pyx":811
  * 
  *                        #on line 1
  *                         Yi = float(line1[7:9])    #particle identifier             # <<<<<<<<<<<<<<
  *                         Yo = float(line1[10:12])  #secondary particle designator
  * 
  */
-  __pyx_slice__12 = PySlice_New(__pyx_int_7, __pyx_int_9, Py_None); if (unlikely(!__pyx_slice__12)) __PYX_ERR(0, 844, __pyx_L1_error)
+  __pyx_slice__12 = PySlice_New(__pyx_int_7, __pyx_int_9, Py_None); if (unlikely(!__pyx_slice__12)) __PYX_ERR(0, 811, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__12);
   __Pyx_GIVEREF(__pyx_slice__12);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":845
+  /* "MontyCarlo/materials/pyRelax.pyx":812
  *                        #on line 1
  *                         Yi = float(line1[7:9])    #particle identifier
  *                         Yo = float(line1[10:12])  #secondary particle designator             # <<<<<<<<<<<<<<
  * 
  *                         #on line 2
  */
-  __pyx_slice__13 = PySlice_New(__pyx_int_10, __pyx_int_12, Py_None); if (unlikely(!__pyx_slice__13)) __PYX_ERR(0, 845, __pyx_L1_error)
+  __pyx_slice__13 = PySlice_New(__pyx_int_10, __pyx_int_12, Py_None); if (unlikely(!__pyx_slice__13)) __PYX_ERR(0, 812, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__13);
   __Pyx_GIVEREF(__pyx_slice__13);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":848
+  /* "MontyCarlo/materials/pyRelax.pyx":815
  * 
  *                         #on line 2
  *                         C  = float(line2[0:2])    #reaction descriptor             # <<<<<<<<<<<<<<
  *                         I  = float(line2[2:5])    #reaction property
  *                         S  = float(line2[5:8])    #reaction modifier
  */
-  __pyx_slice__14 = PySlice_New(__pyx_int_0, __pyx_int_2, Py_None); if (unlikely(!__pyx_slice__14)) __PYX_ERR(0, 848, __pyx_L1_error)
+  __pyx_slice__14 = PySlice_New(__pyx_int_0, __pyx_int_2, Py_None); if (unlikely(!__pyx_slice__14)) __PYX_ERR(0, 815, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__14);
   __Pyx_GIVEREF(__pyx_slice__14);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":849
+  /* "MontyCarlo/materials/pyRelax.pyx":816
  *                         #on line 2
  *                         C  = float(line2[0:2])    #reaction descriptor
  *                         I  = float(line2[2:5])    #reaction property             # <<<<<<<<<<<<<<
  *                         S  = float(line2[5:8])    #reaction modifier
  *                         X1 = float(line2[22:32])  #subshell designator
  */
-  __pyx_slice__15 = PySlice_New(__pyx_int_2, __pyx_int_5, Py_None); if (unlikely(!__pyx_slice__15)) __PYX_ERR(0, 849, __pyx_L1_error)
+  __pyx_slice__15 = PySlice_New(__pyx_int_2, __pyx_int_5, Py_None); if (unlikely(!__pyx_slice__15)) __PYX_ERR(0, 816, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__15);
   __Pyx_GIVEREF(__pyx_slice__15);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":850
+  /* "MontyCarlo/materials/pyRelax.pyx":817
  *                         C  = float(line2[0:2])    #reaction descriptor
  *                         I  = float(line2[2:5])    #reaction property
  *                         S  = float(line2[5:8])    #reaction modifier             # <<<<<<<<<<<<<<
  *                         X1 = float(line2[22:32])  #subshell designator
  * 
  */
-  __pyx_slice__16 = PySlice_New(__pyx_int_5, __pyx_int_8, Py_None); if (unlikely(!__pyx_slice__16)) __PYX_ERR(0, 850, __pyx_L1_error)
+  __pyx_slice__16 = PySlice_New(__pyx_int_5, __pyx_int_8, Py_None); if (unlikely(!__pyx_slice__16)) __PYX_ERR(0, 817, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__16);
   __Pyx_GIVEREF(__pyx_slice__16);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":851
+  /* "MontyCarlo/materials/pyRelax.pyx":818
  *                         I  = float(line2[2:5])    #reaction property
  *                         S  = float(line2[5:8])    #reaction modifier
  *                         X1 = float(line2[22:32])  #subshell designator             # <<<<<<<<<<<<<<
  * 
  *                         flags = (Yi, C, S, X1, Yo, I)
  */
-  __pyx_slice__17 = PySlice_New(__pyx_int_22, __pyx_int_32, Py_None); if (unlikely(!__pyx_slice__17)) __PYX_ERR(0, 851, __pyx_L1_error)
+  __pyx_slice__17 = PySlice_New(__pyx_int_22, __pyx_int_32, Py_None); if (unlikely(!__pyx_slice__17)) __PYX_ERR(0, 818, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__17);
   __Pyx_GIVEREF(__pyx_slice__17);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":819
+  /* "MontyCarlo/materials/pyRelax.pyx":786
  *         cdef str path = self.path
  * 
  *         with open(path, "r") as file:             # <<<<<<<<<<<<<<
  *                 text = file.readlines()
  *                 text = [line.strip('\n') for line in text]
  */
-  __pyx_tuple__18 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 819, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 786, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
 
@@ -24340,6 +24303,8 @@ static int __Pyx_modinit_variable_export_code(void) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_variable_export_code", 0);
   /*--- Variable export code ---*/
   if (__Pyx_ExportVoidPtr(__pyx_n_s_directory, (void *)&__pyx_v_10MontyCarlo_9materials_7pyRelax_directory, "PyObject *") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportVoidPtr(__pyx_n_s_gen, (void *)&__pyx_v_10MontyCarlo_9materials_7pyRelax_gen, "mixmax_engine") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportVoidPtr(__pyx_n_s_genPTR, (void *)&__pyx_v_10MontyCarlo_9materials_7pyRelax_genPTR, "mixmax_engine *") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportVoidPtr(__pyx_n_s_photonCUTOFF, (void *)&__pyx_v_10MontyCarlo_9materials_7pyRelax_photonCUTOFF, "double") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportVoidPtr(__pyx_n_s_electronCUTOFF, (void *)&__pyx_v_10MontyCarlo_9materials_7pyRelax_electronCUTOFF, "double") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportVoidPtr(__pyx_n_s_generic, (void *)&generic, "PyObject *") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -24415,16 +24380,16 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_10MontyCarlo_9materials_7pyRelax_Atom.fetchFD = (model::Shell *(*)(struct __pyx_obj_10MontyCarlo_9materials_7pyRelax_Atom *, int))__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_fetchFD;
   __pyx_vtable_10MontyCarlo_9materials_7pyRelax_Atom.fetchFI = (model::Shell *(*)(struct __pyx_obj_10MontyCarlo_9materials_7pyRelax_Atom *, int))__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_fetchFI;
   __pyx_vtable_10MontyCarlo_9materials_7pyRelax_Atom.getBookmarkedText = (PyObject *(*)(struct __pyx_obj_10MontyCarlo_9materials_7pyRelax_Atom *, int __pyx_skip_dispatch))__pyx_f_10MontyCarlo_9materials_7pyRelax_4Atom_getBookmarkedText;
-  if (PyType_Ready(&__pyx_type_10MontyCarlo_9materials_7pyRelax_Atom) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_10MontyCarlo_9materials_7pyRelax_Atom) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_10MontyCarlo_9materials_7pyRelax_Atom.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_10MontyCarlo_9materials_7pyRelax_Atom.tp_dictoffset && __pyx_type_10MontyCarlo_9materials_7pyRelax_Atom.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_10MontyCarlo_9materials_7pyRelax_Atom.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_10MontyCarlo_9materials_7pyRelax_Atom.tp_dict, __pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Atom, (PyObject *)&__pyx_type_10MontyCarlo_9materials_7pyRelax_Atom) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10MontyCarlo_9materials_7pyRelax_Atom) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_10MontyCarlo_9materials_7pyRelax_Atom.tp_dict, __pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Atom, (PyObject *)&__pyx_type_10MontyCarlo_9materials_7pyRelax_Atom) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10MontyCarlo_9materials_7pyRelax_Atom) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom = &__pyx_type_10MontyCarlo_9materials_7pyRelax_Atom;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -24486,43 +24451,18 @@ static int __Pyx_modinit_type_init_code(void) {
 
 static int __Pyx_modinit_type_import_code(void) {
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_import_code", 0);
   /*--- Type import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo._random.random"); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 8, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_ptype_10MontyCarlo_7_random_6random_rng = __Pyx_ImportType(__pyx_t_1, "MontyCarlo._random.random", "rng", sizeof(struct __pyx_obj_10MontyCarlo_7_random_6random_rng), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_7_random_6random_rng) __PYX_ERR(3, 8, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_RefNannyFinishContext();
-  return -1;
 }
 
 static int __Pyx_modinit_variable_import_code(void) {
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_variable_import_code", 0);
   /*--- Variable import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo._random.random"); if (!__pyx_t_1) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_ImportVoidPtr(__pyx_t_1, "genPTR", (void **)&__pyx_vp_10MontyCarlo_7_random_6random_genPTR, "mixmax_engine *") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_RefNannyFinishContext();
-  return -1;
 }
 
 static int __Pyx_modinit_function_import_code(void) {
@@ -24730,8 +24670,8 @@ if (!__Pyx_RefNanny) {
   if (unlikely(__Pyx_modinit_variable_export_code() < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
   if (unlikely(__Pyx_modinit_function_export_code() < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
   if (unlikely(__Pyx_modinit_type_init_code() < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (unlikely(__Pyx_modinit_type_import_code() < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (unlikely(__Pyx_modinit_variable_import_code() < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+  (void)__Pyx_modinit_type_import_code();
+  (void)__Pyx_modinit_variable_import_code();
   (void)__Pyx_modinit_function_import_code();
   /*--- Execution code ---*/
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
@@ -24749,54 +24689,60 @@ if (!__Pyx_RefNanny) {
 
   /* "MontyCarlo/materials/pyRelax.pyx":19
  * 
- * 
- * print(sizeof(rTransition))             # <<<<<<<<<<<<<<
- * 
+ * # only for debug purposes
+ * cdef mixmax_engine gen = mixmax_engine(0,0,0,123);             # <<<<<<<<<<<<<<
+ * cdef mixmax_engine *genPTR = &gen;
  * 
  */
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t((sizeof(struct model::Transition))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PrintOne(0, __pyx_t_1) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_10MontyCarlo_9materials_7pyRelax_gen = mixmax_engine(0, 0, 0, 0x7B);
 
-  /* "MontyCarlo/materials/pyRelax.pyx":37
+  /* "MontyCarlo/materials/pyRelax.pyx":20
+ * # only for debug purposes
+ * cdef mixmax_engine gen = mixmax_engine(0,0,0,123);
+ * cdef mixmax_engine *genPTR = &gen;             # <<<<<<<<<<<<<<
+ * 
+ * from .cppRelaxAPI cimport PARTICLES
+ */
+  __pyx_v_10MontyCarlo_9materials_7pyRelax_genPTR = (&__pyx_v_10MontyCarlo_9materials_7pyRelax_gen);
+
+  /* "MontyCarlo/materials/pyRelax.pyx":32
  * from cython.operator cimport dereference as deref
  * 
  * import numpy as np #array, geomspace, flip, load, searchsorted             # <<<<<<<<<<<<<<
  * from numpy.random import *
  * 
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":38
+  /* "MontyCarlo/materials/pyRelax.pyx":33
  * 
  * import numpy as np #array, geomspace, flip, load, searchsorted
  * from numpy.random import *             # <<<<<<<<<<<<<<
  * 
- * #from ..particles.photons import choose
+ * from ..settings import __montecarlo__, __photonCUTOFF__, __electronCUTOFF__
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s__38);
   __Pyx_GIVEREF(__pyx_n_s__38);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__38);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy_random, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy_random, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_import_star(__pyx_t_2) < 0) __PYX_ERR(0, 38, __pyx_L1_error);
+  if (__pyx_import_star(__pyx_t_2) < 0) __PYX_ERR(0, 33, __pyx_L1_error);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":41
+  /* "MontyCarlo/materials/pyRelax.pyx":35
+ * from numpy.random import *
  * 
- * #from ..particles.photons import choose
  * from ..settings import __montecarlo__, __photonCUTOFF__, __electronCUTOFF__             # <<<<<<<<<<<<<<
  * 
  * cdef double photonCUTOFF = __photonCUTOFF__
  */
-  __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_montecarlo);
   __Pyx_GIVEREF(__pyx_n_s_montecarlo);
@@ -24807,60 +24753,60 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_electronCUTOFF_2);
   __Pyx_GIVEREF(__pyx_n_s_electronCUTOFF_2);
   PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_electronCUTOFF_2);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_settings, __pyx_t_2, 2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_settings, __pyx_t_2, 2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_montecarlo); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_montecarlo); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_montecarlo, __pyx_t_2) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_montecarlo, __pyx_t_2) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_photonCUTOFF_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_photonCUTOFF_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_photonCUTOFF_2, __pyx_t_2) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_photonCUTOFF_2, __pyx_t_2) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_electronCUTOFF_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_electronCUTOFF_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_electronCUTOFF_2, __pyx_t_2) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_electronCUTOFF_2, __pyx_t_2) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":43
+  /* "MontyCarlo/materials/pyRelax.pyx":37
  * from ..settings import __montecarlo__, __photonCUTOFF__, __electronCUTOFF__
  * 
  * cdef double photonCUTOFF = __photonCUTOFF__             # <<<<<<<<<<<<<<
  * cdef double electronCUTOFF = __electronCUTOFF__*1e-6
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_photonCUTOFF_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_photonCUTOFF_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_10MontyCarlo_9materials_7pyRelax_photonCUTOFF = __pyx_t_3;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":44
+  /* "MontyCarlo/materials/pyRelax.pyx":38
  * 
  * cdef double photonCUTOFF = __photonCUTOFF__
  * cdef double electronCUTOFF = __electronCUTOFF__*1e-6             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_electronCUTOFF_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_electronCUTOFF_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Multiply(__pyx_t_1, __pyx_float_1eneg_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Multiply(__pyx_t_1, __pyx_float_1eneg_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_10MontyCarlo_9materials_7pyRelax_electronCUTOFF = __pyx_t_3;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":47
+  /* "MontyCarlo/materials/pyRelax.pyx":41
  * 
  * 
  * from ..tools.data import getAxis, getTable             # <<<<<<<<<<<<<<
  * from ..tools.CubicInverseTransform import makeAlias
  * 
  */
-  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_getAxis);
   __Pyx_GIVEREF(__pyx_n_s_getAxis);
@@ -24868,102 +24814,102 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_getTable);
   __Pyx_GIVEREF(__pyx_n_s_getTable);
   PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_getTable);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_tools_data, __pyx_t_2, 2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_tools_data, __pyx_t_2, 2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_getAxis); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_getAxis); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_getAxis, __pyx_t_2) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_getAxis, __pyx_t_2) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_getTable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_getTable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_getTable, __pyx_t_2) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_getTable, __pyx_t_2) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":48
+  /* "MontyCarlo/materials/pyRelax.pyx":42
  * 
  * from ..tools.data import getAxis, getTable
  * from ..tools.CubicInverseTransform import makeAlias             # <<<<<<<<<<<<<<
  * 
  * #from ..tools.interpol1 import LinLinInterpolation
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_makeAlias);
   __Pyx_GIVEREF(__pyx_n_s_makeAlias);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_makeAlias);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_tools_CubicInverseTransform, __pyx_t_1, 2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_tools_CubicInverseTransform, __pyx_t_1, 2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_makeAlias); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_makeAlias); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_makeAlias, __pyx_t_1) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_makeAlias, __pyx_t_1) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":57
+  /* "MontyCarlo/materials/pyRelax.pyx":51
  * 
  * 
  * from . import database as db             # <<<<<<<<<<<<<<
  * from libc.stdlib cimport malloc, free
  * __materials__ = __montecarlo__/'materials'
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_database);
   __Pyx_GIVEREF(__pyx_n_s_database);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_database);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s__39, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s__39, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_database); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_database); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_db, __pyx_t_2) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_db, __pyx_t_2) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":59
+  /* "MontyCarlo/materials/pyRelax.pyx":53
  * from . import database as db
  * from libc.stdlib cimport malloc, free
  * __materials__ = __montecarlo__/'materials'             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_montecarlo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_montecarlo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_n_s_materials); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_n_s_materials); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_materials_2, __pyx_t_2) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_materials_2, __pyx_t_2) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":62
+  /* "MontyCarlo/materials/pyRelax.pyx":56
  * 
  * 
  * cdef str directory = str(__materials__)             # <<<<<<<<<<<<<<
  * 
  * from numpy import searchsorted, concatenate, append
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_materials_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_materials_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 62, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_XGOTREF(__pyx_v_10MontyCarlo_9materials_7pyRelax_directory);
   __Pyx_DECREF_SET(__pyx_v_10MontyCarlo_9materials_7pyRelax_directory, ((PyObject*)__pyx_t_1));
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":64
+  /* "MontyCarlo/materials/pyRelax.pyx":58
  * cdef str directory = str(__materials__)
  * 
  * from numpy import searchsorted, concatenate, append             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_searchsorted);
   __Pyx_GIVEREF(__pyx_n_s_searchsorted);
@@ -24974,33 +24920,33 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_append);
   __Pyx_GIVEREF(__pyx_n_s_append);
   PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_s_append);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_searchsorted); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_searchsorted); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_searchsorted, __pyx_t_1) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_searchsorted, __pyx_t_1) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_concatenate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_concatenate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_concatenate, __pyx_t_1) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_concatenate, __pyx_t_1) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_append); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_append); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_append, __pyx_t_1) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_append, __pyx_t_1) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "MontyCarlo/materials/pyRelax.pyx":77
+  /* "MontyCarlo/materials/pyRelax.pyx":71
  * #cimport numpy as cnp
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
  * 
- * 
+ * cdef class Atom:
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_2) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_2) < 0) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/materials/pyRelax.pyx":1
@@ -28464,67 +28410,6 @@ __PYX_GOOD:
     return ret;
 }
 
-/* TypeImport */
-#ifndef __PYX_HAVE_RT_ImportType
-#define __PYX_HAVE_RT_ImportType
-static PyTypeObject *__Pyx_ImportType(PyObject *module, const char *module_name, const char *class_name,
-    size_t size, enum __Pyx_ImportType_CheckSize check_size)
-{
-    PyObject *result = 0;
-    char warning[200];
-    Py_ssize_t basicsize;
-#ifdef Py_LIMITED_API
-    PyObject *py_basicsize;
-#endif
-    result = PyObject_GetAttrString(module, class_name);
-    if (!result)
-        goto bad;
-    if (!PyType_Check(result)) {
-        PyErr_Format(PyExc_TypeError,
-            "%.200s.%.200s is not a type object",
-            module_name, class_name);
-        goto bad;
-    }
-#ifndef Py_LIMITED_API
-    basicsize = ((PyTypeObject *)result)->tp_basicsize;
-#else
-    py_basicsize = PyObject_GetAttrString(result, "__basicsize__");
-    if (!py_basicsize)
-        goto bad;
-    basicsize = PyLong_AsSsize_t(py_basicsize);
-    Py_DECREF(py_basicsize);
-    py_basicsize = 0;
-    if (basicsize == (Py_ssize_t)-1 && PyErr_Occurred())
-        goto bad;
-#endif
-    if ((size_t)basicsize < size) {
-        PyErr_Format(PyExc_ValueError,
-            "%.200s.%.200s size changed, may indicate binary incompatibility. "
-            "Expected %zd from C header, got %zd from PyObject",
-            module_name, class_name, size, basicsize);
-        goto bad;
-    }
-    if (check_size == __Pyx_ImportType_CheckSize_Error && (size_t)basicsize != size) {
-        PyErr_Format(PyExc_ValueError,
-            "%.200s.%.200s size changed, may indicate binary incompatibility. "
-            "Expected %zd from C header, got %zd from PyObject",
-            module_name, class_name, size, basicsize);
-        goto bad;
-    }
-    else if (check_size == __Pyx_ImportType_CheckSize_Warn && (size_t)basicsize > size) {
-        PyOS_snprintf(warning, sizeof(warning),
-            "%s.%s size changed, may indicate binary incompatibility. "
-            "Expected %zd from C header, got %zd from PyObject",
-            module_name, class_name, size, basicsize);
-        if (PyErr_WarnEx(NULL, warning, 0) < 0) goto bad;
-    }
-    return (PyTypeObject *)result;
-bad:
-    Py_XDECREF(result);
-    return NULL;
-}
-#endif
-
 /* CLineInTraceback */
 #ifndef CYTHON_CLINE_IN_TRACEBACK
 static int __Pyx_CLineForTraceback(CYTHON_NCP_UNUSED PyThreadState *tstate, int c_line) {
@@ -30582,55 +30467,6 @@ bad:
     Py_XDECREF(d);
     return -1;
 }
-
-/* VoidPtrImport */
-  #ifndef __PYX_HAVE_RT_ImportVoidPtr
-#define __PYX_HAVE_RT_ImportVoidPtr
-static int __Pyx_ImportVoidPtr(PyObject *module, const char *name, void **p, const char *sig) {
-    PyObject *d = 0;
-    PyObject *cobj = 0;
-    d = PyObject_GetAttrString(module, (char *)"__pyx_capi__");
-    if (!d)
-        goto bad;
-    cobj = PyDict_GetItemString(d, name);
-    if (!cobj) {
-        PyErr_Format(PyExc_ImportError,
-            "%.200s does not export expected C variable %.200s",
-                PyModule_GetName(module), name);
-        goto bad;
-    }
-#if PY_VERSION_HEX >= 0x02070000
-    if (!PyCapsule_IsValid(cobj, sig)) {
-        PyErr_Format(PyExc_TypeError,
-            "C variable %.200s.%.200s has wrong signature (expected %.500s, got %.500s)",
-             PyModule_GetName(module), name, sig, PyCapsule_GetName(cobj));
-        goto bad;
-    }
-    *p = PyCapsule_GetPointer(cobj, sig);
-#else
-    {const char *desc, *s1, *s2;
-    desc = (const char *)PyCObject_GetDesc(cobj);
-    if (!desc)
-        goto bad;
-    s1 = desc; s2 = sig;
-    while (*s1 != '\0' && *s1 == *s2) { s1++; s2++; }
-    if (*s1 != *s2) {
-        PyErr_Format(PyExc_TypeError,
-            "C variable %.200s.%.200s has wrong signature (expected %.500s, got %.500s)",
-             PyModule_GetName(module), name, sig, desc);
-        goto bad;
-    }
-    *p = PyCObject_AsVoidPtr(cobj);}
-#endif
-    if (!(*p))
-        goto bad;
-    Py_DECREF(d);
-    return 0;
-bad:
-    Py_XDECREF(d);
-    return -1;
-}
-#endif
 
 /* InitStrings */
   static int __Pyx_InitStrings(__Pyx_StringTabEntry *t) {

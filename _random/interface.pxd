@@ -1,3 +1,7 @@
+# distutils: language = c++ 
+
+
+
 cdef extern from "mixmax_release_200final/mixmax.hpp":
     ctypedef unsigned int myID_t;
     cdef cppclass mixmax_engine:

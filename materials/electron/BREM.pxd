@@ -5,7 +5,7 @@ from MontyCarlo.tools cimport search
 from MontyCarlo.tools.interpol1 cimport LinLinInterpolation
 
 
-from ..._random.mixmax.interface cimport mixmax_engine
+from ..._random.interface cimport mixmax_engine
 
 
 ctypedef LinLinInterpolation LLI

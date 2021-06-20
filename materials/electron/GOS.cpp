@@ -4,9 +4,7 @@
 {
     "distutils": {
         "depends": [
-            "MontyCarlo\\_random\\mixmax\\interface.cpp",
-            "MontyCarlo\\_random\\mixmax\\interface.h",
-            "MontyCarlo\\_random\\mixmax\\mixmax.hpp",
+            "MontyCarlo\\_random\\mixmax_release_200final\\mixmax.hpp",
             "MontyCarlo\\materials\\cppRelax.cpp",
             "MontyCarlo\\materials\\cppRelax.h"
         ],
@@ -16,7 +14,7 @@
         ],
         "include_dirs": [
             ".\\MontyCarlo\\materials",
-            ".\\MontyCarlo\\_random\\mixmax"
+            ".\\MontyCarlo\\_random"
         ],
         "language": "c++",
         "name": "MontyCarlo.materials.electron.GOS",
@@ -647,9 +645,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #define __PYX_HAVE__MontyCarlo__materials__electron__GOS
 #define __PYX_HAVE_API__MontyCarlo__materials__electron__GOS
 /* Early includes */
-#include "interface.cpp"
-#include "interface.h"
-#include "mixmax.hpp"
+#include "mixmax_release_200final/mixmax.hpp"
 #include "ios"
 #include "new"
 #include "stdexcept"
@@ -877,7 +873,6 @@ static const char *__pyx_f[] = {
   "stringsource",
   "MontyCarlo\\materials\\electron\\GOS.pxd",
   "MontyCarlo\\tools\\interpol1.pxd",
-  "MontyCarlo\\_random\\random.pxd",
   "MontyCarlo\\materials\\pyRelax.pxd",
   "MontyCarlo\\tools\\vectors.pxd",
 };
@@ -1006,7 +1001,6 @@ struct __pyx_obj_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation;
 struct __pyx_obj_10MontyCarlo_5tools_9interpol1_FastCubicSpline;
 struct __pyx_obj_10MontyCarlo_5tools_9interpol1_CSa;
 struct __pyx_obj_10MontyCarlo_5tools_9interpol1_LogLinInterpolation;
-struct __pyx_obj_10MontyCarlo_7_random_6random_rng;
 struct __pyx_obj_10MontyCarlo_9materials_7pyRelax_Atom;
 struct __pyx_obj_10MontyCarlo_5tools_7vectors_Vector;
 struct __pyx_obj_10MontyCarlo_9materials_8electron_3GOS_CMolecule;
@@ -1022,15 +1016,6 @@ struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
 struct __pyx_memoryviewslice_obj;
-
-/* "_random/random.pxd":5
- * from .mixmax.interface cimport mixmax_engine
- * 
- * ctypedef double (*func)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-typedef double *__pyx_t_10MontyCarlo_7_random_6random_func;
 
 /* "cppRelaxAPI.pxd":19
  * 		vector[double] ELECTRONS;
@@ -1216,19 +1201,6 @@ struct __pyx_obj_10MontyCarlo_5tools_9interpol1_LogLinInterpolation {
   double _xMIN;
   double _xMAX;
   int _N;
-};
-
-
-/* "_random/random.pxd":8
- * 
- * 
- * cdef class rng:             # <<<<<<<<<<<<<<
- *     cdef func gen
- * 
- */
-struct __pyx_obj_10MontyCarlo_7_random_6random_rng {
-  PyObject_HEAD
-  __pyx_t_10MontyCarlo_7_random_6random_func gen;
 };
 
 
@@ -2686,12 +2658,7 @@ static PyTypeObject *__pyx_ptype_10MontyCarlo_5tools_9interpol1_LogLinInterpolat
 
 /* Module declarations from 'cython' */
 
-/* Module declarations from 'MontyCarlo._random.mixmax.interface' */
-
-/* Module declarations from 'MontyCarlo._random.random' */
-static PyTypeObject *__pyx_ptype_10MontyCarlo_7_random_6random_rng = 0;
-static mixmax_engine **__pyx_vp_10MontyCarlo_7_random_6random_genPTR = 0;
-#define __pyx_v_10MontyCarlo_7_random_6random_genPTR (*__pyx_vp_10MontyCarlo_7_random_6random_genPTR)
+/* Module declarations from 'MontyCarlo._random.interface' */
 
 /* Module declarations from 'libcpp.deque' */
 
@@ -32057,22 +32024,17 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_CSa) __PYX_ERR(3, 49, __pyx_L1_error)
   __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_CSa = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_CSa*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_CSa->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_CSa)) __PYX_ERR(3, 49, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo._random.random"); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 8, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_ptype_10MontyCarlo_7_random_6random_rng = __Pyx_ImportType(__pyx_t_1, "MontyCarlo._random.random", "rng", sizeof(struct __pyx_obj_10MontyCarlo_7_random_6random_rng), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_7_random_6random_rng) __PYX_ERR(4, 8, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.pyRelax"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 24, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.pyRelax"); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.pyRelax", "Atom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_7pyRelax_Atom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom) __PYX_ERR(5, 24, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom)) __PYX_ERR(5, 24, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom) __PYX_ERR(4, 24, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom)) __PYX_ERR(4, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.vectors"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 1, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.vectors"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_5tools_7vectors_Vector = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.vectors", "Vector", sizeof(struct __pyx_obj_10MontyCarlo_5tools_7vectors_Vector), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_7vectors_Vector) __PYX_ERR(6, 1, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_7vectors_Vector = (struct __pyx_vtabstruct_10MontyCarlo_5tools_7vectors_Vector*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_7vectors_Vector->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_7vectors_Vector)) __PYX_ERR(6, 1, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_7vectors_Vector) __PYX_ERR(5, 1, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_7vectors_Vector = (struct __pyx_vtabstruct_10MontyCarlo_5tools_7vectors_Vector*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_7vectors_Vector->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_7vectors_Vector)) __PYX_ERR(5, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -32090,10 +32052,6 @@ static int __Pyx_modinit_variable_import_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_variable_import_code", 0);
   /*--- Variable import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo._random.random"); if (!__pyx_t_1) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_ImportVoidPtr(__pyx_t_1, "genPTR", (void **)&__pyx_vp_10MontyCarlo_7_random_6random_genPTR, "mixmax_engine *") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.pyRelax"); if (!__pyx_t_1) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_ImportVoidPtr(__pyx_t_1, "directory", (void **)&__pyx_vp_10MontyCarlo_9materials_7pyRelax_directory, "PyObject *") < 0) __PYX_ERR(0, 1, __pyx_L1_error)

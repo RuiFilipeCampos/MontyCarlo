@@ -4,7 +4,7 @@ from .cppRelaxAPI cimport Shell as rShell
 from .cppRelaxAPI cimport Atom as rAtom
 from .cppRelaxAPI cimport Transition as rTransition
 from libcpp.vector cimport vector
-from .._random.random cimport mixmax_engine
+from .._random.interface cimport mixmax_engine
 
 from .cppRelaxAPI cimport PARTICLES
 
