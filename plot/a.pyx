@@ -1,1 +1,0 @@
-cdef double x = 1
