@@ -1,10 +1,7 @@
 import sys
-print(sys.path)
 
 from ._init import eax
-
 from .plotter import *
-
 #from MontyCarlo.init import eax 
 
 
