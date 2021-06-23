@@ -1,5 +1,3 @@
-print(">>>> materials.photon folder")
-
 
 
 if __name__ == "__main__":

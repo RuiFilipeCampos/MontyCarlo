@@ -788,9 +788,9 @@ class dynamic_dict(dict):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-
+from .database import EADL, Na
 def calculate(formula):
-        from database import EADL, Na
+        
     
         Am = 0
         

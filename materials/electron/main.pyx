@@ -568,8 +568,11 @@ def rebuildInelastic(this):
 
     return self
 
+
+from . import GOSmake_softIMFP
 from . cimport GOSfinal
 from . cimport GOS
+from . import makeGOS
 @cython.auto_pickle(True)
 cdef class Inelastic:
     def __reduce__(self):
@@ -596,7 +599,7 @@ cdef class Inelastic:
 
 
     def __init__(self, formula, double density):
-        import makeGOS
+        
         
         print("        DATA PROCESSING IN PYTHON")
         molecule, cb, delta = makeGOS.pyGOS(formula, density)
@@ -660,7 +663,7 @@ cdef class Inelastic:
         #self.imfpA, self.imfpB = interp[0], interp[1]
         
         if len(shells_for_softIMFP) != 0:
-            import GOSmake_softIMFP
+            
             self.sIMFP1, self.sIMFP2 = GOSmake_softIMFP.do(formula, shells_for_softIMFP)
         else:
             self.sIMFP1 = np.zeros(len(eax))
