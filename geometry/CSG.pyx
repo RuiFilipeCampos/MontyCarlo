@@ -51,7 +51,7 @@ from libc.math cimport fmin, fmax, sqrt, cos, sin
 
 from libc.stdlib cimport malloc, free
 
-import sdf as plt_geo
+from . import sdf as plt_geo
 
 cdef double nan = np.nan;
 ctypedef BVH Vol

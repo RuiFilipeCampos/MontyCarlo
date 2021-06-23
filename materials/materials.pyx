@@ -11,7 +11,7 @@ MAIN SOURCE OF INFO:
 
 
 cimport cython 
-from logger import MaterialLogger
+from .logger import MaterialLogger
 
 class map(dict):
     def __getattr__(self, key):

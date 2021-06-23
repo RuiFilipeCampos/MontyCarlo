@@ -40307,7 +40307,7 @@ if (!__Pyx_RefNanny) {
   /* "MontyCarlo/materials/materials.pyx":14
  * 
  * cimport cython
- * from logger import MaterialLogger             # <<<<<<<<<<<<<<
+ * from .logger import MaterialLogger             # <<<<<<<<<<<<<<
  * 
  * class map(dict):
  */
@@ -40316,7 +40316,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_MaterialLogger);
   __Pyx_GIVEREF(__pyx_n_s_MaterialLogger);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_MaterialLogger);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_logger, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_logger, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_MaterialLogger); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
@@ -40326,7 +40326,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/materials/materials.pyx":16
- * from logger import MaterialLogger
+ * from .logger import MaterialLogger
  * 
  * class map(dict):             # <<<<<<<<<<<<<<
  *     def __getattr__(self, key):
@@ -40379,7 +40379,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "MontyCarlo/materials/materials.pyx":16
- * from logger import MaterialLogger
+ * from .logger import MaterialLogger
  * 
  * class map(dict):             # <<<<<<<<<<<<<<
  *     def __getattr__(self, key):
