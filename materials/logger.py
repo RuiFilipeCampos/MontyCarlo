@@ -1,4 +1,4 @@
-from htmlcreator import HTMLDocument
+from .htmlcreator import HTMLDocument
 import numpy as np
 from pandas import *
 
