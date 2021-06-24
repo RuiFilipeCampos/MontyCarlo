@@ -50,3 +50,6 @@ material = {Z_1:#elements of Z_1
 The second argument is the materials density in g/cm^3.
 
 MyCo will create an output file (\*.html) for debugging purposes (the output file is a work in progress). It will also store the material object in the /mat folder. This way the compilation of a given material is only done once per project. Otherwise, creating an application/simulation for MyCo would be too time consuming. Every time ```myco.Mat({1:2, 8:1}, 1)``` is executed, it will read from the cached file. 
+
+
+A propper example will be shown here: https://github.com/RuiFilipeCampos/MyCo-EXAMPLE1
