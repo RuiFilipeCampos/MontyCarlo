@@ -1,6 +1,24 @@
-~~Please do not fork or use this code. ~~
-You can clone or fork this code. 
+# MontyCarlo
 
-However,
+## Instalation
 
-I am still cleaning it up and making some changes before making it fully open source and installable through pip. 
+It is now possible to install an unstested version of MontyCarlo (0.0.34). The instalation consists in two simple steps.
+
+```
+pip install MontyCarlo
+```
+
+Which should take a while. The second step consists in just doing a first import:
+
+```python 
+import MontyCarlo
+```
+
+MyCo will detect that it is the first import and will proceed to download all the necessary databases:
+
+- EADL (\*.txt)
+- EPDL (\*.txt)
+- EEDL (\*.txt)
+- Electron Elastic (\*.npy)
+- Positron Elastic (\*.npy)
+
