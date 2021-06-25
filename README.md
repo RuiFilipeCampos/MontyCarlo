@@ -6,13 +6,13 @@ Monty Carlo is a Python module that simulates the propagation and effects of ion
 
 ## Instalation
 
-It is now possible to install an unstested version of MontyCarlo (0.0.34). The instalation consists in two simple steps.
+It is now possible to install an untested version of MontyCarlo (0.0.34). The instalation consists in two simple steps:
 
 ```
 pip install MontyCarlo
 ```
 
-Which should take a while. The second step consists in just doing a first import:
+and
 
 ```python 
 import MontyCarlo
