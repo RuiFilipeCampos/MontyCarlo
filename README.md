@@ -39,7 +39,6 @@ In main.py write:
 
 ```python 
 import MontyCarlo as myco
-
 water = myco.Mat({1:2, 8:1}, 1)
 ```
 This will start compiling all the necessary data to simulate photons, electrons and positrons in water. The first argument is a dictionary of the form
