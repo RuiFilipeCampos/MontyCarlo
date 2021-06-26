@@ -6,7 +6,7 @@ Monty Carlo is a Python package that simulates the propagation and effects of io
 
 ## Instalation
 
-It is now possible to install an untested version of MontyCarlo (0.0.34). The instalation consists in two simple steps:
+It is now possible to install an untested version of MontyCarlo (v0.0.34). The instalation consists in two simple steps:
 
 ```
 pip install MontyCarlo
