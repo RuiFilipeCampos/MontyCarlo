@@ -1,7 +1,6 @@
 # MontyCarlo
 
-Monty Carlo is a Python package that simulates the propagation and effects of ionizing radiation (photons, electrons and positrons with 1keV < E < 1GeV) in matter of homogeneous density, filling CSG models. 
-
+Monty Carlo is a Python package that simulates the propagation and effects of ionizing radiation (photons, electrons and positrons with 1keV < E < 1GeV) in matter of homogeneous density, filling CSG models.
 
 
 ## Instalation
@@ -60,3 +59,15 @@ A propper example will be shown here: https://github.com/RuiFilipeCampos/MyCo-EX
 ### Bugs
 
 This is a very early version of a fairly large code. Bugs are guaranteed! I would very much appreaciate if you report them to me. 
+
+### Possible Future Work
+
+- Tallying
+  - Energy Deposition (1d, 2d, 3d, 4d(spatial + temporal) )
+  - Flux
+  - others
+- Image Detectors
+- Extension to E < 1keV
+- Extension to E > 1GeV
+- Implementation of other particles
+
