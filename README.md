@@ -30,9 +30,9 @@ MyCo will detect that it is the first import and will proceed to download all th
 
 The simplest test is to create a material. For that, create a folder structure like so:
 
-- my_project
-   - mat
-   - geo
+- \my_project
+   - \mat
+   - \geo
    - main.py
  
 In main.py write:
