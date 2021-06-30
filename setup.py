@@ -56,9 +56,15 @@ import os
 import Cython.Compiler.Options
 
 
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
 
 #os.environ['CFLAGS'] = '-O3 -Wall -std=c++11 -I"some/custom/paths"'
 setup(
+    name = "MontyCarlo", version = 0.0.34, author = "Rui Filipe de Sousa Campos",
+    description = "A fast general purpose monte carlo particle simulator (photons, electrons and positrons). Written in Cython, Python and C++.",
+    long_description = long_description, long_description_content_type="text/markdown",     url="https://github.com/RuiFilipeCampos/MontyCarlo",
     setup_requires=['setuptools_scm'],
     install_requires=['requests', 
                       'gdown', 
@@ -75,7 +81,6 @@ setup(
                       'pyunpack',
                       'patool'],
     include_package_data=True,
-    name= 'MontyCarlo',
     packages=find_packages(),
     cmdclass = {'build_ext': build_ext},
     include_dirs = [".", np.get_include(), "_random"], #, "MontyCarlo\\materials"
