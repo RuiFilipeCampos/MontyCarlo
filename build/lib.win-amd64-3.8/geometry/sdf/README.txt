@@ -1,0 +1,1 @@
+This is not my work. It is an open source implementation, credit: https://github.com/fogleman/sdf
