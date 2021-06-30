@@ -1,7 +1,6 @@
+THE CODE INSIDE THE FOLDER mixmax IS NOT MY WORK. 
 
-MIX MAX SOFTWARE:
-
-- https://mixmax.hepforge.org/
+I have received proper authorization for distributing this software alongside MyCo. https://mixmax.hepforge.org/
 
 >  mixmax
 >  A Pseudo-Random Number Generator
