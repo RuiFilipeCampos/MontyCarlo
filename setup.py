@@ -62,7 +62,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 #os.environ['CFLAGS'] = '-O3 -Wall -std=c++11 -I"some/custom/paths"'
 setup(
-    name = "MontyCarlo", version = "0.0.34", author = "Rui Filipe de Sousa Campos",
+    name = "MontyCarlo", version = "0.0.35", author = "Rui Filipe de Sousa Campos",
     description = "A fast general purpose monte carlo particle simulator (photons, electrons and positrons). Written in Cython, Python and C++.",
     long_description = long_description, long_description_content_type="text/markdown",     url="https://github.com/RuiFilipeCampos/MontyCarlo",
     setup_requires=['setuptools_scm'],
