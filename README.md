@@ -89,6 +89,7 @@ This is a very early version of a fairly large code. Bugs are guaranteed! I woul
 
 ### Possible Future Work
 
+- Sources
 - Tallying
   - Energy Deposition (1d, 2d, 3d, 4d(spatial + temporal) )
   - Flux
@@ -97,4 +98,7 @@ This is a very early version of a fairly large code. Bugs are guaranteed! I woul
 - Extension to E < 1keV
 - Extension to E > 1GeV
 - Implementation of other particles
+  - Protons
+  - Neutrons
+  - etc...
 
