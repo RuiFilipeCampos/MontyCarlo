@@ -1,3 +1,13 @@
+"""
+__init__.py cannot be compiled, so I'm just calling this from there.
+
+Initializes all globals.
+
+"""
+
+
+
+
 # import numpy as np
 # import pyximport
 # pyximport.install(reload_support= True,
@@ -68,6 +78,3 @@ for i in range(Imax + 1): #every possible value of the hash, index = hash
     lims.append(np.array([selected[0], selected[-1] , n], dtype = int))
 
 LIMS = np.array(lims[1:], dtype = int) ### memory view defined in pxd, cdef double[::1] EAX
-
-
-
