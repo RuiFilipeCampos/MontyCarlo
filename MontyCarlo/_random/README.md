@@ -1,4 +1,4 @@
-THE CODE INSIDE THE FOLDER mixmax IS NOT MY WORK. 
+THE CODE INSIDE THE FOLDER ```\mixmax_release_200final``` IS NOT MY WORK. 
 
 I have received proper authorization for distributing this software alongside MyCo. https://mixmax.hepforge.org/
 
