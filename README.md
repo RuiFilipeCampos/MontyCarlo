@@ -101,4 +101,7 @@ This is a very early version of a fairly large code. Bugs are guaranteed! I woul
   - Protons
   - Neutrons
   - etc...
+- Dedicated graphics engine (w/sphere tracing)
+- An auto-cad like GUI
+- Geant4 like API
 
