@@ -106,4 +106,4 @@ This is a very early version of a fairly large code. Bugs are guaranteed! I woul
 - Geant4 like API
 - GPU accelaration
 - CPU multiprocessing/multithreading
-
+- Advanced data vizualization 
