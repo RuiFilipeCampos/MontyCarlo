@@ -10,11 +10,12 @@
         ],
         "extra_compile_args": [
             "-O2",
-            "-fp:fast"
+            "-fp:fast",
+            "-favor:INTEL64"
         ],
         "include_dirs": [
-            ".\\MontyCarlo\\materials",
-            ".\\MontyCarlo\\_random"
+            ".\\MontyCarlo\\_random",
+            ".\\MontyCarlo\\materials"
         ],
         "language": "c++",
         "name": "MontyCarlo.materials.electron.GOS",

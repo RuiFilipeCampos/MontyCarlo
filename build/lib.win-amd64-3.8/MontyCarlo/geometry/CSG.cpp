@@ -12,7 +12,8 @@
         ],
         "extra_compile_args": [
             "-O2",
-            "-fp:fast"
+            "-fp:fast",
+            "-favor:INTEL64"
         ],
         "include_dirs": [
             "MontyCarlo\\geometry",
@@ -4314,244 +4315,6 @@ static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
 static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
     Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
 
-/* PyThreadStateGet.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_PyThreadState_declare  PyThreadState *__pyx_tstate;
-#define __Pyx_PyThreadState_assign  __pyx_tstate = __Pyx_PyThreadState_Current;
-#define __Pyx_PyErr_Occurred()  __pyx_tstate->curexc_type
-#else
-#define __Pyx_PyThreadState_declare
-#define __Pyx_PyThreadState_assign
-#define __Pyx_PyErr_Occurred()  PyErr_Occurred()
-#endif
-
-/* PyErrFetchRestore.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_PyErr_Clear() __Pyx_ErrRestore(NULL, NULL, NULL)
-#define __Pyx_ErrRestoreWithState(type, value, tb)  __Pyx_ErrRestoreInState(PyThreadState_GET(), type, value, tb)
-#define __Pyx_ErrFetchWithState(type, value, tb)    __Pyx_ErrFetchInState(PyThreadState_GET(), type, value, tb)
-#define __Pyx_ErrRestore(type, value, tb)  __Pyx_ErrRestoreInState(__pyx_tstate, type, value, tb)
-#define __Pyx_ErrFetch(type, value, tb)    __Pyx_ErrFetchInState(__pyx_tstate, type, value, tb)
-static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
-static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
-#if CYTHON_COMPILING_IN_CPYTHON
-#define __Pyx_PyErr_SetNone(exc) (Py_INCREF(exc), __Pyx_ErrRestore((exc), NULL, NULL))
-#else
-#define __Pyx_PyErr_SetNone(exc) PyErr_SetNone(exc)
-#endif
-#else
-#define __Pyx_PyErr_Clear() PyErr_Clear()
-#define __Pyx_PyErr_SetNone(exc) PyErr_SetNone(exc)
-#define __Pyx_ErrRestoreWithState(type, value, tb)  PyErr_Restore(type, value, tb)
-#define __Pyx_ErrFetchWithState(type, value, tb)  PyErr_Fetch(type, value, tb)
-#define __Pyx_ErrRestoreInState(tstate, type, value, tb)  PyErr_Restore(type, value, tb)
-#define __Pyx_ErrFetchInState(tstate, type, value, tb)  PyErr_Fetch(type, value, tb)
-#define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
-#define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
-#endif
-
-/* Profile.proto */
-#ifndef CYTHON_PROFILE
-#if CYTHON_COMPILING_IN_PYPY || CYTHON_COMPILING_IN_PYSTON
-  #define CYTHON_PROFILE 0
-#else
-  #define CYTHON_PROFILE 1
-#endif
-#endif
-#ifndef CYTHON_TRACE_NOGIL
-  #define CYTHON_TRACE_NOGIL 0
-#else
-  #if CYTHON_TRACE_NOGIL && !defined(CYTHON_TRACE)
-    #define CYTHON_TRACE 1
-  #endif
-#endif
-#ifndef CYTHON_TRACE
-  #define CYTHON_TRACE 0
-#endif
-#if CYTHON_TRACE
-  #undef CYTHON_PROFILE_REUSE_FRAME
-#endif
-#ifndef CYTHON_PROFILE_REUSE_FRAME
-  #define CYTHON_PROFILE_REUSE_FRAME 0
-#endif
-#if CYTHON_PROFILE || CYTHON_TRACE
-  #include "compile.h"
-  #include "frameobject.h"
-  #include "traceback.h"
-  #if CYTHON_PROFILE_REUSE_FRAME
-    #define CYTHON_FRAME_MODIFIER static
-    #define CYTHON_FRAME_DEL(frame)
-  #else
-    #define CYTHON_FRAME_MODIFIER
-    #define CYTHON_FRAME_DEL(frame) Py_CLEAR(frame)
-  #endif
-  #define __Pyx_TraceDeclarations\
-  static PyCodeObject *__pyx_frame_code = NULL;\
-  CYTHON_FRAME_MODIFIER PyFrameObject *__pyx_frame = NULL;\
-  int __Pyx_use_tracing = 0;
-  #define __Pyx_TraceFrameInit(codeobj)\
-  if (codeobj) __pyx_frame_code = (PyCodeObject*) codeobj;
-  #ifdef WITH_THREAD
-  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)\
-  if (nogil) {\
-      if (CYTHON_TRACE_NOGIL) {\
-          PyThreadState *tstate;\
-          PyGILState_STATE state = PyGILState_Ensure();\
-          tstate = __Pyx_PyThreadState_Current;\
-          if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
-                  (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-              __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, tstate, funcname, srcfile, firstlineno);\
-          }\
-          PyGILState_Release(state);\
-          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
-      }\
-  } else {\
-      PyThreadState* tstate = PyThreadState_GET();\
-      if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
-              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-          __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, tstate, funcname, srcfile, firstlineno);\
-          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
-      }\
-  }
-  #else
-  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)\
-  {   PyThreadState* tstate = PyThreadState_GET();\
-      if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
-              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-          __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, tstate, funcname, srcfile, firstlineno);\
-          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
-      }\
-  }
-  #endif
-  #define __Pyx_TraceException()\
-  if (likely(!__Pyx_use_tracing)); else {\
-      PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-      if (tstate->use_tracing &&\
-              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-          tstate->tracing++;\
-          tstate->use_tracing = 0;\
-          PyObject *exc_info = __Pyx_GetExceptionTuple(tstate);\
-          if (exc_info) {\
-              if (CYTHON_TRACE && tstate->c_tracefunc)\
-                  tstate->c_tracefunc(\
-                      tstate->c_traceobj, __pyx_frame, PyTrace_EXCEPTION, exc_info);\
-              tstate->c_profilefunc(\
-                  tstate->c_profileobj, __pyx_frame, PyTrace_EXCEPTION, exc_info);\
-              Py_DECREF(exc_info);\
-          }\
-          tstate->use_tracing = 1;\
-          tstate->tracing--;\
-      }\
-  }
-  static void __Pyx_call_return_trace_func(PyThreadState *tstate, PyFrameObject *frame, PyObject *result) {
-      PyObject *type, *value, *traceback;
-      __Pyx_ErrFetchInState(tstate, &type, &value, &traceback);
-      tstate->tracing++;
-      tstate->use_tracing = 0;
-      if (CYTHON_TRACE && tstate->c_tracefunc)
-          tstate->c_tracefunc(tstate->c_traceobj, frame, PyTrace_RETURN, result);
-      if (tstate->c_profilefunc)
-          tstate->c_profilefunc(tstate->c_profileobj, frame, PyTrace_RETURN, result);
-      CYTHON_FRAME_DEL(frame);
-      tstate->use_tracing = 1;
-      tstate->tracing--;
-      __Pyx_ErrRestoreInState(tstate, type, value, traceback);
-  }
-  #ifdef WITH_THREAD
-  #define __Pyx_TraceReturn(result, nogil)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      if (nogil) {\
-          if (CYTHON_TRACE_NOGIL) {\
-              PyThreadState *tstate;\
-              PyGILState_STATE state = PyGILState_Ensure();\
-              tstate = __Pyx_PyThreadState_Current;\
-              if (tstate->use_tracing) {\
-                  __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
-              }\
-              PyGILState_Release(state);\
-          }\
-      } else {\
-          PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-          if (tstate->use_tracing) {\
-              __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
-          }\
-      }\
-  }
-  #else
-  #define __Pyx_TraceReturn(result, nogil)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-      if (tstate->use_tracing) {\
-          __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
-      }\
-  }
-  #endif
-  static PyCodeObject *__Pyx_createFrameCodeObject(const char *funcname, const char *srcfile, int firstlineno);
-  static int __Pyx_TraceSetupAndCall(PyCodeObject** code, PyFrameObject** frame, PyThreadState* tstate, const char *funcname, const char *srcfile, int firstlineno);
-#else
-  #define __Pyx_TraceDeclarations
-  #define __Pyx_TraceFrameInit(codeobj)
-  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)   if ((1)); else goto_error;
-  #define __Pyx_TraceException()
-  #define __Pyx_TraceReturn(result, nogil)
-#endif
-#if CYTHON_TRACE
-  static int __Pyx_call_line_trace_func(PyThreadState *tstate, PyFrameObject *frame, int lineno) {
-      int ret;
-      PyObject *type, *value, *traceback;
-      __Pyx_ErrFetchInState(tstate, &type, &value, &traceback);
-      __Pyx_PyFrame_SetLineNumber(frame, lineno);
-      tstate->tracing++;
-      tstate->use_tracing = 0;
-      ret = tstate->c_tracefunc(tstate->c_traceobj, frame, PyTrace_LINE, NULL);
-      tstate->use_tracing = 1;
-      tstate->tracing--;
-      if (likely(!ret)) {
-          __Pyx_ErrRestoreInState(tstate, type, value, traceback);
-      } else {
-          Py_XDECREF(type);
-          Py_XDECREF(value);
-          Py_XDECREF(traceback);
-      }
-      return ret;
-  }
-  #ifdef WITH_THREAD
-  #define __Pyx_TraceLine(lineno, nogil, goto_error)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      if (nogil) {\
-          if (CYTHON_TRACE_NOGIL) {\
-              int ret = 0;\
-              PyThreadState *tstate;\
-              PyGILState_STATE state = PyGILState_Ensure();\
-              tstate = __Pyx_PyThreadState_Current;\
-              if (unlikely(tstate->use_tracing && tstate->c_tracefunc && __pyx_frame->f_trace)) {\
-                  ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
-              }\
-              PyGILState_Release(state);\
-              if (unlikely(ret)) goto_error;\
-          }\
-      } else {\
-          PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-          if (unlikely(tstate->use_tracing && tstate->c_tracefunc && __pyx_frame->f_trace)) {\
-              int ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
-              if (unlikely(ret)) goto_error;\
-          }\
-      }\
-  }
-  #else
-  #define __Pyx_TraceLine(lineno, nogil, goto_error)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-      if (unlikely(tstate->use_tracing && tstate->c_tracefunc && __pyx_frame->f_trace)) {\
-          int ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
-          if (unlikely(ret)) goto_error;\
-      }\
-  }
-  #endif
-#else
-  #define __Pyx_TraceLine(lineno, nogil, goto_error)   if ((1)); else goto_error;
-#endif
-
 /* None.proto */
 static CYTHON_INLINE void __Pyx_RaiseClosureNameError(const char *varname);
 
@@ -4599,6 +4362,42 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
 
 /* PyObjectCallOneArg.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
+/* PyThreadStateGet.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_PyThreadState_declare  PyThreadState *__pyx_tstate;
+#define __Pyx_PyThreadState_assign  __pyx_tstate = __Pyx_PyThreadState_Current;
+#define __Pyx_PyErr_Occurred()  __pyx_tstate->curexc_type
+#else
+#define __Pyx_PyThreadState_declare
+#define __Pyx_PyThreadState_assign
+#define __Pyx_PyErr_Occurred()  PyErr_Occurred()
+#endif
+
+/* PyErrFetchRestore.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_PyErr_Clear() __Pyx_ErrRestore(NULL, NULL, NULL)
+#define __Pyx_ErrRestoreWithState(type, value, tb)  __Pyx_ErrRestoreInState(PyThreadState_GET(), type, value, tb)
+#define __Pyx_ErrFetchWithState(type, value, tb)    __Pyx_ErrFetchInState(PyThreadState_GET(), type, value, tb)
+#define __Pyx_ErrRestore(type, value, tb)  __Pyx_ErrRestoreInState(__pyx_tstate, type, value, tb)
+#define __Pyx_ErrFetch(type, value, tb)    __Pyx_ErrFetchInState(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
+static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
+#if CYTHON_COMPILING_IN_CPYTHON
+#define __Pyx_PyErr_SetNone(exc) (Py_INCREF(exc), __Pyx_ErrRestore((exc), NULL, NULL))
+#else
+#define __Pyx_PyErr_SetNone(exc) PyErr_SetNone(exc)
+#endif
+#else
+#define __Pyx_PyErr_Clear() PyErr_Clear()
+#define __Pyx_PyErr_SetNone(exc) PyErr_SetNone(exc)
+#define __Pyx_ErrRestoreWithState(type, value, tb)  PyErr_Restore(type, value, tb)
+#define __Pyx_ErrFetchWithState(type, value, tb)  PyErr_Fetch(type, value, tb)
+#define __Pyx_ErrRestoreInState(tstate, type, value, tb)  PyErr_Restore(type, value, tb)
+#define __Pyx_ErrFetchInState(tstate, type, value, tb)  PyErr_Fetch(type, value, tb)
+#define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
+#define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
+#endif
 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
@@ -5775,8 +5574,8 @@ static const char __pyx_k_os[] = "os";
 static const char __pyx_k_sd[] = "sd";
 static const char __pyx_k_BVH[] = "BVH";
 static const char __pyx_k_SDF[] = "SDF";
-static const char __pyx_k__69[] = ">";
-static const char __pyx_k__97[] = "";
+static const char __pyx_k__68[] = ">";
+static const char __pyx_k__95[] = "";
 static const char __pyx_k_geo[] = "geo/";
 static const char __pyx_k_inv[] = "inv";
 static const char __pyx_k_msg[] = "msg";
@@ -6031,8 +5830,8 @@ static PyObject *__pyx_n_s_Union_2;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_View_MemoryView;
 static PyObject *__pyx_n_s_Z_TALLY;
-static PyObject *__pyx_kp_u__69;
-static PyObject *__pyx_n_s__97;
+static PyObject *__pyx_kp_u__68;
+static PyObject *__pyx_n_s__95;
 static PyObject *__pyx_n_s_allocate_buffer;
 static PyObject *__pyx_n_s_angle;
 static PyObject *__pyx_n_s_arange;
@@ -6357,10 +6156,11 @@ static PyObject *__pyx_int_1000;
 static PyObject *__pyx_int_184977713;
 static PyObject *__pyx_int_neg_1;
 static PyObject *__pyx_tuple_;
-static PyObject *__pyx_tuple__4;
-static PyObject *__pyx_tuple__6;
-static PyObject *__pyx_tuple__8;
-static PyObject *__pyx_slice__51;
+static PyObject *__pyx_tuple__3;
+static PyObject *__pyx_tuple__5;
+static PyObject *__pyx_tuple__7;
+static PyObject *__pyx_tuple__9;
+static PyObject *__pyx_slice__50;
 static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
@@ -6401,7 +6201,7 @@ static PyObject *__pyx_tuple__46;
 static PyObject *__pyx_tuple__47;
 static PyObject *__pyx_tuple__48;
 static PyObject *__pyx_tuple__49;
-static PyObject *__pyx_tuple__50;
+static PyObject *__pyx_tuple__51;
 static PyObject *__pyx_tuple__52;
 static PyObject *__pyx_tuple__53;
 static PyObject *__pyx_tuple__54;
@@ -6418,7 +6218,7 @@ static PyObject *__pyx_tuple__64;
 static PyObject *__pyx_tuple__65;
 static PyObject *__pyx_tuple__66;
 static PyObject *__pyx_tuple__67;
-static PyObject *__pyx_tuple__68;
+static PyObject *__pyx_tuple__69;
 static PyObject *__pyx_tuple__70;
 static PyObject *__pyx_tuple__71;
 static PyObject *__pyx_tuple__72;
@@ -6444,20 +6244,19 @@ static PyObject *__pyx_tuple__91;
 static PyObject *__pyx_tuple__92;
 static PyObject *__pyx_tuple__93;
 static PyObject *__pyx_tuple__94;
-static PyObject *__pyx_tuple__95;
+static PyObject *__pyx_tuple__96;
 static PyObject *__pyx_tuple__98;
 static PyObject *__pyx_tuple__99;
 static PyObject *__pyx_codeobj__2;
-static PyObject *__pyx_codeobj__3;
-static PyObject *__pyx_codeobj__5;
-static PyObject *__pyx_codeobj__7;
-static PyObject *__pyx_codeobj__9;
+static PyObject *__pyx_codeobj__4;
+static PyObject *__pyx_codeobj__6;
+static PyObject *__pyx_codeobj__8;
 static PyObject *__pyx_tuple__100;
 static PyObject *__pyx_tuple__101;
 static PyObject *__pyx_tuple__102;
 static PyObject *__pyx_tuple__103;
-static PyObject *__pyx_tuple__104;
-static PyObject *__pyx_codeobj__96;
+static PyObject *__pyx_codeobj__97;
+static PyObject *__pyx_codeobj__104;
 /* Late includes */
 
 /* "MontyCarlo/geometry/CSG.pyx":87
@@ -6590,7 +6389,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_4lock_5_lock_new_method(Py
   struct __pyx_obj_10MontyCarlo_8geometry_3CSG___pyx_scope_struct_1__lock *__pyx_cur_scope;
   struct __pyx_obj_10MontyCarlo_8geometry_3CSG___pyx_scope_struct_1__lock *__pyx_outer_scope;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
@@ -6601,7 +6399,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_4lock_5_lock_new_method(Py
   __Pyx_RefNannySetupContext("new_method", 0);
   __pyx_outer_scope = (struct __pyx_obj_10MontyCarlo_8geometry_3CSG___pyx_scope_struct_1__lock *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
-  __Pyx_TraceCall("new_method", __pyx_f[0], 89, 0, __PYX_ERR(0, 89, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":90
  * 	def _lock(method):
@@ -6679,7 +6476,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_4lock_5_lock_new_method(Py
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6696,7 +6492,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_4lock__lock(PyObject *__py
   struct __pyx_obj_10MontyCarlo_8geometry_3CSG___pyx_scope_struct_1__lock *__pyx_cur_scope;
   PyObject *__pyx_v_new_method = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
@@ -6714,7 +6509,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_4lock__lock(PyObject *__py
   __pyx_cur_scope->__pyx_outer_scope = (struct __pyx_obj_10MontyCarlo_8geometry_3CSG___pyx_scope_struct__lock *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
-  __Pyx_TraceCall("_lock", __pyx_f[0], 88, 0, __PYX_ERR(0, 88, __pyx_L1_error));
   __pyx_cur_scope->__pyx_v_method = __pyx_v_method;
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_method);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_method);
@@ -6760,7 +6554,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_4lock__lock(PyObject *__py
   __Pyx_XDECREF(__pyx_v_new_method);
   __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6777,13 +6570,11 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_lock(CYTHON_UNUSED PyObjec
   struct __pyx_obj_10MontyCarlo_8geometry_3CSG___pyx_scope_struct__lock *__pyx_cur_scope;
   PyObject *__pyx_v__lock = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceFrameInit(__pyx_codeobj__3)
   __Pyx_RefNannySetupContext("lock", 0);
   __pyx_cur_scope = (struct __pyx_obj_10MontyCarlo_8geometry_3CSG___pyx_scope_struct__lock *)__pyx_tp_new_10MontyCarlo_8geometry_3CSG___pyx_scope_struct__lock(__pyx_ptype_10MontyCarlo_8geometry_3CSG___pyx_scope_struct__lock, __pyx_empty_tuple, NULL);
   if (unlikely(!__pyx_cur_scope)) {
@@ -6793,7 +6584,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_lock(CYTHON_UNUSED PyObjec
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
-  __Pyx_TraceCall("lock", __pyx_f[0], 87, 0, __PYX_ERR(0, 87, __pyx_L1_error));
   __pyx_cur_scope->__pyx_v_msg = __pyx_v_msg;
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_msg);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_msg);
@@ -6805,7 +6595,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_lock(CYTHON_UNUSED PyObjec
  * 		def new_method(self, *args, **kwargs):
  * 			if self.lock:
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_10MontyCarlo_8geometry_3CSG_4lock_1_lock, 0, __pyx_n_s_lock_locals__lock, ((PyObject*)__pyx_cur_scope), __pyx_n_s_MontyCarlo_geometry_CSG, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_10MontyCarlo_8geometry_3CSG_4lock_1_lock, 0, __pyx_n_s_lock_locals__lock, ((PyObject*)__pyx_cur_scope), __pyx_n_s_MontyCarlo_geometry_CSG, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v__lock = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6839,7 +6629,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_lock(CYTHON_UNUSED PyObjec
   __Pyx_XDECREF(__pyx_v__lock);
   __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6870,13 +6659,8 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_3BVH_1__init__(PyObject *__pyx_v
 
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH___init__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 136, 0, __PYX_ERR(0, 136, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":137
  * 
@@ -6906,12 +6690,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH___init__(struct __pyx_obj_1
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.geometry.CSG.BVH.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6939,14 +6717,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_3BVH_3__enter__(PyObject *
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_2__enter__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__enter__", 0);
-  __Pyx_TraceCall("__enter__", __pyx_f[0], 143, 0, __PYX_ERR(0, 143, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":145
  * 	def __enter__(self):
@@ -7002,7 +6778,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_2__enter__(struct __p
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7085,7 +6860,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_3BVH_5configure(PyObject *
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_4configure(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_render) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
@@ -7093,7 +6867,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_4configure(struct __p
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("configure", 0);
-  __Pyx_TraceCall("configure", __pyx_f[0], 149, 0, __PYX_ERR(0, 149, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":150
  * 
@@ -7138,7 +6911,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_4configure(struct __p
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7167,7 +6939,6 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_3BVH_7__contains__(PyObject *__p
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_6__contains__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, PyObject *__pyx_v_other) {
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -7184,7 +6955,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_6__contains__(struct __pyx_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__contains__", 0);
-  __Pyx_TraceCall("__contains__", __pyx_f[0], 155, 0, __PYX_ERR(0, 155, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":156
  * 	#@lock("Modifiying volume after being closed")
@@ -7373,7 +7143,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_6__contains__(struct __pyx_
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.BVH.__contains__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7389,7 +7158,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_6__contains__(struct __pyx_
 static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_3BVH_9setOuter(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_setOuter(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_other, int __pyx_v_index, int __pyx_skip_dispatch) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -7402,7 +7170,6 @@ static PyObject *__pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_setOuter(struct __pyx_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("setOuter", 0);
-  __Pyx_TraceCall("setOuter", __pyx_f[0], 168, 0, __PYX_ERR(0, 168, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -7528,7 +7295,6 @@ static PyObject *__pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_setOuter(struct __pyx_
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7605,14 +7371,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_3BVH_9setOuter(PyObject *_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_8setOuter(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_other, int __pyx_v_index) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("setOuter", 0);
-  __Pyx_TraceCall("setOuter (wrapper)", __pyx_f[0], 168, 0, __PYX_ERR(0, 168, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_setOuter(__pyx_v_self, __pyx_v_other, __pyx_v_index, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7627,7 +7391,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_8setOuter(struct __py
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7694,19 +7457,16 @@ static PyObject *__pyx_gb_10MontyCarlo_8geometry_3CSG_3BVH_12generator(__pyx_Cor
 {
   struct __pyx_obj_10MontyCarlo_8geometry_3CSG___pyx_scope_struct_2___iter__ *__pyx_cur_scope = ((struct __pyx_obj_10MontyCarlo_8geometry_3CSG___pyx_scope_struct_2___iter__ *)__pyx_generator->closure);
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__iter__", 0);
-  __Pyx_TraceCall("__iter__", __pyx_f[0], 176, 0, __PYX_ERR(0, 176, __pyx_L1_error));
   switch (__pyx_generator->resume_label) {
     case 0: goto __pyx_L3_first_run;
     case 1: goto __pyx_L4_resume_from_yield_from;
     default: /* CPython raises the right error here */
-    __Pyx_TraceReturn(Py_None, 0);
     __Pyx_RefNannyFinishContext();
     return NULL;
   }
@@ -7731,7 +7491,6 @@ static PyObject *__pyx_gb_10MontyCarlo_8geometry_3CSG_3BVH_12generator(__pyx_Cor
   __Pyx_XGOTREF(__pyx_r);
   if (likely(__pyx_r)) {
     __Pyx_XGIVEREF(__pyx_r);
-    __Pyx_TraceReturn(__pyx_r, 0);
     __Pyx_RefNannyFinishContext();
     __Pyx_Coroutine_ResetAndClearException(__pyx_generator);
     /* return from generator, yielding value */
@@ -7769,7 +7528,6 @@ static PyObject *__pyx_gb_10MontyCarlo_8geometry_3CSG_3BVH_12generator(__pyx_Cor
   #endif
   __pyx_generator->resume_label = -1;
   __Pyx_Coroutine_clear((PyObject*)__pyx_generator);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7797,13 +7555,8 @@ static Py_ssize_t __pyx_pw_10MontyCarlo_8geometry_3CSG_3BVH_14__len__(PyObject *
 
 static Py_ssize_t __pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_13__len__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self) {
   Py_ssize_t __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__len__", 0);
-  __Pyx_TraceCall("__len__", __pyx_f[0], 179, 0, __PYX_ERR(0, 179, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":180
  * 
@@ -7824,11 +7577,7 @@ static Py_ssize_t __pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_13__len__(struct __p
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.geometry.CSG.BVH.__len__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7864,13 +7613,8 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_3BVH_16set_name(PyObject *
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_15set_name(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, PyObject *__pyx_v_name) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_name", 0);
-  __Pyx_TraceCall("set_name", __pyx_f[0], 182, 0, __PYX_ERR(0, 182, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":183
  * 
@@ -7904,13 +7648,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_15set_name(struct __p
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.geometry.CSG.BVH.set_name", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8008,7 +7746,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___4this_SDF(P
   PyArrayObject *__pyx_v_sd = 0;
   int __pyx_v_i;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   size_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -8027,7 +7764,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___4this_SDF(P
   __Pyx_RefNannySetupContext("SDF", 0);
   __pyx_outer_scope = (struct __pyx_obj_10MontyCarlo_8geometry_3CSG___pyx_scope_struct_3___exit__ *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
-  __Pyx_TraceCall("SDF", __pyx_f[0], 205, 0, __PYX_ERR(0, 205, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":207
  * 				def SDF(double[:,:] P):
@@ -8203,7 +7939,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___4this_SDF(P
   __PYX_XDEC_MEMVIEW(&__pyx_v_P, 1);
   __Pyx_XDECREF((PyObject *)__pyx_v_sd);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8221,7 +7956,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___this(PyObje
   struct __pyx_obj_10MontyCarlo_8geometry_3CSG___pyx_scope_struct_3___exit__ *__pyx_outer_scope;
   PyObject *__pyx_v_SDF = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
@@ -8230,7 +7964,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___this(PyObje
   __Pyx_RefNannySetupContext("this", 0);
   __pyx_outer_scope = (struct __pyx_obj_10MontyCarlo_8geometry_3CSG___pyx_scope_struct_3___exit__ *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
-  __Pyx_TraceCall("this", __pyx_f[0], 204, 0, __PYX_ERR(0, 204, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":205
  * 			@plt_geo.sdf3
@@ -8239,7 +7972,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___this(PyObje
  * 					cdef double3 p
  * 					cdef int N = len(P)
  */
-  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___4this_1SDF, 0, __pyx_n_s_exit___locals_this_locals_SDF, ((PyObject*)__pyx_cur_scope), __pyx_n_s_MontyCarlo_geometry_CSG, __pyx_d, ((PyObject *)__pyx_codeobj__7)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___4this_1SDF, 0, __pyx_n_s_exit___locals_this_locals_SDF, ((PyObject*)__pyx_cur_scope), __pyx_n_s_MontyCarlo_geometry_CSG, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_SDF = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8272,7 +8005,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___this(PyObje
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_SDF);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8293,7 +8025,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
   PyObject *__pyx_v_generator = NULL;
   CYTHON_UNUSED PyObject *__pyx_v_os = NULL;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -8315,7 +8046,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
-  __Pyx_TraceCall("__exit__", __pyx_f[0], 188, 0, __PYX_ERR(0, 188, __pyx_L1_error));
   __pyx_cur_scope->__pyx_v_self = __pyx_v_self;
   __Pyx_INCREF((PyObject *)__pyx_cur_scope->__pyx_v_self);
   __Pyx_GIVEREF((PyObject *)__pyx_cur_scope->__pyx_v_self);
@@ -8435,7 +8165,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
  * 				def SDF(double[:,:] P):
  * 					cdef double3 p
  */
-    __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___1this, 0, __pyx_n_s_exit___locals_this, ((PyObject*)__pyx_cur_scope), __pyx_n_s_MontyCarlo_geometry_CSG, __pyx_d, ((PyObject *)__pyx_codeobj__9)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___1this, 0, __pyx_n_s_exit___locals_this, ((PyObject*)__pyx_cur_scope), __pyx_n_s_MontyCarlo_geometry_CSG, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -8577,7 +8307,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
   __Pyx_XDECREF(__pyx_v_os);
   __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8606,7 +8335,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_3BVH_20get_mesh(PyObject *
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_19get_mesh(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self) {
   PyObject *__pyx_v_pv = NULL;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -8618,7 +8346,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_19get_mesh(struct __p
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_mesh", 0);
-  __Pyx_TraceCall("get_mesh", __pyx_f[0], 222, 0, __PYX_ERR(0, 222, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":223
  * 
@@ -8703,7 +8430,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_19get_mesh(struct __p
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_pv);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8733,7 +8459,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_21plot(struct __pyx_o
   PyObject *__pyx_v_pv = NULL;
   PyObject *__pyx_v_mesh = NULL;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -8745,7 +8470,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_21plot(struct __pyx_o
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("plot", 0);
-  __Pyx_TraceCall("plot", __pyx_f[0], 226, 0, __PYX_ERR(0, 226, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":227
  * 
@@ -8857,7 +8581,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_21plot(struct __pyx_o
   __Pyx_XDECREF(__pyx_v_pv);
   __Pyx_XDECREF(__pyx_v_mesh);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8872,14 +8595,12 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_21plot(struct __pyx_o
 
 static int __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_move(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state, CYTHON_UNUSED double __pyx_v_SP) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("move", 0);
-  __Pyx_TraceCall("move", __pyx_f[0], 236, 0, __PYX_ERR(0, 236, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":237
  * 
@@ -8888,7 +8609,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_move(CYTHON_UNUSED struct __
  * 
  * 	cdef void depositUNIFORM(self, STATE& state, double SP):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 237, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -8907,7 +8628,6 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_move(CYTHON_UNUSED struct __
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.BVH.move", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8921,14 +8641,12 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_move(CYTHON_UNUSED struct __
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositUNIFORM(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state, CYTHON_UNUSED double __pyx_v_SP) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositUNIFORM", 0);
-  __Pyx_TraceCall("depositUNIFORM", __pyx_f[0], 239, 0, __PYX_ERR(0, 239, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":240
  * 
@@ -8937,7 +8655,7 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositUNIFORM(CYTHON_UNUSE
  * 		print("depositUNIFORM called from BVH (virtual)")
  * 		import time
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -8955,7 +8673,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositUNIFORM(CYTHON_UNUSE
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.BVH.depositUNIFORM", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -8968,14 +8685,12 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositUNIFORM(CYTHON_UNUSE
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositDISCRETE(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositDISCRETE", 0);
-  __Pyx_TraceCall("depositDISCRETE", __pyx_f[0], 246, 0, __PYX_ERR(0, 246, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":247
  * 
@@ -8984,7 +8699,7 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositDISCRETE(CYTHON_UNUS
  * 
  * 	cdef void depositLOCAL(self, double3& pos, double E):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 247, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9002,7 +8717,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositDISCRETE(CYTHON_UNUS
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.BVH.depositDISCRETE", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -9015,14 +8729,12 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositDISCRETE(CYTHON_UNUS
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositLOCAL(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos, CYTHON_UNUSED double __pyx_v_E) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositLOCAL", 0);
-  __Pyx_TraceCall("depositLOCAL", __pyx_f[0], 249, 0, __PYX_ERR(0, 249, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":250
  * 
@@ -9031,7 +8743,7 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositLOCAL(CYTHON_UNUSED 
  * 
  * 	cdef void depositRANDOM(self, STATE& state, double E, double tau):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 250, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 250, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9049,7 +8761,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositLOCAL(CYTHON_UNUSED 
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.BVH.depositLOCAL", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -9062,14 +8773,12 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositLOCAL(CYTHON_UNUSED 
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositRANDOM(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state, CYTHON_UNUSED double __pyx_v_E, CYTHON_UNUSED double __pyx_v_tau) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositRANDOM", 0);
-  __Pyx_TraceCall("depositRANDOM", __pyx_f[0], 252, 0, __PYX_ERR(0, 252, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":253
  * 
@@ -9078,7 +8787,7 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositRANDOM(CYTHON_UNUSED
  * 
  * 	cdef double main_intersect(self, STATE& state):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 253, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 253, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9096,7 +8805,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositRANDOM(CYTHON_UNUSED
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.BVH.depositRANDOM", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -9110,14 +8818,12 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_depositRANDOM(CYTHON_UNUSED
 
 static double __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_main_intersect(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("main_intersect", 0);
-  __Pyx_TraceCall("main_intersect", __pyx_f[0], 255, 0, __PYX_ERR(0, 255, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":256
  * 
@@ -9126,7 +8832,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_main_intersect(CYTHON_UNU
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 256, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 256, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9145,7 +8851,6 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_main_intersect(CYTHON_UNU
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.BVH.main_intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9159,14 +8864,12 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_main_intersect(CYTHON_UNU
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_localSDF(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("localSDF", 0);
-  __Pyx_TraceCall("localSDF", __pyx_f[0], 259, 0, __PYX_ERR(0, 259, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":260
  * 
@@ -9175,7 +8878,7 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_localSDF(CYTHON_UNUSED stru
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 260, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9193,7 +8896,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_localSDF(CYTHON_UNUSED stru
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.BVH.localSDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -9208,7 +8910,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_localSDF(CYTHON_UNUSED stru
 static void *__pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_searchO(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state) {
   int __pyx_v_i;
   void *__pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -9220,7 +8921,6 @@ static void *__pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_searchO(struct __pyx_obj_1
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("searchO", 0);
-  __Pyx_TraceCall("searchO", __pyx_f[0], 263, 0, __PYX_ERR(0, 263, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":266
  * 		cdef int i
@@ -9298,7 +8998,7 @@ static void *__pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_searchO(struct __pyx_obj_1
  * 		return <void*> self
  * 
  */
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 272, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 272, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
@@ -9327,7 +9027,6 @@ static void *__pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_searchO(struct __pyx_obj_1
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.BVH.searchO", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9342,14 +9041,12 @@ static void *__pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_searchO(struct __pyx_obj_1
 
 static double __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_SDF(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SDF", 0);
-  __Pyx_TraceCall("SDF", __pyx_f[0], 284, 0, __PYX_ERR(0, 284, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":285
  * 
@@ -9358,7 +9055,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_SDF(CYTHON_UNUSED struct 
  * 
  * 	cdef bint is_inside(self, double3 pos):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 285, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9377,7 +9074,6 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_SDF(CYTHON_UNUSED struct 
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.BVH.SDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9392,14 +9088,12 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_SDF(CYTHON_UNUSED struct 
 
 static int __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_is_inside(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_inside", 0);
-  __Pyx_TraceCall("is_inside", __pyx_f[0], 287, 0, __PYX_ERR(0, 287, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":288
  * 
@@ -9408,7 +9102,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_is_inside(CYTHON_UNUSED stru
  * 
  * 	cdef void exit(self):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9427,7 +9121,6 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_is_inside(CYTHON_UNUSED stru
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.BVH.is_inside", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9442,16 +9135,11 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_is_inside(CYTHON_UNUSED stru
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_exit(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self) {
   int __pyx_v_i;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("exit", 0);
-  __Pyx_TraceCall("exit", __pyx_f[0], 290, 0, __PYX_ERR(0, 290, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":292
  * 	cdef void exit(self):
@@ -9484,11 +9172,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_exit(struct __pyx_obj_10Mon
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.BVH.exit", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -9513,14 +9196,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_3BVH_24__reduce_cython__(P
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_23__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -9528,7 +9209,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_23__reduce_cython__(C
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9546,7 +9227,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_23__reduce_cython__(C
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.BVH.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9573,21 +9253,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_3BVH_26__setstate_cython__
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_25__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9606,7 +9284,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_25__setstate_cython__
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.BVH.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9621,14 +9298,12 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_25__setstate_cython__
 
 static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_is_inside(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_inside", 0);
-  __Pyx_TraceCall("is_inside", __pyx_f[0], 341, 0, __PYX_ERR(0, 341, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":342
  * 	# CONSTRUCTING A VOLUME
@@ -9637,7 +9312,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_is_inside(CYTHON_UNUSED s
  * 
  * 	cdef void depositUNIFORM(self, STATE& state, double SP):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 342, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9656,7 +9331,6 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_is_inside(CYTHON_UNUSED s
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.is_inside", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9670,20 +9344,10 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_is_inside(CYTHON_UNUSED s
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_depositUNIFORM(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state, CYTHON_UNUSED double __pyx_v_SP) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositUNIFORM", 0);
-  __Pyx_TraceCall("depositUNIFORM", __pyx_f[0], 344, 0, __PYX_ERR(0, 344, __pyx_L1_error));
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.depositUNIFORM", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -9696,20 +9360,10 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_depositUNIFORM(CYTHON_UN
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_depositLOCAL(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos, CYTHON_UNUSED double __pyx_v_E) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositLOCAL", 0);
-  __Pyx_TraceCall("depositLOCAL", __pyx_f[0], 347, 0, __PYX_ERR(0, 347, __pyx_L1_error));
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.depositLOCAL", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -9739,7 +9393,6 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_6CSGvol_1__init__(PyObject *__py
 
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol___init__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -9748,7 +9401,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol___init__(struct __pyx_ob
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 351, 0, __PYX_ERR(0, 351, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":353
  * 	def __init__(self):
@@ -9815,7 +9467,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol___init__(struct __pyx_ob
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.CSGvol.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9829,20 +9480,10 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol___init__(struct __pyx_ob
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_depositRANDOM(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state, CYTHON_UNUSED double __pyx_v_E, CYTHON_UNUSED double __pyx_v_tau) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositRANDOM", 0);
-  __Pyx_TraceCall("depositRANDOM", __pyx_f[0], 357, 0, __PYX_ERR(0, 357, __pyx_L1_error));
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.depositRANDOM", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -9855,20 +9496,10 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_depositRANDOM(CYTHON_UNU
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_depositLocaly(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos, CYTHON_UNUSED double __pyx_v_E) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositLocaly", 0);
-  __Pyx_TraceCall("depositLocaly", __pyx_f[0], 361, 0, __PYX_ERR(0, 361, __pyx_L1_error));
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.depositLocaly", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -9946,13 +9577,8 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_6CSGvol_3rotate(PyObject *
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_2rotate(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_axis, CYTHON_UNUSED PyObject *__pyx_v_angle) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rotate", 0);
-  __Pyx_TraceCall("rotate", __pyx_f[0], 365, 0, __PYX_ERR(0, 365, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":366
  * 	#@lock("Modifiying volume after being closed")
@@ -9975,12 +9601,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_2rotate(CYTHON_UNU
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.geometry.CSG.CSGvol.rotate", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10059,13 +9681,8 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_6CSGvol_5translate(PyObjec
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_4translate(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_direction, CYTHON_UNUSED PyObject *__pyx_v_displacement) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("translate", 0);
-  __Pyx_TraceCall("translate", __pyx_f[0], 369, 0, __PYX_ERR(0, 369, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":370
  * 	#@lock("Modifiying volume after being closed")
@@ -10088,12 +9705,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_4translate(CYTHON_
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.geometry.CSG.CSGvol.translate", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10121,7 +9734,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_6CSGvol_7__or__(PyObject *
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_6__or__(PyObject *__pyx_v_self, PyObject *__pyx_v_other) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -10129,7 +9741,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_6__or__(PyObject *
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__or__", 0);
-  __Pyx_TraceCall("__or__", __pyx_f[0], 373, 0, __PYX_ERR(0, 373, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":374
  * 	#@lock("Modifiying volume after being closed")
@@ -10170,7 +9781,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_6__or__(PyObject *
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10198,7 +9808,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_6CSGvol_9__add__(PyObject 
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_8__add__(PyObject *__pyx_v_self, PyObject *__pyx_v_other) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -10206,7 +9815,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_8__add__(PyObject 
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__add__", 0);
-  __Pyx_TraceCall("__add__", __pyx_f[0], 377, 0, __PYX_ERR(0, 377, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":378
  * 	#@lock("Modifiying volume after being closed")
@@ -10247,7 +9855,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_8__add__(PyObject 
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10283,7 +9890,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_6CSGvol_11__and__(PyObject
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_10__and__(PyObject *__pyx_v_self, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_other) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -10291,7 +9897,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_10__and__(PyObject
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__and__", 0);
-  __Pyx_TraceCall("__and__", __pyx_f[0], 381, 0, __PYX_ERR(0, 381, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":382
  * 	#@lock("Modifiying volume after being closed")
@@ -10332,7 +9937,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_10__and__(PyObject
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10368,7 +9972,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_6CSGvol_13__sub__(PyObject
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_12__sub__(PyObject *__pyx_v_self, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_other) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -10376,7 +9979,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_12__sub__(PyObject
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__sub__", 0);
-  __Pyx_TraceCall("__sub__", __pyx_f[0], 385, 0, __PYX_ERR(0, 385, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":386
  * 	#@lock("Modifiying volume after being closed")
@@ -10417,7 +10019,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_12__sub__(PyObject
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10432,14 +10033,12 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_12__sub__(PyObject
 
 static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intersect(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_dire) {
   intLIST __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("intersect", 0);
-  __Pyx_TraceCall("intersect", __pyx_f[0], 389, 0, __PYX_ERR(0, 389, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":390
  * 
@@ -10448,7 +10047,7 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intersect(CYTHON_UNUS
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 390, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 390, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -10467,7 +10066,6 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intersect(CYTHON_UNUS
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __Pyx_pretend_to_initialize(&__pyx_r);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10482,14 +10080,12 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intersect(CYTHON_UNUS
 
 static double __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_SDF(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SDF", 0);
-  __Pyx_TraceCall("SDF", __pyx_f[0], 395, 0, __PYX_ERR(0, 395, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":396
  * 
@@ -10498,7 +10094,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_SDF(CYTHON_UNUSED stru
  * 
  * 	cdef void localSDF(self, STATE& state):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -10517,7 +10113,6 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_SDF(CYTHON_UNUSED stru
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.SDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10531,14 +10126,9 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_SDF(CYTHON_UNUSED stru
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_localSDF(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("localSDF", 0);
-  __Pyx_TraceCall("localSDF", __pyx_f[0], 398, 0, __PYX_ERR(0, 398, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":400
  * 	cdef void localSDF(self, STATE& state):
@@ -10604,11 +10194,7 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_localSDF(struct __pyx_ob
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.localSDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -10624,14 +10210,9 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_main_intersect(struct 
   intLIST __pyx_v_temp;
   CYTHON_UNUSED intIterator __pyx_v_temp2;
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("main_intersect", 0);
-  __Pyx_TraceCall("main_intersect", __pyx_f[0], 427, 0, __PYX_ERR(0, 427, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":432
  * 		IF VERBOSE: print(self.cache)
@@ -10726,11 +10307,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_main_intersect(struct 
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.main_intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10745,18 +10322,13 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_main_intersect(struct 
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_globalSDF(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state) {
   int __pyx_v_i;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   double __pyx_t_2;
   int __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("globalSDF", 0);
-  __Pyx_TraceCall("globalSDF", __pyx_f[0], 455, 0, __PYX_ERR(0, 455, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":460
  * 		IF DEBUG_MODE: input(f"cache[0] = {self.cache}")
@@ -10896,11 +10468,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_globalSDF(struct __pyx_o
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.globalSDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -10913,14 +10480,9 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_globalSDF(struct __pyx_o
  */
 
 static CYTHON_INLINE void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_final(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("final", 0);
-  __Pyx_TraceCall("final", __pyx_f[0], 502, 0, __PYX_ERR(0, 502, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":505
  * 		IF DEBUG_MODE: input(f"FINAL DISPLACEMENT: L = {state.L}")
@@ -10977,11 +10539,6 @@ static CYTHON_INLINE void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_final(CYTH
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.final", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -10994,13 +10551,8 @@ static CYTHON_INLINE void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_final(CYTH
  */
 
 static CYTHON_INLINE void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_virtual_event(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state, double __pyx_v_dr) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("virtual_event", 0);
-  __Pyx_TraceCall("virtual_event", __pyx_f[0], 519, 0, __PYX_ERR(0, 519, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":521
  * 	cdef inline void virtual_event(self, STATE& state, double dr):
@@ -11056,11 +10608,6 @@ static CYTHON_INLINE void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_virtual_ev
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.virtual_event", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -11078,7 +10625,6 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
   double __pyx_v_second_nearest;
   int __pyx_v_i;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -11092,7 +10638,6 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("intEVENT", 0);
-  __Pyx_TraceCall("intEVENT", __pyx_f[0], 537, 0, __PYX_ERR(0, 537, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":585
  * 		IF DEBUG_MODE: input("INTERSECTION EVENT")
@@ -11526,7 +11071,6 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.intEVENT", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -11541,16 +11085,11 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_exitINNER_TO_OUTER(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self) {
   int __pyx_v_i;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("exitINNER_TO_OUTER", 0);
-  __Pyx_TraceCall("exitINNER_TO_OUTER", __pyx_f[0], 655, 0, __PYX_ERR(0, 655, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":657
  * 	cdef void exitINNER_TO_OUTER(self):
@@ -11592,11 +11131,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_exitINNER_TO_OUTER(struc
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.exitINNER_TO_OUTER", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -11610,16 +11144,11 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_exitINNER_TO_OUTER(struc
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_exitINNER_TO_INNER(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self) {
   int __pyx_v_i;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("exitINNER_TO_INNER", 0);
-  __Pyx_TraceCall("exitINNER_TO_INNER", __pyx_f[0], 662, 0, __PYX_ERR(0, 662, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":664
  * 	cdef void exitINNER_TO_INNER(self):
@@ -11661,11 +11190,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_exitINNER_TO_INNER(struc
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.exitINNER_TO_INNER", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -11679,16 +11203,11 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_exitINNER_TO_INNER(struc
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_exitOUTER_TO_INNER(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self) {
   int __pyx_v_i;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("exitOUTER_TO_INNER", 0);
-  __Pyx_TraceCall("exitOUTER_TO_INNER", __pyx_f[0], 668, 0, __PYX_ERR(0, 668, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":670
  * 	cdef void exitOUTER_TO_INNER(self):
@@ -11730,11 +11249,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_exitOUTER_TO_INNER(struc
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.exitOUTER_TO_INNER", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -11747,14 +11261,9 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_exitOUTER_TO_INNER(struc
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_boundary_crossing(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("boundary_crossing", 0);
-  __Pyx_TraceCall("boundary_crossing", __pyx_f[0], 674, 0, __PYX_ERR(0, 674, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":677
  * 
@@ -11920,10 +11429,7 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_boundary_crossing(struct
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.boundary_crossing", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -11939,17 +11445,12 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_move(struct __pyx_obj_10M
   int __pyx_v_case;
   int __pyx_v_i;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
   int __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("move", 0);
-  __Pyx_TraceCall("move", __pyx_f[0], 701, 0, __PYX_ERR(0, 701, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":712
  * 
@@ -12182,12 +11683,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_move(struct __pyx_obj_10M
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.move", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12213,14 +11709,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_6CSGvol_15__reduce_cython_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_14__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -12228,7 +11722,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_14__reduce_cython_
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12246,7 +11740,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_14__reduce_cython_
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.CSGvol.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12273,21 +11766,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_6CSGvol_17__setstate_cytho
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_16__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12306,7 +11797,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_16__setstate_cytho
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.CSGvol.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12329,7 +11819,6 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
   double __pyx_v_oneMcos;
   double __pyx_v__sin;
   PyArrayObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -12342,7 +11831,6 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("new_rotationT", 0);
-  __Pyx_TraceCall("new_rotationT", __pyx_f[0], 822, 0, __PYX_ERR(0, 822, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":824
  * cdef cnp.ndarray new_rotationT(_axis, angle):
@@ -12494,7 +11982,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
       __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_1, __pyx_tuple__27) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_tuple__27);
+  __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_1, __pyx_tuple__26) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_tuple__26);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 833, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -12540,7 +12028,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((__pyx_v__cos + ((__pyx_v_ux * __pyx_v_ux) * __pyx_v_oneMcos))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 839, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__28, __pyx_t_2) < 0)) __PYX_ERR(0, 839, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__27, __pyx_t_2) < 0)) __PYX_ERR(0, 839, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":840
@@ -12552,7 +12040,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((((__pyx_v_ux * __pyx_v_uy) * __pyx_v_oneMcos) - (__pyx_v_uz * __pyx_v__sin))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 840, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__29, __pyx_t_2) < 0)) __PYX_ERR(0, 840, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__28, __pyx_t_2) < 0)) __PYX_ERR(0, 840, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":841
@@ -12564,7 +12052,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((((__pyx_v_ux * __pyx_v_uz) * __pyx_v_oneMcos) + (__pyx_v_uy * __pyx_v__sin))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 841, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__30, __pyx_t_2) < 0)) __PYX_ERR(0, 841, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__29, __pyx_t_2) < 0)) __PYX_ERR(0, 841, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":843
@@ -12576,7 +12064,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((((__pyx_v_uy * __pyx_v_ux) * __pyx_v_oneMcos) + (__pyx_v_uz * __pyx_v__sin))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 843, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__31, __pyx_t_2) < 0)) __PYX_ERR(0, 843, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__30, __pyx_t_2) < 0)) __PYX_ERR(0, 843, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":844
@@ -12588,7 +12076,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((__pyx_v__cos + ((__pyx_v_uy * __pyx_v_uy) * __pyx_v_oneMcos))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 844, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__32, __pyx_t_2) < 0)) __PYX_ERR(0, 844, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__31, __pyx_t_2) < 0)) __PYX_ERR(0, 844, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":845
@@ -12600,7 +12088,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((((__pyx_v_uy * __pyx_v_uz) * __pyx_v_oneMcos) - (__pyx_v_ux * __pyx_v__sin))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 845, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__33, __pyx_t_2) < 0)) __PYX_ERR(0, 845, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__32, __pyx_t_2) < 0)) __PYX_ERR(0, 845, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":847
@@ -12612,7 +12100,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((((__pyx_v_uz * __pyx_v_ux) * __pyx_v_oneMcos) - (__pyx_v_uy * __pyx_v__sin))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 847, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__34, __pyx_t_2) < 0)) __PYX_ERR(0, 847, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__33, __pyx_t_2) < 0)) __PYX_ERR(0, 847, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":848
@@ -12624,7 +12112,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((((__pyx_v_uz * __pyx_v_uy) * __pyx_v_oneMcos) + (__pyx_v_ux * __pyx_v__sin))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 848, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__35, __pyx_t_2) < 0)) __PYX_ERR(0, 848, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__34, __pyx_t_2) < 0)) __PYX_ERR(0, 848, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":849
@@ -12636,7 +12124,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((__pyx_v__cos + ((__pyx_v_uz * __pyx_v_uz) * __pyx_v_oneMcos))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 849, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__36, __pyx_t_2) < 0)) __PYX_ERR(0, 849, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__35, __pyx_t_2) < 0)) __PYX_ERR(0, 849, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":851
@@ -12646,7 +12134,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  * 
  * 		return T
  */
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__37, __pyx_int_1) < 0)) __PYX_ERR(0, 851, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__36, __pyx_int_1) < 0)) __PYX_ERR(0, 851, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":853
  * 		T[3, 3] = 1
@@ -12682,7 +12170,6 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
   __Pyx_XDECREF((PyObject *)__pyx_v_axis);
   __Pyx_XDECREF((PyObject *)__pyx_v_T);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12699,7 +12186,6 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_Carr_to_NParr(double *
   PyObject *__pyx_v_numbers = NULL;
   int __pyx_v_i;
   PyArrayObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -12709,7 +12195,6 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_Carr_to_NParr(double *
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("Carr_to_NParr", 0);
-  __Pyx_TraceCall("Carr_to_NParr", __pyx_f[0], 855, 0, __PYX_ERR(0, 855, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":856
  * 
@@ -12771,7 +12256,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_Carr_to_NParr(double *
  * 	return numbers
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_numbers, __pyx_n_s_shape, __pyx_tuple__27) < 0) __PYX_ERR(0, 861, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_numbers, __pyx_n_s_shape, __pyx_tuple__26) < 0) __PYX_ERR(0, 861, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":862
  * 
@@ -12804,7 +12289,6 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_Carr_to_NParr(double *
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_numbers);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12904,7 +12388,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform___init__(struct __pyx
   double __pyx_v_t;
   double __pyx_v_it;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -12921,7 +12404,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform___init__(struct __pyx
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 868, 0, __PYX_ERR(0, 868, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":869
  * 
@@ -13102,7 +12584,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform___init__(struct __pyx
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Transform.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -13130,14 +12611,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_9Transform_6matrix_1__get_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_6matrix___get__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Transform *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[0], 878, 0, __PYX_ERR(0, 878, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":879
  * 	@property
@@ -13168,7 +12647,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_6matrix___get__
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -13196,14 +12674,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_9Transform_10inv_matrix_1_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_10inv_matrix___get__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Transform *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[0], 882, 0, __PYX_ERR(0, 882, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":883
  * 	@property
@@ -13234,7 +12710,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_10inv_matrix___
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -13324,14 +12799,9 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_9Transform_3translate(PyOb
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_2translate(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Transform *__pyx_v_self, double __pyx_v_dx, double __pyx_v_dy, double __pyx_v_dz) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   long __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("translate", 0);
-  __Pyx_TraceCall("translate", __pyx_f[0], 885, 0, __PYX_ERR(0, 885, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":886
  * 
@@ -13414,12 +12884,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_2translate(stru
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Transform.translate", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -13504,7 +12970,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_4rotate(struct 
   double __pyx_v_t;
   double __pyx_v_it;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -13521,7 +12986,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_4rotate(struct 
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rotate", 0);
-  __Pyx_TraceCall("rotate", __pyx_f[0], 898, 0, __PYX_ERR(0, 898, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":899
  * 
@@ -13774,7 +13238,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_4rotate(struct 
   __Pyx_XDECREF((PyObject *)__pyx_v_T);
   __Pyx_XDECREF((PyObject *)__pyx_v_inT);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -13789,13 +13252,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_4rotate(struct 
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_9Transform_inv_pos(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Transform *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_rpos) {
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("inv_pos", 0);
-  __Pyx_TraceCall("inv_pos", __pyx_f[0], 917, 0, __PYX_ERR(0, 917, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":918
  * 
@@ -13842,11 +13300,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_9Transform_inv_pos(struct __pyx_
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Transform.inv_pos", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -13860,13 +13313,8 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_9Transform_inv_pos(struct __pyx_
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_9Transform_inv_dire(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Transform *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_rdire) {
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_dire;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("inv_dire", 0);
-  __Pyx_TraceCall("inv_dire", __pyx_f[0], 923, 0, __PYX_ERR(0, 923, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":924
  * 
@@ -13913,11 +13361,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_9Transform_inv_dire(struct __pyx
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Transform.inv_dire", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -13933,13 +13376,8 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_9Transform_intersect(struct _
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_rpos;
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_rdire;
   intLIST __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("intersect", 0);
-  __Pyx_TraceCall("intersect", __pyx_f[0], 932, 0, __PYX_ERR(0, 932, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":934
  * 	cdef intLIST intersect(self, double3& pos, double3& dire):
@@ -14014,11 +13452,7 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_9Transform_intersect(struct _
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Transform.intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14034,13 +13468,8 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_9Transform_intersect(struct _
 static int __pyx_f_10MontyCarlo_8geometry_3CSG_9Transform_is_inside(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Transform *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_rpos;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_inside", 0);
-  __Pyx_TraceCall("is_inside", __pyx_f[0], 945, 0, __PYX_ERR(0, 945, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":947
  * 	cdef bint is_inside(self, double3& pos):
@@ -14088,11 +13517,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_9Transform_is_inside(struct __pyx
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Transform.is_inside", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14118,14 +13543,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_9Transform_7__reduce_cytho
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Transform *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -14133,7 +13556,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_6__reduce_cytho
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -14151,7 +13574,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_6__reduce_cytho
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Transform.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14178,21 +13600,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_9Transform_9__setstate_cyt
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Transform *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -14211,7 +13631,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_8__setstate_cyt
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Transform.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14311,7 +13730,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_8Isometry___init__(struct __pyx_
   double __pyx_v_t;
   double __pyx_v_it;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -14328,7 +13746,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_8Isometry___init__(struct __pyx_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 957, 0, __PYX_ERR(0, 957, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":958
  * 
@@ -14509,7 +13926,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_8Isometry___init__(struct __pyx_
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Isometry.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14524,13 +13940,8 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_8Isometry___init__(struct __pyx_
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Isometry_inv_pos(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Isometry *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_rpos) {
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("inv_pos", 0);
-  __Pyx_TraceCall("inv_pos", __pyx_f[0], 967, 0, __PYX_ERR(0, 967, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":969
  * 	cdef void inv_pos(self, double3& rpos):
@@ -14577,11 +13988,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Isometry_inv_pos(struct __pyx_o
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Isometry.inv_pos", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -14595,13 +14001,8 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Isometry_inv_pos(struct __pyx_o
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Isometry_inv_dire(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Isometry *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_tmp_pos;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("inv_dire", 0);
-  __Pyx_TraceCall("inv_dire", __pyx_f[0], 978, 0, __PYX_ERR(0, 978, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":981
  * 		IF VERBOSE: print("Isometry.inv_dire")
@@ -14648,11 +14049,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Isometry_inv_dire(struct __pyx_
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Isometry.inv_dire", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -14667,13 +14063,8 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Isometry_inv_dire(struct __pyx_
 static double __pyx_f_10MontyCarlo_8geometry_3CSG_8Isometry_SDF(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Isometry *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_rpos;
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SDF", 0);
-  __Pyx_TraceCall("SDF", __pyx_f[0], 988, 0, __PYX_ERR(0, 988, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":990
  * 	cdef double SDF(self, double3& pos):
@@ -14721,11 +14112,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_8Isometry_SDF(struct __pyx_obj
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Isometry.SDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14751,14 +14138,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_8Isometry_3__reduce_cython
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Isometry_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Isometry *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -14766,7 +14151,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Isometry_2__reduce_cython
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -14784,7 +14169,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Isometry_2__reduce_cython
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Isometry.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14811,21 +14195,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_8Isometry_5__setstate_cyth
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Isometry_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Isometry *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -14844,7 +14226,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Isometry_4__setstate_cyth
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Isometry.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14918,14 +14299,9 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_8Identity_1__init__(PyObject *__
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity___init__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Identity *__pyx_v_self, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Primitive *__pyx_v_primitive) {
   int __pyx_v_i;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 1002, 0, __PYX_ERR(0, 1002, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1003
  * 
@@ -15051,12 +14427,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity___init__(struct __pyx_
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Identity.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15070,20 +14440,10 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity___init__(struct __pyx_
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Identity_inv_pos(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Identity *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("inv_pos", 0);
-  __Pyx_TraceCall("inv_pos", __pyx_f[0], 1022, 0, __PYX_ERR(0, 1022, __pyx_L1_error));
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Identity.inv_pos", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -15096,20 +14456,10 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Identity_inv_pos(CYTHON_UNUSED 
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Identity_inv_dire(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Identity *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_dire) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("inv_dire", 0);
-  __Pyx_TraceCall("inv_dire", __pyx_f[0], 1025, 0, __PYX_ERR(0, 1025, __pyx_L1_error));
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Identity.inv_dire", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -15198,7 +14548,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_8Identity_3translate(PyObj
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_2translate(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Identity *__pyx_v_self, PyObject *__pyx_v_dx, PyObject *__pyx_v_dy, PyObject *__pyx_v_dz) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -15206,7 +14555,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_2translate(struc
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("translate", 0);
-  __Pyx_TraceCall("translate", __pyx_f[0], 1029, 0, __PYX_ERR(0, 1029, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1030
  * 
@@ -15253,7 +14601,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_2translate(struc
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15332,7 +14679,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_8Identity_5rotate(PyObject
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_4rotate(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Identity *__pyx_v_self, PyObject *__pyx_v_axis, PyObject *__pyx_v_angle) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -15340,7 +14686,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_4rotate(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rotate", 0);
-  __Pyx_TraceCall("rotate", __pyx_f[0], 1032, 0, __PYX_ERR(0, 1032, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1033
  * 
@@ -15384,7 +14729,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_4rotate(struct _
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15412,7 +14756,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_8Identity_7scale(PyObject 
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_6scale(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Identity *__pyx_v_self, PyObject *__pyx_v_s) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -15421,7 +14764,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_6scale(struct __
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("scale", 0);
-  __Pyx_TraceCall("scale", __pyx_f[0], 1035, 0, __PYX_ERR(0, 1035, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1036
  * 
@@ -15468,7 +14810,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_6scale(struct __
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15483,13 +14824,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_6scale(struct __
 
 static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_8Identity_intersect(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Identity *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_dire) {
   intLIST __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("intersect", 0);
-  __Pyx_TraceCall("intersect", __pyx_f[0], 1038, 0, __PYX_ERR(0, 1038, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1039
  * 
@@ -15510,11 +14846,7 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_8Identity_intersect(struct __
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Identity.intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15529,13 +14861,8 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_8Identity_intersect(struct __
 
 static double __pyx_f_10MontyCarlo_8geometry_3CSG_8Identity_SDF(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Identity *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SDF", 0);
-  __Pyx_TraceCall("SDF", __pyx_f[0], 1041, 0, __PYX_ERR(0, 1041, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1042
  * 
@@ -15556,11 +14883,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_8Identity_SDF(struct __pyx_obj
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Identity.SDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15586,14 +14909,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_8Identity_9__reduce_cython
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Identity *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -15601,7 +14922,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_8__reduce_cython
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -15619,7 +14940,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_8__reduce_cython
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Identity.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15646,21 +14966,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_8Identity_11__setstate_cyt
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Identity *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -15679,7 +14997,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_10__setstate_cyt
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Identity.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15705,14 +15022,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_11NonIsometry_1__reduce_cy
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11NonIsometry___reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_NonIsometry *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -15720,7 +15035,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11NonIsometry___reduce_cyt
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -15738,7 +15053,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11NonIsometry___reduce_cyt
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.NonIsometry.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15765,21 +15079,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_11NonIsometry_3__setstate_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11NonIsometry_2__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_NonIsometry *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__45, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -15798,7 +15110,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11NonIsometry_2__setstate_
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.NonIsometry.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15904,7 +15215,6 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_11Translation_1__init__(PyObject
 
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation___init__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Translation *__pyx_v_self, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Primitive *__pyx_v_primitive, PyObject *__pyx_v_dx, PyObject *__pyx_v_dy, PyObject *__pyx_v_dz) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -15912,7 +15222,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation___init__(struct __
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 1061, 0, __PYX_ERR(0, 1061, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1063
  * 	def __init__(self, Primitive primitive, dx, dy, dz):
@@ -16084,7 +15393,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation___init__(struct __
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Translation.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16098,13 +15406,8 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation___init__(struct __
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_11Translation_inv_pos(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Translation *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("inv_pos", 0);
-  __Pyx_TraceCall("inv_pos", __pyx_f[0], 1084, 0, __PYX_ERR(0, 1084, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1085
  * 
@@ -16142,11 +15445,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_11Translation_inv_pos(struct __p
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Translation.inv_pos", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -16159,20 +15457,10 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_11Translation_inv_pos(struct __p
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_11Translation_inv_dire(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Translation *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("inv_dire", 0);
-  __Pyx_TraceCall("inv_dire", __pyx_f[0], 1089, 0, __PYX_ERR(0, 1089, __pyx_L1_error));
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Translation.inv_dire", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -16186,13 +15474,8 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_11Translation_inv_dire(CYTHON_UN
 
 static double __pyx_f_10MontyCarlo_8geometry_3CSG_11Translation_SDF(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Translation *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SDF", 0);
-  __Pyx_TraceCall("SDF", __pyx_f[0], 1092, 0, __PYX_ERR(0, 1092, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1093
  * 
@@ -16240,11 +15523,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_11Translation_SDF(struct __pyx
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Translation.SDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16259,13 +15538,8 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_11Translation_SDF(struct __pyx
 
 static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_11Translation_intersect(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Translation *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_dire) {
   intLIST __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("intersect", 0);
-  __Pyx_TraceCall("intersect", __pyx_f[0], 1099, 0, __PYX_ERR(0, 1099, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1100
  * 
@@ -16313,11 +15587,7 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_11Translation_intersect(struc
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Translation.intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16400,7 +15670,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation_2rotate(stru
   PyArrayObject *__pyx_v_T = 0;
   PyArrayObject *__pyx_v_iT = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -16409,7 +15678,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation_2rotate(stru
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rotate", 0);
-  __Pyx_TraceCall("rotate", __pyx_f[0], 1107, 0, __PYX_ERR(0, 1107, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1112
  * 		"""
@@ -16519,7 +15787,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation_2rotate(stru
   __Pyx_XDECREF((PyObject *)__pyx_v_T);
   __Pyx_XDECREF((PyObject *)__pyx_v_iT);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16545,14 +15812,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_11Translation_5__reduce_cy
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation_4__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Translation *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -16560,7 +15825,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation_4__reduce_cy
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__46, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__45, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -16578,7 +15843,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation_4__reduce_cy
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Translation.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16605,21 +15869,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_11Translation_7__setstate_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation_6__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Translation *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__47, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__46, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -16638,7 +15900,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation_6__setstate_
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Translation.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16738,7 +15999,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation___init__(struct __pyx_
   double __pyx_v_t;
   double __pyx_v_it;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -16755,7 +16015,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation___init__(struct __pyx_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 1126, 0, __PYX_ERR(0, 1126, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1127
  * 
@@ -16984,7 +16243,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation___init__(struct __pyx_
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_T);
   __Pyx_XDECREF((PyObject *)__pyx_v_iT);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16999,13 +16257,8 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation___init__(struct __pyx_
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Rotation_inv_pos(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Rotation *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_rpos) {
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("inv_pos", 0);
-  __Pyx_TraceCall("inv_pos", __pyx_f[0], 1141, 0, __PYX_ERR(0, 1141, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1142
  * 
@@ -17052,11 +16305,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Rotation_inv_pos(struct __pyx_o
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Rotation.inv_pos", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -17070,13 +16318,8 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Rotation_inv_pos(struct __pyx_o
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Rotation_inv_dire(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Rotation *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_tmp_pos;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("inv_dire", 0);
-  __Pyx_TraceCall("inv_dire", __pyx_f[0], 1151, 0, __PYX_ERR(0, 1151, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1152
  * 
@@ -17123,11 +16366,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_8Rotation_inv_dire(struct __pyx_
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Rotation.inv_dire", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -17218,7 +16456,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
   PyArrayObject *__pyx_v_T = 0;
   PyArrayObject *__pyx_v_iT = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -17228,7 +16465,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("translate", 0);
-  __Pyx_TraceCall("translate", __pyx_f[0], 1160, 0, __PYX_ERR(0, 1160, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1161
  * 
@@ -17252,7 +16488,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
       __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_tuple__27) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_tuple__27);
+  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_tuple__26) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_tuple__26);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1161, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -17270,7 +16506,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[0])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__28, __pyx_t_1) < 0)) __PYX_ERR(0, 1163, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__27, __pyx_t_1) < 0)) __PYX_ERR(0, 1163, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1164
@@ -17282,7 +16518,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[1])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__29, __pyx_t_1) < 0)) __PYX_ERR(0, 1164, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__28, __pyx_t_1) < 0)) __PYX_ERR(0, 1164, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1165
@@ -17294,7 +16530,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[2])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__30, __pyx_t_1) < 0)) __PYX_ERR(0, 1165, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__29, __pyx_t_1) < 0)) __PYX_ERR(0, 1165, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1166
@@ -17304,7 +16540,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  * 
  * 		T[1, 0] = self.T[3]
  */
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__48, __pyx_v_dx) < 0)) __PYX_ERR(0, 1166, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__47, __pyx_v_dx) < 0)) __PYX_ERR(0, 1166, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":1168
  * 		T[0, 3] = dx
@@ -17315,7 +16551,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[3])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__31, __pyx_t_1) < 0)) __PYX_ERR(0, 1168, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__30, __pyx_t_1) < 0)) __PYX_ERR(0, 1168, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1169
@@ -17327,7 +16563,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[4])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__32, __pyx_t_1) < 0)) __PYX_ERR(0, 1169, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__31, __pyx_t_1) < 0)) __PYX_ERR(0, 1169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1170
@@ -17339,7 +16575,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[5])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1170, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__33, __pyx_t_1) < 0)) __PYX_ERR(0, 1170, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__32, __pyx_t_1) < 0)) __PYX_ERR(0, 1170, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1171
@@ -17349,7 +16585,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  * 
  * 
  */
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__49, __pyx_v_dy) < 0)) __PYX_ERR(0, 1171, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__48, __pyx_v_dy) < 0)) __PYX_ERR(0, 1171, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":1174
  * 
@@ -17360,7 +16596,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[6])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__34, __pyx_t_1) < 0)) __PYX_ERR(0, 1174, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__33, __pyx_t_1) < 0)) __PYX_ERR(0, 1174, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1175
@@ -17372,7 +16608,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[7])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__35, __pyx_t_1) < 0)) __PYX_ERR(0, 1175, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__34, __pyx_t_1) < 0)) __PYX_ERR(0, 1175, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1176
@@ -17384,7 +16620,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[8])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__36, __pyx_t_1) < 0)) __PYX_ERR(0, 1176, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__35, __pyx_t_1) < 0)) __PYX_ERR(0, 1176, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1177
@@ -17394,7 +16630,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  * 
  * 		T[3, :] = np.array([0, 0, 0, 1])
  */
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__50, __pyx_v_dz) < 0)) __PYX_ERR(0, 1177, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__49, __pyx_v_dz) < 0)) __PYX_ERR(0, 1177, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":1179
  * 		T[2, 3] = dz
@@ -17438,7 +16674,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
   if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1179, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__52, __pyx_t_1) < 0)) __PYX_ERR(0, 1179, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__51, __pyx_t_1) < 0)) __PYX_ERR(0, 1179, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1181
@@ -17521,7 +16757,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
   __Pyx_XDECREF((PyObject *)__pyx_v_T);
   __Pyx_XDECREF((PyObject *)__pyx_v_iT);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -17606,7 +16841,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_4rotate(struct _
   double __pyx_v_t;
   double __pyx_v_it;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -17623,7 +16857,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_4rotate(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rotate", 0);
-  __Pyx_TraceCall("rotate", __pyx_f[0], 1185, 0, __PYX_ERR(0, 1185, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1186
  * 
@@ -17875,7 +17108,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_4rotate(struct _
   __Pyx_XDECREF((PyObject *)__pyx_v_T);
   __Pyx_XDECREF(__pyx_v_iT);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -17901,14 +17133,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_8Rotation_7__reduce_cython
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Rotation *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -17916,7 +17146,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_6__reduce_cython
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__53, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__52, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17934,7 +17164,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_6__reduce_cython
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Rotation.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -17961,21 +17190,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_8Rotation_9__setstate_cyth
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Rotation *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__54, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__53, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17994,7 +17221,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_8__setstate_cyth
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Rotation.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -18079,13 +17305,8 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_5CSGop_1__init__(PyObject *__pyx
 
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop___init__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGop *__pyx_v_self, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_L, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_R) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 1263, 0, __PYX_ERR(0, 1263, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1264
  * 
@@ -18123,12 +17344,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop___init__(struct __pyx_obj
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.geometry.CSG.CSGop.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -18143,14 +17358,12 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop___init__(struct __pyx_obj
 
 static int __pyx_f_10MontyCarlo_8geometry_3CSG_5CSGop_is_inside(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGop *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_inside", 0);
-  __Pyx_TraceCall("is_inside", __pyx_f[0], 1267, 0, __PYX_ERR(0, 1267, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1268
  * 
@@ -18159,7 +17372,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_5CSGop_is_inside(CYTHON_UNUSED st
  * 
  * 	def translate(self, dx, dy, dz):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__55, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1268, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__54, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18178,7 +17391,6 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_5CSGop_is_inside(CYTHON_UNUSED st
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGop.is_inside", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -18268,7 +17480,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_5CSGop_3translate(PyObject
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_2translate(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGop *__pyx_v_self, PyObject *__pyx_v_dx, PyObject *__pyx_v_dy, PyObject *__pyx_v_dz) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
@@ -18281,7 +17492,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_2translate(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("translate", 0);
-  __Pyx_TraceCall("translate", __pyx_f[0], 1270, 0, __PYX_ERR(0, 1270, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1271
  * 
@@ -18599,7 +17809,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_2translate(struct _
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -18678,7 +17887,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_5CSGop_5rotate(PyObject *_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_4rotate(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGop *__pyx_v_self, PyObject *__pyx_v_axis, PyObject *__pyx_v_angle) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -18689,7 +17897,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_4rotate(struct __py
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rotate", 0);
-  __Pyx_TraceCall("rotate", __pyx_f[0], 1280, 0, __PYX_ERR(0, 1280, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1281
  * 
@@ -18823,7 +18030,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_4rotate(struct __py
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -18838,14 +18044,12 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_4rotate(struct __py
 
 static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_5CSGop_intersect(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGop *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_dire) {
   intLIST __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("intersect", 0);
-  __Pyx_TraceCall("intersect", __pyx_f[0], 1284, 0, __PYX_ERR(0, 1284, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1285
  * 
@@ -18854,7 +18058,7 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_5CSGop_intersect(CYTHON_UNUSE
  * 
  * 		#return self.rule(self.L.intersect(pos, dire), self.R.intersect(pos, dire))
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__56, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1285, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__55, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1285, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18873,7 +18077,6 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_5CSGop_intersect(CYTHON_UNUSE
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGop.intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __Pyx_pretend_to_initialize(&__pyx_r);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -18899,14 +18102,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_5CSGop_7__reduce_cython__(
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGop *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -18914,7 +18115,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_6__reduce_cython__(
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__57, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__56, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18932,7 +18133,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_6__reduce_cython__(
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.CSGop.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -18959,21 +18159,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_5CSGop_9__setstate_cython_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGop *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__58, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__57, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18992,7 +18190,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_8__setstate_cython_
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.CSGop.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19077,7 +18274,6 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_11Subtraction_1__init__(PyObject
 
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction___init__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Subtraction *__pyx_v_self, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_L, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_R) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -19088,7 +18284,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction___init__(struct __
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 1309, 0, __PYX_ERR(0, 1309, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1311
  * 	def __init__(self, CSGvol L, CSGvol R):
@@ -19177,7 +18372,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction___init__(struct __
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Subtraction.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19192,13 +18386,8 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction___init__(struct __
 
 static double __pyx_f_10MontyCarlo_8geometry_3CSG_11Subtraction_SDF(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Subtraction *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SDF", 0);
-  __Pyx_TraceCall("SDF", __pyx_f[0], 1317, 0, __PYX_ERR(0, 1317, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1318
  * 
@@ -19219,11 +18408,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_11Subtraction_SDF(struct __pyx
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Subtraction.SDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19238,15 +18423,10 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_11Subtraction_SDF(struct __pyx
 
 static int __pyx_f_10MontyCarlo_8geometry_3CSG_11Subtraction_is_inside(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Subtraction *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_inside", 0);
-  __Pyx_TraceCall("is_inside", __pyx_f[0], 1320, 0, __PYX_ERR(0, 1320, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1321
  * 
@@ -19276,11 +18456,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_11Subtraction_is_inside(struct __
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Subtraction.is_inside", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19308,13 +18484,8 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_11Subtraction_3__repr__(Py
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction_2__repr__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Subtraction *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
-  __Pyx_TraceCall("__repr__", __pyx_f[0], 1323, 0, __PYX_ERR(0, 1323, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1324
  * 
@@ -19337,12 +18508,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction_2__repr__(CY
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Subtraction.__repr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19359,14 +18526,9 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_11Subtraction_intersect(struc
   intLIST __pyx_v_L;
   intLIST __pyx_v_R;
   intLIST __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("intersect", 0);
-  __Pyx_TraceCall("intersect", __pyx_f[0], 1326, 0, __PYX_ERR(0, 1326, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1329
  * 		IF VERBOSE: print("SUBTRACTING: \n --left-- \n")
@@ -19463,11 +18625,7 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_11Subtraction_intersect(struc
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Subtraction.intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19493,14 +18651,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_11Subtraction_5__reduce_cy
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction_4__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Subtraction *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -19508,7 +18664,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction_4__reduce_cy
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__59, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__58, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -19526,7 +18682,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction_4__reduce_cy
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Subtraction.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19553,21 +18708,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_11Subtraction_7__setstate_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction_6__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Subtraction *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__60, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__59, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -19586,7 +18739,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction_6__setstate_
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Subtraction.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19671,7 +18823,6 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_5Union_1__init__(PyObject *__pyx
 
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_5Union___init__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Union *__pyx_v_self, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_L, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_R) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -19682,7 +18833,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_5Union___init__(struct __pyx_obj
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 1370, 0, __PYX_ERR(0, 1370, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1372
  * 	def __init__(self, CSGvol L, CSGvol R):
@@ -19771,7 +18921,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_5Union___init__(struct __pyx_obj
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Union.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19799,13 +18948,8 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_5Union_3__repr__(PyObject 
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Union_2__repr__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Union *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
-  __Pyx_TraceCall("__repr__", __pyx_f[0], 1375, 0, __PYX_ERR(0, 1375, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1376
  * 
@@ -19828,12 +18972,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Union_2__repr__(CYTHON_UN
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Union.__repr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19848,13 +18988,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Union_2__repr__(CYTHON_UN
 
 static double __pyx_f_10MontyCarlo_8geometry_3CSG_5Union_SDF(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Union *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SDF", 0);
-  __Pyx_TraceCall("SDF", __pyx_f[0], 1378, 0, __PYX_ERR(0, 1378, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1379
  * 
@@ -19875,11 +19010,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_5Union_SDF(struct __pyx_obj_10
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Union.SDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19896,14 +19027,9 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_5Union_intersect(struct __pyx
   intLIST __pyx_v_L;
   intLIST __pyx_v_R;
   intLIST __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("intersect", 0);
-  __Pyx_TraceCall("intersect", __pyx_f[0], 1381, 0, __PYX_ERR(0, 1381, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1384
  * 		IF VERBOSE: print("UNION: \n --left-- \n")
@@ -20000,11 +19126,7 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_5Union_intersect(struct __pyx
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Union.intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20019,15 +19141,10 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_5Union_intersect(struct __pyx
 
 static int __pyx_f_10MontyCarlo_8geometry_3CSG_5Union_is_inside(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Union *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_inside", 0);
-  __Pyx_TraceCall("is_inside", __pyx_f[0], 1398, 0, __PYX_ERR(0, 1398, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1399
  * 
@@ -20057,11 +19174,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_5Union_is_inside(struct __pyx_obj
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Union.is_inside", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20087,14 +19200,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_5Union_5__reduce_cython__(
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Union_4__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Union *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -20102,7 +19213,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Union_4__reduce_cython__(
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__61, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__60, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -20120,7 +19231,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Union_4__reduce_cython__(
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Union.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20147,21 +19257,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_5Union_7__setstate_cython_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Union_6__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Union *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__62, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__61, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -20180,7 +19288,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Union_6__setstate_cython_
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Union.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20265,7 +19372,6 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_12Intersection_1__init__(PyObjec
 
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection___init__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Intersection *__pyx_v_self, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_L, struct __pyx_obj_10MontyCarlo_8geometry_3CSG_CSGvol *__pyx_v_R) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -20276,7 +19382,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection___init__(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 1421, 0, __PYX_ERR(0, 1421, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1423
  * 	def __init__(self, CSGvol L, CSGvol R):
@@ -20365,7 +19470,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection___init__(struct _
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Intersection.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20393,13 +19497,8 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_12Intersection_3__repr__(P
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection_2__repr__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Intersection *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
-  __Pyx_TraceCall("__repr__", __pyx_f[0], 1427, 0, __PYX_ERR(0, 1427, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1428
  * 
@@ -20422,12 +19521,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection_2__repr__(C
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Intersection.__repr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20442,13 +19537,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection_2__repr__(C
 
 static double __pyx_f_10MontyCarlo_8geometry_3CSG_12Intersection_SDF(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Intersection *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SDF", 0);
-  __Pyx_TraceCall("SDF", __pyx_f[0], 1430, 0, __PYX_ERR(0, 1430, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1431
  * 
@@ -20469,11 +19559,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_12Intersection_SDF(struct __py
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Intersection.SDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20490,14 +19576,9 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_12Intersection_intersect(stru
   intLIST __pyx_v_L;
   intLIST __pyx_v_R;
   intLIST __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("intersect", 0);
-  __Pyx_TraceCall("intersect", __pyx_f[0], 1433, 0, __PYX_ERR(0, 1433, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1435
  * 	cdef intLIST intersect(self, double3& pos, double3& dire):
@@ -20594,11 +19675,7 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_12Intersection_intersect(stru
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Intersection.intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20613,15 +19690,10 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_12Intersection_intersect(stru
 
 static int __pyx_f_10MontyCarlo_8geometry_3CSG_12Intersection_is_inside(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Intersection *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_inside", 0);
-  __Pyx_TraceCall("is_inside", __pyx_f[0], 1446, 0, __PYX_ERR(0, 1446, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1447
  * 
@@ -20651,11 +19723,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_12Intersection_is_inside(struct _
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Intersection.is_inside", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20681,14 +19749,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_12Intersection_5__reduce_c
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection_4__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Intersection *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -20696,7 +19762,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection_4__reduce_c
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__63, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__62, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -20714,7 +19780,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection_4__reduce_c
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Intersection.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20741,21 +19806,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_12Intersection_7__setstate
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection_6__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Intersection *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__64, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__63, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -20774,7 +19837,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection_6__setstate
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Intersection.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20848,7 +19910,6 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_1__init__(PyObj
 
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_14InfiniteVolume___init__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_InfiniteVolume *__pyx_v_self, PyObject *__pyx_v_vaccum) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -20858,7 +19919,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_14InfiniteVolume___init__(struct
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 1512, 0, __PYX_ERR(0, 1512, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1513
  * cdef class InfiniteVolume(CSGvol):
@@ -20944,7 +20004,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_14InfiniteVolume___init__(struct
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.InfiniteVolume.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20959,13 +20018,8 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_14InfiniteVolume___init__(struct
 
 static int __pyx_f_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_is_inside(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_InfiniteVolume *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_inside", 0);
-  __Pyx_TraceCall("is_inside", __pyx_f[0], 1518, 0, __PYX_ERR(0, 1518, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1519
  * 
@@ -20986,11 +20040,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_is_inside(CYTHON
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.InfiniteVolume.is_inside", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21005,13 +20055,8 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_is_inside(CYTHON
 
 static double __pyx_f_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_SDF(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_InfiniteVolume *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SDF", 0);
-  __Pyx_TraceCall("SDF", __pyx_f[0], 1521, 0, __PYX_ERR(0, 1521, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1522
  * 
@@ -21032,11 +20077,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_SDF(CYTHON_UN
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.InfiniteVolume.SDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21052,13 +20093,8 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_SDF(CYTHON_UN
 static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_intersect(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_InfiniteVolume *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_dire) {
   intLIST __pyx_v_result;
   intLIST __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("intersect", 0);
-  __Pyx_TraceCall("intersect", __pyx_f[0], 1524, 0, __PYX_ERR(0, 1524, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1526
  * 	cdef intLIST intersect(self, double3& pos, double3& dire):
@@ -21079,11 +20115,7 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_intersect(CY
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.InfiniteVolume.intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21109,14 +20141,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_3__reduce
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_InfiniteVolume *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -21124,7 +20154,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_2__reduce
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__65, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__64, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -21142,7 +20172,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_2__reduce
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.InfiniteVolume.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21169,21 +20198,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_5__setsta
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_InfiniteVolume *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__66, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__65, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -21202,7 +20229,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_4__setsta
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.InfiniteVolume.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21233,7 +20259,6 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_9Primitive_1__init__(PyObject *_
 
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive___init__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Primitive *__pyx_v_self) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -21242,7 +20267,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive___init__(struct __pyx
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 1533, 0, __PYX_ERR(0, 1533, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1534
  * 
@@ -21315,7 +20339,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive___init__(struct __pyx
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Primitive.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21405,7 +20428,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_9Primitive_3translate(PyOb
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_2translate(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Primitive *__pyx_v_self, PyObject *__pyx_v_dx, PyObject *__pyx_v_dy, PyObject *__pyx_v_dz) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -21416,7 +20438,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_2translate(stru
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("translate", 0);
-  __Pyx_TraceCall("translate", __pyx_f[0], 1537, 0, __PYX_ERR(0, 1537, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1538
  * 
@@ -21502,7 +20523,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_2translate(stru
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21581,7 +20601,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_9Primitive_5rotate(PyObjec
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_4rotate(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Primitive *__pyx_v_self, PyObject *__pyx_v_axis, PyObject *__pyx_v_angle) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -21592,7 +20611,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_4rotate(struct 
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rotate", 0);
-  __Pyx_TraceCall("rotate", __pyx_f[0], 1541, 0, __PYX_ERR(0, 1541, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1542
  * 
@@ -21675,7 +20693,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_4rotate(struct 
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21703,14 +20720,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_9Primitive_6matrix_1__get_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_6matrix___get__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Primitive *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[0], 1545, 0, __PYX_ERR(0, 1545, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1546
  * 	@property
@@ -21741,7 +20756,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_6matrix___get__
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21769,14 +20783,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_9Primitive_10inv_matrix_1_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_10inv_matrix___get__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Primitive *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[0], 1549, 0, __PYX_ERR(0, 1549, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1550
  * 	@property
@@ -21807,7 +20819,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_10inv_matrix___
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21833,14 +20844,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_9Primitive_7__reduce_cytho
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Primitive *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -21848,7 +20857,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_6__reduce_cytho
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__67, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__66, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -21866,7 +20875,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_6__reduce_cytho
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Primitive.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21893,21 +20901,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_9Primitive_9__setstate_cyt
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Primitive *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__68, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__67, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -21926,7 +20932,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_8__setstate_cyt
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Primitive.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21994,7 +20999,6 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_6Sphere_1__init__(PyObject *__py
 
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere___init__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Sphere *__pyx_v_self, double __pyx_v_r) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -22003,7 +21007,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere___init__(struct __pyx_ob
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 1557, 0, __PYX_ERR(0, 1557, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1558
  * 
@@ -22070,7 +21073,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere___init__(struct __pyx_ob
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Sphere.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -22086,13 +21088,8 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere___init__(struct __pyx_ob
 static int __pyx_f_10MontyCarlo_8geometry_3CSG_6Sphere_is_inside(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Sphere *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v__pos) {
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_inside", 0);
-  __Pyx_TraceCall("is_inside", __pyx_f[0], 1564, 0, __PYX_ERR(0, 1564, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1565
  * 
@@ -22131,11 +21128,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6Sphere_is_inside(struct __pyx_ob
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Sphere.is_inside", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -22163,7 +21156,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_6Sphere_3__repr__(PyObject
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_2__repr__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Sphere *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
@@ -22174,7 +21166,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_2__repr__(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
-  __Pyx_TraceCall("__repr__", __pyx_f[0], 1570, 0, __PYX_ERR(0, 1570, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1571
  * 
@@ -22202,10 +21193,10 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_2__repr__(struct _
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_5);
   __pyx_t_5 = 0;
-  __Pyx_INCREF(__pyx_kp_u__69);
+  __Pyx_INCREF(__pyx_kp_u__68);
   __pyx_t_2 += 1;
-  __Pyx_GIVEREF(__pyx_kp_u__69);
-  PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u__69);
+  __Pyx_GIVEREF(__pyx_kp_u__68);
+  PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u__68);
   __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 3, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1571, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22230,7 +21221,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_2__repr__(struct _
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -22246,13 +21236,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_2__repr__(struct _
 static double __pyx_f_10MontyCarlo_8geometry_3CSG_6Sphere_SDF(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Sphere *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v__pos) {
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos;
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SDF", 0);
-  __Pyx_TraceCall("SDF", __pyx_f[0], 1573, 0, __PYX_ERR(0, 1573, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1574
  * 
@@ -22291,11 +21276,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_6Sphere_SDF(struct __pyx_obj_1
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Sphere.SDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -22323,7 +21304,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_6Sphere_5scale(PyObject *_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_4scale(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Sphere *__pyx_v_self, PyObject *__pyx_v_s) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -22332,7 +21312,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_4scale(struct __py
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("scale", 0);
-  __Pyx_TraceCall("scale", __pyx_f[0], 1578, 0, __PYX_ERR(0, 1578, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1579
  * 
@@ -22378,7 +21357,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_4scale(struct __py
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -22399,14 +21377,9 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_6Sphere_intersect(struct __py
   intLIST __pyx_v_result;
   Interval __pyx_v_I;
   intLIST __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("intersect", 0);
-  __Pyx_TraceCall("intersect", __pyx_f[0], 1585, 0, __PYX_ERR(0, 1585, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1589
  * 		# direction * origin
@@ -22620,11 +21593,7 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_6Sphere_intersect(struct __py
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Sphere.intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_pretend_to_initialize(&__pyx_r);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -22650,14 +21619,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_6Sphere_7__reduce_cython__
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Sphere *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -22665,7 +21632,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_6__reduce_cython__
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__70, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__69, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22683,7 +21650,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_6__reduce_cython__
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Sphere.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -22710,21 +21676,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_6Sphere_9__setstate_cython
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Sphere *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__71, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__70, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22743,7 +21707,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_8__setstate_cython
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Sphere.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -22757,14 +21720,12 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_8__setstate_cython
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_5Tally_depositUNIFORM(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Tally *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state, CYTHON_UNUSED double __pyx_v_SP) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositUNIFORM", 0);
-  __Pyx_TraceCall("depositUNIFORM", __pyx_f[0], 1686, 0, __PYX_ERR(0, 1686, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1687
  * 
@@ -22773,7 +21734,7 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_5Tally_depositUNIFORM(CYTHON_UNU
  * 		import time
  * 		print("depositUNIFORM called from Tally (virtual)")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__72, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1687, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__71, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1687, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22791,7 +21752,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_5Tally_depositUNIFORM(CYTHON_UNU
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Tally.depositUNIFORM", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -22804,14 +21764,12 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_5Tally_depositUNIFORM(CYTHON_UNU
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_5Tally_depositLOCAL(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Tally *__pyx_v_self, CYTHON_UNUSED struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos, CYTHON_UNUSED double __pyx_v_E) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositLOCAL", 0);
-  __Pyx_TraceCall("depositLOCAL", __pyx_f[0], 1692, 0, __PYX_ERR(0, 1692, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1693
  * 
@@ -22820,7 +21778,7 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_5Tally_depositLOCAL(CYTHON_UNUSE
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1693, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1693, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22838,7 +21796,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_5Tally_depositLOCAL(CYTHON_UNUSE
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Tally.depositLOCAL", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -22868,22 +21825,11 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_5Tally_1__init__(PyObject *__pyx
 
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_5Tally___init__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Tally *__pyx_v_self) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 1696, 0, __PYX_ERR(0, 1696, __pyx_L1_error));
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Tally.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -22909,14 +21855,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_5Tally_3__reduce_cython__(
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Tally_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Tally *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -22924,7 +21868,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Tally_2__reduce_cython__(
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__73, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__72, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22942,7 +21886,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Tally_2__reduce_cython__(
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Tally.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -22969,21 +21912,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_5Tally_5__setstate_cython_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Tally_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Tally *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__74, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__73, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -23002,7 +21943,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Tally_4__setstate_cython_
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Tally.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -23016,7 +21956,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Tally_4__setstate_cython_
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_depositRANDOM(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self, struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state, double __pyx_v_E, double __pyx_v_tau) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_t_2;
@@ -23024,7 +21963,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_depositRANDOM(struct __
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositRANDOM", 0);
-  __Pyx_TraceCall("depositRANDOM", __pyx_f[0], 1709, 0, __PYX_ERR(0, 1709, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1711
  * 	cdef void depositRANDOM(self, STATE& state, double E, double tau):
@@ -23063,7 +22001,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_depositRANDOM(struct __
   __pyx_L1_error:;
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Z_TALLY.depositRANDOM", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -23094,7 +22031,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_get_bins(struct _
   PyObject *__pyx_v_bins = NULL;
   int __pyx_v_i;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -23108,7 +22044,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_get_bins(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_bins", 0);
-  __Pyx_TraceCall("get_bins", __pyx_f[0], 1715, 0, __PYX_ERR(0, 1715, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1716
  * 
@@ -23286,7 +22221,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_get_bins(struct _
   __Pyx_XDECREF(__pyx_v_z_axis);
   __Pyx_XDECREF(__pyx_v_bins);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -23374,7 +22308,6 @@ static int __pyx_pw_10MontyCarlo_8geometry_3CSG_7Z_TALLY_3__init__(PyObject *__p
 static int __pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_2__init__(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self, PyObject *__pyx_v_DZ, PyObject *__pyx_v_zmax) {
   int __pyx_v_i;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -23386,7 +22319,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_2__init__(struct __pyx_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 1729, 0, __PYX_ERR(0, 1729, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1730
  * 
@@ -23480,7 +22412,6 @@ static int __pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_2__init__(struct __pyx_
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Z_TALLY.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -23497,7 +22428,6 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_7Z_TALLY_5reset(PyObject *
 static PyObject *__pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_reset(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self, int __pyx_skip_dispatch) {
   int __pyx_v_i;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -23510,7 +22440,6 @@ static PyObject *__pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_reset(struct __pyx
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset", 0);
-  __Pyx_TraceCall("reset", __pyx_f[0], 1740, 0, __PYX_ERR(0, 1740, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -23600,7 +22529,6 @@ static PyObject *__pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_reset(struct __pyx
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -23620,14 +22548,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_7Z_TALLY_5reset(PyObject *
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_4reset(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset", 0);
-  __Pyx_TraceCall("reset (wrapper)", __pyx_f[0], 1740, 0, __PYX_ERR(0, 1740, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_reset(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1740, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -23642,7 +22568,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_4reset(struct __p
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -23656,7 +22581,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_4reset(struct __p
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_depositLOCAL(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos, double __pyx_v_E) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -23667,7 +22591,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_depositLOCAL(struct __p
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositLOCAL", 0);
-  __Pyx_TraceCall("depositLOCAL", __pyx_f[0], 1745, 0, __PYX_ERR(0, 1745, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1746
  * 
@@ -23754,7 +22677,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_depositLOCAL(struct __p
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Z_TALLY.depositLOCAL", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -23769,16 +22691,11 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_depositLOCAL(struct __p
 static int __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_move(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self, struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state, double __pyx_v_SP) {
   int __pyx_v_case;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   struct __pyx_t_10MontyCarlo_5types_double3 __pyx_t_2;
   double __pyx_t_3;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("move", 0);
-  __Pyx_TraceCall("move", __pyx_f[0], 1763, 0, __PYX_ERR(0, 1763, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1783
  * 			#time.sleep(10000)
@@ -24030,12 +22947,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_move(struct __pyx_obj_10
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Z_TALLY.move", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -24052,7 +22964,6 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_intEVENT(s
   double __pyx_v_cos;
   double __pyx_v_t;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   double __pyx_t_2;
@@ -24060,7 +22971,6 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_intEVENT(s
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("intEVENT", 0);
-  __Pyx_TraceCall("intEVENT", __pyx_f[0], 1816, 0, __PYX_ERR(0, 1816, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1820
  * 		IF VERBOSE_TALLY: print(f"cache = {self.cache}")
@@ -24259,7 +23169,6 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_intEVENT(s
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Z_TALLY.intEVENT", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -24273,13 +23182,8 @@ static CYTHON_INLINE int __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_intEVENT(s
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_boundary_crossing(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self, struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("boundary_crossing", 0);
-  __Pyx_TraceCall("boundary_crossing", __pyx_f[0], 1841, 0, __PYX_ERR(0, 1841, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1842
  * 
@@ -24299,11 +23203,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_boundary_crossing(struc
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Z_TALLY.boundary_crossing", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -24322,7 +23221,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_deposit(struct __pyx_ob
   double __pyx_v_cos;
   double __pyx_v_dE;
   long __pyx_v_i;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -24338,7 +23236,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_deposit(struct __pyx_ob
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("deposit", 0);
-  __Pyx_TraceCall("deposit", __pyx_f[0], 1845, 0, __PYX_ERR(0, 1845, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1848
  * 
@@ -24693,7 +23590,6 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_deposit(struct __pyx_ob
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Z_TALLY.deposit", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -24707,13 +23603,8 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_deposit(struct __pyx_ob
 
 static double __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_SDF(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 __pyx_v_pos) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SDF", 0);
-  __Pyx_TraceCall("SDF", __pyx_f[0], 1899, 0, __PYX_ERR(0, 1899, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1900
  * 
@@ -24734,11 +23625,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_SDF(CYTHON_UNUSED str
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Z_TALLY.SDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -24752,14 +23639,9 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_SDF(CYTHON_UNUSED str
  */
 
 static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_localSDF(struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self, struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("localSDF", 0);
-  __Pyx_TraceCall("localSDF", __pyx_f[0], 1903, 0, __PYX_ERR(0, 1903, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1913
  * 			   be travelled without hitting some other surface.
@@ -24816,11 +23698,7 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_localSDF(struct __pyx_o
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Z_TALLY.localSDF", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -24837,7 +23715,6 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_main_intersect(struct
   intLIST __pyx_v_crosses;
   Interval __pyx_v_I;
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   double __pyx_t_2;
@@ -24845,7 +23722,6 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_main_intersect(struct
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("main_intersect", 0);
-  __Pyx_TraceCall("main_intersect", __pyx_f[0], 1920, 0, __PYX_ERR(0, 1920, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1934
  * 		IF VERBOSE_TALLY: print("main_intersect", f"cache = {self.cache}")
@@ -24988,7 +23864,6 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_main_intersect(struct
   __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Z_TALLY.main_intersect", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25002,14 +23877,9 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_main_intersect(struct
  */
 
 static CYTHON_INLINE void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_final(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self, struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("final", 0);
-  __Pyx_TraceCall("final", __pyx_f[0], 1957, 0, __PYX_ERR(0, 1957, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1961
  * 
@@ -25066,11 +23936,6 @@ static CYTHON_INLINE void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_final(CYT
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Z_TALLY.final", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -25084,13 +23949,8 @@ static CYTHON_INLINE void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_final(CYT
 
 static int __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_is_inside(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self, struct __pyx_t_10MontyCarlo_5types_double3 &__pyx_v_pos) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_inside", 0);
-  __Pyx_TraceCall("is_inside", __pyx_f[0], 1969, 0, __PYX_ERR(0, 1969, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1970
  * 
@@ -25111,11 +23971,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_is_inside(CYTHON_UNUSED 
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Z_TALLY.is_inside", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25129,13 +23985,8 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_is_inside(CYTHON_UNUSED 
  */
 
 static CYTHON_INLINE void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_virtual_event(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self, struct __pyx_t_10MontyCarlo_9particles_8particle_STATE &__pyx_v_state, double __pyx_v_dr) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("virtual_event", 0);
-  __Pyx_TraceCall("virtual_event", __pyx_f[0], 1973, 0, __PYX_ERR(0, 1973, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":1975
  * 	cdef inline void virtual_event(self, STATE& state, double dr):
@@ -25189,11 +24040,6 @@ static CYTHON_INLINE void __pyx_f_10MontyCarlo_8geometry_3CSG_7Z_TALLY_virtual_e
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.Z_TALLY.virtual_event", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -25218,14 +24064,12 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_7Z_TALLY_7__reduce_cython_
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -25233,7 +24077,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_6__reduce_cython_
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__75, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__74, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -25251,7 +24095,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_6__reduce_cython_
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Z_TALLY.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25278,21 +24121,19 @@ static PyObject *__pyx_pw_10MontyCarlo_8geometry_3CSG_7Z_TALLY_9__setstate_cytho
 
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_8__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_8geometry_3CSG_Z_TALLY *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__76, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__75, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -25311,7 +24152,6 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_8__setstate_cytho
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.Z_TALLY.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25326,14 +24166,12 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_8__setstate_cytho
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__pyx_v_a) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew1", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew1", __pyx_f[2], 734, 0, __PYX_ERR(2, 734, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":735
  * 
@@ -25364,7 +24202,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25379,14 +24216,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__pyx_v_a, PyObject *__pyx_v_b) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew2", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew2", __pyx_f[2], 737, 0, __PYX_ERR(2, 737, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":738
  * 
@@ -25417,7 +24252,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25432,14 +24266,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__pyx_v_a, PyObject *__pyx_v_b, PyObject *__pyx_v_c) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew3", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew3", __pyx_f[2], 740, 0, __PYX_ERR(2, 740, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":741
  * 
@@ -25470,7 +24302,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25485,14 +24316,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__pyx_v_a, PyObject *__pyx_v_b, PyObject *__pyx_v_c, PyObject *__pyx_v_d) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew4", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew4", __pyx_f[2], 743, 0, __PYX_ERR(2, 743, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":744
  * 
@@ -25523,7 +24352,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25538,14 +24366,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__pyx_v_a, PyObject *__pyx_v_b, PyObject *__pyx_v_c, PyObject *__pyx_v_d, PyObject *__pyx_v_e) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew5", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew5", __pyx_f[2], 746, 0, __PYX_ERR(2, 746, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":747
  * 
@@ -25576,7 +24402,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25591,14 +24416,9 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__pyx_v_d) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyDataType_SHAPE", 0);
-  __Pyx_TraceCall("PyDataType_SHAPE", __pyx_f[2], 749, 0, __PYX_ERR(2, 749, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":750
  * 
@@ -25654,12 +24474,8 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("numpy.PyDataType_SHAPE", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25673,13 +24489,8 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
  */
 
 static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_arr, PyObject *__pyx_v_base) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_array_base", 0);
-  __Pyx_TraceCall("set_array_base", __pyx_f[2], 868, 0, __PYX_ERR(2, 868, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":869
  * 
@@ -25708,11 +24519,6 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("numpy.set_array_base", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -25727,14 +24533,9 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__pyx_v_arr) {
   PyObject *__pyx_v_base;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_array_base", 0);
-  __Pyx_TraceCall("get_array_base", __pyx_f[2], 872, 0, __PYX_ERR(2, 872, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":873
  * 
@@ -25796,12 +24597,8 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("numpy.get_array_base", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25816,7 +24613,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
 
 static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -25830,7 +24626,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("import_array", 0);
-  __Pyx_TraceCall("import_array", __pyx_f[2], 880, 0, __PYX_ERR(2, 880, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":881
  * # Cython code.
@@ -25893,7 +24688,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__77, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 884, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__76, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 884, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -25936,7 +24731,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   __Pyx_AddTraceback("numpy.import_array", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25951,7 +24745,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
 
 static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -25965,7 +24758,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("import_umath", 0);
-  __Pyx_TraceCall("import_umath", __pyx_f[2], 886, 0, __PYX_ERR(2, 886, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":887
  * 
@@ -26028,7 +24820,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__78, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 890, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__77, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 890, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -26071,7 +24863,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   __Pyx_AddTraceback("numpy.import_umath", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -26086,7 +24877,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
 
 static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -26100,7 +24890,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("import_ufunc", 0);
-  __Pyx_TraceCall("import_ufunc", __pyx_f[2], 892, 0, __PYX_ERR(2, 892, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":893
  * 
@@ -26163,7 +24952,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  * 
  * cdef extern from *:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__78, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 896, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__77, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 896, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -26206,7 +24995,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   __Pyx_AddTraceback("numpy.import_ufunc", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -26356,7 +25144,6 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
   PyObject **__pyx_v_p;
   char __pyx_v_order;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
@@ -26373,7 +25160,6 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
-  __Pyx_TraceCall("__cinit__", __pyx_f[1], 122, 0, __PYX_ERR(1, 122, __pyx_L1_error));
   __Pyx_INCREF(__pyx_v_format);
 
   /* "View.MemoryView":129
@@ -26416,7 +25202,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if itemsize <= 0:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__79, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 133, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__78, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -26448,7 +25234,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if not isinstance(format, bytes):
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__80, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 136, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__79, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 136, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -26575,7 +25361,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__81, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__80, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -26849,7 +25635,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *             if self.dtype_is_object:
  */
-      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__82, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 176, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__81, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 176, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_Raise(__pyx_t_10, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -26960,7 +25746,6 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_format);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -26989,7 +25774,6 @@ static CYTHON_UNUSED int __pyx_array_getbuffer(PyObject *__pyx_v_self, Py_buffer
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags) {
   int __pyx_v_bufmode;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -27008,7 +25792,6 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(stru
   __Pyx_RefNannySetupContext("__getbuffer__", 0);
   __pyx_v_info->obj = Py_None; __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(__pyx_v_info->obj);
-  __Pyx_TraceCall("__getbuffer__", __pyx_f[1], 185, 0, __PYX_ERR(1, 185, __pyx_L1_error));
 
   /* "View.MemoryView":186
  *     @cname('getbuffer')
@@ -27096,7 +25879,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(stru
  *         info.buf = self.data
  *         info.len = self.len
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__83, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 192, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__82, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 192, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -27270,7 +26053,6 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(stru
     __Pyx_DECREF(__pyx_v_info->obj); __pyx_v_info->obj = 0;
   }
   __pyx_L2:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -27295,14 +26077,9 @@ static void __pyx_array___dealloc__(PyObject *__pyx_v_self) {
 }
 
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
-  __Pyx_TraceCall("__dealloc__", __pyx_f[1], 211, 0, __PYX_ERR(1, 211, __pyx_L1_error));
 
   /* "View.MemoryView":212
  * 
@@ -27408,11 +26185,6 @@ static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struc
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.array.__dealloc__", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -27439,14 +26211,12 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_5array_7memview_1__get__(PyObjec
 
 static PyObject *__pyx_pf_15View_dot_MemoryView_5array_7memview___get__(struct __pyx_array_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 222, 0, __PYX_ERR(1, 222, __pyx_L1_error));
 
   /* "View.MemoryView":223
  *     @property
@@ -27477,7 +26247,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_5array_7memview___get__(struct _
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -27493,7 +26262,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_5array_7memview___get__(struct _
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self) {
   int __pyx_v_flags;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -27502,7 +26270,6 @@ static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_memview", 0);
-  __Pyx_TraceCall("get_memview", __pyx_f[1], 226, 0, __PYX_ERR(1, 226, __pyx_L1_error));
 
   /* "View.MemoryView":227
  *     @cname('get_memview')
@@ -27560,7 +26327,6 @@ static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self) {
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -27588,13 +26354,8 @@ static Py_ssize_t __pyx_array___len__(PyObject *__pyx_v_self) {
 
 static Py_ssize_t __pyx_array___pyx_pf_15View_dot_MemoryView_5array_6__len__(struct __pyx_array_obj *__pyx_v_self) {
   Py_ssize_t __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__len__", 0);
-  __Pyx_TraceCall("__len__", __pyx_f[1], 230, 0, __PYX_ERR(1, 230, __pyx_L1_error));
 
   /* "View.MemoryView":231
  * 
@@ -27615,11 +26376,7 @@ static Py_ssize_t __pyx_array___pyx_pf_15View_dot_MemoryView_5array_6__len__(str
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("View.MemoryView.array.__len__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -27647,7 +26404,6 @@ static PyObject *__pyx_array___getattr__(PyObject *__pyx_v_self, PyObject *__pyx
 
 static PyObject *__pyx_array___pyx_pf_15View_dot_MemoryView_5array_8__getattr__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_attr) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -27655,7 +26411,6 @@ static PyObject *__pyx_array___pyx_pf_15View_dot_MemoryView_5array_8__getattr__(
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getattr__", 0);
-  __Pyx_TraceCall("__getattr__", __pyx_f[1], 233, 0, __PYX_ERR(1, 233, __pyx_L1_error));
 
   /* "View.MemoryView":234
  * 
@@ -27690,7 +26445,6 @@ static PyObject *__pyx_array___pyx_pf_15View_dot_MemoryView_5array_8__getattr__(
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -27718,7 +26472,6 @@ static PyObject *__pyx_array___getitem__(PyObject *__pyx_v_self, PyObject *__pyx
 
 static PyObject *__pyx_array___pyx_pf_15View_dot_MemoryView_5array_10__getitem__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_item) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -27726,7 +26479,6 @@ static PyObject *__pyx_array___pyx_pf_15View_dot_MemoryView_5array_10__getitem__
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getitem__", 0);
-  __Pyx_TraceCall("__getitem__", __pyx_f[1], 236, 0, __PYX_ERR(1, 236, __pyx_L1_error));
 
   /* "View.MemoryView":237
  * 
@@ -27761,7 +26513,6 @@ static PyObject *__pyx_array___pyx_pf_15View_dot_MemoryView_5array_10__getitem__
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -27789,14 +26540,12 @@ static int __pyx_array___setitem__(PyObject *__pyx_v_self, PyObject *__pyx_v_ite
 
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_12__setitem__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_item, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setitem__", 0);
-  __Pyx_TraceCall("__setitem__", __pyx_f[1], 239, 0, __PYX_ERR(1, 239, __pyx_L1_error));
 
   /* "View.MemoryView":240
  * 
@@ -27826,7 +26575,6 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_12__setitem__(struc
   __Pyx_AddTraceback("View.MemoryView.array.__setitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -27852,14 +26600,12 @@ static PyObject *__pyx_pw___pyx_array_1__reduce_cython__(PyObject *__pyx_v_self,
 
 static PyObject *__pyx_pf___pyx_array___reduce_cython__(CYTHON_UNUSED struct __pyx_array_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -27867,7 +26613,7 @@ static PyObject *__pyx_pf___pyx_array___reduce_cython__(CYTHON_UNUSED struct __p
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__84, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__83, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -27885,7 +26631,6 @@ static PyObject *__pyx_pf___pyx_array___reduce_cython__(CYTHON_UNUSED struct __p
   __Pyx_AddTraceback("View.MemoryView.array.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -27912,21 +26657,19 @@ static PyObject *__pyx_pw___pyx_array_3__setstate_cython__(PyObject *__pyx_v_sel
 
 static PyObject *__pyx_pf___pyx_array_2__setstate_cython__(CYTHON_UNUSED struct __pyx_array_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__85, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__84, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -27945,7 +26688,6 @@ static PyObject *__pyx_pf___pyx_array_2__setstate_cython__(CYTHON_UNUSED struct 
   __Pyx_AddTraceback("View.MemoryView.array.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -27961,7 +26703,6 @@ static PyObject *__pyx_pf___pyx_array_2__setstate_cython__(CYTHON_UNUSED struct 
 static struct __pyx_array_obj *__pyx_array_new(PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, char *__pyx_v_format, char *__pyx_v_mode, char *__pyx_v_buf) {
   struct __pyx_array_obj *__pyx_v_result = 0;
   struct __pyx_array_obj *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -27972,7 +26713,6 @@ static struct __pyx_array_obj *__pyx_array_new(PyObject *__pyx_v_shape, Py_ssize
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("array_cwrapper", 0);
-  __Pyx_TraceCall("array_cwrapper", __pyx_f[1], 244, 0, __PYX_ERR(1, 244, __pyx_L1_error));
 
   /* "View.MemoryView":248
  *     cdef array result
@@ -28123,7 +26863,6 @@ static struct __pyx_array_obj *__pyx_array_new(PyObject *__pyx_v_shape, Py_ssize
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_result);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -28191,13 +26930,8 @@ static int __pyx_MemviewEnum___init__(PyObject *__pyx_v_self, PyObject *__pyx_ar
 
 static int __pyx_MemviewEnum___pyx_pf_15View_dot_MemoryView_4Enum___init__(struct __pyx_MemviewEnum_obj *__pyx_v_self, PyObject *__pyx_v_name) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[1], 281, 0, __PYX_ERR(1, 281, __pyx_L1_error));
 
   /* "View.MemoryView":282
  *     cdef object name
@@ -28222,12 +26956,6 @@ static int __pyx_MemviewEnum___pyx_pf_15View_dot_MemoryView_4Enum___init__(struc
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("View.MemoryView.Enum.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -28255,13 +26983,8 @@ static PyObject *__pyx_MemviewEnum___repr__(PyObject *__pyx_v_self) {
 
 static PyObject *__pyx_MemviewEnum___pyx_pf_15View_dot_MemoryView_4Enum_2__repr__(struct __pyx_MemviewEnum_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
-  __Pyx_TraceCall("__repr__", __pyx_f[1], 283, 0, __PYX_ERR(1, 283, __pyx_L1_error));
 
   /* "View.MemoryView":284
  *         self.name = name
@@ -28284,12 +27007,8 @@ static PyObject *__pyx_MemviewEnum___pyx_pf_15View_dot_MemoryView_4Enum_2__repr_
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("View.MemoryView.Enum.__repr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -28318,7 +27037,6 @@ static PyObject *__pyx_pf___pyx_MemviewEnum___reduce_cython__(struct __pyx_Memvi
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
@@ -28329,7 +27047,6 @@ static PyObject *__pyx_pf___pyx_MemviewEnum___reduce_cython__(struct __pyx_Memvi
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":5
  *     cdef object _dict
@@ -28526,7 +27243,6 @@ static PyObject *__pyx_pf___pyx_MemviewEnum___reduce_cython__(struct __pyx_Memvi
   __Pyx_XDECREF(__pyx_v_state);
   __Pyx_XDECREF(__pyx_v__dict);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -28553,14 +27269,12 @@ static PyObject *__pyx_pw___pyx_MemviewEnum_3__setstate_cython__(PyObject *__pyx
 
 static PyObject *__pyx_pf___pyx_MemviewEnum_2__setstate_cython__(struct __pyx_MemviewEnum_obj *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 16, 0, __PYX_ERR(1, 16, __pyx_L1_error));
 
   /* "(tree fragment)":17
  *         return __pyx_unpickle_Enum, (type(self), 0xb068931, state)
@@ -28588,7 +27302,6 @@ static PyObject *__pyx_pf___pyx_MemviewEnum_2__setstate_cython__(struct __pyx_Me
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -28605,12 +27318,7 @@ static void *__pyx_align_pointer(void *__pyx_v_memory, size_t __pyx_v_alignment)
   Py_intptr_t __pyx_v_aligned_p;
   size_t __pyx_v_offset;
   void *__pyx_r;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("align_pointer", __pyx_f[1], 298, 1, __PYX_ERR(1, 298, __pyx_L1_error));
 
   /* "View.MemoryView":300
  * cdef void *align_pointer(void *memory, size_t alignment) nogil:
@@ -28677,11 +27385,7 @@ static void *__pyx_align_pointer(void *__pyx_v_memory, size_t __pyx_v_alignment)
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.align_pointer", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -28777,7 +27481,6 @@ static int __pyx_memoryview___cinit__(PyObject *__pyx_v_self, PyObject *__pyx_ar
 
 static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview___cinit__(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj, int __pyx_v_flags, int __pyx_v_dtype_is_object) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -28787,7 +27490,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview___cinit_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
-  __Pyx_TraceCall("__cinit__", __pyx_f[1], 345, 0, __PYX_ERR(1, 345, __pyx_L1_error));
 
   /* "View.MemoryView":346
  * 
@@ -29062,7 +27764,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview___cinit_
   __Pyx_AddTraceback("View.MemoryView.memoryview.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -29088,7 +27789,6 @@ static void __pyx_memoryview___dealloc__(PyObject *__pyx_v_self) {
 
 static void __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_2__dealloc__(struct __pyx_memoryview_obj *__pyx_v_self) {
   int __pyx_v_i;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -29097,11 +27797,7 @@ static void __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_2__deal
   int __pyx_t_5;
   PyThread_type_lock __pyx_t_6;
   PyThread_type_lock __pyx_t_7;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
-  __Pyx_TraceCall("__dealloc__", __pyx_f[1], 372, 0, __PYX_ERR(1, 372, __pyx_L1_error));
 
   /* "View.MemoryView":373
  * 
@@ -29300,11 +27996,6 @@ static void __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_2__deal
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.memoryview.__dealloc__", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -29321,7 +28012,6 @@ static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__py
   char *__pyx_v_itemp;
   PyObject *__pyx_v_idx = NULL;
   char *__pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -29334,7 +28024,6 @@ static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__py
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_item_pointer", 0);
-  __Pyx_TraceCall("get_item_pointer", __pyx_f[1], 393, 0, __PYX_ERR(1, 393, __pyx_L1_error));
 
   /* "View.MemoryView":395
  *     cdef char *get_item_pointer(memoryview self, object index) except NULL:
@@ -29444,7 +28133,6 @@ static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__py
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_idx);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -29475,7 +28163,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_4_
   PyObject *__pyx_v_indices = NULL;
   char *__pyx_v_itemp;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -29487,7 +28174,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_4_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getitem__", 0);
-  __Pyx_TraceCall("__getitem__", __pyx_f[1], 403, 0, __PYX_ERR(1, 403, __pyx_L1_error));
 
   /* "View.MemoryView":404
  * 
@@ -29636,7 +28322,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_4_
   __Pyx_XDECREF(__pyx_v_have_slices);
   __Pyx_XDECREF(__pyx_v_indices);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -29666,7 +28351,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
   PyObject *__pyx_v_have_slices = NULL;
   PyObject *__pyx_v_obj = NULL;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -29676,7 +28360,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setitem__", 0);
-  __Pyx_TraceCall("__setitem__", __pyx_f[1], 416, 0, __PYX_ERR(1, 416, __pyx_L1_error));
   __Pyx_INCREF(__pyx_v_index);
 
   /* "View.MemoryView":417
@@ -29696,7 +28379,7 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
  * 
  *         have_slices, index = _unellipsify(index, self.view.ndim)
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__86, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 418, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__85, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 418, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -29867,7 +28550,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
   __Pyx_XDECREF(__pyx_v_have_slices);
   __Pyx_XDECREF(__pyx_v_obj);
   __Pyx_XDECREF(__pyx_v_index);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -29882,7 +28564,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
 
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -29897,7 +28578,6 @@ static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_slice", 0);
-  __Pyx_TraceCall("is_slice", __pyx_f[1], 431, 0, __PYX_ERR(1, 431, __pyx_L1_error));
   __Pyx_INCREF(__pyx_v_obj);
 
   /* "View.MemoryView":432
@@ -30080,7 +28760,6 @@ static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_obj);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -30097,7 +28776,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assignment(struct __pyx_memoryvi
   __Pyx_memviewslice __pyx_v_dst_slice;
   __Pyx_memviewslice __pyx_v_src_slice;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice *__pyx_t_1;
   __Pyx_memviewslice *__pyx_t_2;
@@ -30109,7 +28787,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assignment(struct __pyx_memoryvi
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("setitem_slice_assignment", 0);
-  __Pyx_TraceCall("setitem_slice_assignment", __pyx_f[1], 441, 0, __PYX_ERR(1, 441, __pyx_L1_error));
 
   /* "View.MemoryView":445
  *         cdef __Pyx_memviewslice src_slice
@@ -30173,7 +28850,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assignment(struct __pyx_memoryvi
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -30193,7 +28869,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assign_scalar(struct __pyx_memor
   __Pyx_memviewslice *__pyx_v_dst_slice;
   __Pyx_memviewslice __pyx_v_tmp_slice;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice *__pyx_t_1;
   int __pyx_t_2;
@@ -30211,7 +28886,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assign_scalar(struct __pyx_memor
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("setitem_slice_assign_scalar", 0);
-  __Pyx_TraceCall("setitem_slice_assign_scalar", __pyx_f[1], 449, 0, __PYX_ERR(1, 449, __pyx_L1_error));
 
   /* "View.MemoryView":451
  *     cdef setitem_slice_assign_scalar(self, memoryview dst, value):
@@ -30466,7 +29140,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assign_scalar(struct __pyx_memor
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -30482,7 +29155,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assign_scalar(struct __pyx_memor
 static PyObject *__pyx_memoryview_setitem_indexed(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index, PyObject *__pyx_v_value) {
   char *__pyx_v_itemp;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -30490,7 +29162,6 @@ static PyObject *__pyx_memoryview_setitem_indexed(struct __pyx_memoryview_obj *_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("setitem_indexed", 0);
-  __Pyx_TraceCall("setitem_indexed", __pyx_f[1], 481, 0, __PYX_ERR(1, 481, __pyx_L1_error));
 
   /* "View.MemoryView":482
  * 
@@ -30530,7 +29201,6 @@ static PyObject *__pyx_memoryview_setitem_indexed(struct __pyx_memoryview_obj *_
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -30548,7 +29218,6 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
   PyObject *__pyx_v_bytesitem = 0;
   PyObject *__pyx_v_result = NULL;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -30565,7 +29234,6 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("convert_item_to_object", 0);
-  __Pyx_TraceCall("convert_item_to_object", __pyx_f[1], 485, 0, __PYX_ERR(1, 485, __pyx_L1_error));
 
   /* "View.MemoryView":488
  *         """Only used if instantiated manually by the user, or if Cython doesn't
@@ -30759,7 +29427,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  *         else:
  *             if len(self.view.format) == 1:
  */
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__87, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 495, __pyx_L5_except_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__86, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 495, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_Raise(__pyx_t_6, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -30810,7 +29478,6 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
   __Pyx_XDECREF(__pyx_v_bytesitem);
   __Pyx_XDECREF(__pyx_v_result);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -30829,7 +29496,6 @@ static PyObject *__pyx_memoryview_assign_item_from_object(struct __pyx_memoryvie
   PyObject *__pyx_v_bytesvalue = 0;
   Py_ssize_t __pyx_v_i;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
@@ -30849,7 +29515,6 @@ static PyObject *__pyx_memoryview_assign_item_from_object(struct __pyx_memoryvie
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("assign_item_from_object", 0);
-  __Pyx_TraceCall("assign_item_from_object", __pyx_f[1], 501, 0, __PYX_ERR(1, 501, __pyx_L1_error));
 
   /* "View.MemoryView":504
  *         """Only used if instantiated manually by the user, or if Cython doesn't
@@ -31052,7 +29717,6 @@ static PyObject *__pyx_memoryview_assign_item_from_object(struct __pyx_memoryvie
   __Pyx_XDECREF(__pyx_v_struct);
   __Pyx_XDECREF(__pyx_v_bytesvalue);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -31080,7 +29744,6 @@ static CYTHON_UNUSED int __pyx_memoryview_getbuffer(PyObject *__pyx_v_self, Py_b
 
 static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_8__getbuffer__(struct __pyx_memoryview_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -31100,7 +29763,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_8__getbu
   __Pyx_RefNannySetupContext("__getbuffer__", 0);
   __pyx_v_info->obj = Py_None; __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(__pyx_v_info->obj);
-  __Pyx_TraceCall("__getbuffer__", __pyx_f[1], 518, 0, __PYX_ERR(1, 518, __pyx_L1_error));
 
   /* "View.MemoryView":519
  *     @cname('getbuffer')
@@ -31127,7 +29789,7 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_8__getbu
  * 
  *         if flags & PyBUF_ND:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__88, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 520, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__87, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 520, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -31399,7 +30061,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_8__getbu
     __Pyx_DECREF(__pyx_v_info->obj); __pyx_v_info->obj = 0;
   }
   __pyx_L2:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -31428,7 +30089,6 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_1T_1__get__(PyObjec
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_1T___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   struct __pyx_memoryviewslice_obj *__pyx_v_result = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
@@ -31436,7 +30096,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_1T___get__(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 553, 0, __PYX_ERR(1, 553, __pyx_L1_error));
 
   /* "View.MemoryView":554
  *     @property
@@ -31488,7 +30147,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_1T___get__(struct _
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_result);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -31516,13 +30174,8 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_4base_1__get__(PyOb
 
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4base___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 559, 0, __PYX_ERR(1, 559, __pyx_L1_error));
 
   /* "View.MemoryView":560
  *     @property
@@ -31545,12 +30198,8 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4base___get__(struc
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("View.MemoryView.memoryview.base.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -31579,7 +30228,6 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_5shape_1__get__(PyO
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_5shape___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   Py_ssize_t __pyx_v_length;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t *__pyx_t_2;
@@ -31590,7 +30238,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_5shape___get__(stru
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 563, 0, __PYX_ERR(1, 563, __pyx_L1_error));
 
   /* "View.MemoryView":564
  *     @property
@@ -31634,7 +30281,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_5shape___get__(stru
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -31663,7 +30309,6 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_7strides_1__get__(P
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   Py_ssize_t __pyx_v_stride;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -31675,7 +30320,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(st
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 567, 0, __PYX_ERR(1, 567, __pyx_L1_error));
 
   /* "View.MemoryView":568
  *     @property
@@ -31694,7 +30338,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(st
  * 
  *         return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__89, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 570, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__88, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 570, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -31751,7 +30395,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(st
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -31780,7 +30423,6 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_10suboffsets_1__get
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   Py_ssize_t __pyx_v_suboffset;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -31792,7 +30434,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 575, 0, __PYX_ERR(1, 575, __pyx_L1_error));
 
   /* "View.MemoryView":576
  *     @property
@@ -31814,7 +30455,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get_
     __Pyx_XDECREF(__pyx_r);
     __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->view.ndim); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 577, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__90, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 577, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__89, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 577, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_r = __pyx_t_3;
@@ -31872,7 +30513,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get_
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -31900,14 +30540,12 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_4ndim_1__get__(PyOb
 
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4ndim___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 582, 0, __PYX_ERR(1, 582, __pyx_L1_error));
 
   /* "View.MemoryView":583
  *     @property
@@ -31938,7 +30576,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4ndim___get__(struc
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -31966,14 +30603,12 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_8itemsize_1__get__(
 
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_8itemsize___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 586, 0, __PYX_ERR(1, 586, __pyx_L1_error));
 
   /* "View.MemoryView":587
  *     @property
@@ -32004,7 +30639,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_8itemsize___get__(s
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -32032,7 +30666,6 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_6nbytes_1__get__(Py
 
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_6nbytes___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -32041,7 +30674,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_6nbytes___get__(str
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 590, 0, __PYX_ERR(1, 590, __pyx_L1_error));
 
   /* "View.MemoryView":591
  *     @property
@@ -32080,7 +30712,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_6nbytes___get__(str
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -32110,7 +30741,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4size___get__(struc
   PyObject *__pyx_v_result = NULL;
   PyObject *__pyx_v_length = NULL;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -32122,7 +30752,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4size___get__(struc
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 594, 0, __PYX_ERR(1, 594, __pyx_L1_error));
 
   /* "View.MemoryView":595
  *     @property
@@ -32224,7 +30853,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4size___get__(struc
   __Pyx_XDECREF(__pyx_v_result);
   __Pyx_XDECREF(__pyx_v_length);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -32252,14 +30880,9 @@ static Py_ssize_t __pyx_memoryview___len__(PyObject *__pyx_v_self) {
 
 static Py_ssize_t __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_10__len__(struct __pyx_memoryview_obj *__pyx_v_self) {
   Py_ssize_t __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__len__", 0);
-  __Pyx_TraceCall("__len__", __pyx_f[1], 605, 0, __PYX_ERR(1, 605, __pyx_L1_error));
 
   /* "View.MemoryView":606
  * 
@@ -32309,11 +30932,7 @@ static Py_ssize_t __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_1
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("View.MemoryView.memoryview.__len__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -32341,7 +30960,6 @@ static PyObject *__pyx_memoryview___repr__(PyObject *__pyx_v_self) {
 
 static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_12__repr__(struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -32350,7 +30968,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_12
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
-  __Pyx_TraceCall("__repr__", __pyx_f[1], 611, 0, __PYX_ERR(1, 611, __pyx_L1_error));
 
   /* "View.MemoryView":612
  * 
@@ -32418,7 +31035,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_12
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -32446,7 +31062,6 @@ static PyObject *__pyx_memoryview___str__(PyObject *__pyx_v_self) {
 
 static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_14__str__(struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -32454,7 +31069,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_14
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__str__", 0);
-  __Pyx_TraceCall("__str__", __pyx_f[1], 615, 0, __PYX_ERR(1, 615, __pyx_L1_error));
 
   /* "View.MemoryView":616
  * 
@@ -32500,7 +31114,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_14
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -32530,7 +31143,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_16
   __Pyx_memviewslice *__pyx_v_mslice;
   __Pyx_memviewslice __pyx_v_tmp;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice *__pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -32538,7 +31150,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_16
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_c_contig", 0);
-  __Pyx_TraceCall("is_c_contig", __pyx_f[1], 619, 0, __PYX_ERR(1, 619, __pyx_L1_error));
 
   /* "View.MemoryView":622
  *         cdef __Pyx_memviewslice *mslice
@@ -32579,7 +31190,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_16
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -32609,7 +31219,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_18
   __Pyx_memviewslice *__pyx_v_mslice;
   __Pyx_memviewslice __pyx_v_tmp;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice *__pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -32617,7 +31226,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_18
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_f_contig", 0);
-  __Pyx_TraceCall("is_f_contig", __pyx_f[1], 625, 0, __PYX_ERR(1, 625, __pyx_L1_error));
 
   /* "View.MemoryView":628
  *         cdef __Pyx_memviewslice *mslice
@@ -32658,7 +31266,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_18
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -32688,7 +31295,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_20
   __Pyx_memviewslice __pyx_v_mslice;
   int __pyx_v_flags;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -32696,7 +31302,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_20
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("copy", 0);
-  __Pyx_TraceCall("copy", __pyx_f[1], 631, 0, __PYX_ERR(1, 631, __pyx_L1_error));
 
   /* "View.MemoryView":633
  *     def copy(self):
@@ -32755,7 +31360,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_20
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -32786,7 +31390,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_22
   __Pyx_memviewslice __pyx_v_dst;
   int __pyx_v_flags;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -32794,7 +31397,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_22
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("copy_fortran", 0);
-  __Pyx_TraceCall("copy_fortran", __pyx_f[1], 643, 0, __PYX_ERR(1, 643, __pyx_L1_error));
 
   /* "View.MemoryView":645
  *     def copy_fortran(self):
@@ -32853,7 +31455,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_22
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -32879,14 +31480,12 @@ static PyObject *__pyx_pw___pyx_memoryview_1__reduce_cython__(PyObject *__pyx_v_
 
 static PyObject *__pyx_pf___pyx_memoryview___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -32894,7 +31493,7 @@ static PyObject *__pyx_pf___pyx_memoryview___reduce_cython__(CYTHON_UNUSED struc
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__91, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__90, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32912,7 +31511,6 @@ static PyObject *__pyx_pf___pyx_memoryview___reduce_cython__(CYTHON_UNUSED struc
   __Pyx_AddTraceback("View.MemoryView.memoryview.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -32939,21 +31537,19 @@ static PyObject *__pyx_pw___pyx_memoryview_3__setstate_cython__(PyObject *__pyx_
 
 static PyObject *__pyx_pf___pyx_memoryview_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryview_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__92, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__91, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32972,7 +31568,6 @@ static PyObject *__pyx_pf___pyx_memoryview_2__setstate_cython__(CYTHON_UNUSED st
   __Pyx_AddTraceback("View.MemoryView.memoryview.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -32988,7 +31583,6 @@ static PyObject *__pyx_pf___pyx_memoryview_2__setstate_cython__(CYTHON_UNUSED st
 static PyObject *__pyx_memoryview_new(PyObject *__pyx_v_o, int __pyx_v_flags, int __pyx_v_dtype_is_object, __Pyx_TypeInfo *__pyx_v_typeinfo) {
   struct __pyx_memoryview_obj *__pyx_v_result = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -32997,7 +31591,6 @@ static PyObject *__pyx_memoryview_new(PyObject *__pyx_v_o, int __pyx_v_flags, in
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memoryview_cwrapper", 0);
-  __Pyx_TraceCall("memoryview_cwrapper", __pyx_f[1], 657, 0, __PYX_ERR(1, 657, __pyx_L1_error));
 
   /* "View.MemoryView":658
  * @cname('__pyx_memoryview_new')
@@ -33066,7 +31659,6 @@ static PyObject *__pyx_memoryview_new(PyObject *__pyx_v_o, int __pyx_v_flags, in
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_result);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -33081,14 +31673,9 @@ static PyObject *__pyx_memoryview_new(PyObject *__pyx_v_o, int __pyx_v_flags, in
 
 static CYTHON_INLINE int __pyx_memoryview_check(PyObject *__pyx_v_o) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memoryview_check", 0);
-  __Pyx_TraceCall("memoryview_check", __pyx_f[1], 663, 0, __PYX_ERR(1, 663, __pyx_L1_error));
 
   /* "View.MemoryView":664
  * @cname('__pyx_memoryview_check')
@@ -33110,11 +31697,7 @@ static CYTHON_INLINE int __pyx_memoryview_check(PyObject *__pyx_v_o) {
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.memoryview_check", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -33136,7 +31719,6 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
   PyObject *__pyx_v_item = NULL;
   Py_ssize_t __pyx_v_nslices;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -33153,7 +31735,6 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_unellipsify", 0);
-  __Pyx_TraceCall("_unellipsify", __pyx_f[1], 666, 0, __PYX_ERR(1, 666, __pyx_L1_error));
 
   /* "View.MemoryView":671
  *     full slices.
@@ -33325,9 +31906,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
         __Pyx_GOTREF(__pyx_t_7);
         { Py_ssize_t __pyx_temp;
           for (__pyx_temp=0; __pyx_temp < ((__pyx_v_ndim - __pyx_t_8) + 1); __pyx_temp++) {
-            __Pyx_INCREF(__pyx_slice__51);
-            __Pyx_GIVEREF(__pyx_slice__51);
-            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__51);
+            __Pyx_INCREF(__pyx_slice__50);
+            __Pyx_GIVEREF(__pyx_slice__50);
+            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__50);
           }
         }
         __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_7); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 682, __pyx_L1_error)
@@ -33360,7 +31941,7 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
  *         else:
  */
       /*else*/ {
-        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__51); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 685, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__50); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 685, __pyx_L1_error)
       }
       __pyx_L7:;
 
@@ -33500,9 +32081,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
     __Pyx_GOTREF(__pyx_t_3);
     { Py_ssize_t __pyx_temp;
       for (__pyx_temp=0; __pyx_temp < __pyx_v_nslices; __pyx_temp++) {
-        __Pyx_INCREF(__pyx_slice__51);
-        __Pyx_GIVEREF(__pyx_slice__51);
-        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__51);
+        __Pyx_INCREF(__pyx_slice__50);
+        __Pyx_GIVEREF(__pyx_slice__50);
+        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__50);
       }
     }
     __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_3); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 696, __pyx_L1_error)
@@ -33574,7 +32155,6 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
   __Pyx_XDECREF(__pyx_v_idx);
   __Pyx_XDECREF(__pyx_v_item);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -33590,7 +32170,6 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
 static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __pyx_v_ndim) {
   Py_ssize_t __pyx_v_suboffset;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   Py_ssize_t *__pyx_t_1;
   Py_ssize_t *__pyx_t_2;
@@ -33601,7 +32180,6 @@ static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("assert_direct_dimensions", 0);
-  __Pyx_TraceCall("assert_direct_dimensions", __pyx_f[1], 700, 0, __PYX_ERR(1, 700, __pyx_L1_error));
 
   /* "View.MemoryView":701
  * 
@@ -33632,7 +32210,7 @@ static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __
  * 
  * 
  */
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__93, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 703, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__92, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 703, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -33665,7 +32243,6 @@ static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -33696,7 +32273,6 @@ static struct __pyx_memoryview_obj *__pyx_memview_slice(struct __pyx_memoryview_
   int __pyx_v_have_step;
   PyObject *__pyx_v_index = NULL;
   struct __pyx_memoryview_obj *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -33714,7 +32290,6 @@ static struct __pyx_memoryview_obj *__pyx_memview_slice(struct __pyx_memoryview_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memview_slice", 0);
-  __Pyx_TraceCall("memview_slice", __pyx_f[1], 710, 0, __PYX_ERR(1, 710, __pyx_L1_error));
 
   /* "View.MemoryView":711
  * @cname('__pyx_memview_slice')
@@ -34248,7 +32823,6 @@ static struct __pyx_memoryview_obj *__pyx_memview_slice(struct __pyx_memoryview_
   __Pyx_XDECREF((PyObject *)__pyx_v_memviewsliceobj);
   __Pyx_XDECREF(__pyx_v_index);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -34265,14 +32839,12 @@ static int __pyx_memoryview_slice_memviewslice(__Pyx_memviewslice *__pyx_v_dst, 
   Py_ssize_t __pyx_v_new_shape;
   int __pyx_v_negative_step;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceCall("slice_memviewslice", __pyx_f[1], 807, 1, __PYX_ERR(1, 807, __pyx_L1_error));
 
   /* "View.MemoryView":827
  *     cdef bint negative_step
@@ -35036,7 +33608,6 @@ static int __pyx_memoryview_slice_memviewslice(__Pyx_memviewslice *__pyx_v_dst, 
   }
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -35055,7 +33626,6 @@ static char *__pyx_pybuffer_index(Py_buffer *__pyx_v_view, char *__pyx_v_bufp, P
   Py_ssize_t __pyx_v_itemsize;
   char *__pyx_v_resultp;
   char *__pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
@@ -35065,7 +33635,6 @@ static char *__pyx_pybuffer_index(Py_buffer *__pyx_v_view, char *__pyx_v_bufp, P
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("pybuffer_index", 0);
-  __Pyx_TraceCall("pybuffer_index", __pyx_f[1], 910, 0, __PYX_ERR(1, 910, __pyx_L1_error));
 
   /* "View.MemoryView":912
  * cdef char *pybuffer_index(Py_buffer *view, char *bufp, Py_ssize_t index,
@@ -35347,7 +33916,6 @@ static char *__pyx_pybuffer_index(Py_buffer *__pyx_v_view, char *__pyx_v_bufp, P
   __Pyx_AddTraceback("View.MemoryView.pybuffer_index", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -35367,7 +33935,6 @@ static int __pyx_memslice_transpose(__Pyx_memviewslice *__pyx_v_memslice) {
   int __pyx_v_i;
   int __pyx_v_j;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
   Py_ssize_t *__pyx_t_2;
   long __pyx_t_3;
@@ -35380,7 +33947,6 @@ static int __pyx_memslice_transpose(__Pyx_memviewslice *__pyx_v_memslice) {
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceCall("transpose_memslice", __pyx_f[1], 943, 1, __PYX_ERR(1, 943, __pyx_L1_error));
 
   /* "View.MemoryView":944
  * @cname('__pyx_memslice_transpose')
@@ -35525,7 +34091,6 @@ static int __pyx_memslice_transpose(__Pyx_memviewslice *__pyx_v_memslice) {
   }
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -35549,13 +34114,8 @@ static void __pyx_memoryviewslice___dealloc__(PyObject *__pyx_v_self) {
 }
 
 static void __pyx_memoryviewslice___pyx_pf_15View_dot_MemoryView_16_memoryviewslice___dealloc__(struct __pyx_memoryviewslice_obj *__pyx_v_self) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
-  __Pyx_TraceCall("__dealloc__", __pyx_f[1], 976, 0, __PYX_ERR(1, 976, __pyx_L1_error));
 
   /* "View.MemoryView":977
  * 
@@ -35575,11 +34135,6 @@ static void __pyx_memoryviewslice___pyx_pf_15View_dot_MemoryView_16_memoryviewsl
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView._memoryviewslice.__dealloc__", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -35593,7 +34148,6 @@ static void __pyx_memoryviewslice___pyx_pf_15View_dot_MemoryView_16_memoryviewsl
 
 static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -35601,7 +34155,6 @@ static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memor
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("convert_item_to_object", 0);
-  __Pyx_TraceCall("convert_item_to_object", __pyx_f[1], 979, 0, __PYX_ERR(1, 979, __pyx_L1_error));
 
   /* "View.MemoryView":980
  * 
@@ -35667,7 +34220,6 @@ static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memor
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -35682,7 +34234,6 @@ static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memor
 
 static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp, PyObject *__pyx_v_value) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -35691,7 +34242,6 @@ static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memo
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("assign_item_from_object", 0);
-  __Pyx_TraceCall("assign_item_from_object", __pyx_f[1], 985, 0, __PYX_ERR(1, 985, __pyx_L1_error));
 
   /* "View.MemoryView":986
  * 
@@ -35753,7 +34303,6 @@ static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memo
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -35781,13 +34330,8 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_16_memoryviewslice_4base_1__get_
 
 static PyObject *__pyx_pf_15View_dot_MemoryView_16_memoryviewslice_4base___get__(struct __pyx_memoryviewslice_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 992, 0, __PYX_ERR(1, 992, __pyx_L1_error));
 
   /* "View.MemoryView":993
  *     @property
@@ -35810,12 +34354,8 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_16_memoryviewslice_4base___get__
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("View.MemoryView._memoryviewslice.base.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -35841,14 +34381,12 @@ static PyObject *__pyx_pw___pyx_memoryviewslice_1__reduce_cython__(PyObject *__p
 
 static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -35856,7 +34394,7 @@ static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED 
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__94, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__93, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -35874,7 +34412,6 @@ static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED 
   __Pyx_AddTraceback("View.MemoryView._memoryviewslice.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -35901,21 +34438,19 @@ static PyObject *__pyx_pw___pyx_memoryviewslice_3__setstate_cython__(PyObject *_
 
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__95, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__94, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -35934,7 +34469,6 @@ static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUS
   __Pyx_AddTraceback("View.MemoryView._memoryviewslice.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -35952,7 +34486,6 @@ static PyObject *__pyx_memoryview_fromslice(__Pyx_memviewslice __pyx_v_memviewsl
   Py_ssize_t __pyx_v_suboffset;
   PyObject *__pyx_v_length = NULL;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -35967,7 +34500,6 @@ static PyObject *__pyx_memoryview_fromslice(__Pyx_memviewslice __pyx_v_memviewsl
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memoryview_fromslice", 0);
-  __Pyx_TraceCall("memoryview_fromslice", __pyx_f[1], 999, 0, __PYX_ERR(1, 999, __pyx_L1_error));
 
   /* "View.MemoryView":1007
  *     cdef _memoryviewslice result
@@ -36323,7 +34855,6 @@ static PyObject *__pyx_memoryview_fromslice(__Pyx_memviewslice __pyx_v_memviewsl
   __Pyx_XDECREF((PyObject *)__pyx_v_result);
   __Pyx_XDECREF(__pyx_v_length);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -36339,7 +34870,6 @@ static PyObject *__pyx_memoryview_fromslice(__Pyx_memviewslice __pyx_v_memviewsl
 static __Pyx_memviewslice *__pyx_memoryview_get_slice_from_memoryview(struct __pyx_memoryview_obj *__pyx_v_memview, __Pyx_memviewslice *__pyx_v_mslice) {
   struct __pyx_memoryviewslice_obj *__pyx_v_obj = 0;
   __Pyx_memviewslice *__pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -36348,7 +34878,6 @@ static __Pyx_memviewslice *__pyx_memoryview_get_slice_from_memoryview(struct __p
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_slice_from_memview", 0);
-  __Pyx_TraceCall("get_slice_from_memview", __pyx_f[1], 1052, 0, __PYX_ERR(1, 1052, __pyx_L1_error));
 
   /* "View.MemoryView":1055
  *                                                    __Pyx_memviewslice *mslice) except NULL:
@@ -36429,7 +34958,6 @@ static __Pyx_memviewslice *__pyx_memoryview_get_slice_from_memoryview(struct __p
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_obj);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -36447,18 +34975,13 @@ static void __pyx_memoryview_slice_copy(struct __pyx_memoryview_obj *__pyx_v_mem
   Py_ssize_t *__pyx_v_shape;
   Py_ssize_t *__pyx_v_strides;
   Py_ssize_t *__pyx_v_suboffsets;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   Py_ssize_t *__pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
   int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("slice_copy", 0);
-  __Pyx_TraceCall("slice_copy", __pyx_f[1], 1063, 0, __PYX_ERR(1, 1063, __pyx_L1_error));
 
   /* "View.MemoryView":1067
  *     cdef (Py_ssize_t*) shape, strides, suboffsets
@@ -36562,11 +35085,6 @@ static void __pyx_memoryview_slice_copy(struct __pyx_memoryview_obj *__pyx_v_mem
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.slice_copy", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -36581,14 +35099,12 @@ static void __pyx_memoryview_slice_copy(struct __pyx_memoryview_obj *__pyx_v_mem
 static PyObject *__pyx_memoryview_copy_object(struct __pyx_memoryview_obj *__pyx_v_memview) {
   __Pyx_memviewslice __pyx_v_memviewslice;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memoryview_copy", 0);
-  __Pyx_TraceCall("memoryview_copy", __pyx_f[1], 1080, 0, __PYX_ERR(1, 1080, __pyx_L1_error));
 
   /* "View.MemoryView":1083
  *     "Create a new memoryview object"
@@ -36628,7 +35144,6 @@ static PyObject *__pyx_memoryview_copy_object(struct __pyx_memoryview_obj *__pyx
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -36645,7 +35160,6 @@ static PyObject *__pyx_memoryview_copy_object_from_slice(struct __pyx_memoryview
   PyObject *(*__pyx_v_to_object_func)(char *);
   int (*__pyx_v_to_dtype_func)(char *, PyObject *);
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -36656,7 +35170,6 @@ static PyObject *__pyx_memoryview_copy_object_from_slice(struct __pyx_memoryview
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memoryview_copy_from_slice", 0);
-  __Pyx_TraceCall("memoryview_copy_from_slice", __pyx_f[1], 1087, 0, __PYX_ERR(1, 1087, __pyx_L1_error));
 
   /* "View.MemoryView":1094
  *     cdef int (*to_dtype_func)(char *, object) except 0
@@ -36757,7 +35270,6 @@ static PyObject *__pyx_memoryview_copy_object_from_slice(struct __pyx_memoryview
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -36772,12 +35284,7 @@ static PyObject *__pyx_memoryview_copy_object_from_slice(struct __pyx_memoryview
 
 static Py_ssize_t abs_py_ssize_t(Py_ssize_t __pyx_v_arg) {
   Py_ssize_t __pyx_r;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("abs_py_ssize_t", __pyx_f[1], 1109, 1, __PYX_ERR(1, 1109, __pyx_L1_error));
 
   /* "View.MemoryView":1110
  * 
@@ -36829,11 +35336,7 @@ static Py_ssize_t abs_py_ssize_t(Py_ssize_t __pyx_v_arg) {
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.abs_py_ssize_t", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -36850,15 +35353,10 @@ static char __pyx_get_best_slice_order(__Pyx_memviewslice *__pyx_v_mslice, int _
   Py_ssize_t __pyx_v_c_stride;
   Py_ssize_t __pyx_v_f_stride;
   char __pyx_r;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
   int __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("get_best_order", __pyx_f[1], 1116, 1, __PYX_ERR(1, 1116, __pyx_L1_error));
 
   /* "View.MemoryView":1121
  *     """
@@ -37028,11 +35526,7 @@ static char __pyx_get_best_slice_order(__Pyx_memviewslice *__pyx_v_mslice, int _
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.get_best_order", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -37282,11 +35776,6 @@ static void _copy_strided_to_strided(char *__pyx_v_src_data, Py_ssize_t *__pyx_v
  */
 
 static void copy_strided_to_strided(__Pyx_memviewslice *__pyx_v_src, __Pyx_memviewslice *__pyx_v_dst, int __pyx_v_ndim, size_t __pyx_v_itemsize) {
-  __Pyx_TraceDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("copy_strided_to_strided", __pyx_f[1], 1170, 1, __PYX_ERR(1, 1170, __pyx_L1_error));
 
   /* "View.MemoryView":1173
  *                                   __Pyx_memviewslice *dst,
@@ -37306,11 +35795,6 @@ static void copy_strided_to_strided(__Pyx_memviewslice *__pyx_v_src, __Pyx_memvi
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.copy_strided_to_strided", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
 }
 
 /* "View.MemoryView":1177
@@ -37325,15 +35809,10 @@ static Py_ssize_t __pyx_memoryview_slice_get_size(__Pyx_memviewslice *__pyx_v_sr
   Py_ssize_t __pyx_v_shape;
   Py_ssize_t __pyx_v_size;
   Py_ssize_t __pyx_r;
-  __Pyx_TraceDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t *__pyx_t_2;
   Py_ssize_t *__pyx_t_3;
   Py_ssize_t *__pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("slice_get_size", __pyx_f[1], 1177, 1, __PYX_ERR(1, 1177, __pyx_L1_error));
 
   /* "View.MemoryView":1179
  * cdef Py_ssize_t slice_get_size(__Pyx_memviewslice *src, int ndim) nogil:
@@ -37386,11 +35865,7 @@ static Py_ssize_t __pyx_memoryview_slice_get_size(__Pyx_memviewslice *__pyx_v_sr
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.slice_get_size", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -37405,15 +35880,10 @@ static Py_ssize_t __pyx_memoryview_slice_get_size(__Pyx_memviewslice *__pyx_v_sr
 static Py_ssize_t __pyx_fill_contig_strides_array(Py_ssize_t *__pyx_v_shape, Py_ssize_t *__pyx_v_strides, Py_ssize_t __pyx_v_stride, int __pyx_v_ndim, char __pyx_v_order) {
   int __pyx_v_idx;
   Py_ssize_t __pyx_r;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
   int __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("fill_contig_strides_array", __pyx_f[1], 1187, 1, __PYX_ERR(1, 1187, __pyx_L1_error));
 
   /* "View.MemoryView":1196
  *     cdef int idx
@@ -37517,11 +35987,7 @@ static Py_ssize_t __pyx_fill_contig_strides_array(Py_ssize_t *__pyx_v_shape, Py_
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.fill_contig_strides_array", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -37539,7 +36005,6 @@ static void *__pyx_memoryview_copy_data_to_temp(__Pyx_memviewslice *__pyx_v_src,
   size_t __pyx_v_itemsize;
   size_t __pyx_v_size;
   void *__pyx_r;
-  __Pyx_TraceDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
@@ -37549,7 +36014,6 @@ static void *__pyx_memoryview_copy_data_to_temp(__Pyx_memviewslice *__pyx_v_src,
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceCall("copy_data_to_temp", __pyx_f[1], 1208, 1, __PYX_ERR(1, 1208, __pyx_L1_error));
 
   /* "View.MemoryView":1219
  *     cdef void *result
@@ -37779,7 +36243,6 @@ static void *__pyx_memoryview_copy_data_to_temp(__Pyx_memviewslice *__pyx_v_src,
   }
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -37793,7 +36256,6 @@ static void *__pyx_memoryview_copy_data_to_temp(__Pyx_memviewslice *__pyx_v_src,
 
 static int __pyx_memoryview_err_extents(int __pyx_v_i, Py_ssize_t __pyx_v_extent1, Py_ssize_t __pyx_v_extent2) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -37806,7 +36268,6 @@ static int __pyx_memoryview_err_extents(int __pyx_v_i, Py_ssize_t __pyx_v_extent
   PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
   __Pyx_RefNannySetupContext("_err_extents", 0);
-  __Pyx_TraceCall("_err_extents", __pyx_f[1], 1251, 0, __PYX_ERR(1, 1251, __pyx_L1_error));
 
   /* "View.MemoryView":1254
  *                              Py_ssize_t extent2) except -1 with gil:
@@ -37866,7 +36327,6 @@ static int __pyx_memoryview_err_extents(int __pyx_v_i, Py_ssize_t __pyx_v_extent
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("View.MemoryView._err_extents", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
@@ -37884,7 +36344,6 @@ static int __pyx_memoryview_err_extents(int __pyx_v_i, Py_ssize_t __pyx_v_extent
 
 static int __pyx_memoryview_err_dim(PyObject *__pyx_v_error, char *__pyx_v_msg, int __pyx_v_dim) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -37897,7 +36356,6 @@ static int __pyx_memoryview_err_dim(PyObject *__pyx_v_error, char *__pyx_v_msg, 
   PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
   __Pyx_RefNannySetupContext("_err_dim", 0);
-  __Pyx_TraceCall("_err_dim", __pyx_f[1], 1257, 0, __PYX_ERR(1, 1257, __pyx_L1_error));
   __Pyx_INCREF(__pyx_v_error);
 
   /* "View.MemoryView":1258
@@ -37953,7 +36411,6 @@ static int __pyx_memoryview_err_dim(PyObject *__pyx_v_error, char *__pyx_v_msg, 
   __Pyx_AddTraceback("View.MemoryView._err_dim", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __Pyx_XDECREF(__pyx_v_error);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
@@ -37971,7 +36428,6 @@ static int __pyx_memoryview_err_dim(PyObject *__pyx_v_error, char *__pyx_v_msg, 
 
 static int __pyx_memoryview_err(PyObject *__pyx_v_error, char *__pyx_v_msg) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -37985,7 +36441,6 @@ static int __pyx_memoryview_err(PyObject *__pyx_v_error, char *__pyx_v_msg) {
   PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
   __Pyx_RefNannySetupContext("_err", 0);
-  __Pyx_TraceCall("_err", __pyx_f[1], 1261, 0, __PYX_ERR(1, 1261, __pyx_L1_error));
   __Pyx_INCREF(__pyx_v_error);
 
   /* "View.MemoryView":1262
@@ -38066,7 +36521,6 @@ static int __pyx_memoryview_err(PyObject *__pyx_v_error, char *__pyx_v_msg) {
   __Pyx_AddTraceback("View.MemoryView._err", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __Pyx_XDECREF(__pyx_v_error);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
@@ -38092,7 +36546,6 @@ static int __pyx_memoryview_copy_contents(__Pyx_memviewslice __pyx_v_src, __Pyx_
   __Pyx_memviewslice __pyx_v_tmp;
   int __pyx_v_ndim;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
@@ -38104,7 +36557,6 @@ static int __pyx_memoryview_copy_contents(__Pyx_memviewslice __pyx_v_src, __Pyx_
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceCall("memoryview_copy_contents", __pyx_f[1], 1268, 1, __PYX_ERR(1, 1268, __pyx_L1_error));
 
   /* "View.MemoryView":1276
  *     Check for overlapping memory and verify the shapes.
@@ -38652,7 +37104,6 @@ static int __pyx_memoryview_copy_contents(__Pyx_memviewslice __pyx_v_src, __Pyx_
   }
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -38667,14 +37118,9 @@ static int __pyx_memoryview_copy_contents(__Pyx_memviewslice __pyx_v_src, __Pyx_
 static void __pyx_memoryview_broadcast_leading(__Pyx_memviewslice *__pyx_v_mslice, int __pyx_v_ndim, int __pyx_v_ndim_other) {
   int __pyx_v_i;
   int __pyx_v_offset;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("broadcast_leading", __pyx_f[1], 1340, 1, __PYX_ERR(1, 1340, __pyx_L1_error));
 
   /* "View.MemoryView":1344
  *                             int ndim_other) nogil:
@@ -38772,11 +37218,6 @@ static void __pyx_memoryview_broadcast_leading(__Pyx_memviewslice *__pyx_v_mslic
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.broadcast_leading", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
 }
 
 /* "View.MemoryView":1362
@@ -38788,12 +37229,7 @@ static void __pyx_memoryview_broadcast_leading(__Pyx_memviewslice *__pyx_v_mslic
  */
 
 static void __pyx_memoryview_refcount_copying(__Pyx_memviewslice *__pyx_v_dst, int __pyx_v_dtype_is_object, int __pyx_v_ndim, int __pyx_v_inc) {
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("refcount_copying", __pyx_f[1], 1362, 1, __PYX_ERR(1, 1362, __pyx_L1_error));
 
   /* "View.MemoryView":1366
  * 
@@ -38832,11 +37268,6 @@ static void __pyx_memoryview_refcount_copying(__Pyx_memviewslice *__pyx_v_dst, i
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.refcount_copying", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
 }
 
 /* "View.MemoryView":1371
@@ -38848,16 +37279,11 @@ static void __pyx_memoryview_refcount_copying(__Pyx_memviewslice *__pyx_v_dst, i
  */
 
 static void __pyx_memoryview_refcount_objects_in_slice_with_gil(char *__pyx_v_data, Py_ssize_t *__pyx_v_shape, Py_ssize_t *__pyx_v_strides, int __pyx_v_ndim, int __pyx_v_inc) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   #ifdef WITH_THREAD
   PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
   __Pyx_RefNannySetupContext("refcount_objects_in_slice_with_gil", 0);
-  __Pyx_TraceCall("refcount_objects_in_slice_with_gil", __pyx_f[1], 1371, 0, __PYX_ERR(1, 1371, __pyx_L1_error));
 
   /* "View.MemoryView":1374
  *                                              Py_ssize_t *strides, int ndim,
@@ -38877,11 +37303,6 @@ static void __pyx_memoryview_refcount_objects_in_slice_with_gil(char *__pyx_v_da
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.refcount_objects_in_slice_with_gil", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
@@ -38898,17 +37319,12 @@ static void __pyx_memoryview_refcount_objects_in_slice_with_gil(char *__pyx_v_da
 
 static void __pyx_memoryview_refcount_objects_in_slice(char *__pyx_v_data, Py_ssize_t *__pyx_v_shape, Py_ssize_t *__pyx_v_strides, int __pyx_v_ndim, int __pyx_v_inc) {
   CYTHON_UNUSED Py_ssize_t __pyx_v_i;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   int __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("refcount_objects_in_slice", 0);
-  __Pyx_TraceCall("refcount_objects_in_slice", __pyx_f[1], 1377, 0, __PYX_ERR(1, 1377, __pyx_L1_error));
 
   /* "View.MemoryView":1381
  *     cdef Py_ssize_t i
@@ -39022,11 +37438,6 @@ static void __pyx_memoryview_refcount_objects_in_slice(char *__pyx_v_data, Py_ss
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.refcount_objects_in_slice", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -39039,11 +37450,6 @@ static void __pyx_memoryview_refcount_objects_in_slice(char *__pyx_v_data, Py_ss
  */
 
 static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *__pyx_v_dst, int __pyx_v_ndim, size_t __pyx_v_itemsize, void *__pyx_v_item, int __pyx_v_dtype_is_object) {
-  __Pyx_TraceDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("slice_assign_scalar", __pyx_f[1], 1397, 1, __PYX_ERR(1, 1397, __pyx_L1_error));
 
   /* "View.MemoryView":1400
  *                               size_t itemsize, void *item,
@@ -39081,11 +37487,6 @@ static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *__pyx_v_dst
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.slice_assign_scalar", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
 }
 
 /* "View.MemoryView":1407
@@ -39100,15 +37501,10 @@ static void __pyx_memoryview__slice_assign_scalar(char *__pyx_v_data, Py_ssize_t
   CYTHON_UNUSED Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_stride;
   Py_ssize_t __pyx_v_extent;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("_slice_assign_scalar", __pyx_f[1], 1407, 1, __PYX_ERR(1, 1407, __pyx_L1_error));
 
   /* "View.MemoryView":1411
  *                               size_t itemsize, void *item) nogil:
@@ -39222,11 +37618,6 @@ static void __pyx_memoryview__slice_assign_scalar(char *__pyx_v_data, Py_ssize_t
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView._slice_assign_scalar", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
 }
 
 /* "(tree fragment)":1
@@ -39315,7 +37706,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSE
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -39326,9 +37716,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSE
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceFrameInit(__pyx_codeobj__96)
   __Pyx_RefNannySetupContext("__pyx_unpickle_Enum", 0);
-  __Pyx_TraceCall("__pyx_unpickle_Enum", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
@@ -39493,7 +37881,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSE
   __Pyx_XDECREF(__pyx_v___pyx_PickleError);
   __Pyx_XDECREF(__pyx_v___pyx_result);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -39508,7 +37895,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSE
 
 static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
@@ -39522,7 +37908,6 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__pyx_unpickle_Enum__set_state", 0);
-  __Pyx_TraceCall("__pyx_unpickle_Enum__set_state", __pyx_f[1], 11, 0, __PYX_ERR(1, 11, __pyx_L1_error));
 
   /* "(tree fragment)":12
  *     return __pyx_result
@@ -39628,7 +38013,6 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -42728,8 +41112,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_View_MemoryView, __pyx_k_View_MemoryView, sizeof(__pyx_k_View_MemoryView), 0, 0, 1, 1},
   {&__pyx_n_s_Z_TALLY, __pyx_k_Z_TALLY, sizeof(__pyx_k_Z_TALLY), 0, 0, 1, 1},
-  {&__pyx_kp_u__69, __pyx_k__69, sizeof(__pyx_k__69), 0, 1, 0, 0},
-  {&__pyx_n_s__97, __pyx_k__97, sizeof(__pyx_k__97), 0, 0, 1, 1},
+  {&__pyx_kp_u__68, __pyx_k__68, sizeof(__pyx_k__68), 0, 1, 0, 0},
+  {&__pyx_n_s__95, __pyx_k__95, sizeof(__pyx_k__95), 0, 0, 1, 1},
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
   {&__pyx_n_s_angle, __pyx_k_angle, sizeof(__pyx_k_angle), 0, 0, 1, 1},
   {&__pyx_n_s_arange, __pyx_k_arange, sizeof(__pyx_k_arange), 0, 0, 1, 1},
@@ -42928,10 +41312,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		def new_method(self, *args, **kwargs):
  * 			if self.lock:
  */
-  __pyx_tuple__4 = PyTuple_Pack(3, __pyx_n_s_method, __pyx_n_s_new_method, __pyx_n_s_new_method); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_geometry_CSG_pyx, __pyx_n_s_lock_2, 88, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(3, __pyx_n_s_method, __pyx_n_s_new_method, __pyx_n_s_new_method); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_geometry_CSG_pyx, __pyx_n_s_lock_2, 88, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 88, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":205
  * 			@plt_geo.sdf3
@@ -42940,10 +41324,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 					cdef double3 p
  * 					cdef int N = len(P)
  */
-  __pyx_tuple__6 = PyTuple_Pack(6, __pyx_n_s_P, __pyx_n_s_P, __pyx_n_s_p, __pyx_n_s_N, __pyx_n_s_sd, __pyx_n_s_i); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 205, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_geometry_CSG_pyx, __pyx_n_s_SDF, 205, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(6, __pyx_n_s_P, __pyx_n_s_P, __pyx_n_s_p, __pyx_n_s_N, __pyx_n_s_sd, __pyx_n_s_i); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_geometry_CSG_pyx, __pyx_n_s_SDF, 205, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 205, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":204
  * 		if self.render:
@@ -42952,10 +41336,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 				def SDF(double[:,:] P):
  * 					cdef double3 p
  */
-  __pyx_tuple__8 = PyTuple_Pack(2, __pyx_n_s_SDF, __pyx_n_s_SDF); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 204, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_geometry_CSG_pyx, __pyx_n_s_this, 204, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(2, __pyx_n_s_SDF, __pyx_n_s_SDF); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_geometry_CSG_pyx, __pyx_n_s_this, 204, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 204, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":237
  * 
@@ -42964,9 +41348,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	cdef void depositUNIFORM(self, STATE& state, double SP):
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_move_called_from_its_virtual_in); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 237, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_move_called_from_its_virtual_in); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 237, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
   /* "MontyCarlo/geometry/CSG.pyx":240
  * 
@@ -42975,9 +41359,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		print("depositUNIFORM called from BVH (virtual)")
  * 		import time
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_depositUNIFORM_called_from_BVH_v); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 240, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_depositUNIFORM_called_from_BVH_v); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
 
   /* "MontyCarlo/geometry/CSG.pyx":247
  * 
@@ -42986,9 +41370,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	cdef void depositLOCAL(self, double3& pos, double E):
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_depositDISCRETE_called_from_its); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 247, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_depositDISCRETE_called_from_its); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
 
   /* "MontyCarlo/geometry/CSG.pyx":250
  * 
@@ -42997,9 +41381,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	cdef void depositRANDOM(self, STATE& state, double E, double tau):
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_depositLOCAL_called_from_its_vi); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 250, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_depositLOCAL_called_from_its_vi); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 250, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
   /* "MontyCarlo/geometry/CSG.pyx":253
  * 
@@ -43008,9 +41392,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	cdef double main_intersect(self, STATE& state):
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_u_depositRANDOM_called_from_its_v); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 253, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_depositRANDOM_called_from_its_v); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 253, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
   /* "MontyCarlo/geometry/CSG.pyx":256
  * 
@@ -43019,9 +41403,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_u_main_intersect_called_from_its); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 256, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_u_main_intersect_called_from_its); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 256, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
 
   /* "MontyCarlo/geometry/CSG.pyx":260
  * 
@@ -43030,9 +41414,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_localSDF_called_from_its_virtua); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 260, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_u_localSDF_called_from_its_virtua); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 260, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
 
   /* "MontyCarlo/geometry/CSG.pyx":272
  * 				print(i)
@@ -43041,9 +41425,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		return <void*> self
  * 
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_int_0); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 272, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_int_0); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 272, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
 
   /* "MontyCarlo/geometry/CSG.pyx":285
  * 
@@ -43052,9 +41436,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	cdef bint is_inside(self, double3 pos):
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_u_SDF_called_from_its_virtual_in); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 285, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__18);
-  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_u_SDF_called_from_its_virtual_in); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
   /* "MontyCarlo/geometry/CSG.pyx":288
  * 
@@ -43063,9 +41447,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	cdef void exit(self):
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_u_is_inside_called_from_its_virtu); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_u_is_inside_called_from_its_virtu); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -43073,18 +41457,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
 
   /* "MontyCarlo/geometry/CSG.pyx":342
  * 	# CONSTRUCTING A VOLUME
@@ -43093,9 +41477,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	cdef void depositUNIFORM(self, STATE& state, double SP):
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_n_u_asdsadsad); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 342, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_u_asdsadsad); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 342, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
 
   /* "MontyCarlo/geometry/CSG.pyx":390
  * 
@@ -43104,9 +41488,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u_intersect_called_from_virtual); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 390, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_u_intersect_called_from_virtual); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 390, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
 
   /* "MontyCarlo/geometry/CSG.pyx":396
  * 
@@ -43115,9 +41499,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	cdef void localSDF(self, STATE& state):
  */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_u_SDF_FROM_VOL_WAS_CALLED); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 396, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__24);
-  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u_SDF_FROM_VOL_WAS_CALLED); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -43125,18 +41509,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
+  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
 
   /* "MontyCarlo/geometry/CSG.pyx":833
  * 
@@ -43145,9 +41529,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		cdef double _cos = cos(angle)
  */
-  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_int_4, __pyx_int_4); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 833, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_tuple__26 = PyTuple_Pack(2, __pyx_int_4, __pyx_int_4); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 833, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
 
   /* "MontyCarlo/geometry/CSG.pyx":839
  * 		cdef double _sin = sqrt(1 - _cos*_cos)
@@ -43156,9 +41540,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		T[0, 1] = ux*uy*oneMcos - uz*_sin
  * 		T[0, 2] = ux*uz*oneMcos + uy*_sin
  */
-  __pyx_tuple__28 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 839, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__28);
-  __Pyx_GIVEREF(__pyx_tuple__28);
+  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 839, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
 
   /* "MontyCarlo/geometry/CSG.pyx":840
  * 
@@ -43167,9 +41551,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		T[0, 2] = ux*uz*oneMcos + uy*_sin
  * 
  */
-  __pyx_tuple__29 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_1); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 840, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_tuple__28 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_1); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 840, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
 
   /* "MontyCarlo/geometry/CSG.pyx":841
  * 		T[0, 0] = _cos + ux*ux*oneMcos
@@ -43178,9 +41562,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		T[1, 0] = uy*ux*oneMcos + uz*_sin
  */
-  __pyx_tuple__30 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_2); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 841, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__30);
-  __Pyx_GIVEREF(__pyx_tuple__30);
+  __pyx_tuple__29 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_2); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 841, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
 
   /* "MontyCarlo/geometry/CSG.pyx":843
  * 		T[0, 2] = ux*uz*oneMcos + uy*_sin
@@ -43189,9 +41573,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		T[1, 1] = _cos + uy*uy*oneMcos
  * 		T[1, 2] = uy*uz*oneMcos - ux*_sin
  */
-  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_0); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 843, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__31);
-  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_tuple__30 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_0); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 843, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__30);
+  __Pyx_GIVEREF(__pyx_tuple__30);
 
   /* "MontyCarlo/geometry/CSG.pyx":844
  * 
@@ -43200,9 +41584,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		T[1, 2] = uy*uz*oneMcos - ux*_sin
  * 
  */
-  __pyx_tuple__32 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_1); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 844, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__32);
-  __Pyx_GIVEREF(__pyx_tuple__32);
+  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_1); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 844, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
 
   /* "MontyCarlo/geometry/CSG.pyx":845
  * 		T[1, 0] = uy*ux*oneMcos + uz*_sin
@@ -43211,9 +41595,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		T[2, 0] = uz*ux*oneMcos-uy*_sin
  */
-  __pyx_tuple__33 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_2); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 845, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_tuple__32 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_2); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 845, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__32);
+  __Pyx_GIVEREF(__pyx_tuple__32);
 
   /* "MontyCarlo/geometry/CSG.pyx":847
  * 		T[1, 2] = uy*uz*oneMcos - ux*_sin
@@ -43222,9 +41606,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		T[2, 1] = uz*uy*oneMcos + ux*_sin
  * 		T[2, 2] = _cos + uz*uz*oneMcos
  */
-  __pyx_tuple__34 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_0); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 847, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__34);
-  __Pyx_GIVEREF(__pyx_tuple__34);
+  __pyx_tuple__33 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_0); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 847, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
 
   /* "MontyCarlo/geometry/CSG.pyx":848
  * 
@@ -43233,9 +41617,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		T[2, 2] = _cos + uz*uz*oneMcos
  * 
  */
-  __pyx_tuple__35 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_1); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 848, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__35);
-  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_tuple__34 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_1); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 848, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__34);
+  __Pyx_GIVEREF(__pyx_tuple__34);
 
   /* "MontyCarlo/geometry/CSG.pyx":849
  * 		T[2, 0] = uz*ux*oneMcos-uy*_sin
@@ -43244,9 +41628,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		T[3, 3] = 1
  */
-  __pyx_tuple__36 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_2); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 849, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__36);
-  __Pyx_GIVEREF(__pyx_tuple__36);
+  __pyx_tuple__35 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_2); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 849, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
 
   /* "MontyCarlo/geometry/CSG.pyx":851
  * 		T[2, 2] = _cos + uz*uz*oneMcos
@@ -43255,104 +41639,104 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		return T
  */
-  __pyx_tuple__37 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_3); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(0, 851, __pyx_L1_error)
+  __pyx_tuple__36 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_3); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 851, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__36);
+  __Pyx_GIVEREF(__pyx_tuple__36);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ */
+  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__37);
   __Pyx_GIVEREF(__pyx_tuple__37);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__38);
   __Pyx_GIVEREF(__pyx_tuple__38);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__39);
   __Pyx_GIVEREF(__pyx_tuple__39);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__40);
   __Pyx_GIVEREF(__pyx_tuple__40);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__41);
   __Pyx_GIVEREF(__pyx_tuple__41);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__42);
   __Pyx_GIVEREF(__pyx_tuple__42);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__43);
   __Pyx_GIVEREF(__pyx_tuple__43);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__44);
   __Pyx_GIVEREF(__pyx_tuple__44);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- */
-  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__45);
-  __Pyx_GIVEREF(__pyx_tuple__45);
-
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__46);
-  __Pyx_GIVEREF(__pyx_tuple__46);
+  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__45);
+  __Pyx_GIVEREF(__pyx_tuple__45);
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__47);
-  __Pyx_GIVEREF(__pyx_tuple__47);
+  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__46);
+  __Pyx_GIVEREF(__pyx_tuple__46);
 
   /* "MontyCarlo/geometry/CSG.pyx":1166
  * 		T[0, 1] = self.T[1]
@@ -43361,9 +41745,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		T[1, 0] = self.T[3]
  */
-  __pyx_tuple__48 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_3); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 1166, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__48);
-  __Pyx_GIVEREF(__pyx_tuple__48);
+  __pyx_tuple__47 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_3); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 1166, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__47);
+  __Pyx_GIVEREF(__pyx_tuple__47);
 
   /* "MontyCarlo/geometry/CSG.pyx":1171
  * 		T[1, 1] = self.T[4]
@@ -43372,9 +41756,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__49 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_3); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 1171, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__49);
-  __Pyx_GIVEREF(__pyx_tuple__49);
+  __pyx_tuple__48 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_3); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 1171, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__48);
+  __Pyx_GIVEREF(__pyx_tuple__48);
 
   /* "MontyCarlo/geometry/CSG.pyx":1177
  * 		T[2, 1] = self.T[7]
@@ -43383,9 +41767,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		T[3, :] = np.array([0, 0, 0, 1])
  */
-  __pyx_tuple__50 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_3); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 1177, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__50);
-  __Pyx_GIVEREF(__pyx_tuple__50);
+  __pyx_tuple__49 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_3); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 1177, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__49);
+  __Pyx_GIVEREF(__pyx_tuple__49);
 
   /* "MontyCarlo/geometry/CSG.pyx":1179
  * 		T[2, 3] = dz
@@ -43394,12 +41778,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		cdef cnp.ndarray iT = np.linalg.inv(T)
  */
-  __pyx_slice__51 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__51)) __PYX_ERR(0, 1179, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__51);
-  __Pyx_GIVEREF(__pyx_slice__51);
-  __pyx_tuple__52 = PyTuple_Pack(2, __pyx_int_3, __pyx_slice__51); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 1179, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__52);
-  __Pyx_GIVEREF(__pyx_tuple__52);
+  __pyx_slice__50 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__50)) __PYX_ERR(0, 1179, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__50);
+  __Pyx_GIVEREF(__pyx_slice__50);
+  __pyx_tuple__51 = PyTuple_Pack(2, __pyx_int_3, __pyx_slice__50); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 1179, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__51);
+  __Pyx_GIVEREF(__pyx_tuple__51);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -43407,18 +41791,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__53);
-  __Pyx_GIVEREF(__pyx_tuple__53);
+  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__52);
+  __Pyx_GIVEREF(__pyx_tuple__52);
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__54 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__54);
-  __Pyx_GIVEREF(__pyx_tuple__54);
+  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__53);
+  __Pyx_GIVEREF(__pyx_tuple__53);
 
   /* "MontyCarlo/geometry/CSG.pyx":1268
  * 
@@ -43427,9 +41811,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	def translate(self, dx, dy, dz):
  */
-  __pyx_tuple__55 = PyTuple_Pack(1, __pyx_kp_u_is_inside_called_from_virtual_V); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 1268, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__55);
-  __Pyx_GIVEREF(__pyx_tuple__55);
+  __pyx_tuple__54 = PyTuple_Pack(1, __pyx_kp_u_is_inside_called_from_virtual_V); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 1268, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__54);
+  __Pyx_GIVEREF(__pyx_tuple__54);
 
   /* "MontyCarlo/geometry/CSG.pyx":1285
  * 
@@ -43438,142 +41822,142 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		#return self.rule(self.L.intersect(pos, dire), self.R.intersect(pos, dire))
  */
-  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_kp_u_Called_from_virtual); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 1285, __pyx_L1_error)
+  __pyx_tuple__55 = PyTuple_Pack(1, __pyx_kp_u_Called_from_virtual); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 1285, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__55);
+  __Pyx_GIVEREF(__pyx_tuple__55);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
+ */
+  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__56);
   __Pyx_GIVEREF(__pyx_tuple__56);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__57 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__57 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__57);
   __Pyx_GIVEREF(__pyx_tuple__57);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__58 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__58 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__58);
   __Pyx_GIVEREF(__pyx_tuple__58);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__59 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__59 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__59);
   __Pyx_GIVEREF(__pyx_tuple__59);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__60 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__60 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__60);
   __Pyx_GIVEREF(__pyx_tuple__60);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__61 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__61 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__61);
   __Pyx_GIVEREF(__pyx_tuple__61);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__62 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__62 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__62);
   __Pyx_GIVEREF(__pyx_tuple__62);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__63 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__63 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__63);
   __Pyx_GIVEREF(__pyx_tuple__63);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__64 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__64 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__64);
   __Pyx_GIVEREF(__pyx_tuple__64);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__65 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__65 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__65);
   __Pyx_GIVEREF(__pyx_tuple__65);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__66 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__66 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__66);
   __Pyx_GIVEREF(__pyx_tuple__66);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__67 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__67)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__67 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__67)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__67);
   __Pyx_GIVEREF(__pyx_tuple__67);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- */
-  __pyx_tuple__68 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__68);
-  __Pyx_GIVEREF(__pyx_tuple__68);
-
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__70 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__70);
-  __Pyx_GIVEREF(__pyx_tuple__70);
+  __pyx_tuple__69 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__69);
+  __Pyx_GIVEREF(__pyx_tuple__69);
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__71 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__71);
-  __Pyx_GIVEREF(__pyx_tuple__71);
+  __pyx_tuple__70 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__70);
+  __Pyx_GIVEREF(__pyx_tuple__70);
 
   /* "MontyCarlo/geometry/CSG.pyx":1687
  * 
@@ -43582,47 +41966,47 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		import time
  * 		print("depositUNIFORM called from Tally (virtual)")
  */
-  __pyx_tuple__72 = PyTuple_Pack(1, __pyx_kp_u_depositUNIFORM_called_from_Tally); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(0, 1687, __pyx_L1_error)
+  __pyx_tuple__71 = PyTuple_Pack(1, __pyx_kp_u_depositUNIFORM_called_from_Tally); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 1687, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__71);
+  __Pyx_GIVEREF(__pyx_tuple__71);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ */
+  __pyx_tuple__72 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__72);
   __Pyx_GIVEREF(__pyx_tuple__72);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__73 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__73 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__73);
   __Pyx_GIVEREF(__pyx_tuple__73);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- */
-  __pyx_tuple__74 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__74);
-  __Pyx_GIVEREF(__pyx_tuple__74);
-
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__75 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__75);
-  __Pyx_GIVEREF(__pyx_tuple__75);
+  __pyx_tuple__74 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__74);
+  __Pyx_GIVEREF(__pyx_tuple__74);
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__76 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__76);
-  __Pyx_GIVEREF(__pyx_tuple__76);
+  __pyx_tuple__75 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__75);
+  __Pyx_GIVEREF(__pyx_tuple__75);
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":884
  *         __pyx_import_array()
@@ -43631,9 +42015,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__77 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(2, 884, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__77);
-  __Pyx_GIVEREF(__pyx_tuple__77);
+  __pyx_tuple__76 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(2, 884, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__76);
+  __Pyx_GIVEREF(__pyx_tuple__76);
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":890
  *         _import_umath()
@@ -43642,9 +42026,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__78 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(2, 890, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__78);
-  __Pyx_GIVEREF(__pyx_tuple__78);
+  __pyx_tuple__77 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(2, 890, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__77);
+  __Pyx_GIVEREF(__pyx_tuple__77);
 
   /* "View.MemoryView":133
  * 
@@ -43653,9 +42037,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if itemsize <= 0:
  */
-  __pyx_tuple__79 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(1, 133, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__79);
-  __Pyx_GIVEREF(__pyx_tuple__79);
+  __pyx_tuple__78 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(1, 133, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__78);
+  __Pyx_GIVEREF(__pyx_tuple__78);
 
   /* "View.MemoryView":136
  * 
@@ -43664,9 +42048,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if not isinstance(format, bytes):
  */
-  __pyx_tuple__80 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(1, 136, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__80);
-  __Pyx_GIVEREF(__pyx_tuple__80);
+  __pyx_tuple__79 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(1, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__79);
+  __Pyx_GIVEREF(__pyx_tuple__79);
 
   /* "View.MemoryView":148
  * 
@@ -43675,9 +42059,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__81 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(1, 148, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__81);
-  __Pyx_GIVEREF(__pyx_tuple__81);
+  __pyx_tuple__80 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(1, 148, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__80);
+  __Pyx_GIVEREF(__pyx_tuple__80);
 
   /* "View.MemoryView":176
  *             self.data = <char *>malloc(self.len)
@@ -43686,9 +42070,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *             if self.dtype_is_object:
  */
-  __pyx_tuple__82 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(1, 176, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__82);
-  __Pyx_GIVEREF(__pyx_tuple__82);
+  __pyx_tuple__81 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(1, 176, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__81);
+  __Pyx_GIVEREF(__pyx_tuple__81);
 
   /* "View.MemoryView":192
  *             bufmode = PyBUF_F_CONTIGUOUS | PyBUF_ANY_CONTIGUOUS
@@ -43697,9 +42081,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         info.buf = self.data
  *         info.len = self.len
  */
-  __pyx_tuple__83 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(1, 192, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__83);
-  __Pyx_GIVEREF(__pyx_tuple__83);
+  __pyx_tuple__82 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(1, 192, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__82);
+  __Pyx_GIVEREF(__pyx_tuple__82);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -43707,18 +42091,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__84 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__84)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__84);
-  __Pyx_GIVEREF(__pyx_tuple__84);
+  __pyx_tuple__83 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__83);
+  __Pyx_GIVEREF(__pyx_tuple__83);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__85 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__85)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__85);
-  __Pyx_GIVEREF(__pyx_tuple__85);
+  __pyx_tuple__84 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__84)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__84);
+  __Pyx_GIVEREF(__pyx_tuple__84);
 
   /* "View.MemoryView":418
  *     def __setitem__(memoryview self, object index, object value):
@@ -43727,9 +42111,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         have_slices, index = _unellipsify(index, self.view.ndim)
  */
-  __pyx_tuple__86 = PyTuple_Pack(1, __pyx_kp_s_Cannot_assign_to_read_only_memor); if (unlikely(!__pyx_tuple__86)) __PYX_ERR(1, 418, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__86);
-  __Pyx_GIVEREF(__pyx_tuple__86);
+  __pyx_tuple__85 = PyTuple_Pack(1, __pyx_kp_s_Cannot_assign_to_read_only_memor); if (unlikely(!__pyx_tuple__85)) __PYX_ERR(1, 418, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__85);
+  __Pyx_GIVEREF(__pyx_tuple__85);
 
   /* "View.MemoryView":495
  *             result = struct.unpack(self.view.format, bytesitem)
@@ -43738,9 +42122,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         else:
  *             if len(self.view.format) == 1:
  */
-  __pyx_tuple__87 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__87)) __PYX_ERR(1, 495, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__87);
-  __Pyx_GIVEREF(__pyx_tuple__87);
+  __pyx_tuple__86 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__86)) __PYX_ERR(1, 495, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__86);
+  __Pyx_GIVEREF(__pyx_tuple__86);
 
   /* "View.MemoryView":520
  *     def __getbuffer__(self, Py_buffer *info, int flags):
@@ -43749,9 +42133,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if flags & PyBUF_ND:
  */
-  __pyx_tuple__88 = PyTuple_Pack(1, __pyx_kp_s_Cannot_create_writable_memory_vi); if (unlikely(!__pyx_tuple__88)) __PYX_ERR(1, 520, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__88);
-  __Pyx_GIVEREF(__pyx_tuple__88);
+  __pyx_tuple__87 = PyTuple_Pack(1, __pyx_kp_s_Cannot_create_writable_memory_vi); if (unlikely(!__pyx_tuple__87)) __PYX_ERR(1, 520, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__87);
+  __Pyx_GIVEREF(__pyx_tuple__87);
 
   /* "View.MemoryView":570
  *         if self.view.strides == NULL:
@@ -43760,9 +42144,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-  __pyx_tuple__89 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__89)) __PYX_ERR(1, 570, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__89);
-  __Pyx_GIVEREF(__pyx_tuple__89);
+  __pyx_tuple__88 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__88)) __PYX_ERR(1, 570, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__88);
+  __Pyx_GIVEREF(__pyx_tuple__88);
 
   /* "View.MemoryView":577
  *     def suboffsets(self):
@@ -43771,12 +42155,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([suboffset for suboffset in self.view.suboffsets[:self.view.ndim]])
  */
-  __pyx_tuple__90 = PyTuple_New(1); if (unlikely(!__pyx_tuple__90)) __PYX_ERR(1, 577, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__90);
+  __pyx_tuple__89 = PyTuple_New(1); if (unlikely(!__pyx_tuple__89)) __PYX_ERR(1, 577, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__89);
   __Pyx_INCREF(__pyx_int_neg_1);
   __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyTuple_SET_ITEM(__pyx_tuple__90, 0, __pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_tuple__90);
+  PyTuple_SET_ITEM(__pyx_tuple__89, 0, __pyx_int_neg_1);
+  __Pyx_GIVEREF(__pyx_tuple__89);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -43784,18 +42168,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__91 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__91)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__91);
-  __Pyx_GIVEREF(__pyx_tuple__91);
+  __pyx_tuple__90 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__90)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__90);
+  __Pyx_GIVEREF(__pyx_tuple__90);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__92 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__92)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__92);
-  __Pyx_GIVEREF(__pyx_tuple__92);
+  __pyx_tuple__91 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__91)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__91);
+  __Pyx_GIVEREF(__pyx_tuple__91);
 
   /* "View.MemoryView":703
  *     for suboffset in suboffsets[:ndim]:
@@ -43804,9 +42188,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__93 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(1, 703, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__93);
-  __Pyx_GIVEREF(__pyx_tuple__93);
+  __pyx_tuple__92 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__92)) __PYX_ERR(1, 703, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__92);
+  __Pyx_GIVEREF(__pyx_tuple__92);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -43814,18 +42198,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__94 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__94)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__94);
-  __Pyx_GIVEREF(__pyx_tuple__94);
+  __pyx_tuple__93 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__93);
+  __Pyx_GIVEREF(__pyx_tuple__93);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__95 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__95)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__95);
-  __Pyx_GIVEREF(__pyx_tuple__95);
+  __pyx_tuple__94 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__94)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__94);
+  __Pyx_GIVEREF(__pyx_tuple__94);
 
   /* "MontyCarlo/geometry/CSG.pyx":87
  * 
@@ -43834,10 +42218,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 	def _lock(method):
  * 		def new_method(self, *args, **kwargs):
  */
-  __pyx_tuple__98 = PyTuple_Pack(3, __pyx_n_s_msg, __pyx_n_s_lock_2, __pyx_n_s_lock_2); if (unlikely(!__pyx_tuple__98)) __PYX_ERR(0, 87, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__98);
-  __Pyx_GIVEREF(__pyx_tuple__98);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__98, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_geometry_CSG_pyx, __pyx_n_s_lock, 87, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_tuple__96 = PyTuple_Pack(3, __pyx_n_s_msg, __pyx_n_s_lock_2, __pyx_n_s_lock_2); if (unlikely(!__pyx_tuple__96)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__96);
+  __Pyx_GIVEREF(__pyx_tuple__96);
+  __pyx_codeobj__97 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__96, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_geometry_CSG_pyx, __pyx_n_s_lock, 87, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__97)) __PYX_ERR(0, 87, __pyx_L1_error)
 
   /* "View.MemoryView":286
  *         return self.name
@@ -43846,9 +42230,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__99 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__99)) __PYX_ERR(1, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__99);
-  __Pyx_GIVEREF(__pyx_tuple__99);
+  __pyx_tuple__98 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__98)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__98);
+  __Pyx_GIVEREF(__pyx_tuple__98);
 
   /* "View.MemoryView":287
  * 
@@ -43857,9 +42241,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__100 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__100)) __PYX_ERR(1, 287, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__100);
-  __Pyx_GIVEREF(__pyx_tuple__100);
+  __pyx_tuple__99 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__99)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__99);
+  __Pyx_GIVEREF(__pyx_tuple__99);
 
   /* "View.MemoryView":288
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -43868,9 +42252,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__101 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__101)) __PYX_ERR(1, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__101);
-  __Pyx_GIVEREF(__pyx_tuple__101);
+  __pyx_tuple__100 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__100)) __PYX_ERR(1, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__100);
+  __Pyx_GIVEREF(__pyx_tuple__100);
 
   /* "View.MemoryView":291
  * 
@@ -43879,9 +42263,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__102 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__102)) __PYX_ERR(1, 291, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__102);
-  __Pyx_GIVEREF(__pyx_tuple__102);
+  __pyx_tuple__101 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__101)) __PYX_ERR(1, 291, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__101);
+  __Pyx_GIVEREF(__pyx_tuple__101);
 
   /* "View.MemoryView":292
  * 
@@ -43890,19 +42274,19 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__103 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__103)) __PYX_ERR(1, 292, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__103);
-  __Pyx_GIVEREF(__pyx_tuple__103);
+  __pyx_tuple__102 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__102)) __PYX_ERR(1, 292, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__102);
+  __Pyx_GIVEREF(__pyx_tuple__102);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Enum(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__104 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__104)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__104);
-  __Pyx_GIVEREF(__pyx_tuple__104);
-  __pyx_codeobj__96 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__104, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__96)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__103 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__103)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__103);
+  __Pyx_GIVEREF(__pyx_tuple__103);
+  __pyx_codeobj__104 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__103, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__104)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -44768,7 +43152,6 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_CSG(PyObject *__pyx_pyinit_module)
 #endif
 #endif
 {
-  __Pyx_TraceDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   double __pyx_t_3;
@@ -44879,7 +43262,6 @@ if (!__Pyx_RefNanny) {
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_CSG(void)", __pyx_f[0], 1, 0, __PYX_ERR(0, 1, __pyx_L1_error));
 
   /* "MontyCarlo/geometry/CSG.pyx":35
  * 
@@ -44905,7 +43287,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_s_sdf);
   __Pyx_GIVEREF(__pyx_n_s_sdf);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_sdf);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s__97, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s__95, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_sdf); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
@@ -44990,7 +43372,7 @@ if (!__Pyx_RefNanny) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__99, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__98, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_1);
@@ -45004,7 +43386,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__100, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__99, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_1);
@@ -45018,7 +43400,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__101, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 288, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__100, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_1);
@@ -45032,7 +43414,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__102, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 291, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__101, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_1);
@@ -45046,7 +43428,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__103, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 292, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__102, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_1);
@@ -45122,7 +43504,6 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.name = __pyx_state[0]
  *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
  */
-  __Pyx_TraceReturn(Py_None, 0);
 
   /*--- Wrapped vars code ---*/
 
@@ -45336,123 +43717,6 @@ static void __Pyx_RaiseArgtupleInvalid(
                  func_name, more_or_less, num_expected,
                  (num_expected == 1) ? "" : "s", num_found);
 }
-
-/* PyErrFetchRestore */
-#if CYTHON_FAST_THREAD_STATE
-static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
-    PyObject *tmp_type, *tmp_value, *tmp_tb;
-    tmp_type = tstate->curexc_type;
-    tmp_value = tstate->curexc_value;
-    tmp_tb = tstate->curexc_traceback;
-    tstate->curexc_type = type;
-    tstate->curexc_value = value;
-    tstate->curexc_traceback = tb;
-    Py_XDECREF(tmp_type);
-    Py_XDECREF(tmp_value);
-    Py_XDECREF(tmp_tb);
-}
-static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
-    *type = tstate->curexc_type;
-    *value = tstate->curexc_value;
-    *tb = tstate->curexc_traceback;
-    tstate->curexc_type = 0;
-    tstate->curexc_value = 0;
-    tstate->curexc_traceback = 0;
-}
-#endif
-
-/* Profile */
-#if CYTHON_PROFILE
-static int __Pyx_TraceSetupAndCall(PyCodeObject** code,
-                                   PyFrameObject** frame,
-                                   PyThreadState* tstate,
-                                   const char *funcname,
-                                   const char *srcfile,
-                                   int firstlineno) {
-    PyObject *type, *value, *traceback;
-    int retval;
-    if (*frame == NULL || !CYTHON_PROFILE_REUSE_FRAME) {
-        if (*code == NULL) {
-            *code = __Pyx_createFrameCodeObject(funcname, srcfile, firstlineno);
-            if (*code == NULL) return 0;
-        }
-        *frame = PyFrame_New(
-            tstate,                          /*PyThreadState *tstate*/
-            *code,                           /*PyCodeObject *code*/
-            __pyx_d,                  /*PyObject *globals*/
-            0                                /*PyObject *locals*/
-        );
-        if (*frame == NULL) return 0;
-        if (CYTHON_TRACE && (*frame)->f_trace == NULL) {
-            Py_INCREF(Py_None);
-            (*frame)->f_trace = Py_None;
-        }
-#if PY_VERSION_HEX < 0x030400B1
-    } else {
-        (*frame)->f_tstate = tstate;
-#endif
-    }
-      __Pyx_PyFrame_SetLineNumber(*frame, firstlineno);
-    retval = 1;
-    tstate->tracing++;
-    tstate->use_tracing = 0;
-    __Pyx_ErrFetchInState(tstate, &type, &value, &traceback);
-    #if CYTHON_TRACE
-    if (tstate->c_tracefunc)
-        retval = tstate->c_tracefunc(tstate->c_traceobj, *frame, PyTrace_CALL, NULL) == 0;
-    if (retval && tstate->c_profilefunc)
-    #endif
-        retval = tstate->c_profilefunc(tstate->c_profileobj, *frame, PyTrace_CALL, NULL) == 0;
-    tstate->use_tracing = (tstate->c_profilefunc ||
-                           (CYTHON_TRACE && tstate->c_tracefunc));
-    tstate->tracing--;
-    if (retval) {
-        __Pyx_ErrRestoreInState(tstate, type, value, traceback);
-        return tstate->use_tracing && retval;
-    } else {
-        Py_XDECREF(type);
-        Py_XDECREF(value);
-        Py_XDECREF(traceback);
-        return -1;
-    }
-}
-static PyCodeObject *__Pyx_createFrameCodeObject(const char *funcname, const char *srcfile, int firstlineno) {
-    PyCodeObject *py_code = 0;
-#if PY_MAJOR_VERSION >= 3
-    py_code = PyCode_NewEmpty(srcfile, funcname, firstlineno);
-    if (likely(py_code)) {
-        py_code->co_flags |= CO_OPTIMIZED | CO_NEWLOCALS;
-    }
-#else
-    PyObject *py_srcfile = 0;
-    PyObject *py_funcname = 0;
-    py_funcname = PyString_FromString(funcname);
-    if (unlikely(!py_funcname)) goto bad;
-    py_srcfile = PyString_FromString(srcfile);
-    if (unlikely(!py_srcfile)) goto bad;
-    py_code = PyCode_New(
-        0,
-        0,
-        0,
-        CO_OPTIMIZED | CO_NEWLOCALS,
-        __pyx_empty_bytes,     /*PyObject *code,*/
-        __pyx_empty_tuple,     /*PyObject *consts,*/
-        __pyx_empty_tuple,     /*PyObject *names,*/
-        __pyx_empty_tuple,     /*PyObject *varnames,*/
-        __pyx_empty_tuple,     /*PyObject *freevars,*/
-        __pyx_empty_tuple,     /*PyObject *cellvars,*/
-        py_srcfile,       /*PyObject *filename,*/
-        py_funcname,      /*PyObject *name,*/
-        firstlineno,
-        __pyx_empty_bytes      /*PyObject *lnotab*/
-    );
-bad:
-    Py_XDECREF(py_srcfile);
-    Py_XDECREF(py_funcname);
-#endif
-    return py_code;
-}
-#endif
 
 /* None */
 static CYTHON_INLINE void __Pyx_RaiseClosureNameError(const char *varname) {
@@ -45678,6 +43942,30 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
     result = __Pyx_PyObject_Call(func, args, NULL);
     Py_DECREF(args);
     return result;
+}
+#endif
+
+/* PyErrFetchRestore */
+#if CYTHON_FAST_THREAD_STATE
+static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    tmp_type = tstate->curexc_type;
+    tmp_value = tstate->curexc_value;
+    tmp_tb = tstate->curexc_traceback;
+    tstate->curexc_type = type;
+    tstate->curexc_value = value;
+    tstate->curexc_traceback = tb;
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+}
+static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
+    *type = tstate->curexc_type;
+    *value = tstate->curexc_value;
+    *tb = tstate->curexc_traceback;
+    tstate->curexc_type = 0;
+    tstate->curexc_value = 0;
+    tstate->curexc_traceback = 0;
 }
 #endif
 

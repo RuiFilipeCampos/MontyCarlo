@@ -10,7 +10,8 @@
         ],
         "extra_compile_args": [
             "-O2",
-            "-fp:fast"
+            "-fp:fast",
+            "-favor:INTEL64"
         ],
         "include_dirs": [
             ".\\MontyCarlo\\_random",
@@ -898,7 +899,6 @@ static const char *__pyx_filename;
 static const char *__pyx_f[] = {
   "MontyCarlo\\particles\\particle.pyx",
   "stringsource",
-  "MontyCarlo\\particles\\particle.pxd",
   "__init__.pxd",
   "MontyCarlo\\tools\\vectors.pxd",
   "type.pxd",
@@ -3705,6 +3705,13 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
+/* PyObjectCall.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
+#else
+#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
+#endif
+
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
 #define __Pyx_PyThreadState_declare  PyThreadState *__pyx_tstate;
@@ -3739,215 +3746,6 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 #define __Pyx_ErrFetchInState(tstate, type, value, tb)  PyErr_Fetch(type, value, tb)
 #define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
 #define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
-#endif
-
-/* Profile.proto */
-#ifndef CYTHON_PROFILE
-#if CYTHON_COMPILING_IN_PYPY || CYTHON_COMPILING_IN_PYSTON
-  #define CYTHON_PROFILE 0
-#else
-  #define CYTHON_PROFILE 1
-#endif
-#endif
-#ifndef CYTHON_TRACE_NOGIL
-  #define CYTHON_TRACE_NOGIL 0
-#else
-  #if CYTHON_TRACE_NOGIL && !defined(CYTHON_TRACE)
-    #define CYTHON_TRACE 1
-  #endif
-#endif
-#ifndef CYTHON_TRACE
-  #define CYTHON_TRACE 0
-#endif
-#if CYTHON_TRACE
-  #undef CYTHON_PROFILE_REUSE_FRAME
-#endif
-#ifndef CYTHON_PROFILE_REUSE_FRAME
-  #define CYTHON_PROFILE_REUSE_FRAME 0
-#endif
-#if CYTHON_PROFILE || CYTHON_TRACE
-  #include "compile.h"
-  #include "frameobject.h"
-  #include "traceback.h"
-  #if CYTHON_PROFILE_REUSE_FRAME
-    #define CYTHON_FRAME_MODIFIER static
-    #define CYTHON_FRAME_DEL(frame)
-  #else
-    #define CYTHON_FRAME_MODIFIER
-    #define CYTHON_FRAME_DEL(frame) Py_CLEAR(frame)
-  #endif
-  #define __Pyx_TraceDeclarations\
-  static PyCodeObject *__pyx_frame_code = NULL;\
-  CYTHON_FRAME_MODIFIER PyFrameObject *__pyx_frame = NULL;\
-  int __Pyx_use_tracing = 0;
-  #define __Pyx_TraceFrameInit(codeobj)\
-  if (codeobj) __pyx_frame_code = (PyCodeObject*) codeobj;
-  #ifdef WITH_THREAD
-  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)\
-  if (nogil) {\
-      if (CYTHON_TRACE_NOGIL) {\
-          PyThreadState *tstate;\
-          PyGILState_STATE state = PyGILState_Ensure();\
-          tstate = __Pyx_PyThreadState_Current;\
-          if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
-                  (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-              __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, tstate, funcname, srcfile, firstlineno);\
-          }\
-          PyGILState_Release(state);\
-          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
-      }\
-  } else {\
-      PyThreadState* tstate = PyThreadState_GET();\
-      if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
-              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-          __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, tstate, funcname, srcfile, firstlineno);\
-          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
-      }\
-  }
-  #else
-  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)\
-  {   PyThreadState* tstate = PyThreadState_GET();\
-      if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
-              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-          __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, tstate, funcname, srcfile, firstlineno);\
-          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
-      }\
-  }
-  #endif
-  #define __Pyx_TraceException()\
-  if (likely(!__Pyx_use_tracing)); else {\
-      PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-      if (tstate->use_tracing &&\
-              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-          tstate->tracing++;\
-          tstate->use_tracing = 0;\
-          PyObject *exc_info = __Pyx_GetExceptionTuple(tstate);\
-          if (exc_info) {\
-              if (CYTHON_TRACE && tstate->c_tracefunc)\
-                  tstate->c_tracefunc(\
-                      tstate->c_traceobj, __pyx_frame, PyTrace_EXCEPTION, exc_info);\
-              tstate->c_profilefunc(\
-                  tstate->c_profileobj, __pyx_frame, PyTrace_EXCEPTION, exc_info);\
-              Py_DECREF(exc_info);\
-          }\
-          tstate->use_tracing = 1;\
-          tstate->tracing--;\
-      }\
-  }
-  static void __Pyx_call_return_trace_func(PyThreadState *tstate, PyFrameObject *frame, PyObject *result) {
-      PyObject *type, *value, *traceback;
-      __Pyx_ErrFetchInState(tstate, &type, &value, &traceback);
-      tstate->tracing++;
-      tstate->use_tracing = 0;
-      if (CYTHON_TRACE && tstate->c_tracefunc)
-          tstate->c_tracefunc(tstate->c_traceobj, frame, PyTrace_RETURN, result);
-      if (tstate->c_profilefunc)
-          tstate->c_profilefunc(tstate->c_profileobj, frame, PyTrace_RETURN, result);
-      CYTHON_FRAME_DEL(frame);
-      tstate->use_tracing = 1;
-      tstate->tracing--;
-      __Pyx_ErrRestoreInState(tstate, type, value, traceback);
-  }
-  #ifdef WITH_THREAD
-  #define __Pyx_TraceReturn(result, nogil)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      if (nogil) {\
-          if (CYTHON_TRACE_NOGIL) {\
-              PyThreadState *tstate;\
-              PyGILState_STATE state = PyGILState_Ensure();\
-              tstate = __Pyx_PyThreadState_Current;\
-              if (tstate->use_tracing) {\
-                  __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
-              }\
-              PyGILState_Release(state);\
-          }\
-      } else {\
-          PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-          if (tstate->use_tracing) {\
-              __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
-          }\
-      }\
-  }
-  #else
-  #define __Pyx_TraceReturn(result, nogil)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-      if (tstate->use_tracing) {\
-          __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
-      }\
-  }
-  #endif
-  static PyCodeObject *__Pyx_createFrameCodeObject(const char *funcname, const char *srcfile, int firstlineno);
-  static int __Pyx_TraceSetupAndCall(PyCodeObject** code, PyFrameObject** frame, PyThreadState* tstate, const char *funcname, const char *srcfile, int firstlineno);
-#else
-  #define __Pyx_TraceDeclarations
-  #define __Pyx_TraceFrameInit(codeobj)
-  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)   if ((1)); else goto_error;
-  #define __Pyx_TraceException()
-  #define __Pyx_TraceReturn(result, nogil)
-#endif
-#if CYTHON_TRACE
-  static int __Pyx_call_line_trace_func(PyThreadState *tstate, PyFrameObject *frame, int lineno) {
-      int ret;
-      PyObject *type, *value, *traceback;
-      __Pyx_ErrFetchInState(tstate, &type, &value, &traceback);
-      __Pyx_PyFrame_SetLineNumber(frame, lineno);
-      tstate->tracing++;
-      tstate->use_tracing = 0;
-      ret = tstate->c_tracefunc(tstate->c_traceobj, frame, PyTrace_LINE, NULL);
-      tstate->use_tracing = 1;
-      tstate->tracing--;
-      if (likely(!ret)) {
-          __Pyx_ErrRestoreInState(tstate, type, value, traceback);
-      } else {
-          Py_XDECREF(type);
-          Py_XDECREF(value);
-          Py_XDECREF(traceback);
-      }
-      return ret;
-  }
-  #ifdef WITH_THREAD
-  #define __Pyx_TraceLine(lineno, nogil, goto_error)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      if (nogil) {\
-          if (CYTHON_TRACE_NOGIL) {\
-              int ret = 0;\
-              PyThreadState *tstate;\
-              PyGILState_STATE state = PyGILState_Ensure();\
-              tstate = __Pyx_PyThreadState_Current;\
-              if (unlikely(tstate->use_tracing && tstate->c_tracefunc && __pyx_frame->f_trace)) {\
-                  ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
-              }\
-              PyGILState_Release(state);\
-              if (unlikely(ret)) goto_error;\
-          }\
-      } else {\
-          PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-          if (unlikely(tstate->use_tracing && tstate->c_tracefunc && __pyx_frame->f_trace)) {\
-              int ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
-              if (unlikely(ret)) goto_error;\
-          }\
-      }\
-  }
-  #else
-  #define __Pyx_TraceLine(lineno, nogil, goto_error)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-      if (unlikely(tstate->use_tracing && tstate->c_tracefunc && __pyx_frame->f_trace)) {\
-          int ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
-          if (unlikely(ret)) goto_error;\
-      }\
-  }
-  #endif
-#else
-  #define __Pyx_TraceLine(lineno, nogil, goto_error)   if ((1)); else goto_error;
-#endif
-
-/* PyObjectCall.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
-#else
-#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
 #endif
 
 /* RaiseException.proto */
@@ -5194,14 +4992,14 @@ static PyObject *__pyx_tuple__21;
 static PyObject *__pyx_tuple__23;
 static PyObject *__pyx_tuple__24;
 static PyObject *__pyx_tuple__25;
+static PyObject *__pyx_tuple__26;
 static PyObject *__pyx_tuple__27;
 static PyObject *__pyx_tuple__28;
 static PyObject *__pyx_tuple__29;
 static PyObject *__pyx_tuple__30;
 static PyObject *__pyx_tuple__31;
 static PyObject *__pyx_tuple__32;
-static PyObject *__pyx_tuple__33;
-static PyObject *__pyx_codeobj__26;
+static PyObject *__pyx_codeobj__33;
 /* Late includes */
 
 /* "MontyCarlo/particles/particle.pyx":107
@@ -5214,14 +5012,12 @@ static PyObject *__pyx_codeobj__26;
 
 static double __pyx_f_10MontyCarlo_9particles_8particle_8Particle_ENERGY(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ENERGY", 0);
-  __Pyx_TraceCall("ENERGY", __pyx_f[0], 107, 0, __PYX_ERR(0, 107, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":108
  * 
@@ -5249,7 +5045,6 @@ static double __pyx_f_10MontyCarlo_9particles_8particle_8Particle_ENERGY(CYTHON_
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.ENERGY", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5268,7 +5063,6 @@ static PyObject *__pyx_f_10MontyCarlo_9particles_8particle_8Particle_get_record_
   PyObject *__pyx_v_traj = NULL;
   CYTHON_UNUSED int __pyx_v_i;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -5282,7 +5076,6 @@ static PyObject *__pyx_f_10MontyCarlo_9particles_8particle_8Particle_get_record_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_record_pos", 0);
-  __Pyx_TraceCall("get_record_pos", __pyx_f[0], 111, 0, __PYX_ERR(0, 111, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -5431,7 +5224,6 @@ static PyObject *__pyx_f_10MontyCarlo_9particles_8particle_8Particle_get_record_
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_traj);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5451,14 +5243,12 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_8particle_8Particle_1get_recor
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_get_record_pos(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_record_pos", 0);
-  __Pyx_TraceCall("get_record_pos (wrapper)", __pyx_f[0], 111, 0, __PYX_ERR(0, 111, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_f_10MontyCarlo_9particles_8particle_8Particle_get_record_pos(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -5473,7 +5263,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_get_record
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5487,13 +5276,11 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_get_record
  */
 
 static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_record(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("record", 0);
-  __Pyx_TraceCall("record", __pyx_f[0], 121, 0, __PYX_ERR(0, 121, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":127
  * 
@@ -5522,7 +5309,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_record(struct __
   __pyx_L1_error:;
   __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.record", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -5549,14 +5335,12 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_8particle_8Particle_3getEnergy
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("getEnergy", 0);
-  __Pyx_TraceCall("getEnergy", __pyx_f[0], 133, 0, __PYX_ERR(0, 133, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":134
  * 
@@ -5587,7 +5371,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5601,13 +5384,8 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_2getEnergy
  */
 
 static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_move(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, double __pyx_v_L) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("move", 0);
-  __Pyx_TraceCall("move", __pyx_f[0], 136, 0, __PYX_ERR(0, 136, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":141
  *         # self.state.pos.z += self.state.EZ.z*L
@@ -5645,11 +5423,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_move(struct __py
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.move", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -5662,20 +5435,10 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_move(struct __py
  */
 
 static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_deposit(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("deposit", 0);
-  __Pyx_TraceCall("deposit", __pyx_f[0], 145, 0, __PYX_ERR(0, 145, __pyx_L1_error));
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.deposit", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -5690,13 +5453,8 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_deposit(CYTHON_U
 static double __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rsqrt(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, double __pyx_v_x) {
   double __pyx_v_y;
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rsqrt", 0);
-  __Pyx_TraceCall("rsqrt", __pyx_f[0], 150, 0, __PYX_ERR(0, 150, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":151
  * 
@@ -5789,11 +5547,7 @@ static double __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rsqrt(CYTHON_U
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.rsqrt", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5809,13 +5563,8 @@ static double __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rsqrt(CYTHON_U
 static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_normalize(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   double __pyx_v_x;
   double __pyx_v_norm;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("normalize", 0);
-  __Pyx_TraceCall("normalize", __pyx_f[0], 161, 0, __PYX_ERR(0, 161, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":182
  *         #x = (self.ezx**2 + self.ezy**2 + self.ezz**2 )
@@ -5871,11 +5620,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_normalize(struct
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.normalize", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -5888,13 +5632,8 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_normalize(struct
  */
 
 static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_invert_axis(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("invert_axis", 0);
-  __Pyx_TraceCall("invert_axis", __pyx_f[0], 195, 0, __PYX_ERR(0, 195, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":196
  * 
@@ -5932,11 +5671,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_invert_axis(stru
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.invert_axis", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -5949,13 +5683,8 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_invert_axis(stru
  */
 
 static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_invert_dire(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("invert_dire", 0);
-  __Pyx_TraceCall("invert_dire", __pyx_f[0], 201, 0, __PYX_ERR(0, 201, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":202
  * 
@@ -5993,11 +5722,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_invert_dire(stru
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.invert_dire", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -6016,14 +5740,9 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_throwAZIMUTH(str
   double __pyx_v_w1;
   double __pyx_v_w2;
   double __pyx_v_w3;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("throwAZIMUTH", 0);
-  __Pyx_TraceCall("throwAZIMUTH", __pyx_f[0], 207, 0, __PYX_ERR(0, 207, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":210
  *         cdef double x, y, a, w1, w2, w3
@@ -6219,11 +5938,7 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_throwAZIMUTH(str
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.throwAZIMUTH", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -6247,15 +5962,10 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rotateTHETA(stru
   double __pyx_v_ezx;
   double __pyx_v_ezy;
   double __pyx_v_ezz;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   double __pyx_t_2;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rotateTHETA", 0);
-  __Pyx_TraceCall("rotateTHETA", __pyx_f[0], 251, 0, __PYX_ERR(0, 251, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":256
  * 
@@ -6552,11 +6262,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rotateTHETA(stru
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.rotateTHETA", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -6580,7 +6285,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rotateTHETAvers2
   double __pyx_v_ezx;
   double __pyx_v_ezy;
   double __pyx_v_ezz;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   double __pyx_t_2;
@@ -6596,7 +6300,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rotateTHETAvers2
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rotateTHETAvers2", 0);
-  __Pyx_TraceCall("rotateTHETAvers2", __pyx_f[0], 473, 0, __PYX_ERR(0, 473, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":476
  *         # spent an entire afternoon looking for a serious bug
@@ -7379,7 +7082,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rotateTHETAvers2
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.rotateTHETAvers2", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -7409,7 +7111,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rotateAZIMUTH(st
   double __pyx_v_ezx;
   double __pyx_v_ezy;
   double __pyx_v_ezz;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -7425,7 +7126,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rotateAZIMUTH(st
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rotateAZIMUTH", 0);
-  __Pyx_TraceCall("rotateAZIMUTH", __pyx_f[0], 578, 0, __PYX_ERR(0, 578, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":581
  *         # spent an entire afternoon looking for a serious bug
@@ -8460,7 +8160,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_rotateAZIMUTH(st
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.rotateAZIMUTH", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -8479,7 +8178,6 @@ static PyObject *__pyx_f_10MontyCarlo_9particles_8particle_8Particle_add_to_cell
   int __pyx_v_x;
   PyArrayObject *__pyx_v_points = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -8495,7 +8193,6 @@ static PyObject *__pyx_f_10MontyCarlo_9particles_8particle_8Particle_add_to_cell
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_to_cell", 0);
-  __Pyx_TraceCall("add_to_cell", __pyx_f[0], 711, 0, __PYX_ERR(0, 711, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -8842,7 +8539,6 @@ static PyObject *__pyx_f_10MontyCarlo_9particles_8particle_8Particle_add_to_cell
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_points);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8924,14 +8620,12 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_8particle_8Particle_5add_to_ce
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_4add_to_cell(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, PyObject *__pyx_v_old_cell, PyObject *__pyx_v_old_points, int __pyx_v_Npoints) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_to_cell", 0);
-  __Pyx_TraceCall("add_to_cell (wrapper)", __pyx_f[0], 711, 0, __PYX_ERR(0, 711, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_f_10MontyCarlo_9particles_8particle_8Particle_add_to_cell(__pyx_v_self, __pyx_v_old_cell, __pyx_v_old_points, __pyx_v_Npoints, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 711, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -8946,7 +8640,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_4add_to_ce
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8977,7 +8670,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_6get_track
   int __pyx_v_i;
   PyArrayObject *__pyx_v_points = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -8990,7 +8682,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_6get_track
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_track", 0);
-  __Pyx_TraceCall("get_track", __pyx_f[0], 743, 0, __PYX_ERR(0, 743, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":745
  *     def get_track(self):
@@ -9187,7 +8878,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_6get_track
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_points);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9215,7 +8905,6 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_8particle_8Particle_9track(PyO
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_8track(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -9225,7 +8914,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_8track(str
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("track", 0);
-  __Pyx_TraceCall("track", __pyx_f[0], 760, 0, __PYX_ERR(0, 760, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":761
  * 
@@ -9283,7 +8971,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_8track(str
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9297,14 +8984,12 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_8track(str
  */
 
 static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_update_references(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("update_references", 0);
-  __Pyx_TraceCall("update_references", __pyx_f[0], 767, 0, __PYX_ERR(0, 767, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":768
  * 
@@ -9331,7 +9016,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_update_reference
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle.update_references", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -9344,14 +9028,12 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle_update_reference
  */
 
 static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle__run(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, CYTHON_UNUSED mixmax_engine *__pyx_v_genPTR) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_run", 0);
-  __Pyx_TraceCall("_run", __pyx_f[0], 772, 0, __PYX_ERR(0, 772, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":773
  * 
@@ -9378,7 +9060,6 @@ static void __pyx_f_10MontyCarlo_9particles_8particle_8Particle__run(CYTHON_UNUS
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_WriteUnraisable("MontyCarlo.particles.particle.Particle._run", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -9405,25 +9086,16 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_8particle_8Particle_4FILE_1__g
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_4FILE___get__(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[2], 45, 0, __PYX_ERR(2, 45, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_self->FILE);
   __pyx_r = __pyx_v_self->FILE;
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.particles.particle.Particle.FILE.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9443,13 +9115,8 @@ static int __pyx_pw_10MontyCarlo_9particles_8particle_8Particle_4FILE_3__set__(P
 
 static int __pyx_pf_10MontyCarlo_9particles_8particle_8Particle_4FILE_2__set__(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[2], 45, 0, __PYX_ERR(2, 45, __pyx_L1_error));
   __Pyx_INCREF(__pyx_v_value);
   __Pyx_GIVEREF(__pyx_v_value);
   __Pyx_GOTREF(__pyx_v_self->FILE);
@@ -9458,12 +9125,6 @@ static int __pyx_pf_10MontyCarlo_9particles_8particle_8Particle_4FILE_2__set__(s
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.particles.particle.Particle.FILE.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9483,13 +9144,8 @@ static int __pyx_pw_10MontyCarlo_9particles_8particle_8Particle_4FILE_5__del__(P
 
 static int __pyx_pf_10MontyCarlo_9particles_8particle_8Particle_4FILE_4__del__(struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
-  __Pyx_TraceCall("__del__", __pyx_f[2], 45, 0, __PYX_ERR(2, 45, __pyx_L1_error));
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->FILE);
@@ -9498,12 +9154,6 @@ static int __pyx_pf_10MontyCarlo_9particles_8particle_8Particle_4FILE_4__del__(s
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.particles.particle.Particle.FILE.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9529,14 +9179,12 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_8particle_8Particle_11__reduce
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_10__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -9562,7 +9210,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_10__reduce
   __Pyx_AddTraceback("MontyCarlo.particles.particle.Particle.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9589,14 +9236,12 @@ static PyObject *__pyx_pw_10MontyCarlo_9particles_8particle_8Particle_13__setsta
 
 static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_12__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("self.state,self.state_record cannot be converted to a Python object for pickling")
@@ -9622,7 +9267,6 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_12__setsta
   __Pyx_AddTraceback("MontyCarlo.particles.particle.Particle.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9637,14 +9281,12 @@ static PyObject *__pyx_pf_10MontyCarlo_9particles_8particle_8Particle_12__setsta
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__pyx_v_a) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew1", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew1", __pyx_f[3], 734, 0, __PYX_ERR(3, 734, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":735
  * 
@@ -9654,7 +9296,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
  * cdef inline object PyArray_MultiIterNew2(a, b):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(1, ((void *)__pyx_v_a)); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 735, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(1, ((void *)__pyx_v_a)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 735, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -9675,7 +9317,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9690,14 +9331,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__pyx_v_a, PyObject *__pyx_v_b) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew2", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew2", __pyx_f[3], 737, 0, __PYX_ERR(3, 737, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":738
  * 
@@ -9707,7 +9346,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
  * cdef inline object PyArray_MultiIterNew3(a, b, c):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(2, ((void *)__pyx_v_a), ((void *)__pyx_v_b)); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 738, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(2, ((void *)__pyx_v_a), ((void *)__pyx_v_b)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 738, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -9728,7 +9367,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9743,14 +9381,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__pyx_v_a, PyObject *__pyx_v_b, PyObject *__pyx_v_c) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew3", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew3", __pyx_f[3], 740, 0, __PYX_ERR(3, 740, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":741
  * 
@@ -9760,7 +9396,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(3, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c)); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 741, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(3, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 741, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -9781,7 +9417,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9796,14 +9431,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__pyx_v_a, PyObject *__pyx_v_b, PyObject *__pyx_v_c, PyObject *__pyx_v_d) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew4", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew4", __pyx_f[3], 743, 0, __PYX_ERR(3, 743, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":744
  * 
@@ -9813,7 +9446,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(4, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d)); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 744, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(4, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 744, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -9834,7 +9467,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9849,14 +9481,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__pyx_v_a, PyObject *__pyx_v_b, PyObject *__pyx_v_c, PyObject *__pyx_v_d, PyObject *__pyx_v_e) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew5", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew5", __pyx_f[3], 746, 0, __PYX_ERR(3, 746, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":747
  * 
@@ -9866,7 +9496,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
  * cdef inline tuple PyDataType_SHAPE(dtype d):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(5, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d), ((void *)__pyx_v_e)); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 747, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(5, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d), ((void *)__pyx_v_e)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 747, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -9887,7 +9517,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9902,14 +9531,9 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__pyx_v_d) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyDataType_SHAPE", 0);
-  __Pyx_TraceCall("PyDataType_SHAPE", __pyx_f[3], 749, 0, __PYX_ERR(3, 749, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":750
  * 
@@ -9965,12 +9589,8 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("numpy.PyDataType_SHAPE", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9984,13 +9604,8 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
  */
 
 static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_arr, PyObject *__pyx_v_base) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_array_base", 0);
-  __Pyx_TraceCall("set_array_base", __pyx_f[3], 868, 0, __PYX_ERR(3, 868, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":869
  * 
@@ -10019,11 +9634,6 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("numpy.set_array_base", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -10038,14 +9648,9 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__pyx_v_arr) {
   PyObject *__pyx_v_base;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_array_base", 0);
-  __Pyx_TraceCall("get_array_base", __pyx_f[3], 872, 0, __PYX_ERR(3, 872, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":873
  * 
@@ -10107,12 +9712,8 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("numpy.get_array_base", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10127,7 +9728,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
 
 static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -10141,7 +9741,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("import_array", 0);
-  __Pyx_TraceCall("import_array", __pyx_f[3], 880, 0, __PYX_ERR(3, 880, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":881
  * # Cython code.
@@ -10166,7 +9765,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.multiarray failed to import")
  */
-      __pyx_t_4 = _import_array(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(3, 882, __pyx_L3_error)
+      __pyx_t_4 = _import_array(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 882, __pyx_L3_error)
 
       /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":881
  * # Cython code.
@@ -10192,7 +9791,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
     __pyx_t_4 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
     if (__pyx_t_4) {
       __Pyx_AddTraceback("numpy.import_array", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(3, 883, __pyx_L5_except_error)
+      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(2, 883, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_7);
@@ -10204,11 +9803,11 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 884, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 884, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __PYX_ERR(3, 884, __pyx_L5_except_error)
+      __PYX_ERR(2, 884, __pyx_L5_except_error)
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -10247,7 +9846,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   __Pyx_AddTraceback("numpy.import_array", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10262,7 +9860,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
 
 static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -10276,7 +9873,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("import_umath", 0);
-  __Pyx_TraceCall("import_umath", __pyx_f[3], 886, 0, __PYX_ERR(3, 886, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":887
  * 
@@ -10301,7 +9897,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")
  */
-      __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(3, 888, __pyx_L3_error)
+      __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 888, __pyx_L3_error)
 
       /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":887
  * 
@@ -10327,7 +9923,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
     __pyx_t_4 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
     if (__pyx_t_4) {
       __Pyx_AddTraceback("numpy.import_umath", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(3, 889, __pyx_L5_except_error)
+      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(2, 889, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_7);
@@ -10339,11 +9935,11 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 890, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 890, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __PYX_ERR(3, 890, __pyx_L5_except_error)
+      __PYX_ERR(2, 890, __pyx_L5_except_error)
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -10382,7 +9978,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   __Pyx_AddTraceback("numpy.import_umath", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10397,7 +9992,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
 
 static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -10411,7 +10005,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("import_ufunc", 0);
-  __Pyx_TraceCall("import_ufunc", __pyx_f[3], 892, 0, __PYX_ERR(3, 892, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":893
  * 
@@ -10436,7 +10029,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")
  */
-      __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(3, 894, __pyx_L3_error)
+      __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 894, __pyx_L3_error)
 
       /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":893
  * 
@@ -10462,7 +10055,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
     __pyx_t_4 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
     if (__pyx_t_4) {
       __Pyx_AddTraceback("numpy.import_ufunc", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(3, 895, __pyx_L5_except_error)
+      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(2, 895, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_7);
@@ -10474,11 +10067,11 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  * 
  * cdef extern from *:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 896, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 896, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __PYX_ERR(3, 896, __pyx_L5_except_error)
+      __PYX_ERR(2, 896, __pyx_L5_except_error)
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -10517,7 +10110,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   __Pyx_AddTraceback("numpy.import_ufunc", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10667,7 +10259,6 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
   PyObject **__pyx_v_p;
   char __pyx_v_order;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
@@ -10684,7 +10275,6 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
-  __Pyx_TraceCall("__cinit__", __pyx_f[1], 122, 0, __PYX_ERR(1, 122, __pyx_L1_error));
   __Pyx_INCREF(__pyx_v_format);
 
   /* "View.MemoryView":129
@@ -11271,7 +10861,6 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_format);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -11300,7 +10889,6 @@ static CYTHON_UNUSED int __pyx_array_getbuffer(PyObject *__pyx_v_self, Py_buffer
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags) {
   int __pyx_v_bufmode;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -11319,7 +10907,6 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(stru
   __Pyx_RefNannySetupContext("__getbuffer__", 0);
   __pyx_v_info->obj = Py_None; __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(__pyx_v_info->obj);
-  __Pyx_TraceCall("__getbuffer__", __pyx_f[1], 185, 0, __PYX_ERR(1, 185, __pyx_L1_error));
 
   /* "View.MemoryView":186
  *     @cname('getbuffer')
@@ -11581,7 +11168,6 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(stru
     __Pyx_DECREF(__pyx_v_info->obj); __pyx_v_info->obj = 0;
   }
   __pyx_L2:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -11606,14 +11192,9 @@ static void __pyx_array___dealloc__(PyObject *__pyx_v_self) {
 }
 
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
-  __Pyx_TraceCall("__dealloc__", __pyx_f[1], 211, 0, __PYX_ERR(1, 211, __pyx_L1_error));
 
   /* "View.MemoryView":212
  * 
@@ -11719,11 +11300,6 @@ static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struc
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.array.__dealloc__", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -11750,14 +11326,12 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_5array_7memview_1__get__(PyObjec
 
 static PyObject *__pyx_pf_15View_dot_MemoryView_5array_7memview___get__(struct __pyx_array_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 222, 0, __PYX_ERR(1, 222, __pyx_L1_error));
 
   /* "View.MemoryView":223
  *     @property
@@ -11788,7 +11362,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_5array_7memview___get__(struct _
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -11804,7 +11377,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_5array_7memview___get__(struct _
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self) {
   int __pyx_v_flags;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -11813,7 +11385,6 @@ static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_memview", 0);
-  __Pyx_TraceCall("get_memview", __pyx_f[1], 226, 0, __PYX_ERR(1, 226, __pyx_L1_error));
 
   /* "View.MemoryView":227
  *     @cname('get_memview')
@@ -11871,7 +11442,6 @@ static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self) {
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -11899,13 +11469,8 @@ static Py_ssize_t __pyx_array___len__(PyObject *__pyx_v_self) {
 
 static Py_ssize_t __pyx_array___pyx_pf_15View_dot_MemoryView_5array_6__len__(struct __pyx_array_obj *__pyx_v_self) {
   Py_ssize_t __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__len__", 0);
-  __Pyx_TraceCall("__len__", __pyx_f[1], 230, 0, __PYX_ERR(1, 230, __pyx_L1_error));
 
   /* "View.MemoryView":231
  * 
@@ -11926,11 +11491,7 @@ static Py_ssize_t __pyx_array___pyx_pf_15View_dot_MemoryView_5array_6__len__(str
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("View.MemoryView.array.__len__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -11958,7 +11519,6 @@ static PyObject *__pyx_array___getattr__(PyObject *__pyx_v_self, PyObject *__pyx
 
 static PyObject *__pyx_array___pyx_pf_15View_dot_MemoryView_5array_8__getattr__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_attr) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -11966,7 +11526,6 @@ static PyObject *__pyx_array___pyx_pf_15View_dot_MemoryView_5array_8__getattr__(
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getattr__", 0);
-  __Pyx_TraceCall("__getattr__", __pyx_f[1], 233, 0, __PYX_ERR(1, 233, __pyx_L1_error));
 
   /* "View.MemoryView":234
  * 
@@ -12001,7 +11560,6 @@ static PyObject *__pyx_array___pyx_pf_15View_dot_MemoryView_5array_8__getattr__(
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12029,7 +11587,6 @@ static PyObject *__pyx_array___getitem__(PyObject *__pyx_v_self, PyObject *__pyx
 
 static PyObject *__pyx_array___pyx_pf_15View_dot_MemoryView_5array_10__getitem__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_item) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -12037,7 +11594,6 @@ static PyObject *__pyx_array___pyx_pf_15View_dot_MemoryView_5array_10__getitem__
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getitem__", 0);
-  __Pyx_TraceCall("__getitem__", __pyx_f[1], 236, 0, __PYX_ERR(1, 236, __pyx_L1_error));
 
   /* "View.MemoryView":237
  * 
@@ -12072,7 +11628,6 @@ static PyObject *__pyx_array___pyx_pf_15View_dot_MemoryView_5array_10__getitem__
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12100,14 +11655,12 @@ static int __pyx_array___setitem__(PyObject *__pyx_v_self, PyObject *__pyx_v_ite
 
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_12__setitem__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_item, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setitem__", 0);
-  __Pyx_TraceCall("__setitem__", __pyx_f[1], 239, 0, __PYX_ERR(1, 239, __pyx_L1_error));
 
   /* "View.MemoryView":240
  * 
@@ -12137,7 +11690,6 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_12__setitem__(struc
   __Pyx_AddTraceback("View.MemoryView.array.__setitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12163,14 +11715,12 @@ static PyObject *__pyx_pw___pyx_array_1__reduce_cython__(PyObject *__pyx_v_self,
 
 static PyObject *__pyx_pf___pyx_array___reduce_cython__(CYTHON_UNUSED struct __pyx_array_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -12196,7 +11746,6 @@ static PyObject *__pyx_pf___pyx_array___reduce_cython__(CYTHON_UNUSED struct __p
   __Pyx_AddTraceback("View.MemoryView.array.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12223,14 +11772,12 @@ static PyObject *__pyx_pw___pyx_array_3__setstate_cython__(PyObject *__pyx_v_sel
 
 static PyObject *__pyx_pf___pyx_array_2__setstate_cython__(CYTHON_UNUSED struct __pyx_array_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
@@ -12256,7 +11803,6 @@ static PyObject *__pyx_pf___pyx_array_2__setstate_cython__(CYTHON_UNUSED struct 
   __Pyx_AddTraceback("View.MemoryView.array.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12272,7 +11818,6 @@ static PyObject *__pyx_pf___pyx_array_2__setstate_cython__(CYTHON_UNUSED struct 
 static struct __pyx_array_obj *__pyx_array_new(PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, char *__pyx_v_format, char *__pyx_v_mode, char *__pyx_v_buf) {
   struct __pyx_array_obj *__pyx_v_result = 0;
   struct __pyx_array_obj *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -12283,7 +11828,6 @@ static struct __pyx_array_obj *__pyx_array_new(PyObject *__pyx_v_shape, Py_ssize
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("array_cwrapper", 0);
-  __Pyx_TraceCall("array_cwrapper", __pyx_f[1], 244, 0, __PYX_ERR(1, 244, __pyx_L1_error));
 
   /* "View.MemoryView":248
  *     cdef array result
@@ -12434,7 +11978,6 @@ static struct __pyx_array_obj *__pyx_array_new(PyObject *__pyx_v_shape, Py_ssize
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_result);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12502,13 +12045,8 @@ static int __pyx_MemviewEnum___init__(PyObject *__pyx_v_self, PyObject *__pyx_ar
 
 static int __pyx_MemviewEnum___pyx_pf_15View_dot_MemoryView_4Enum___init__(struct __pyx_MemviewEnum_obj *__pyx_v_self, PyObject *__pyx_v_name) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[1], 281, 0, __PYX_ERR(1, 281, __pyx_L1_error));
 
   /* "View.MemoryView":282
  *     cdef object name
@@ -12533,12 +12071,6 @@ static int __pyx_MemviewEnum___pyx_pf_15View_dot_MemoryView_4Enum___init__(struc
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("View.MemoryView.Enum.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12566,13 +12098,8 @@ static PyObject *__pyx_MemviewEnum___repr__(PyObject *__pyx_v_self) {
 
 static PyObject *__pyx_MemviewEnum___pyx_pf_15View_dot_MemoryView_4Enum_2__repr__(struct __pyx_MemviewEnum_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
-  __Pyx_TraceCall("__repr__", __pyx_f[1], 283, 0, __PYX_ERR(1, 283, __pyx_L1_error));
 
   /* "View.MemoryView":284
  *         self.name = name
@@ -12595,12 +12122,8 @@ static PyObject *__pyx_MemviewEnum___pyx_pf_15View_dot_MemoryView_4Enum_2__repr_
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("View.MemoryView.Enum.__repr__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12629,7 +12152,6 @@ static PyObject *__pyx_pf___pyx_MemviewEnum___reduce_cython__(struct __pyx_Memvi
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
@@ -12640,7 +12162,6 @@ static PyObject *__pyx_pf___pyx_MemviewEnum___reduce_cython__(struct __pyx_Memvi
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":5
  *     cdef object _dict
@@ -12837,7 +12358,6 @@ static PyObject *__pyx_pf___pyx_MemviewEnum___reduce_cython__(struct __pyx_Memvi
   __Pyx_XDECREF(__pyx_v_state);
   __Pyx_XDECREF(__pyx_v__dict);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12864,14 +12384,12 @@ static PyObject *__pyx_pw___pyx_MemviewEnum_3__setstate_cython__(PyObject *__pyx
 
 static PyObject *__pyx_pf___pyx_MemviewEnum_2__setstate_cython__(struct __pyx_MemviewEnum_obj *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 16, 0, __PYX_ERR(1, 16, __pyx_L1_error));
 
   /* "(tree fragment)":17
  *         return __pyx_unpickle_Enum, (type(self), 0xb068931, state)
@@ -12899,7 +12417,6 @@ static PyObject *__pyx_pf___pyx_MemviewEnum_2__setstate_cython__(struct __pyx_Me
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12916,12 +12433,7 @@ static void *__pyx_align_pointer(void *__pyx_v_memory, size_t __pyx_v_alignment)
   Py_intptr_t __pyx_v_aligned_p;
   size_t __pyx_v_offset;
   void *__pyx_r;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("align_pointer", __pyx_f[1], 298, 1, __PYX_ERR(1, 298, __pyx_L1_error));
 
   /* "View.MemoryView":300
  * cdef void *align_pointer(void *memory, size_t alignment) nogil:
@@ -12988,11 +12500,7 @@ static void *__pyx_align_pointer(void *__pyx_v_memory, size_t __pyx_v_alignment)
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.align_pointer", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -13088,7 +12596,6 @@ static int __pyx_memoryview___cinit__(PyObject *__pyx_v_self, PyObject *__pyx_ar
 
 static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview___cinit__(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj, int __pyx_v_flags, int __pyx_v_dtype_is_object) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -13098,7 +12605,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview___cinit_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
-  __Pyx_TraceCall("__cinit__", __pyx_f[1], 345, 0, __PYX_ERR(1, 345, __pyx_L1_error));
 
   /* "View.MemoryView":346
  * 
@@ -13373,7 +12879,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview___cinit_
   __Pyx_AddTraceback("View.MemoryView.memoryview.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -13399,7 +12904,6 @@ static void __pyx_memoryview___dealloc__(PyObject *__pyx_v_self) {
 
 static void __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_2__dealloc__(struct __pyx_memoryview_obj *__pyx_v_self) {
   int __pyx_v_i;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -13408,11 +12912,7 @@ static void __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_2__deal
   int __pyx_t_5;
   PyThread_type_lock __pyx_t_6;
   PyThread_type_lock __pyx_t_7;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
-  __Pyx_TraceCall("__dealloc__", __pyx_f[1], 372, 0, __PYX_ERR(1, 372, __pyx_L1_error));
 
   /* "View.MemoryView":373
  * 
@@ -13611,11 +13111,6 @@ static void __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_2__deal
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.memoryview.__dealloc__", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -13632,7 +13127,6 @@ static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__py
   char *__pyx_v_itemp;
   PyObject *__pyx_v_idx = NULL;
   char *__pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -13645,7 +13139,6 @@ static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__py
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_item_pointer", 0);
-  __Pyx_TraceCall("get_item_pointer", __pyx_f[1], 393, 0, __PYX_ERR(1, 393, __pyx_L1_error));
 
   /* "View.MemoryView":395
  *     cdef char *get_item_pointer(memoryview self, object index) except NULL:
@@ -13755,7 +13248,6 @@ static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__py
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_idx);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -13786,7 +13278,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_4_
   PyObject *__pyx_v_indices = NULL;
   char *__pyx_v_itemp;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -13798,7 +13289,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_4_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getitem__", 0);
-  __Pyx_TraceCall("__getitem__", __pyx_f[1], 403, 0, __PYX_ERR(1, 403, __pyx_L1_error));
 
   /* "View.MemoryView":404
  * 
@@ -13947,7 +13437,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_4_
   __Pyx_XDECREF(__pyx_v_have_slices);
   __Pyx_XDECREF(__pyx_v_indices);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -13977,7 +13466,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
   PyObject *__pyx_v_have_slices = NULL;
   PyObject *__pyx_v_obj = NULL;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -13987,7 +13475,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setitem__", 0);
-  __Pyx_TraceCall("__setitem__", __pyx_f[1], 416, 0, __PYX_ERR(1, 416, __pyx_L1_error));
   __Pyx_INCREF(__pyx_v_index);
 
   /* "View.MemoryView":417
@@ -14178,7 +13665,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
   __Pyx_XDECREF(__pyx_v_have_slices);
   __Pyx_XDECREF(__pyx_v_obj);
   __Pyx_XDECREF(__pyx_v_index);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14193,7 +13679,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
 
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -14208,7 +13693,6 @@ static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_slice", 0);
-  __Pyx_TraceCall("is_slice", __pyx_f[1], 431, 0, __PYX_ERR(1, 431, __pyx_L1_error));
   __Pyx_INCREF(__pyx_v_obj);
 
   /* "View.MemoryView":432
@@ -14391,7 +13875,6 @@ static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_obj);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14408,7 +13891,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assignment(struct __pyx_memoryvi
   __Pyx_memviewslice __pyx_v_dst_slice;
   __Pyx_memviewslice __pyx_v_src_slice;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice *__pyx_t_1;
   __Pyx_memviewslice *__pyx_t_2;
@@ -14420,7 +13902,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assignment(struct __pyx_memoryvi
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("setitem_slice_assignment", 0);
-  __Pyx_TraceCall("setitem_slice_assignment", __pyx_f[1], 441, 0, __PYX_ERR(1, 441, __pyx_L1_error));
 
   /* "View.MemoryView":445
  *         cdef __Pyx_memviewslice src_slice
@@ -14484,7 +13965,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assignment(struct __pyx_memoryvi
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14504,7 +13984,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assign_scalar(struct __pyx_memor
   __Pyx_memviewslice *__pyx_v_dst_slice;
   __Pyx_memviewslice __pyx_v_tmp_slice;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice *__pyx_t_1;
   int __pyx_t_2;
@@ -14522,7 +14001,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assign_scalar(struct __pyx_memor
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("setitem_slice_assign_scalar", 0);
-  __Pyx_TraceCall("setitem_slice_assign_scalar", __pyx_f[1], 449, 0, __PYX_ERR(1, 449, __pyx_L1_error));
 
   /* "View.MemoryView":451
  *     cdef setitem_slice_assign_scalar(self, memoryview dst, value):
@@ -14777,7 +14255,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assign_scalar(struct __pyx_memor
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14793,7 +14270,6 @@ static PyObject *__pyx_memoryview_setitem_slice_assign_scalar(struct __pyx_memor
 static PyObject *__pyx_memoryview_setitem_indexed(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index, PyObject *__pyx_v_value) {
   char *__pyx_v_itemp;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -14801,7 +14277,6 @@ static PyObject *__pyx_memoryview_setitem_indexed(struct __pyx_memoryview_obj *_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("setitem_indexed", 0);
-  __Pyx_TraceCall("setitem_indexed", __pyx_f[1], 481, 0, __PYX_ERR(1, 481, __pyx_L1_error));
 
   /* "View.MemoryView":482
  * 
@@ -14841,7 +14316,6 @@ static PyObject *__pyx_memoryview_setitem_indexed(struct __pyx_memoryview_obj *_
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14859,7 +14333,6 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
   PyObject *__pyx_v_bytesitem = 0;
   PyObject *__pyx_v_result = NULL;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -14876,7 +14349,6 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("convert_item_to_object", 0);
-  __Pyx_TraceCall("convert_item_to_object", __pyx_f[1], 485, 0, __PYX_ERR(1, 485, __pyx_L1_error));
 
   /* "View.MemoryView":488
  *         """Only used if instantiated manually by the user, or if Cython doesn't
@@ -15121,7 +14593,6 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
   __Pyx_XDECREF(__pyx_v_bytesitem);
   __Pyx_XDECREF(__pyx_v_result);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15140,7 +14611,6 @@ static PyObject *__pyx_memoryview_assign_item_from_object(struct __pyx_memoryvie
   PyObject *__pyx_v_bytesvalue = 0;
   Py_ssize_t __pyx_v_i;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
@@ -15160,7 +14630,6 @@ static PyObject *__pyx_memoryview_assign_item_from_object(struct __pyx_memoryvie
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("assign_item_from_object", 0);
-  __Pyx_TraceCall("assign_item_from_object", __pyx_f[1], 501, 0, __PYX_ERR(1, 501, __pyx_L1_error));
 
   /* "View.MemoryView":504
  *         """Only used if instantiated manually by the user, or if Cython doesn't
@@ -15363,7 +14832,6 @@ static PyObject *__pyx_memoryview_assign_item_from_object(struct __pyx_memoryvie
   __Pyx_XDECREF(__pyx_v_struct);
   __Pyx_XDECREF(__pyx_v_bytesvalue);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15391,7 +14859,6 @@ static CYTHON_UNUSED int __pyx_memoryview_getbuffer(PyObject *__pyx_v_self, Py_b
 
 static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_8__getbuffer__(struct __pyx_memoryview_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -15411,7 +14878,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_8__getbu
   __Pyx_RefNannySetupContext("__getbuffer__", 0);
   __pyx_v_info->obj = Py_None; __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(__pyx_v_info->obj);
-  __Pyx_TraceCall("__getbuffer__", __pyx_f[1], 518, 0, __PYX_ERR(1, 518, __pyx_L1_error));
 
   /* "View.MemoryView":519
  *     @cname('getbuffer')
@@ -15710,7 +15176,6 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_8__getbu
     __Pyx_DECREF(__pyx_v_info->obj); __pyx_v_info->obj = 0;
   }
   __pyx_L2:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15739,7 +15204,6 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_1T_1__get__(PyObjec
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_1T___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   struct __pyx_memoryviewslice_obj *__pyx_v_result = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
@@ -15747,7 +15211,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_1T___get__(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 553, 0, __PYX_ERR(1, 553, __pyx_L1_error));
 
   /* "View.MemoryView":554
  *     @property
@@ -15799,7 +15262,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_1T___get__(struct _
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_result);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15827,13 +15289,8 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_4base_1__get__(PyOb
 
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4base___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 559, 0, __PYX_ERR(1, 559, __pyx_L1_error));
 
   /* "View.MemoryView":560
  *     @property
@@ -15856,12 +15313,8 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4base___get__(struc
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("View.MemoryView.memoryview.base.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15890,7 +15343,6 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_5shape_1__get__(PyO
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_5shape___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   Py_ssize_t __pyx_v_length;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t *__pyx_t_2;
@@ -15901,7 +15353,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_5shape___get__(stru
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 563, 0, __PYX_ERR(1, 563, __pyx_L1_error));
 
   /* "View.MemoryView":564
  *     @property
@@ -15945,7 +15396,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_5shape___get__(stru
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -15974,7 +15424,6 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_7strides_1__get__(P
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   Py_ssize_t __pyx_v_stride;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -15986,7 +15435,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(st
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 567, 0, __PYX_ERR(1, 567, __pyx_L1_error));
 
   /* "View.MemoryView":568
  *     @property
@@ -16062,7 +15510,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(st
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16091,7 +15538,6 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_10suboffsets_1__get
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   Py_ssize_t __pyx_v_suboffset;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -16103,7 +15549,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 575, 0, __PYX_ERR(1, 575, __pyx_L1_error));
 
   /* "View.MemoryView":576
  *     @property
@@ -16183,7 +15628,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get_
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16211,14 +15655,12 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_4ndim_1__get__(PyOb
 
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4ndim___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 582, 0, __PYX_ERR(1, 582, __pyx_L1_error));
 
   /* "View.MemoryView":583
  *     @property
@@ -16249,7 +15691,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4ndim___get__(struc
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16277,14 +15718,12 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_8itemsize_1__get__(
 
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_8itemsize___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 586, 0, __PYX_ERR(1, 586, __pyx_L1_error));
 
   /* "View.MemoryView":587
  *     @property
@@ -16315,7 +15754,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_8itemsize___get__(s
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16343,7 +15781,6 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_10memoryview_6nbytes_1__get__(Py
 
 static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_6nbytes___get__(struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -16352,7 +15789,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_6nbytes___get__(str
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 590, 0, __PYX_ERR(1, 590, __pyx_L1_error));
 
   /* "View.MemoryView":591
  *     @property
@@ -16391,7 +15827,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_6nbytes___get__(str
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16421,7 +15856,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4size___get__(struc
   PyObject *__pyx_v_result = NULL;
   PyObject *__pyx_v_length = NULL;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -16433,7 +15867,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4size___get__(struc
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 594, 0, __PYX_ERR(1, 594, __pyx_L1_error));
 
   /* "View.MemoryView":595
  *     @property
@@ -16535,7 +15968,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_4size___get__(struc
   __Pyx_XDECREF(__pyx_v_result);
   __Pyx_XDECREF(__pyx_v_length);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16563,14 +15995,9 @@ static Py_ssize_t __pyx_memoryview___len__(PyObject *__pyx_v_self) {
 
 static Py_ssize_t __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_10__len__(struct __pyx_memoryview_obj *__pyx_v_self) {
   Py_ssize_t __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__len__", 0);
-  __Pyx_TraceCall("__len__", __pyx_f[1], 605, 0, __PYX_ERR(1, 605, __pyx_L1_error));
 
   /* "View.MemoryView":606
  * 
@@ -16620,11 +16047,7 @@ static Py_ssize_t __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_1
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("View.MemoryView.memoryview.__len__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16652,7 +16075,6 @@ static PyObject *__pyx_memoryview___repr__(PyObject *__pyx_v_self) {
 
 static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_12__repr__(struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -16661,7 +16083,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_12
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
-  __Pyx_TraceCall("__repr__", __pyx_f[1], 611, 0, __PYX_ERR(1, 611, __pyx_L1_error));
 
   /* "View.MemoryView":612
  * 
@@ -16729,7 +16150,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_12
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16757,7 +16177,6 @@ static PyObject *__pyx_memoryview___str__(PyObject *__pyx_v_self) {
 
 static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_14__str__(struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -16765,7 +16184,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_14
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__str__", 0);
-  __Pyx_TraceCall("__str__", __pyx_f[1], 615, 0, __PYX_ERR(1, 615, __pyx_L1_error));
 
   /* "View.MemoryView":616
  * 
@@ -16811,7 +16229,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_14
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16841,7 +16258,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_16
   __Pyx_memviewslice *__pyx_v_mslice;
   __Pyx_memviewslice __pyx_v_tmp;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice *__pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -16849,7 +16265,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_16
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_c_contig", 0);
-  __Pyx_TraceCall("is_c_contig", __pyx_f[1], 619, 0, __PYX_ERR(1, 619, __pyx_L1_error));
 
   /* "View.MemoryView":622
  *         cdef __Pyx_memviewslice *mslice
@@ -16890,7 +16305,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_16
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16920,7 +16334,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_18
   __Pyx_memviewslice *__pyx_v_mslice;
   __Pyx_memviewslice __pyx_v_tmp;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice *__pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -16928,7 +16341,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_18
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_f_contig", 0);
-  __Pyx_TraceCall("is_f_contig", __pyx_f[1], 625, 0, __PYX_ERR(1, 625, __pyx_L1_error));
 
   /* "View.MemoryView":628
  *         cdef __Pyx_memviewslice *mslice
@@ -16969,7 +16381,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_18
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -16999,7 +16410,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_20
   __Pyx_memviewslice __pyx_v_mslice;
   int __pyx_v_flags;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -17007,7 +16417,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_20
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("copy", 0);
-  __Pyx_TraceCall("copy", __pyx_f[1], 631, 0, __PYX_ERR(1, 631, __pyx_L1_error));
 
   /* "View.MemoryView":633
  *     def copy(self):
@@ -17066,7 +16475,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_20
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -17097,7 +16505,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_22
   __Pyx_memviewslice __pyx_v_dst;
   int __pyx_v_flags;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -17105,7 +16512,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_22
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("copy_fortran", 0);
-  __Pyx_TraceCall("copy_fortran", __pyx_f[1], 643, 0, __PYX_ERR(1, 643, __pyx_L1_error));
 
   /* "View.MemoryView":645
  *     def copy_fortran(self):
@@ -17164,7 +16570,6 @@ static PyObject *__pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_22
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -17190,14 +16595,12 @@ static PyObject *__pyx_pw___pyx_memoryview_1__reduce_cython__(PyObject *__pyx_v_
 
 static PyObject *__pyx_pf___pyx_memoryview___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryview_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -17223,7 +16626,6 @@ static PyObject *__pyx_pf___pyx_memoryview___reduce_cython__(CYTHON_UNUSED struc
   __Pyx_AddTraceback("View.MemoryView.memoryview.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -17250,14 +16652,12 @@ static PyObject *__pyx_pw___pyx_memoryview_3__setstate_cython__(PyObject *__pyx_
 
 static PyObject *__pyx_pf___pyx_memoryview_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryview_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
@@ -17283,7 +16683,6 @@ static PyObject *__pyx_pf___pyx_memoryview_2__setstate_cython__(CYTHON_UNUSED st
   __Pyx_AddTraceback("View.MemoryView.memoryview.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -17299,7 +16698,6 @@ static PyObject *__pyx_pf___pyx_memoryview_2__setstate_cython__(CYTHON_UNUSED st
 static PyObject *__pyx_memoryview_new(PyObject *__pyx_v_o, int __pyx_v_flags, int __pyx_v_dtype_is_object, __Pyx_TypeInfo *__pyx_v_typeinfo) {
   struct __pyx_memoryview_obj *__pyx_v_result = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -17308,7 +16706,6 @@ static PyObject *__pyx_memoryview_new(PyObject *__pyx_v_o, int __pyx_v_flags, in
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memoryview_cwrapper", 0);
-  __Pyx_TraceCall("memoryview_cwrapper", __pyx_f[1], 657, 0, __PYX_ERR(1, 657, __pyx_L1_error));
 
   /* "View.MemoryView":658
  * @cname('__pyx_memoryview_new')
@@ -17377,7 +16774,6 @@ static PyObject *__pyx_memoryview_new(PyObject *__pyx_v_o, int __pyx_v_flags, in
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_result);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -17392,14 +16788,9 @@ static PyObject *__pyx_memoryview_new(PyObject *__pyx_v_o, int __pyx_v_flags, in
 
 static CYTHON_INLINE int __pyx_memoryview_check(PyObject *__pyx_v_o) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memoryview_check", 0);
-  __Pyx_TraceCall("memoryview_check", __pyx_f[1], 663, 0, __PYX_ERR(1, 663, __pyx_L1_error));
 
   /* "View.MemoryView":664
  * @cname('__pyx_memoryview_check')
@@ -17421,11 +16812,7 @@ static CYTHON_INLINE int __pyx_memoryview_check(PyObject *__pyx_v_o) {
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.memoryview_check", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -17447,7 +16834,6 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
   PyObject *__pyx_v_item = NULL;
   Py_ssize_t __pyx_v_nslices;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -17464,7 +16850,6 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_unellipsify", 0);
-  __Pyx_TraceCall("_unellipsify", __pyx_f[1], 666, 0, __PYX_ERR(1, 666, __pyx_L1_error));
 
   /* "View.MemoryView":671
  *     full slices.
@@ -17885,7 +17270,6 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
   __Pyx_XDECREF(__pyx_v_idx);
   __Pyx_XDECREF(__pyx_v_item);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -17901,7 +17285,6 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
 static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __pyx_v_ndim) {
   Py_ssize_t __pyx_v_suboffset;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   Py_ssize_t *__pyx_t_1;
   Py_ssize_t *__pyx_t_2;
@@ -17912,7 +17295,6 @@ static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("assert_direct_dimensions", 0);
-  __Pyx_TraceCall("assert_direct_dimensions", __pyx_f[1], 700, 0, __PYX_ERR(1, 700, __pyx_L1_error));
 
   /* "View.MemoryView":701
  * 
@@ -17976,7 +17358,6 @@ static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -18007,7 +17388,6 @@ static struct __pyx_memoryview_obj *__pyx_memview_slice(struct __pyx_memoryview_
   int __pyx_v_have_step;
   PyObject *__pyx_v_index = NULL;
   struct __pyx_memoryview_obj *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -18025,7 +17405,6 @@ static struct __pyx_memoryview_obj *__pyx_memview_slice(struct __pyx_memoryview_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memview_slice", 0);
-  __Pyx_TraceCall("memview_slice", __pyx_f[1], 710, 0, __PYX_ERR(1, 710, __pyx_L1_error));
 
   /* "View.MemoryView":711
  * @cname('__pyx_memview_slice')
@@ -18559,7 +17938,6 @@ static struct __pyx_memoryview_obj *__pyx_memview_slice(struct __pyx_memoryview_
   __Pyx_XDECREF((PyObject *)__pyx_v_memviewsliceobj);
   __Pyx_XDECREF(__pyx_v_index);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -18576,14 +17954,12 @@ static int __pyx_memoryview_slice_memviewslice(__Pyx_memviewslice *__pyx_v_dst, 
   Py_ssize_t __pyx_v_new_shape;
   int __pyx_v_negative_step;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceCall("slice_memviewslice", __pyx_f[1], 807, 1, __PYX_ERR(1, 807, __pyx_L1_error));
 
   /* "View.MemoryView":827
  *     cdef bint negative_step
@@ -19347,7 +18723,6 @@ static int __pyx_memoryview_slice_memviewslice(__Pyx_memviewslice *__pyx_v_dst, 
   }
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -19366,7 +18741,6 @@ static char *__pyx_pybuffer_index(Py_buffer *__pyx_v_view, char *__pyx_v_bufp, P
   Py_ssize_t __pyx_v_itemsize;
   char *__pyx_v_resultp;
   char *__pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
@@ -19376,7 +18750,6 @@ static char *__pyx_pybuffer_index(Py_buffer *__pyx_v_view, char *__pyx_v_bufp, P
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("pybuffer_index", 0);
-  __Pyx_TraceCall("pybuffer_index", __pyx_f[1], 910, 0, __PYX_ERR(1, 910, __pyx_L1_error));
 
   /* "View.MemoryView":912
  * cdef char *pybuffer_index(Py_buffer *view, char *bufp, Py_ssize_t index,
@@ -19658,7 +19031,6 @@ static char *__pyx_pybuffer_index(Py_buffer *__pyx_v_view, char *__pyx_v_bufp, P
   __Pyx_AddTraceback("View.MemoryView.pybuffer_index", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19678,7 +19050,6 @@ static int __pyx_memslice_transpose(__Pyx_memviewslice *__pyx_v_memslice) {
   int __pyx_v_i;
   int __pyx_v_j;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
   Py_ssize_t *__pyx_t_2;
   long __pyx_t_3;
@@ -19691,7 +19062,6 @@ static int __pyx_memslice_transpose(__Pyx_memviewslice *__pyx_v_memslice) {
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceCall("transpose_memslice", __pyx_f[1], 943, 1, __PYX_ERR(1, 943, __pyx_L1_error));
 
   /* "View.MemoryView":944
  * @cname('__pyx_memslice_transpose')
@@ -19836,7 +19206,6 @@ static int __pyx_memslice_transpose(__Pyx_memviewslice *__pyx_v_memslice) {
   }
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -19860,13 +19229,8 @@ static void __pyx_memoryviewslice___dealloc__(PyObject *__pyx_v_self) {
 }
 
 static void __pyx_memoryviewslice___pyx_pf_15View_dot_MemoryView_16_memoryviewslice___dealloc__(struct __pyx_memoryviewslice_obj *__pyx_v_self) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
-  __Pyx_TraceCall("__dealloc__", __pyx_f[1], 976, 0, __PYX_ERR(1, 976, __pyx_L1_error));
 
   /* "View.MemoryView":977
  * 
@@ -19886,11 +19250,6 @@ static void __pyx_memoryviewslice___pyx_pf_15View_dot_MemoryView_16_memoryviewsl
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView._memoryviewslice.__dealloc__", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -19904,7 +19263,6 @@ static void __pyx_memoryviewslice___pyx_pf_15View_dot_MemoryView_16_memoryviewsl
 
 static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -19912,7 +19270,6 @@ static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memor
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("convert_item_to_object", 0);
-  __Pyx_TraceCall("convert_item_to_object", __pyx_f[1], 979, 0, __PYX_ERR(1, 979, __pyx_L1_error));
 
   /* "View.MemoryView":980
  * 
@@ -19978,7 +19335,6 @@ static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memor
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -19993,7 +19349,6 @@ static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memor
 
 static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp, PyObject *__pyx_v_value) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -20002,7 +19357,6 @@ static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memo
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("assign_item_from_object", 0);
-  __Pyx_TraceCall("assign_item_from_object", __pyx_f[1], 985, 0, __PYX_ERR(1, 985, __pyx_L1_error));
 
   /* "View.MemoryView":986
  * 
@@ -20064,7 +19418,6 @@ static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memo
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20092,13 +19445,8 @@ static PyObject *__pyx_pw_15View_dot_MemoryView_16_memoryviewslice_4base_1__get_
 
 static PyObject *__pyx_pf_15View_dot_MemoryView_16_memoryviewslice_4base___get__(struct __pyx_memoryviewslice_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 992, 0, __PYX_ERR(1, 992, __pyx_L1_error));
 
   /* "View.MemoryView":993
  *     @property
@@ -20121,12 +19469,8 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_16_memoryviewslice_4base___get__
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("View.MemoryView._memoryviewslice.base.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20152,14 +19496,12 @@ static PyObject *__pyx_pw___pyx_memoryviewslice_1__reduce_cython__(PyObject *__p
 
 static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -20185,7 +19527,6 @@ static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED 
   __Pyx_AddTraceback("View.MemoryView._memoryviewslice.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20212,14 +19553,12 @@ static PyObject *__pyx_pw___pyx_memoryviewslice_3__setstate_cython__(PyObject *_
 
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[1], 3, 0, __PYX_ERR(1, 3, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
@@ -20245,7 +19584,6 @@ static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUS
   __Pyx_AddTraceback("View.MemoryView._memoryviewslice.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20263,7 +19601,6 @@ static PyObject *__pyx_memoryview_fromslice(__Pyx_memviewslice __pyx_v_memviewsl
   Py_ssize_t __pyx_v_suboffset;
   PyObject *__pyx_v_length = NULL;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -20278,7 +19615,6 @@ static PyObject *__pyx_memoryview_fromslice(__Pyx_memviewslice __pyx_v_memviewsl
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memoryview_fromslice", 0);
-  __Pyx_TraceCall("memoryview_fromslice", __pyx_f[1], 999, 0, __PYX_ERR(1, 999, __pyx_L1_error));
 
   /* "View.MemoryView":1007
  *     cdef _memoryviewslice result
@@ -20634,7 +19970,6 @@ static PyObject *__pyx_memoryview_fromslice(__Pyx_memviewslice __pyx_v_memviewsl
   __Pyx_XDECREF((PyObject *)__pyx_v_result);
   __Pyx_XDECREF(__pyx_v_length);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20650,7 +19985,6 @@ static PyObject *__pyx_memoryview_fromslice(__Pyx_memviewslice __pyx_v_memviewsl
 static __Pyx_memviewslice *__pyx_memoryview_get_slice_from_memoryview(struct __pyx_memoryview_obj *__pyx_v_memview, __Pyx_memviewslice *__pyx_v_mslice) {
   struct __pyx_memoryviewslice_obj *__pyx_v_obj = 0;
   __Pyx_memviewslice *__pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -20659,7 +19993,6 @@ static __Pyx_memviewslice *__pyx_memoryview_get_slice_from_memoryview(struct __p
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_slice_from_memview", 0);
-  __Pyx_TraceCall("get_slice_from_memview", __pyx_f[1], 1052, 0, __PYX_ERR(1, 1052, __pyx_L1_error));
 
   /* "View.MemoryView":1055
  *                                                    __Pyx_memviewslice *mslice) except NULL:
@@ -20740,7 +20073,6 @@ static __Pyx_memviewslice *__pyx_memoryview_get_slice_from_memoryview(struct __p
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_obj);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20758,18 +20090,13 @@ static void __pyx_memoryview_slice_copy(struct __pyx_memoryview_obj *__pyx_v_mem
   Py_ssize_t *__pyx_v_shape;
   Py_ssize_t *__pyx_v_strides;
   Py_ssize_t *__pyx_v_suboffsets;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   Py_ssize_t *__pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
   int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("slice_copy", 0);
-  __Pyx_TraceCall("slice_copy", __pyx_f[1], 1063, 0, __PYX_ERR(1, 1063, __pyx_L1_error));
 
   /* "View.MemoryView":1067
  *     cdef (Py_ssize_t*) shape, strides, suboffsets
@@ -20873,11 +20200,6 @@ static void __pyx_memoryview_slice_copy(struct __pyx_memoryview_obj *__pyx_v_mem
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.slice_copy", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -20892,14 +20214,12 @@ static void __pyx_memoryview_slice_copy(struct __pyx_memoryview_obj *__pyx_v_mem
 static PyObject *__pyx_memoryview_copy_object(struct __pyx_memoryview_obj *__pyx_v_memview) {
   __Pyx_memviewslice __pyx_v_memviewslice;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memoryview_copy", 0);
-  __Pyx_TraceCall("memoryview_copy", __pyx_f[1], 1080, 0, __PYX_ERR(1, 1080, __pyx_L1_error));
 
   /* "View.MemoryView":1083
  *     "Create a new memoryview object"
@@ -20939,7 +20259,6 @@ static PyObject *__pyx_memoryview_copy_object(struct __pyx_memoryview_obj *__pyx
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -20956,7 +20275,6 @@ static PyObject *__pyx_memoryview_copy_object_from_slice(struct __pyx_memoryview
   PyObject *(*__pyx_v_to_object_func)(char *);
   int (*__pyx_v_to_dtype_func)(char *, PyObject *);
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -20967,7 +20285,6 @@ static PyObject *__pyx_memoryview_copy_object_from_slice(struct __pyx_memoryview
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memoryview_copy_from_slice", 0);
-  __Pyx_TraceCall("memoryview_copy_from_slice", __pyx_f[1], 1087, 0, __PYX_ERR(1, 1087, __pyx_L1_error));
 
   /* "View.MemoryView":1094
  *     cdef int (*to_dtype_func)(char *, object) except 0
@@ -21068,7 +20385,6 @@ static PyObject *__pyx_memoryview_copy_object_from_slice(struct __pyx_memoryview
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -21083,12 +20399,7 @@ static PyObject *__pyx_memoryview_copy_object_from_slice(struct __pyx_memoryview
 
 static Py_ssize_t abs_py_ssize_t(Py_ssize_t __pyx_v_arg) {
   Py_ssize_t __pyx_r;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("abs_py_ssize_t", __pyx_f[1], 1109, 1, __PYX_ERR(1, 1109, __pyx_L1_error));
 
   /* "View.MemoryView":1110
  * 
@@ -21140,11 +20451,7 @@ static Py_ssize_t abs_py_ssize_t(Py_ssize_t __pyx_v_arg) {
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.abs_py_ssize_t", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -21161,15 +20468,10 @@ static char __pyx_get_best_slice_order(__Pyx_memviewslice *__pyx_v_mslice, int _
   Py_ssize_t __pyx_v_c_stride;
   Py_ssize_t __pyx_v_f_stride;
   char __pyx_r;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
   int __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("get_best_order", __pyx_f[1], 1116, 1, __PYX_ERR(1, 1116, __pyx_L1_error));
 
   /* "View.MemoryView":1121
  *     """
@@ -21339,11 +20641,7 @@ static char __pyx_get_best_slice_order(__Pyx_memviewslice *__pyx_v_mslice, int _
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.get_best_order", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -21593,11 +20891,6 @@ static void _copy_strided_to_strided(char *__pyx_v_src_data, Py_ssize_t *__pyx_v
  */
 
 static void copy_strided_to_strided(__Pyx_memviewslice *__pyx_v_src, __Pyx_memviewslice *__pyx_v_dst, int __pyx_v_ndim, size_t __pyx_v_itemsize) {
-  __Pyx_TraceDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("copy_strided_to_strided", __pyx_f[1], 1170, 1, __PYX_ERR(1, 1170, __pyx_L1_error));
 
   /* "View.MemoryView":1173
  *                                   __Pyx_memviewslice *dst,
@@ -21617,11 +20910,6 @@ static void copy_strided_to_strided(__Pyx_memviewslice *__pyx_v_src, __Pyx_memvi
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.copy_strided_to_strided", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
 }
 
 /* "View.MemoryView":1177
@@ -21636,15 +20924,10 @@ static Py_ssize_t __pyx_memoryview_slice_get_size(__Pyx_memviewslice *__pyx_v_sr
   Py_ssize_t __pyx_v_shape;
   Py_ssize_t __pyx_v_size;
   Py_ssize_t __pyx_r;
-  __Pyx_TraceDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t *__pyx_t_2;
   Py_ssize_t *__pyx_t_3;
   Py_ssize_t *__pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("slice_get_size", __pyx_f[1], 1177, 1, __PYX_ERR(1, 1177, __pyx_L1_error));
 
   /* "View.MemoryView":1179
  * cdef Py_ssize_t slice_get_size(__Pyx_memviewslice *src, int ndim) nogil:
@@ -21697,11 +20980,7 @@ static Py_ssize_t __pyx_memoryview_slice_get_size(__Pyx_memviewslice *__pyx_v_sr
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.slice_get_size", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -21716,15 +20995,10 @@ static Py_ssize_t __pyx_memoryview_slice_get_size(__Pyx_memviewslice *__pyx_v_sr
 static Py_ssize_t __pyx_fill_contig_strides_array(Py_ssize_t *__pyx_v_shape, Py_ssize_t *__pyx_v_strides, Py_ssize_t __pyx_v_stride, int __pyx_v_ndim, char __pyx_v_order) {
   int __pyx_v_idx;
   Py_ssize_t __pyx_r;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
   int __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("fill_contig_strides_array", __pyx_f[1], 1187, 1, __PYX_ERR(1, 1187, __pyx_L1_error));
 
   /* "View.MemoryView":1196
  *     cdef int idx
@@ -21828,11 +21102,7 @@ static Py_ssize_t __pyx_fill_contig_strides_array(Py_ssize_t *__pyx_v_shape, Py_
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.fill_contig_strides_array", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -21850,7 +21120,6 @@ static void *__pyx_memoryview_copy_data_to_temp(__Pyx_memviewslice *__pyx_v_src,
   size_t __pyx_v_itemsize;
   size_t __pyx_v_size;
   void *__pyx_r;
-  __Pyx_TraceDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
@@ -21860,7 +21129,6 @@ static void *__pyx_memoryview_copy_data_to_temp(__Pyx_memviewslice *__pyx_v_src,
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceCall("copy_data_to_temp", __pyx_f[1], 1208, 1, __PYX_ERR(1, 1208, __pyx_L1_error));
 
   /* "View.MemoryView":1219
  *     cdef void *result
@@ -22090,7 +21358,6 @@ static void *__pyx_memoryview_copy_data_to_temp(__Pyx_memviewslice *__pyx_v_src,
   }
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -22104,7 +21371,6 @@ static void *__pyx_memoryview_copy_data_to_temp(__Pyx_memviewslice *__pyx_v_src,
 
 static int __pyx_memoryview_err_extents(int __pyx_v_i, Py_ssize_t __pyx_v_extent1, Py_ssize_t __pyx_v_extent2) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -22117,7 +21383,6 @@ static int __pyx_memoryview_err_extents(int __pyx_v_i, Py_ssize_t __pyx_v_extent
   PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
   __Pyx_RefNannySetupContext("_err_extents", 0);
-  __Pyx_TraceCall("_err_extents", __pyx_f[1], 1251, 0, __PYX_ERR(1, 1251, __pyx_L1_error));
 
   /* "View.MemoryView":1254
  *                              Py_ssize_t extent2) except -1 with gil:
@@ -22177,7 +21442,6 @@ static int __pyx_memoryview_err_extents(int __pyx_v_i, Py_ssize_t __pyx_v_extent
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("View.MemoryView._err_extents", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
@@ -22195,7 +21459,6 @@ static int __pyx_memoryview_err_extents(int __pyx_v_i, Py_ssize_t __pyx_v_extent
 
 static int __pyx_memoryview_err_dim(PyObject *__pyx_v_error, char *__pyx_v_msg, int __pyx_v_dim) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -22208,7 +21471,6 @@ static int __pyx_memoryview_err_dim(PyObject *__pyx_v_error, char *__pyx_v_msg, 
   PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
   __Pyx_RefNannySetupContext("_err_dim", 0);
-  __Pyx_TraceCall("_err_dim", __pyx_f[1], 1257, 0, __PYX_ERR(1, 1257, __pyx_L1_error));
   __Pyx_INCREF(__pyx_v_error);
 
   /* "View.MemoryView":1258
@@ -22264,7 +21526,6 @@ static int __pyx_memoryview_err_dim(PyObject *__pyx_v_error, char *__pyx_v_msg, 
   __Pyx_AddTraceback("View.MemoryView._err_dim", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __Pyx_XDECREF(__pyx_v_error);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
@@ -22282,7 +21543,6 @@ static int __pyx_memoryview_err_dim(PyObject *__pyx_v_error, char *__pyx_v_msg, 
 
 static int __pyx_memoryview_err(PyObject *__pyx_v_error, char *__pyx_v_msg) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -22296,7 +21556,6 @@ static int __pyx_memoryview_err(PyObject *__pyx_v_error, char *__pyx_v_msg) {
   PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
   __Pyx_RefNannySetupContext("_err", 0);
-  __Pyx_TraceCall("_err", __pyx_f[1], 1261, 0, __PYX_ERR(1, 1261, __pyx_L1_error));
   __Pyx_INCREF(__pyx_v_error);
 
   /* "View.MemoryView":1262
@@ -22377,7 +21636,6 @@ static int __pyx_memoryview_err(PyObject *__pyx_v_error, char *__pyx_v_msg) {
   __Pyx_AddTraceback("View.MemoryView._err", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __Pyx_XDECREF(__pyx_v_error);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
@@ -22403,7 +21661,6 @@ static int __pyx_memoryview_copy_contents(__Pyx_memviewslice __pyx_v_src, __Pyx_
   __Pyx_memviewslice __pyx_v_tmp;
   int __pyx_v_ndim;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
@@ -22415,7 +21672,6 @@ static int __pyx_memoryview_copy_contents(__Pyx_memviewslice __pyx_v_src, __Pyx_
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceCall("memoryview_copy_contents", __pyx_f[1], 1268, 1, __PYX_ERR(1, 1268, __pyx_L1_error));
 
   /* "View.MemoryView":1276
  *     Check for overlapping memory and verify the shapes.
@@ -22963,7 +22219,6 @@ static int __pyx_memoryview_copy_contents(__Pyx_memviewslice __pyx_v_src, __Pyx_
   }
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
   return __pyx_r;
 }
 
@@ -22978,14 +22233,9 @@ static int __pyx_memoryview_copy_contents(__Pyx_memviewslice __pyx_v_src, __Pyx_
 static void __pyx_memoryview_broadcast_leading(__Pyx_memviewslice *__pyx_v_mslice, int __pyx_v_ndim, int __pyx_v_ndim_other) {
   int __pyx_v_i;
   int __pyx_v_offset;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("broadcast_leading", __pyx_f[1], 1340, 1, __PYX_ERR(1, 1340, __pyx_L1_error));
 
   /* "View.MemoryView":1344
  *                             int ndim_other) nogil:
@@ -23083,11 +22333,6 @@ static void __pyx_memoryview_broadcast_leading(__Pyx_memviewslice *__pyx_v_mslic
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.broadcast_leading", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
 }
 
 /* "View.MemoryView":1362
@@ -23099,12 +22344,7 @@ static void __pyx_memoryview_broadcast_leading(__Pyx_memviewslice *__pyx_v_mslic
  */
 
 static void __pyx_memoryview_refcount_copying(__Pyx_memviewslice *__pyx_v_dst, int __pyx_v_dtype_is_object, int __pyx_v_ndim, int __pyx_v_inc) {
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("refcount_copying", __pyx_f[1], 1362, 1, __PYX_ERR(1, 1362, __pyx_L1_error));
 
   /* "View.MemoryView":1366
  * 
@@ -23143,11 +22383,6 @@ static void __pyx_memoryview_refcount_copying(__Pyx_memviewslice *__pyx_v_dst, i
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.refcount_copying", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
 }
 
 /* "View.MemoryView":1371
@@ -23159,16 +22394,11 @@ static void __pyx_memoryview_refcount_copying(__Pyx_memviewslice *__pyx_v_dst, i
  */
 
 static void __pyx_memoryview_refcount_objects_in_slice_with_gil(char *__pyx_v_data, Py_ssize_t *__pyx_v_shape, Py_ssize_t *__pyx_v_strides, int __pyx_v_ndim, int __pyx_v_inc) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   #ifdef WITH_THREAD
   PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
   __Pyx_RefNannySetupContext("refcount_objects_in_slice_with_gil", 0);
-  __Pyx_TraceCall("refcount_objects_in_slice_with_gil", __pyx_f[1], 1371, 0, __PYX_ERR(1, 1371, __pyx_L1_error));
 
   /* "View.MemoryView":1374
  *                                              Py_ssize_t *strides, int ndim,
@@ -23188,11 +22418,6 @@ static void __pyx_memoryview_refcount_objects_in_slice_with_gil(char *__pyx_v_da
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.refcount_objects_in_slice_with_gil", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
@@ -23209,17 +22434,12 @@ static void __pyx_memoryview_refcount_objects_in_slice_with_gil(char *__pyx_v_da
 
 static void __pyx_memoryview_refcount_objects_in_slice(char *__pyx_v_data, Py_ssize_t *__pyx_v_shape, Py_ssize_t *__pyx_v_strides, int __pyx_v_ndim, int __pyx_v_inc) {
   CYTHON_UNUSED Py_ssize_t __pyx_v_i;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   int __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("refcount_objects_in_slice", 0);
-  __Pyx_TraceCall("refcount_objects_in_slice", __pyx_f[1], 1377, 0, __PYX_ERR(1, 1377, __pyx_L1_error));
 
   /* "View.MemoryView":1381
  *     cdef Py_ssize_t i
@@ -23333,11 +22553,6 @@ static void __pyx_memoryview_refcount_objects_in_slice(char *__pyx_v_data, Py_ss
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.refcount_objects_in_slice", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -23350,11 +22565,6 @@ static void __pyx_memoryview_refcount_objects_in_slice(char *__pyx_v_data, Py_ss
  */
 
 static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *__pyx_v_dst, int __pyx_v_ndim, size_t __pyx_v_itemsize, void *__pyx_v_item, int __pyx_v_dtype_is_object) {
-  __Pyx_TraceDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("slice_assign_scalar", __pyx_f[1], 1397, 1, __PYX_ERR(1, 1397, __pyx_L1_error));
 
   /* "View.MemoryView":1400
  *                               size_t itemsize, void *item,
@@ -23392,11 +22602,6 @@ static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *__pyx_v_dst
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView.slice_assign_scalar", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
 }
 
 /* "View.MemoryView":1407
@@ -23411,15 +22616,10 @@ static void __pyx_memoryview__slice_assign_scalar(char *__pyx_v_data, Py_ssize_t
   CYTHON_UNUSED Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_stride;
   Py_ssize_t __pyx_v_extent;
-  __Pyx_TraceDeclarations
   int __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_TraceCall("_slice_assign_scalar", __pyx_f[1], 1407, 1, __PYX_ERR(1, 1407, __pyx_L1_error));
 
   /* "View.MemoryView":1411
  *                               size_t itemsize, void *item) nogil:
@@ -23533,11 +22733,6 @@ static void __pyx_memoryview__slice_assign_scalar(char *__pyx_v_data, Py_ssize_t
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("View.MemoryView._slice_assign_scalar", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 1);
 }
 
 /* "(tree fragment)":1
@@ -23626,7 +22821,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSE
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -23637,9 +22831,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSE
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceFrameInit(__pyx_codeobj__26)
   __Pyx_RefNannySetupContext("__pyx_unpickle_Enum", 0);
-  __Pyx_TraceCall("__pyx_unpickle_Enum", __pyx_f[1], 1, 0, __PYX_ERR(1, 1, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
@@ -23804,7 +22996,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSE
   __Pyx_XDECREF(__pyx_v___pyx_PickleError);
   __Pyx_XDECREF(__pyx_v___pyx_result);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -23819,7 +23010,6 @@ static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSE
 
 static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
@@ -23833,7 +23023,6 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__pyx_unpickle_Enum__set_state", 0);
-  __Pyx_TraceCall("__pyx_unpickle_Enum__set_state", __pyx_f[1], 11, 0, __PYX_ERR(1, 11, __pyx_L1_error));
 
   /* "(tree fragment)":12
  *     return __pyx_result
@@ -23939,7 +23128,6 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -25008,7 +24196,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(0, 108, __pyx_L1_error)
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 116, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
-  __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(3, 884, __pyx_L1_error)
+  __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 884, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 148, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(1, 151, __pyx_L1_error)
@@ -25083,7 +24271,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(3, 884, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(2, 884, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
@@ -25094,7 +24282,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(3, 890, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(2, 890, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
@@ -25296,9 +24484,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * DEF FULL_RECORD = True
  */
-  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_u_IMPORTING_PARTICLE); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_u_IMPORTING_PARTICLE); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
 
   /* "View.MemoryView":286
  *         return self.name
@@ -25307,9 +24495,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(1, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__28);
-  __Pyx_GIVEREF(__pyx_tuple__28);
+  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
 
   /* "View.MemoryView":287
  * 
@@ -25318,9 +24506,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(1, 287, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
 
   /* "View.MemoryView":288
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -25329,9 +24517,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__30);
-  __Pyx_GIVEREF(__pyx_tuple__30);
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(1, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
 
   /* "View.MemoryView":291
  * 
@@ -25340,9 +24528,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(1, 291, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__31);
-  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 291, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__30);
+  __Pyx_GIVEREF(__pyx_tuple__30);
 
   /* "View.MemoryView":292
  * 
@@ -25351,19 +24539,19 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 292, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__32);
-  __Pyx_GIVEREF(__pyx_tuple__32);
+  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(1, 292, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Enum(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__33 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__32 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__32);
+  __Pyx_GIVEREF(__pyx_tuple__32);
+  __pyx_codeobj__33 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__32, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__33)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -25522,13 +24710,13 @@ static int __Pyx_modinit_type_import_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_import_code", 0);
   /*--- Type import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.vectors"); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 1, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.vectors"); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_5tools_7vectors_Vector = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.vectors", "Vector", sizeof(struct __pyx_obj_10MontyCarlo_5tools_7vectors_Vector), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_7vectors_Vector) __PYX_ERR(4, 1, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_7vectors_Vector = (struct __pyx_vtabstruct_10MontyCarlo_5tools_7vectors_Vector*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_7vectors_Vector->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_7vectors_Vector)) __PYX_ERR(4, 1, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_7vectors_Vector) __PYX_ERR(3, 1, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_7vectors_Vector = (struct __pyx_vtabstruct_10MontyCarlo_5tools_7vectors_Vector*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_7vectors_Vector->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_7vectors_Vector)) __PYX_ERR(3, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 9, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__pyx_t_1, __Pyx_BUILTIN_MODULE_NAME, "type", 
   #if defined(PYPY_VERSION_NUM) && PYPY_VERSION_NUM < 0x050B0000
@@ -25537,222 +24725,222 @@ static int __Pyx_modinit_type_import_code(void) {
   sizeof(PyHeapTypeObject),
   #endif
   __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_7cpython_4type_type) __PYX_ERR(5, 9, __pyx_L1_error)
+   if (!__pyx_ptype_7cpython_4type_type) __PYX_ERR(4, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("numpy"); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 199, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("numpy"); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 199, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_5numpy_dtype = __Pyx_ImportType(__pyx_t_1, "numpy", "dtype", sizeof(PyArray_Descr), __Pyx_ImportType_CheckSize_Ignore);
-   if (!__pyx_ptype_5numpy_dtype) __PYX_ERR(3, 199, __pyx_L1_error)
+   if (!__pyx_ptype_5numpy_dtype) __PYX_ERR(2, 199, __pyx_L1_error)
   __pyx_ptype_5numpy_flatiter = __Pyx_ImportType(__pyx_t_1, "numpy", "flatiter", sizeof(PyArrayIterObject), __Pyx_ImportType_CheckSize_Ignore);
-   if (!__pyx_ptype_5numpy_flatiter) __PYX_ERR(3, 222, __pyx_L1_error)
+   if (!__pyx_ptype_5numpy_flatiter) __PYX_ERR(2, 222, __pyx_L1_error)
   __pyx_ptype_5numpy_broadcast = __Pyx_ImportType(__pyx_t_1, "numpy", "broadcast", sizeof(PyArrayMultiIterObject), __Pyx_ImportType_CheckSize_Ignore);
-   if (!__pyx_ptype_5numpy_broadcast) __PYX_ERR(3, 226, __pyx_L1_error)
+   if (!__pyx_ptype_5numpy_broadcast) __PYX_ERR(2, 226, __pyx_L1_error)
   __pyx_ptype_5numpy_ndarray = __Pyx_ImportType(__pyx_t_1, "numpy", "ndarray", sizeof(PyArrayObject), __Pyx_ImportType_CheckSize_Ignore);
-   if (!__pyx_ptype_5numpy_ndarray) __PYX_ERR(3, 238, __pyx_L1_error)
+   if (!__pyx_ptype_5numpy_ndarray) __PYX_ERR(2, 238, __pyx_L1_error)
   __pyx_ptype_5numpy_ufunc = __Pyx_ImportType(__pyx_t_1, "numpy", "ufunc", sizeof(PyUFuncObject), __Pyx_ImportType_CheckSize_Ignore);
-   if (!__pyx_ptype_5numpy_ufunc) __PYX_ERR(3, 764, __pyx_L1_error)
+   if (!__pyx_ptype_5numpy_ufunc) __PYX_ERR(2, 764, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.interpol1"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 4, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.interpol1"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_5tools_9interpol1_hLinLinInterpolation = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.interpol1", "hLinLinInterpolation", sizeof(struct __pyx_obj_10MontyCarlo_5tools_9interpol1_hLinLinInterpolation), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_hLinLinInterpolation) __PYX_ERR(6, 4, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_hLinLinInterpolation = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_hLinLinInterpolation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_hLinLinInterpolation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_hLinLinInterpolation)) __PYX_ERR(6, 4, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_hLinLinInterpolation) __PYX_ERR(5, 4, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_hLinLinInterpolation = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_hLinLinInterpolation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_hLinLinInterpolation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_hLinLinInterpolation)) __PYX_ERR(5, 4, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_5tools_9interpol1_LinLinInterpolation = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.interpol1", "LinLinInterpolation", sizeof(struct __pyx_obj_10MontyCarlo_5tools_9interpol1_LinLinInterpolation), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_LinLinInterpolation) __PYX_ERR(6, 16, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_LinLinInterpolation = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_LinLinInterpolation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_LinLinInterpolation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_LinLinInterpolation)) __PYX_ERR(6, 16, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_LinLinInterpolation) __PYX_ERR(5, 16, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_LinLinInterpolation = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_LinLinInterpolation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_LinLinInterpolation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_LinLinInterpolation)) __PYX_ERR(5, 16, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.interpol1", "InvRationalInterpolation", sizeof(struct __pyx_obj_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation) __PYX_ERR(6, 28, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation)) __PYX_ERR(6, 28, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation) __PYX_ERR(5, 28, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_InvRationalInterpolation)) __PYX_ERR(5, 28, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_5tools_9interpol1_FastCubicSpline = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.interpol1", "FastCubicSpline", sizeof(struct __pyx_obj_10MontyCarlo_5tools_9interpol1_FastCubicSpline), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_FastCubicSpline) __PYX_ERR(6, 38, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_FastCubicSpline = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_FastCubicSpline*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_FastCubicSpline->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_FastCubicSpline)) __PYX_ERR(6, 38, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_FastCubicSpline) __PYX_ERR(5, 38, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_FastCubicSpline = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_FastCubicSpline*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_FastCubicSpline->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_FastCubicSpline)) __PYX_ERR(5, 38, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_5tools_9interpol1_CSa = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.interpol1", "CSa", sizeof(struct __pyx_obj_10MontyCarlo_5tools_9interpol1_CSa), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_CSa) __PYX_ERR(6, 49, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_CSa = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_CSa*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_CSa->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_CSa)) __PYX_ERR(6, 49, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_CSa) __PYX_ERR(5, 49, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_CSa = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_CSa*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_CSa->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_CSa)) __PYX_ERR(5, 49, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_5tools_9interpol1_LogLinInterpolation = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.interpol1", "LogLinInterpolation", sizeof(struct __pyx_obj_10MontyCarlo_5tools_9interpol1_LogLinInterpolation), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_LogLinInterpolation) __PYX_ERR(6, 60, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_LogLinInterpolation = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_LogLinInterpolation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_LogLinInterpolation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_LogLinInterpolation)) __PYX_ERR(6, 60, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_9interpol1_LogLinInterpolation) __PYX_ERR(5, 60, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_9interpol1_LogLinInterpolation = (struct __pyx_vtabstruct_10MontyCarlo_5tools_9interpol1_LogLinInterpolation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_9interpol1_LogLinInterpolation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_9interpol1_LogLinInterpolation)) __PYX_ERR(5, 60, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.CubicInverseTransform"); if (unlikely(!__pyx_t_1)) __PYX_ERR(7, 8, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.CubicInverseTransform"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.CubicInverseTransform", "aFastCubicSpline", sizeof(struct __pyx_obj_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline) __PYX_ERR(7, 8, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline = (struct __pyx_vtabstruct_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline)) __PYX_ERR(7, 8, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline) __PYX_ERR(6, 8, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline = (struct __pyx_vtabstruct_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_21CubicInverseTransform_aFastCubicSpline)) __PYX_ERR(6, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.pyRelax"); if (unlikely(!__pyx_t_1)) __PYX_ERR(8, 24, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.pyRelax"); if (unlikely(!__pyx_t_1)) __PYX_ERR(7, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.pyRelax", "Atom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_7pyRelax_Atom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom) __PYX_ERR(8, 24, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom)) __PYX_ERR(8, 24, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom) __PYX_ERR(7, 24, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_7pyRelax_Atom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_7pyRelax_Atom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_7pyRelax_Atom)) __PYX_ERR(7, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.GOS"); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 29, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.GOS"); if (unlikely(!__pyx_t_1)) __PYX_ERR(8, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CMolecule = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOS", "CMolecule", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_3GOS_CMolecule), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CMolecule) __PYX_ERR(9, 29, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_CMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CMolecule)) __PYX_ERR(9, 29, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CMolecule) __PYX_ERR(8, 29, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_CMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CMolecule)) __PYX_ERR(8, 29, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CAtom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOS", "CAtom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_3GOS_CAtom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CAtom) __PYX_ERR(9, 60, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_CAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CAtom)) __PYX_ERR(9, 60, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CAtom) __PYX_ERR(8, 60, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_CAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CAtom)) __PYX_ERR(8, 60, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CShell = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOS", "CShell", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_3GOS_CShell), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CShell) __PYX_ERR(9, 86, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_CShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CShell)) __PYX_ERR(9, 86, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CShell) __PYX_ERR(8, 86, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_CShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_CShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_CShell)) __PYX_ERR(8, 86, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Close = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOS", "Close", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_3GOS_Close), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Close) __PYX_ERR(9, 110, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Close = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_Close*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Close->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Close)) __PYX_ERR(9, 110, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Close) __PYX_ERR(8, 110, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Close = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_Close*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Close->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Close)) __PYX_ERR(8, 110, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Distant = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOS", "Distant", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_3GOS_Distant), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Distant) __PYX_ERR(9, 141, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Distant = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_Distant*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Distant->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Distant)) __PYX_ERR(9, 141, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Distant) __PYX_ERR(8, 141, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Distant = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_3GOS_Distant*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_3GOS_Distant->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_3GOS_Distant)) __PYX_ERR(8, 141, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.GOSfinal"); if (unlikely(!__pyx_t_1)) __PYX_ERR(10, 13, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.GOSfinal"); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOSfinal", "gosMolecule", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule) __PYX_ERR(10, 13, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule)) __PYX_ERR(10, 13, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule) __PYX_ERR(9, 13, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosMolecule)) __PYX_ERR(9, 13, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOSfinal", "gosAtom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom) __PYX_ERR(10, 22, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom)) __PYX_ERR(10, 22, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom) __PYX_ERR(9, 22, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosAtom)) __PYX_ERR(9, 22, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.GOSfinal", "gosShell", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell) __PYX_ERR(10, 35, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell)) __PYX_ERR(10, 35, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell) __PYX_ERR(9, 35, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_8GOSfinal_gosShell)) __PYX_ERR(9, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.BREM"); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 14, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.BREM"); if (unlikely(!__pyx_t_1)) __PYX_ERR(10, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8electron_4BREM_sampler = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.BREM", "sampler", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_4BREM_sampler), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4BREM_sampler) __PYX_ERR(11, 14, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4BREM_sampler = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4BREM_sampler*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4BREM_sampler->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4BREM_sampler)) __PYX_ERR(11, 14, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4BREM_sampler) __PYX_ERR(10, 14, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4BREM_sampler = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4BREM_sampler*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4BREM_sampler->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4BREM_sampler)) __PYX_ERR(10, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.main"); if (unlikely(!__pyx_t_1)) __PYX_ERR(12, 24, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.electron.main"); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8electron_4main_Electron = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.main", "Electron", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_Electron), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Electron) __PYX_ERR(12, 24, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Electron = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Electron*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Electron->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Electron)) __PYX_ERR(12, 24, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Electron) __PYX_ERR(11, 24, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Electron = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Electron*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Electron->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Electron)) __PYX_ERR(11, 24, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_4main_Inelastic = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.main", "Inelastic", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_Inelastic), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Inelastic) __PYX_ERR(12, 51, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Inelastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Inelastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Inelastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Inelastic)) __PYX_ERR(12, 51, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Inelastic) __PYX_ERR(11, 51, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Inelastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Inelastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Inelastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Inelastic)) __PYX_ERR(11, 51, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_4main_Brem = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.main", "Brem", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_Brem), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Brem) __PYX_ERR(12, 68, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Brem = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Brem*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Brem->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Brem)) __PYX_ERR(12, 68, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Brem) __PYX_ERR(11, 68, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Brem = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Brem*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Brem->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Brem)) __PYX_ERR(11, 68, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_4main_DIST = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.main", "DIST", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_DIST), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_DIST) __PYX_ERR(12, 79, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_DIST = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_DIST*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_DIST->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_DIST)) __PYX_ERR(12, 79, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_DIST) __PYX_ERR(11, 79, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_DIST = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_DIST*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_DIST->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_DIST)) __PYX_ERR(11, 79, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8electron_4main_Elastic = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.electron.main", "Elastic", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8electron_4main_Elastic), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Elastic) __PYX_ERR(12, 83, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Elastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Elastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Elastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Elastic)) __PYX_ERR(12, 83, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Elastic) __PYX_ERR(11, 83, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Elastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8electron_4main_Elastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8electron_4main_Elastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8electron_4main_Elastic)) __PYX_ERR(11, 83, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.GOS"); if (unlikely(!__pyx_t_1)) __PYX_ERR(13, 29, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.GOS"); if (unlikely(!__pyx_t_1)) __PYX_ERR(12, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CMolecule = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOS", "CMolecule", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_3GOS_CMolecule), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CMolecule) __PYX_ERR(13, 29, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_CMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CMolecule)) __PYX_ERR(13, 29, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CMolecule) __PYX_ERR(12, 29, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_CMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CMolecule)) __PYX_ERR(12, 29, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CAtom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOS", "CAtom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_3GOS_CAtom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CAtom) __PYX_ERR(13, 60, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_CAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CAtom)) __PYX_ERR(13, 60, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CAtom) __PYX_ERR(12, 60, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_CAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CAtom)) __PYX_ERR(12, 60, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CShell = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOS", "CShell", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_3GOS_CShell), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CShell) __PYX_ERR(13, 86, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_CShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CShell)) __PYX_ERR(13, 86, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CShell) __PYX_ERR(12, 86, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_CShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_CShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_CShell)) __PYX_ERR(12, 86, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Close = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOS", "Close", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_3GOS_Close), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Close) __PYX_ERR(13, 110, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Close = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_Close*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Close->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Close)) __PYX_ERR(13, 110, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Close) __PYX_ERR(12, 110, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Close = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_Close*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Close->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Close)) __PYX_ERR(12, 110, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Distant = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOS", "Distant", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_3GOS_Distant), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Distant) __PYX_ERR(13, 141, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Distant = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_Distant*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Distant->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Distant)) __PYX_ERR(13, 141, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Distant) __PYX_ERR(12, 141, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Distant = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_3GOS_Distant*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_3GOS_Distant->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_3GOS_Distant)) __PYX_ERR(12, 141, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.GOSfinal"); if (unlikely(!__pyx_t_1)) __PYX_ERR(14, 13, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.GOSfinal"); if (unlikely(!__pyx_t_1)) __PYX_ERR(13, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOSfinal", "gosMolecule", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule) __PYX_ERR(14, 13, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule)) __PYX_ERR(14, 13, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule) __PYX_ERR(13, 13, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosMolecule)) __PYX_ERR(13, 13, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOSfinal", "gosAtom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom) __PYX_ERR(14, 22, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom)) __PYX_ERR(14, 22, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom) __PYX_ERR(13, 22, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosAtom)) __PYX_ERR(13, 22, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.GOSfinal", "gosShell", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell) __PYX_ERR(14, 35, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell)) __PYX_ERR(14, 35, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell) __PYX_ERR(13, 35, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_8GOSfinal_gosShell)) __PYX_ERR(13, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.BREM"); if (unlikely(!__pyx_t_1)) __PYX_ERR(15, 14, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.BREM"); if (unlikely(!__pyx_t_1)) __PYX_ERR(14, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8positron_4BREM_sampler = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.BREM", "sampler", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4BREM_sampler), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4BREM_sampler) __PYX_ERR(15, 14, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4BREM_sampler = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4BREM_sampler*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4BREM_sampler->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4BREM_sampler)) __PYX_ERR(15, 14, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4BREM_sampler) __PYX_ERR(14, 14, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4BREM_sampler = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4BREM_sampler*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4BREM_sampler->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4BREM_sampler)) __PYX_ERR(14, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.main"); if (unlikely(!__pyx_t_1)) __PYX_ERR(16, 22, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.positron.main"); if (unlikely(!__pyx_t_1)) __PYX_ERR(15, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_8positron_4main_Positron = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.main", "Positron", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4main_Positron), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Positron) __PYX_ERR(16, 22, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Positron = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Positron*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Positron->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Positron)) __PYX_ERR(16, 22, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Positron) __PYX_ERR(15, 22, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Positron = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Positron*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Positron->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Positron)) __PYX_ERR(15, 22, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_4main_Anihilation = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.main", "Anihilation", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4main_Anihilation), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Anihilation) __PYX_ERR(16, 50, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Anihilation = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Anihilation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Anihilation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Anihilation)) __PYX_ERR(16, 50, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Anihilation) __PYX_ERR(15, 50, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Anihilation = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Anihilation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Anihilation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Anihilation)) __PYX_ERR(15, 50, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_4main_Inelastic = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.main", "Inelastic", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4main_Inelastic), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Inelastic) __PYX_ERR(16, 62, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Inelastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Inelastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Inelastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Inelastic)) __PYX_ERR(16, 62, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Inelastic) __PYX_ERR(15, 62, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Inelastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Inelastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Inelastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Inelastic)) __PYX_ERR(15, 62, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_4main_Brem = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.main", "Brem", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4main_Brem), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Brem) __PYX_ERR(16, 82, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Brem = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Brem*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Brem->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Brem)) __PYX_ERR(16, 82, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Brem) __PYX_ERR(15, 82, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Brem = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Brem*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Brem->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Brem)) __PYX_ERR(15, 82, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_4main_DIST = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.main", "DIST", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4main_DIST), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_DIST) __PYX_ERR(16, 93, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_DIST = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_DIST*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_DIST->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_DIST)) __PYX_ERR(16, 93, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_DIST) __PYX_ERR(15, 93, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_DIST = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_DIST*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_DIST->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_DIST)) __PYX_ERR(15, 93, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_8positron_4main_Elastic = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.positron.main", "Elastic", sizeof(struct __pyx_obj_10MontyCarlo_9materials_8positron_4main_Elastic), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Elastic) __PYX_ERR(16, 97, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Elastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Elastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Elastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Elastic)) __PYX_ERR(16, 97, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Elastic) __PYX_ERR(15, 97, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Elastic = (struct __pyx_vtabstruct_10MontyCarlo_9materials_8positron_4main_Elastic*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_8positron_4main_Elastic->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_8positron_4main_Elastic)) __PYX_ERR(15, 97, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.integration"); if (unlikely(!__pyx_t_1)) __PYX_ERR(17, 1, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.integration"); if (unlikely(!__pyx_t_1)) __PYX_ERR(16, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_5tools_11integration_Integrator = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.integration", "Integrator", sizeof(struct __pyx_obj_10MontyCarlo_5tools_11integration_Integrator), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_11integration_Integrator) __PYX_ERR(17, 1, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_11integration_Integrator = (struct __pyx_vtabstruct_10MontyCarlo_5tools_11integration_Integrator*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_11integration_Integrator->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_11integration_Integrator)) __PYX_ERR(17, 1, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_11integration_Integrator) __PYX_ERR(16, 1, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_11integration_Integrator = (struct __pyx_vtabstruct_10MontyCarlo_5tools_11integration_Integrator*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_11integration_Integrator->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_11integration_Integrator)) __PYX_ERR(16, 1, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_5tools_11integration_Interval = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.integration", "Interval", sizeof(struct __pyx_obj_10MontyCarlo_5tools_11integration_Interval), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_11integration_Interval) __PYX_ERR(17, 16, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_11integration_Interval = (struct __pyx_vtabstruct_10MontyCarlo_5tools_11integration_Interval*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_11integration_Interval->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_11integration_Interval)) __PYX_ERR(17, 16, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_11integration_Interval) __PYX_ERR(16, 16, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_11integration_Interval = (struct __pyx_vtabstruct_10MontyCarlo_5tools_11integration_Interval*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_11integration_Interval->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_11integration_Interval)) __PYX_ERR(16, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.RITA"); if (unlikely(!__pyx_t_1)) __PYX_ERR(18, 8, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.tools.RITA"); if (unlikely(!__pyx_t_1)) __PYX_ERR(17, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_5tools_4RITA_RationalInterpolation = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.RITA", "RationalInterpolation", sizeof(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_4RITA_RationalInterpolation) __PYX_ERR(18, 8, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_4RITA_RationalInterpolation = (struct __pyx_vtabstruct_10MontyCarlo_5tools_4RITA_RationalInterpolation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_4RITA_RationalInterpolation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_4RITA_RationalInterpolation)) __PYX_ERR(18, 8, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_4RITA_RationalInterpolation) __PYX_ERR(17, 8, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_4RITA_RationalInterpolation = (struct __pyx_vtabstruct_10MontyCarlo_5tools_4RITA_RationalInterpolation*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_4RITA_RationalInterpolation->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_4RITA_RationalInterpolation)) __PYX_ERR(17, 8, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_5tools_4RITA_Interval = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.tools.RITA", "Interval", sizeof(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_5tools_4RITA_Interval) __PYX_ERR(18, 25, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_5tools_4RITA_Interval = (struct __pyx_vtabstruct_10MontyCarlo_5tools_4RITA_Interval*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_4RITA_Interval->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_4RITA_Interval)) __PYX_ERR(18, 25, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_5tools_4RITA_Interval) __PYX_ERR(17, 25, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_5tools_4RITA_Interval = (struct __pyx_vtabstruct_10MontyCarlo_5tools_4RITA_Interval*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_5tools_4RITA_Interval->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_5tools_4RITA_Interval)) __PYX_ERR(17, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.photon.CrossSection"); if (unlikely(!__pyx_t_1)) __PYX_ERR(19, 21, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.photon.CrossSection"); if (unlikely(!__pyx_t_1)) __PYX_ERR(18, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_6photon_12CrossSection_CSLOGIC = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.photon.CrossSection", "CSLOGIC", sizeof(struct __pyx_obj_10MontyCarlo_9materials_6photon_12CrossSection_CSLOGIC), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_12CrossSection_CSLOGIC) __PYX_ERR(19, 21, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_12CrossSection_CSLOGIC) __PYX_ERR(18, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.photon.photon"); if (unlikely(!__pyx_t_1)) __PYX_ERR(20, 21, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.photon.photon"); if (unlikely(!__pyx_t_1)) __PYX_ERR(19, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Photon = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.photon.photon", "Photon", sizeof(struct __pyx_obj_10MontyCarlo_9materials_6photon_6photon_Photon), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Photon) __PYX_ERR(20, 21, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Photon) __PYX_ERR(19, 21, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Coherent = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.photon.photon", "Coherent", sizeof(struct __pyx_obj_10MontyCarlo_9materials_6photon_6photon_Coherent), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Coherent) __PYX_ERR(20, 32, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Coherent = (struct __pyx_vtabstruct_10MontyCarlo_9materials_6photon_6photon_Coherent*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Coherent->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Coherent)) __PYX_ERR(20, 32, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Coherent) __PYX_ERR(19, 32, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Coherent = (struct __pyx_vtabstruct_10MontyCarlo_9materials_6photon_6photon_Coherent*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Coherent->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Coherent)) __PYX_ERR(19, 32, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Incoherent = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.photon.photon", "Incoherent", sizeof(struct __pyx_obj_10MontyCarlo_9materials_6photon_6photon_Incoherent), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Incoherent) __PYX_ERR(20, 51, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Incoherent) __PYX_ERR(19, 51, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Pairproduction = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.photon.photon", "Pairproduction", sizeof(struct __pyx_obj_10MontyCarlo_9materials_6photon_6photon_Pairproduction), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Pairproduction) __PYX_ERR(20, 57, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Pairproduction = (struct __pyx_vtabstruct_10MontyCarlo_9materials_6photon_6photon_Pairproduction*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Pairproduction->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Pairproduction)) __PYX_ERR(20, 57, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Pairproduction) __PYX_ERR(19, 57, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Pairproduction = (struct __pyx_vtabstruct_10MontyCarlo_9materials_6photon_6photon_Pairproduction*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Pairproduction->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_6photon_6photon_Pairproduction)) __PYX_ERR(19, 57, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Tripletproduction = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.photon.photon", "Tripletproduction", sizeof(struct __pyx_obj_10MontyCarlo_9materials_6photon_6photon_Tripletproduction), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Tripletproduction) __PYX_ERR(20, 91, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_6photon_6photon_Tripletproduction) __PYX_ERR(19, 91, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.materials"); if (unlikely(!__pyx_t_1)) __PYX_ERR(21, 33, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.materials.materials"); if (unlikely(!__pyx_t_1)) __PYX_ERR(20, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_9materials_9materials_Shell = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.materials", "Shell", sizeof(struct __pyx_obj_10MontyCarlo_9materials_9materials_Shell), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Shell) __PYX_ERR(21, 33, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_9materials_Shell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_9materials_Shell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_9materials_Shell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_9materials_Shell)) __PYX_ERR(21, 33, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Shell) __PYX_ERR(20, 33, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_9materials_Shell = (struct __pyx_vtabstruct_10MontyCarlo_9materials_9materials_Shell*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_9materials_Shell->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_9materials_Shell)) __PYX_ERR(20, 33, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_9materials_Atom = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.materials", "Atom", sizeof(struct __pyx_obj_10MontyCarlo_9materials_9materials_Atom), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Atom) __PYX_ERR(21, 45, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_9materials_Atom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_9materials_Atom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_9materials_Atom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_9materials_Atom)) __PYX_ERR(21, 45, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Atom) __PYX_ERR(20, 45, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_9materials_Atom = (struct __pyx_vtabstruct_10MontyCarlo_9materials_9materials_Atom*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_9materials_Atom->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_9materials_Atom)) __PYX_ERR(20, 45, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_9materials_Molecule = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.materials", "Molecule", sizeof(struct __pyx_obj_10MontyCarlo_9materials_9materials_Molecule), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Molecule) __PYX_ERR(21, 57, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_9materials_9materials_Molecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_9materials_Molecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_9materials_Molecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_9materials_Molecule)) __PYX_ERR(21, 57, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Molecule) __PYX_ERR(20, 57, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_9materials_9materials_Molecule = (struct __pyx_vtabstruct_10MontyCarlo_9materials_9materials_Molecule*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_9materials_9materials_Molecule->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_9materials_9materials_Molecule)) __PYX_ERR(20, 57, __pyx_L1_error)
   __pyx_ptype_10MontyCarlo_9materials_9materials_Material = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.materials.materials", "Material", sizeof(struct __pyx_obj_10MontyCarlo_9materials_9materials_Material), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Material) __PYX_ERR(21, 79, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_9materials_9materials_Material) __PYX_ERR(20, 79, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.geometry.main"); if (unlikely(!__pyx_t_1)) __PYX_ERR(22, 41, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("MontyCarlo.geometry.main"); if (unlikely(!__pyx_t_1)) __PYX_ERR(21, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_10MontyCarlo_8geometry_4main_Volume = __Pyx_ImportType(__pyx_t_1, "MontyCarlo.geometry.main", "Volume", sizeof(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_10MontyCarlo_8geometry_4main_Volume) __PYX_ERR(22, 41, __pyx_L1_error)
-  __pyx_vtabptr_10MontyCarlo_8geometry_4main_Volume = (struct __pyx_vtabstruct_10MontyCarlo_8geometry_4main_Volume*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_8geometry_4main_Volume->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_8geometry_4main_Volume)) __PYX_ERR(22, 41, __pyx_L1_error)
+   if (!__pyx_ptype_10MontyCarlo_8geometry_4main_Volume) __PYX_ERR(21, 41, __pyx_L1_error)
+  __pyx_vtabptr_10MontyCarlo_8geometry_4main_Volume = (struct __pyx_vtabstruct_10MontyCarlo_8geometry_4main_Volume*)__Pyx_GetVtable(__pyx_ptype_10MontyCarlo_8geometry_4main_Volume->tp_dict); if (unlikely(!__pyx_vtabptr_10MontyCarlo_8geometry_4main_Volume)) __PYX_ERR(21, 41, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -25896,7 +25084,6 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_particle(PyObject *__pyx_pyinit_mo
 #endif
 #endif
 {
-  __Pyx_TraceDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   static PyThread_type_lock __pyx_t_3[8];
@@ -26006,7 +25193,6 @@ if (!__Pyx_RefNanny) {
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_particle(void)", __pyx_f[0], 1, 0, __PYX_ERR(0, 1, __pyx_L1_error));
 
   /* "MontyCarlo/particles/particle.pyx":2
  * # distutils: language = c++
@@ -26014,7 +25200,7 @@ if (!__Pyx_RefNanny) {
  * 
  * DEF FULL_RECORD = True
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -26153,7 +25339,7 @@ if (!__Pyx_RefNanny) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_2);
@@ -26167,7 +25353,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_2);
@@ -26181,7 +25367,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 288, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_2);
@@ -26195,7 +25381,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 291, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_2);
@@ -26209,7 +25395,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 292, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_2);
@@ -26285,7 +25471,6 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.name = __pyx_state[0]
  *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
  */
-  __Pyx_TraceReturn(Py_None, 0);
 
   /*--- Wrapped vars code ---*/
 
@@ -26358,6 +25543,26 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
     return result;
 }
 
+/* PyObjectCall */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
+    PyObject *result;
+    ternaryfunc call = func->ob_type->tp_call;
+    if (unlikely(!call))
+        return PyObject_Call(func, arg, kw);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = (*call)(func, arg, kw);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
 /* PyErrFetchRestore */
 #if CYTHON_FAST_THREAD_STATE
 static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
@@ -26379,119 +25584,6 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
     tstate->curexc_type = 0;
     tstate->curexc_value = 0;
     tstate->curexc_traceback = 0;
-}
-#endif
-
-/* Profile */
-#if CYTHON_PROFILE
-static int __Pyx_TraceSetupAndCall(PyCodeObject** code,
-                                   PyFrameObject** frame,
-                                   PyThreadState* tstate,
-                                   const char *funcname,
-                                   const char *srcfile,
-                                   int firstlineno) {
-    PyObject *type, *value, *traceback;
-    int retval;
-    if (*frame == NULL || !CYTHON_PROFILE_REUSE_FRAME) {
-        if (*code == NULL) {
-            *code = __Pyx_createFrameCodeObject(funcname, srcfile, firstlineno);
-            if (*code == NULL) return 0;
-        }
-        *frame = PyFrame_New(
-            tstate,                          /*PyThreadState *tstate*/
-            *code,                           /*PyCodeObject *code*/
-            __pyx_d,                  /*PyObject *globals*/
-            0                                /*PyObject *locals*/
-        );
-        if (*frame == NULL) return 0;
-        if (CYTHON_TRACE && (*frame)->f_trace == NULL) {
-            Py_INCREF(Py_None);
-            (*frame)->f_trace = Py_None;
-        }
-#if PY_VERSION_HEX < 0x030400B1
-    } else {
-        (*frame)->f_tstate = tstate;
-#endif
-    }
-      __Pyx_PyFrame_SetLineNumber(*frame, firstlineno);
-    retval = 1;
-    tstate->tracing++;
-    tstate->use_tracing = 0;
-    __Pyx_ErrFetchInState(tstate, &type, &value, &traceback);
-    #if CYTHON_TRACE
-    if (tstate->c_tracefunc)
-        retval = tstate->c_tracefunc(tstate->c_traceobj, *frame, PyTrace_CALL, NULL) == 0;
-    if (retval && tstate->c_profilefunc)
-    #endif
-        retval = tstate->c_profilefunc(tstate->c_profileobj, *frame, PyTrace_CALL, NULL) == 0;
-    tstate->use_tracing = (tstate->c_profilefunc ||
-                           (CYTHON_TRACE && tstate->c_tracefunc));
-    tstate->tracing--;
-    if (retval) {
-        __Pyx_ErrRestoreInState(tstate, type, value, traceback);
-        return tstate->use_tracing && retval;
-    } else {
-        Py_XDECREF(type);
-        Py_XDECREF(value);
-        Py_XDECREF(traceback);
-        return -1;
-    }
-}
-static PyCodeObject *__Pyx_createFrameCodeObject(const char *funcname, const char *srcfile, int firstlineno) {
-    PyCodeObject *py_code = 0;
-#if PY_MAJOR_VERSION >= 3
-    py_code = PyCode_NewEmpty(srcfile, funcname, firstlineno);
-    if (likely(py_code)) {
-        py_code->co_flags |= CO_OPTIMIZED | CO_NEWLOCALS;
-    }
-#else
-    PyObject *py_srcfile = 0;
-    PyObject *py_funcname = 0;
-    py_funcname = PyString_FromString(funcname);
-    if (unlikely(!py_funcname)) goto bad;
-    py_srcfile = PyString_FromString(srcfile);
-    if (unlikely(!py_srcfile)) goto bad;
-    py_code = PyCode_New(
-        0,
-        0,
-        0,
-        CO_OPTIMIZED | CO_NEWLOCALS,
-        __pyx_empty_bytes,     /*PyObject *code,*/
-        __pyx_empty_tuple,     /*PyObject *consts,*/
-        __pyx_empty_tuple,     /*PyObject *names,*/
-        __pyx_empty_tuple,     /*PyObject *varnames,*/
-        __pyx_empty_tuple,     /*PyObject *freevars,*/
-        __pyx_empty_tuple,     /*PyObject *cellvars,*/
-        py_srcfile,       /*PyObject *filename,*/
-        py_funcname,      /*PyObject *name,*/
-        firstlineno,
-        __pyx_empty_bytes      /*PyObject *lnotab*/
-    );
-bad:
-    Py_XDECREF(py_srcfile);
-    Py_XDECREF(py_funcname);
-#endif
-    return py_code;
-}
-#endif
-
-/* PyObjectCall */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
-    PyObject *result;
-    ternaryfunc call = func->ob_type->tp_call;
-    if (unlikely(!call))
-        return PyObject_Call(func, arg, kw);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = (*call)(func, arg, kw);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
 }
 #endif
 

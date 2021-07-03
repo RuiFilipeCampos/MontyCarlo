@@ -6,7 +6,8 @@
         "depends": [],
         "extra_compile_args": [
             "-O2",
-            "-fp:fast"
+            "-fp:fast",
+            "-favor:INTEL64"
         ],
         "name": "MontyCarlo.tools.RITA",
         "sources": [
@@ -1365,244 +1366,6 @@ static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
     PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
     const char* function_name);
 
-/* PyThreadStateGet.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_PyThreadState_declare  PyThreadState *__pyx_tstate;
-#define __Pyx_PyThreadState_assign  __pyx_tstate = __Pyx_PyThreadState_Current;
-#define __Pyx_PyErr_Occurred()  __pyx_tstate->curexc_type
-#else
-#define __Pyx_PyThreadState_declare
-#define __Pyx_PyThreadState_assign
-#define __Pyx_PyErr_Occurred()  PyErr_Occurred()
-#endif
-
-/* PyErrFetchRestore.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_PyErr_Clear() __Pyx_ErrRestore(NULL, NULL, NULL)
-#define __Pyx_ErrRestoreWithState(type, value, tb)  __Pyx_ErrRestoreInState(PyThreadState_GET(), type, value, tb)
-#define __Pyx_ErrFetchWithState(type, value, tb)    __Pyx_ErrFetchInState(PyThreadState_GET(), type, value, tb)
-#define __Pyx_ErrRestore(type, value, tb)  __Pyx_ErrRestoreInState(__pyx_tstate, type, value, tb)
-#define __Pyx_ErrFetch(type, value, tb)    __Pyx_ErrFetchInState(__pyx_tstate, type, value, tb)
-static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
-static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
-#if CYTHON_COMPILING_IN_CPYTHON
-#define __Pyx_PyErr_SetNone(exc) (Py_INCREF(exc), __Pyx_ErrRestore((exc), NULL, NULL))
-#else
-#define __Pyx_PyErr_SetNone(exc) PyErr_SetNone(exc)
-#endif
-#else
-#define __Pyx_PyErr_Clear() PyErr_Clear()
-#define __Pyx_PyErr_SetNone(exc) PyErr_SetNone(exc)
-#define __Pyx_ErrRestoreWithState(type, value, tb)  PyErr_Restore(type, value, tb)
-#define __Pyx_ErrFetchWithState(type, value, tb)  PyErr_Fetch(type, value, tb)
-#define __Pyx_ErrRestoreInState(tstate, type, value, tb)  PyErr_Restore(type, value, tb)
-#define __Pyx_ErrFetchInState(tstate, type, value, tb)  PyErr_Fetch(type, value, tb)
-#define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
-#define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
-#endif
-
-/* Profile.proto */
-#ifndef CYTHON_PROFILE
-#if CYTHON_COMPILING_IN_PYPY || CYTHON_COMPILING_IN_PYSTON
-  #define CYTHON_PROFILE 0
-#else
-  #define CYTHON_PROFILE 1
-#endif
-#endif
-#ifndef CYTHON_TRACE_NOGIL
-  #define CYTHON_TRACE_NOGIL 0
-#else
-  #if CYTHON_TRACE_NOGIL && !defined(CYTHON_TRACE)
-    #define CYTHON_TRACE 1
-  #endif
-#endif
-#ifndef CYTHON_TRACE
-  #define CYTHON_TRACE 0
-#endif
-#if CYTHON_TRACE
-  #undef CYTHON_PROFILE_REUSE_FRAME
-#endif
-#ifndef CYTHON_PROFILE_REUSE_FRAME
-  #define CYTHON_PROFILE_REUSE_FRAME 0
-#endif
-#if CYTHON_PROFILE || CYTHON_TRACE
-  #include "compile.h"
-  #include "frameobject.h"
-  #include "traceback.h"
-  #if CYTHON_PROFILE_REUSE_FRAME
-    #define CYTHON_FRAME_MODIFIER static
-    #define CYTHON_FRAME_DEL(frame)
-  #else
-    #define CYTHON_FRAME_MODIFIER
-    #define CYTHON_FRAME_DEL(frame) Py_CLEAR(frame)
-  #endif
-  #define __Pyx_TraceDeclarations\
-  static PyCodeObject *__pyx_frame_code = NULL;\
-  CYTHON_FRAME_MODIFIER PyFrameObject *__pyx_frame = NULL;\
-  int __Pyx_use_tracing = 0;
-  #define __Pyx_TraceFrameInit(codeobj)\
-  if (codeobj) __pyx_frame_code = (PyCodeObject*) codeobj;
-  #ifdef WITH_THREAD
-  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)\
-  if (nogil) {\
-      if (CYTHON_TRACE_NOGIL) {\
-          PyThreadState *tstate;\
-          PyGILState_STATE state = PyGILState_Ensure();\
-          tstate = __Pyx_PyThreadState_Current;\
-          if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
-                  (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-              __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, tstate, funcname, srcfile, firstlineno);\
-          }\
-          PyGILState_Release(state);\
-          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
-      }\
-  } else {\
-      PyThreadState* tstate = PyThreadState_GET();\
-      if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
-              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-          __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, tstate, funcname, srcfile, firstlineno);\
-          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
-      }\
-  }
-  #else
-  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)\
-  {   PyThreadState* tstate = PyThreadState_GET();\
-      if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
-              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-          __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, tstate, funcname, srcfile, firstlineno);\
-          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
-      }\
-  }
-  #endif
-  #define __Pyx_TraceException()\
-  if (likely(!__Pyx_use_tracing)); else {\
-      PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-      if (tstate->use_tracing &&\
-              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
-          tstate->tracing++;\
-          tstate->use_tracing = 0;\
-          PyObject *exc_info = __Pyx_GetExceptionTuple(tstate);\
-          if (exc_info) {\
-              if (CYTHON_TRACE && tstate->c_tracefunc)\
-                  tstate->c_tracefunc(\
-                      tstate->c_traceobj, __pyx_frame, PyTrace_EXCEPTION, exc_info);\
-              tstate->c_profilefunc(\
-                  tstate->c_profileobj, __pyx_frame, PyTrace_EXCEPTION, exc_info);\
-              Py_DECREF(exc_info);\
-          }\
-          tstate->use_tracing = 1;\
-          tstate->tracing--;\
-      }\
-  }
-  static void __Pyx_call_return_trace_func(PyThreadState *tstate, PyFrameObject *frame, PyObject *result) {
-      PyObject *type, *value, *traceback;
-      __Pyx_ErrFetchInState(tstate, &type, &value, &traceback);
-      tstate->tracing++;
-      tstate->use_tracing = 0;
-      if (CYTHON_TRACE && tstate->c_tracefunc)
-          tstate->c_tracefunc(tstate->c_traceobj, frame, PyTrace_RETURN, result);
-      if (tstate->c_profilefunc)
-          tstate->c_profilefunc(tstate->c_profileobj, frame, PyTrace_RETURN, result);
-      CYTHON_FRAME_DEL(frame);
-      tstate->use_tracing = 1;
-      tstate->tracing--;
-      __Pyx_ErrRestoreInState(tstate, type, value, traceback);
-  }
-  #ifdef WITH_THREAD
-  #define __Pyx_TraceReturn(result, nogil)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      if (nogil) {\
-          if (CYTHON_TRACE_NOGIL) {\
-              PyThreadState *tstate;\
-              PyGILState_STATE state = PyGILState_Ensure();\
-              tstate = __Pyx_PyThreadState_Current;\
-              if (tstate->use_tracing) {\
-                  __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
-              }\
-              PyGILState_Release(state);\
-          }\
-      } else {\
-          PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-          if (tstate->use_tracing) {\
-              __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
-          }\
-      }\
-  }
-  #else
-  #define __Pyx_TraceReturn(result, nogil)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-      if (tstate->use_tracing) {\
-          __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
-      }\
-  }
-  #endif
-  static PyCodeObject *__Pyx_createFrameCodeObject(const char *funcname, const char *srcfile, int firstlineno);
-  static int __Pyx_TraceSetupAndCall(PyCodeObject** code, PyFrameObject** frame, PyThreadState* tstate, const char *funcname, const char *srcfile, int firstlineno);
-#else
-  #define __Pyx_TraceDeclarations
-  #define __Pyx_TraceFrameInit(codeobj)
-  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)   if ((1)); else goto_error;
-  #define __Pyx_TraceException()
-  #define __Pyx_TraceReturn(result, nogil)
-#endif
-#if CYTHON_TRACE
-  static int __Pyx_call_line_trace_func(PyThreadState *tstate, PyFrameObject *frame, int lineno) {
-      int ret;
-      PyObject *type, *value, *traceback;
-      __Pyx_ErrFetchInState(tstate, &type, &value, &traceback);
-      __Pyx_PyFrame_SetLineNumber(frame, lineno);
-      tstate->tracing++;
-      tstate->use_tracing = 0;
-      ret = tstate->c_tracefunc(tstate->c_traceobj, frame, PyTrace_LINE, NULL);
-      tstate->use_tracing = 1;
-      tstate->tracing--;
-      if (likely(!ret)) {
-          __Pyx_ErrRestoreInState(tstate, type, value, traceback);
-      } else {
-          Py_XDECREF(type);
-          Py_XDECREF(value);
-          Py_XDECREF(traceback);
-      }
-      return ret;
-  }
-  #ifdef WITH_THREAD
-  #define __Pyx_TraceLine(lineno, nogil, goto_error)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      if (nogil) {\
-          if (CYTHON_TRACE_NOGIL) {\
-              int ret = 0;\
-              PyThreadState *tstate;\
-              PyGILState_STATE state = PyGILState_Ensure();\
-              tstate = __Pyx_PyThreadState_Current;\
-              if (unlikely(tstate->use_tracing && tstate->c_tracefunc && __pyx_frame->f_trace)) {\
-                  ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
-              }\
-              PyGILState_Release(state);\
-              if (unlikely(ret)) goto_error;\
-          }\
-      } else {\
-          PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-          if (unlikely(tstate->use_tracing && tstate->c_tracefunc && __pyx_frame->f_trace)) {\
-              int ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
-              if (unlikely(ret)) goto_error;\
-          }\
-      }\
-  }
-  #else
-  #define __Pyx_TraceLine(lineno, nogil, goto_error)\
-  if (likely(!__Pyx_use_tracing)); else {\
-      PyThreadState* tstate = __Pyx_PyThreadState_Current;\
-      if (unlikely(tstate->use_tracing && tstate->c_tracefunc && __pyx_frame->f_trace)) {\
-          int ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
-          if (unlikely(ret)) goto_error;\
-      }\
-  }
-  #endif
-#else
-  #define __Pyx_TraceLine(lineno, nogil, goto_error)   if ((1)); else goto_error;
-#endif
-
 /* PyFunctionFastCall.proto */
 #if CYTHON_FAST_PYCALL
 #define __Pyx_PyFunction_FastCall(func, args, nargs)\
@@ -1728,6 +1491,42 @@ static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObje
 
 /* FetchCommonType.proto */
 static PyTypeObject* __Pyx_FetchCommonType(PyTypeObject* type);
+
+/* PyThreadStateGet.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_PyThreadState_declare  PyThreadState *__pyx_tstate;
+#define __Pyx_PyThreadState_assign  __pyx_tstate = __Pyx_PyThreadState_Current;
+#define __Pyx_PyErr_Occurred()  __pyx_tstate->curexc_type
+#else
+#define __Pyx_PyThreadState_declare
+#define __Pyx_PyThreadState_assign
+#define __Pyx_PyErr_Occurred()  PyErr_Occurred()
+#endif
+
+/* PyErrFetchRestore.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_PyErr_Clear() __Pyx_ErrRestore(NULL, NULL, NULL)
+#define __Pyx_ErrRestoreWithState(type, value, tb)  __Pyx_ErrRestoreInState(PyThreadState_GET(), type, value, tb)
+#define __Pyx_ErrFetchWithState(type, value, tb)    __Pyx_ErrFetchInState(PyThreadState_GET(), type, value, tb)
+#define __Pyx_ErrRestore(type, value, tb)  __Pyx_ErrRestoreInState(__pyx_tstate, type, value, tb)
+#define __Pyx_ErrFetch(type, value, tb)    __Pyx_ErrFetchInState(__pyx_tstate, type, value, tb)
+static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb);
+static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb);
+#if CYTHON_COMPILING_IN_CPYTHON
+#define __Pyx_PyErr_SetNone(exc) (Py_INCREF(exc), __Pyx_ErrRestore((exc), NULL, NULL))
+#else
+#define __Pyx_PyErr_SetNone(exc) PyErr_SetNone(exc)
+#endif
+#else
+#define __Pyx_PyErr_Clear() PyErr_Clear()
+#define __Pyx_PyErr_SetNone(exc) PyErr_SetNone(exc)
+#define __Pyx_ErrRestoreWithState(type, value, tb)  PyErr_Restore(type, value, tb)
+#define __Pyx_ErrFetchWithState(type, value, tb)  PyErr_Fetch(type, value, tb)
+#define __Pyx_ErrRestoreInState(tstate, type, value, tb)  PyErr_Restore(type, value, tb)
+#define __Pyx_ErrFetchInState(tstate, type, value, tb)  PyErr_Fetch(type, value, tb)
+#define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
+#define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
+#endif
 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
@@ -2435,13 +2234,13 @@ static PyObject *__pyx_int_2;
 static PyObject *__pyx_int_30634355;
 static PyObject *__pyx_int_176126664;
 static PyObject *__pyx_tuple__2;
+static PyObject *__pyx_tuple__5;
+static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
-static PyObject *__pyx_tuple__9;
 static PyObject *__pyx_tuple__10;
-static PyObject *__pyx_tuple__11;
-static PyObject *__pyx_codeobj__5;
-static PyObject *__pyx_codeobj__6;
+static PyObject *__pyx_codeobj__9;
+static PyObject *__pyx_codeobj__11;
 /* Late includes */
 
 /* "MontyCarlo/tools/RITA.pyx":24
@@ -2554,7 +2353,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation___init__(s
   struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_8genexpr2__pyx_v_I = NULL;
   struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_8genexpr3__pyx_v_I = NULL;
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -2574,7 +2372,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation___init__(s
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
-  __Pyx_TraceCall("__init__", __pyx_f[0], 24, 0, __PYX_ERR(0, 24, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":32
  * 		#the 'INTEGRATOR' stuff will change, going to make it a function
@@ -3217,7 +3014,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation___init__(s
   __Pyx_XDECREF((PyObject *)__pyx_8genexpr1__pyx_v_I);
   __Pyx_XDECREF((PyObject *)__pyx_8genexpr2__pyx_v_I);
   __Pyx_XDECREF((PyObject *)__pyx_8genexpr3__pyx_v_I);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -3284,18 +3080,15 @@ static PyObject *__pyx_gb_10MontyCarlo_5tools_4RITA_21RationalInterpolation_4gen
 {
   struct __pyx_obj_10MontyCarlo_5tools_4RITA___pyx_scope_struct____iter__ *__pyx_cur_scope = ((struct __pyx_obj_10MontyCarlo_5tools_4RITA___pyx_scope_struct____iter__ *)__pyx_generator->closure);
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__iter__", 0);
-  __Pyx_TraceCall("__iter__", __pyx_f[0], 92, 0, __PYX_ERR(0, 92, __pyx_L1_error));
   switch (__pyx_generator->resume_label) {
     case 0: goto __pyx_L3_first_run;
     case 1: goto __pyx_L4_resume_from_yield_from;
     default: /* CPython raises the right error here */
-    __Pyx_TraceReturn(Py_None, 0);
     __Pyx_RefNannyFinishContext();
     return NULL;
   }
@@ -3313,7 +3106,6 @@ static PyObject *__pyx_gb_10MontyCarlo_5tools_4RITA_21RationalInterpolation_4gen
   __Pyx_XGOTREF(__pyx_r);
   if (likely(__pyx_r)) {
     __Pyx_XGIVEREF(__pyx_r);
-    __Pyx_TraceReturn(__pyx_r, 0);
     __Pyx_RefNannyFinishContext();
     __Pyx_Coroutine_ResetAndClearException(__pyx_generator);
     /* return from generator, yielding value */
@@ -3350,7 +3142,6 @@ static PyObject *__pyx_gb_10MontyCarlo_5tools_4RITA_21RationalInterpolation_4gen
   #endif
   __pyx_generator->resume_label = -1;
   __Pyx_Coroutine_clear((PyObject*)__pyx_generator);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -3365,7 +3156,6 @@ static PyObject *__pyx_gb_10MontyCarlo_5tools_4RITA_21RationalInterpolation_4gen
 
 static double __pyx_f_10MontyCarlo_5tools_4RITA_21RationalInterpolation_prob(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self, double __pyx_v_x) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -3376,7 +3166,6 @@ static double __pyx_f_10MontyCarlo_5tools_4RITA_21RationalInterpolation_prob(str
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("prob", 0);
-  __Pyx_TraceCall("prob", __pyx_f[0], 95, 0, __PYX_ERR(0, 95, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":96
  * 
@@ -3432,7 +3221,6 @@ static double __pyx_f_10MontyCarlo_5tools_4RITA_21RationalInterpolation_prob(str
   __Pyx_WriteUnraisable("MontyCarlo.tools.RITA.RationalInterpolation.prob", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -3501,7 +3289,6 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_6__c
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5__call__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self, double __pyx_v_x) {
   struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_interval = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
@@ -3513,7 +3300,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5__c
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__call__", 0);
-  __Pyx_TraceCall("__call__", __pyx_f[0], 98, 0, __PYX_ERR(0, 98, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":100
  * 	def __call__(self, double x):
@@ -3632,7 +3418,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5__c
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_interval);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -3649,7 +3434,6 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_8cum
 static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA_21RationalInterpolation_cumul(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self, double __pyx_v_x, int __pyx_skip_dispatch) {
   PyObject *__pyx_v_interval = NULL;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -3664,7 +3448,6 @@ static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA_21RationalInterpolation_cumul
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("cumul", 0);
-  __Pyx_TraceCall("cumul", __pyx_f[0], 104, 0, __PYX_ERR(0, 104, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -3834,7 +3617,6 @@ static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA_21RationalInterpolation_cumul
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_interval);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -3867,14 +3649,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_8cum
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_7cumul(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self, double __pyx_v_x) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("cumul", 0);
-  __Pyx_TraceCall("cumul (wrapper)", __pyx_f[0], 104, 0, __PYX_ERR(0, 104, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_f_10MontyCarlo_5tools_4RITA_21RationalInterpolation_cumul(__pyx_v_self, __pyx_v_x, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3889,7 +3669,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_7cum
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -3906,7 +3685,6 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_10in
 static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA_21RationalInterpolation_invCum(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self, double __pyx_v_r, int __pyx_skip_dispatch) {
   struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_interval = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -3921,7 +3699,6 @@ static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA_21RationalInterpolation_invCu
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("invCum", 0);
-  __Pyx_TraceCall("invCum", __pyx_f[0], 110, 0, __PYX_ERR(0, 110, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -4092,7 +3869,6 @@ static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA_21RationalInterpolation_invCu
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_interval);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4125,14 +3901,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_10in
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_9invCum(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self, double __pyx_v_r) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("invCum", 0);
-  __Pyx_TraceCall("invCum (wrapper)", __pyx_f[0], 110, 0, __PYX_ERR(0, 110, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_f_10MontyCarlo_5tools_4RITA_21RationalInterpolation_invCum(__pyx_v_self, __pyx_v_r, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -4147,7 +3921,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_9inv
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4181,7 +3954,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_11sc
   PyObject *__pyx_8genexpr4__pyx_v_x = NULL;
   PyObject *__pyx_8genexpr5__pyx_v_x = NULL;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -4194,7 +3966,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_11sc
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("scatter", 0);
-  __Pyx_TraceCall("scatter", __pyx_f[0], 117, 0, __PYX_ERR(0, 117, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":120
  * 
@@ -4574,7 +4345,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_11sc
   __Pyx_XDECREF(__pyx_8genexpr4__pyx_v_x);
   __Pyx_XDECREF(__pyx_8genexpr5__pyx_v_x);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4602,25 +4372,16 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_10_i
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_10_intervals___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 17, 0, __PYX_ERR(1, 17, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_self->_intervals);
   __pyx_r = __pyx_v_self->_intervals;
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.tools.RITA.RationalInterpolation._intervals.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4640,14 +4401,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_10_interva
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_10_intervals_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 17, 0, __PYX_ERR(1, 17, __pyx_L1_error));
   if (!(likely(PyList_CheckExact(__pyx_v_value))||((__pyx_v_value) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_value)->tp_name), 0))) __PYX_ERR(1, 17, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
@@ -4665,7 +4424,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_10_interva
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.RationalInterpolation._intervals.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4685,13 +4443,8 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_10_interva
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_10_intervals_4__del__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
-  __Pyx_TraceCall("__del__", __pyx_f[1], 17, 0, __PYX_ERR(1, 17, __pyx_L1_error));
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->_intervals);
@@ -4700,12 +4453,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_10_interva
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.tools.RITA.RationalInterpolation._intervals.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4725,25 +4472,16 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5xAx
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5xAxis___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 17, 0, __PYX_ERR(1, 17, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_self->xAxis);
   __pyx_r = __pyx_v_self->xAxis;
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.tools.RITA.RationalInterpolation.xAxis.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4763,14 +4501,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5xAxis_3__
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5xAxis_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 17, 0, __PYX_ERR(1, 17, __pyx_L1_error));
   if (!(likely(PyList_CheckExact(__pyx_v_value))||((__pyx_v_value) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_value)->tp_name), 0))) __PYX_ERR(1, 17, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
@@ -4788,7 +4524,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5xAxis_2__
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.RationalInterpolation.xAxis.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4808,13 +4543,8 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5xAxis_5__
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5xAxis_4__del__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
-  __Pyx_TraceCall("__del__", __pyx_f[1], 17, 0, __PYX_ERR(1, 17, __pyx_L1_error));
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->xAxis);
@@ -4823,12 +4553,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5xAxis_4__
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.tools.RITA.RationalInterpolation.xAxis.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4848,25 +4572,16 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5PAx
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5PAxis___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 17, 0, __PYX_ERR(1, 17, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_self->PAxis);
   __pyx_r = __pyx_v_self->PAxis;
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.tools.RITA.RationalInterpolation.PAxis.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4886,14 +4601,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5PAxis_3__
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5PAxis_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 17, 0, __PYX_ERR(1, 17, __pyx_L1_error));
   if (!(likely(PyList_CheckExact(__pyx_v_value))||((__pyx_v_value) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_value)->tp_name), 0))) __PYX_ERR(1, 17, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
@@ -4911,7 +4624,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5PAxis_2__
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.RationalInterpolation.PAxis.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4931,13 +4643,8 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5PAxis_5__
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5PAxis_4__del__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
-  __Pyx_TraceCall("__del__", __pyx_f[1], 17, 0, __PYX_ERR(1, 17, __pyx_L1_error));
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->PAxis);
@@ -4946,12 +4653,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_5PAxis_4__
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.tools.RITA.RationalInterpolation.PAxis.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -4980,7 +4681,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_13__
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -4992,7 +4692,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_13__
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[2], 1, 0, __PYX_ERR(2, 1, __pyx_L1_error));
 
   /* "(tree fragment)":5
  *     cdef object _dict
@@ -5242,7 +4941,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_13__
   __Pyx_XDECREF(__pyx_v_state);
   __Pyx_XDECREF(__pyx_v__dict);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5269,14 +4967,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_21RationalInterpolation_16__
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_15__setstate_cython__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[2], 16, 0, __PYX_ERR(2, 16, __pyx_L1_error));
 
   /* "(tree fragment)":17
  *         return __pyx_unpickle_RationalInterpolation, (type(self), 0x1d37173, state)
@@ -5304,7 +5000,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_21RationalInterpolation_15__
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5321,7 +5016,6 @@ struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_f_10MontyCarlo_5tools
   struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self = NULL;
   struct __pyx_obj_10MontyCarlo_5tools_11integration_Integrator *__pyx_v_INTEGRATOR = 0;
   struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -5338,7 +5032,6 @@ struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_f_10MontyCarlo_5tools
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_create", 0);
-  __Pyx_TraceCall("_create", __pyx_f[0], 154, 0, __PYX_ERR(0, 154, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":161
  * 
@@ -5802,7 +5495,6 @@ struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_f_10MontyCarlo_5tools
   __Pyx_XDECREF((PyObject *)__pyx_v_self);
   __Pyx_XDECREF((PyObject *)__pyx_v_INTEGRATOR);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5823,7 +5515,6 @@ double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval__eval(struct __pyx_obj_10Mont
   double __pyx_v_C;
   double __pyx_v_nu;
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -5838,7 +5529,6 @@ double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval__eval(struct __pyx_obj_10Mont
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_eval", 0);
-  __Pyx_TraceCall("_eval", __pyx_f[0], 195, 0, __PYX_ERR(0, 195, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -6055,7 +5745,6 @@ double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval__eval(struct __pyx_obj_10Mont
   __Pyx_WriteUnraisable("MontyCarlo.tools.RITA.Interval._eval", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6088,14 +5777,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_1_eval(PyObject *_
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval__eval(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, double __pyx_v_x) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_eval", 0);
-  __Pyx_TraceCall("_eval (wrapper)", __pyx_f[0], 195, 0, __PYX_ERR(0, 195, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_f_10MontyCarlo_5tools_4RITA_8Interval__eval(__pyx_v_self, __pyx_v_x, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -6110,7 +5797,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval__eval(struct __pyx
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6129,7 +5815,6 @@ static double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval__invCum(struct __pyx_o
   double __pyx_v_A;
   double __pyx_v_B;
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -6141,7 +5826,6 @@ static double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval__invCum(struct __pyx_o
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_invCum", 0);
-  __Pyx_TraceCall("_invCum", __pyx_f[0], 212, 0, __PYX_ERR(0, 212, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -6257,7 +5941,6 @@ static double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval__invCum(struct __pyx_o
   __Pyx_WriteUnraisable("MontyCarlo.tools.RITA.Interval._invCum", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6290,14 +5973,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_3_invCum(PyObject 
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2_invCum(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, double __pyx_v_r) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_invCum", 0);
-  __Pyx_TraceCall("_invCum (wrapper)", __pyx_f[0], 212, 0, __PYX_ERR(0, 212, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_f_10MontyCarlo_5tools_4RITA_8Interval__invCum(__pyx_v_self, __pyx_v_r, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -6312,7 +5993,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2_invCum(struct __
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6328,13 +6008,8 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2_invCum(struct __
 static double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval_f(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, double __pyx_v_k) {
   double __pyx_v_x;
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("f", 0);
-  __Pyx_TraceCall("f", __pyx_f[0], 218, 0, __PYX_ERR(0, 218, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":219
  * 
@@ -6364,11 +6039,7 @@ static double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval_f(struct __pyx_obj_10M
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.tools.RITA.Interval.f", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6386,7 +6057,6 @@ static double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval__calculateError(struct
   PyObject *__pyx_v_i = NULL;
   double __pyx_v_I2;
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   long __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -6395,7 +6065,6 @@ static double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval__calculateError(struct
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_calculateError", 0);
-  __Pyx_TraceCall("_calculateError", __pyx_f[0], 223, 0, __PYX_ERR(0, 223, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":226
  * 		"""Estimate integral of prob(x)-interp(x) between u and v."""
@@ -6494,7 +6163,6 @@ static double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval__calculateError(struct
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_i);
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6512,7 +6180,6 @@ static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA_8Interval__split(struct __pyx
   struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_I1 = 0;
   struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_I2 = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -6520,7 +6187,6 @@ static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA_8Interval__split(struct __pyx
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_split", 0);
-  __Pyx_TraceCall("_split", __pyx_f[0], 237, 0, __PYX_ERR(0, 237, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":239
  * 	cdef tuple _split(self):
@@ -6615,7 +6281,6 @@ static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA_8Interval__split(struct __pyx
   __Pyx_XDECREF((PyObject *)__pyx_v_I1);
   __Pyx_XDECREF((PyObject *)__pyx_v_I2);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6656,14 +6321,9 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_5__contains__(PyObject *
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_4__contains__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, double __pyx_v_x) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__contains__", 0);
-  __Pyx_TraceCall("__contains__", __pyx_f[0], 254, 0, __PYX_ERR(0, 254, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":255
  * 
@@ -6688,11 +6348,7 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_4__contains__(struct __p
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("MontyCarlo.tools.RITA.Interval.__contains__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6720,7 +6376,6 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_7__str__(PyObject 
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_6__str__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
@@ -6731,7 +6386,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_6__str__(struct __
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__str__", 0);
-  __Pyx_TraceCall("__str__", __pyx_f[0], 257, 0, __PYX_ERR(0, 257, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":258
  * 
@@ -6801,7 +6455,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_6__str__(struct __
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6829,7 +6482,6 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_9__repr__(PyObject
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_8__repr__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
@@ -6840,7 +6492,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_8__repr__(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
-  __Pyx_TraceCall("__repr__", __pyx_f[0], 260, 0, __PYX_ERR(0, 260, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":261
  * 
@@ -6910,7 +6561,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_8__repr__(struct _
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6925,13 +6575,8 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_8__repr__(struct _
 
 static double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval__cumul(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   double __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_cumul", 0);
-  __Pyx_TraceCall("_cumul", __pyx_f[0], 264, 0, __PYX_ERR(0, 264, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":266
  * 	cdef double _cumul(self):
@@ -6952,11 +6597,7 @@ static double __pyx_f_10MontyCarlo_5tools_4RITA_8Interval__cumul(struct __pyx_ob
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("MontyCarlo.tools.RITA.Interval._cumul", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6984,14 +6625,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_1u_1__get__(PyObje
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1u___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->u); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7006,7 +6645,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1u___get__(struct 
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7026,14 +6664,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_1u_3__set__(PyObject *__
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1u_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 29, __pyx_L1_error)
   __pyx_v_self->u = __pyx_t_1;
 
@@ -7044,7 +6680,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1u_2__set__(struct __pyx
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.Interval.u.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7064,14 +6699,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_1v_1__get__(PyObje
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1v___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7086,7 +6719,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1v___get__(struct 
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7106,14 +6738,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_1v_3__set__(PyObject *__
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1v_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 29, __pyx_L1_error)
   __pyx_v_self->v = __pyx_t_1;
 
@@ -7124,7 +6754,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1v_2__set__(struct __pyx
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.Interval.v.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7144,14 +6773,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_2Pu_1__get__(PyObj
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2Pu___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->Pu); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7166,7 +6793,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2Pu___get__(struct
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7186,14 +6812,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_2Pu_3__set__(PyObject *_
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2Pu_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 29, __pyx_L1_error)
   __pyx_v_self->Pu = __pyx_t_1;
 
@@ -7204,7 +6828,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2Pu_2__set__(struct __py
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.Interval.Pu.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7224,14 +6847,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_2Pv_1__get__(PyObj
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2Pv___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->Pv); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7246,7 +6867,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2Pv___get__(struct
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7266,14 +6886,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_2Pv_3__set__(PyObject *_
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2Pv_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 29, __pyx_L1_error)
   __pyx_v_self->Pv = __pyx_t_1;
 
@@ -7284,7 +6902,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2Pv_2__set__(struct __py
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.Interval.Pv.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7304,14 +6921,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_2pu_1__get__(PyObj
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2pu___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->pu); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7326,7 +6941,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2pu___get__(struct
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7346,14 +6960,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_2pu_3__set__(PyObject *_
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2pu_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 29, __pyx_L1_error)
   __pyx_v_self->pu = __pyx_t_1;
 
@@ -7364,7 +6976,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2pu_2__set__(struct __py
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.Interval.pu.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7384,14 +6995,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_2pv_1__get__(PyObj
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2pv___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->pv); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7406,7 +7015,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2pv___get__(struct
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7426,14 +7034,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_2pv_3__set__(PyObject *_
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2pv_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 29, __pyx_L1_error)
   __pyx_v_self->pv = __pyx_t_1;
 
@@ -7444,7 +7050,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2pv_2__set__(struct __py
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.Interval.pv.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7464,14 +7069,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_2dP_1__get__(PyObj
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2dP___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->dP); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7486,7 +7089,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2dP___get__(struct
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7506,14 +7108,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_2dP_3__set__(PyObject *_
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2dP_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 29, __pyx_L1_error)
   __pyx_v_self->dP = __pyx_t_1;
 
@@ -7524,7 +7124,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2dP_2__set__(struct __py
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.Interval.dP.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7544,14 +7143,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_2dx_1__get__(PyObj
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2dx___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->dx); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7566,7 +7163,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2dx___get__(struct
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7586,14 +7182,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_2dx_3__set__(PyObject *_
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2dx_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 29, __pyx_L1_error)
   __pyx_v_self->dx = __pyx_t_1;
 
@@ -7604,7 +7198,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_2dx_2__set__(struct __py
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.Interval.dx.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7624,14 +7217,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_1a_1__get__(PyObje
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1a___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->a); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7646,7 +7237,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1a___get__(struct 
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7666,14 +7256,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_1a_3__set__(PyObject *__
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1a_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 29, __pyx_L1_error)
   __pyx_v_self->a = __pyx_t_1;
 
@@ -7684,7 +7272,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1a_2__set__(struct __pyx
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.Interval.a.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7704,14 +7291,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_1b_1__get__(PyObje
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1b___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->b); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7726,7 +7311,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1b___get__(struct 
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7746,14 +7330,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_1b_3__set__(PyObject *__
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1b_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 29, __pyx_L1_error)
   __pyx_v_self->b = __pyx_t_1;
 
@@ -7764,7 +7346,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1b_2__set__(struct __pyx
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.Interval.b.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7784,14 +7365,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_1h_1__get__(PyObje
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1h___get__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_TraceCall("__get__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->h); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7806,7 +7385,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1h___get__(struct 
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7826,14 +7404,12 @@ static int __pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_1h_3__set__(PyObject *__
 
 static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1h_2__set__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __Pyx_TraceCall("__set__", __pyx_f[1], 29, 0, __PYX_ERR(1, 29, __pyx_L1_error));
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 29, __pyx_L1_error)
   __pyx_v_self->h = __pyx_t_1;
 
@@ -7844,7 +7420,6 @@ static int __pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_1h_2__set__(struct __pyx
   __Pyx_AddTraceback("MontyCarlo.tools.RITA.Interval.h.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7873,7 +7448,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_10__reduce_cython_
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -7896,7 +7470,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_10__reduce_cython_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-  __Pyx_TraceCall("__reduce_cython__", __pyx_f[2], 1, 0, __PYX_ERR(2, 1, __pyx_L1_error));
 
   /* "(tree fragment)":5
  *     cdef object _dict
@@ -8222,7 +7795,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_10__reduce_cython_
   __Pyx_XDECREF(__pyx_v_state);
   __Pyx_XDECREF(__pyx_v__dict);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8249,14 +7821,12 @@ static PyObject *__pyx_pw_10MontyCarlo_5tools_4RITA_8Interval_13__setstate_cytho
 
 static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_12__setstate_cython__(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-  __Pyx_TraceCall("__setstate_cython__", __pyx_f[2], 16, 0, __PYX_ERR(2, 16, __pyx_L1_error));
 
   /* "(tree fragment)":17
  *         return __pyx_unpickle_Interval, (type(self), 0xa7f7ac8, state)
@@ -8284,7 +7854,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_8Interval_12__setstate_cytho
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8375,7 +7944,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA___pyx_unpickle_RationalInter
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -8386,9 +7954,7 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA___pyx_unpickle_RationalInter
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceFrameInit(__pyx_codeobj__5)
   __Pyx_RefNannySetupContext("__pyx_unpickle_RationalInterpolation", 0);
-  __Pyx_TraceCall("__pyx_unpickle_RationalInterpolation", __pyx_f[2], 1, 0, __PYX_ERR(2, 1, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
@@ -8553,7 +8119,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA___pyx_unpickle_RationalInter
   __Pyx_XDECREF(__pyx_v___pyx_PickleError);
   __Pyx_XDECREF(__pyx_v___pyx_result);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8568,7 +8133,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA___pyx_unpickle_RationalInter
 
 static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA___pyx_unpickle_RationalInterpolation__set_state(struct __pyx_obj_10MontyCarlo_5tools_4RITA_RationalInterpolation *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   double __pyx_t_2;
@@ -8583,7 +8147,6 @@ static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA___pyx_unpickle_RationalInterp
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__pyx_unpickle_RationalInterpolation__set_state", 0);
-  __Pyx_TraceCall("__pyx_unpickle_RationalInterpolation__set_state", __pyx_f[2], 11, 0, __PYX_ERR(2, 11, __pyx_L1_error));
 
   /* "(tree fragment)":12
  *     return __pyx_result
@@ -8755,7 +8318,6 @@ static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA___pyx_unpickle_RationalInterp
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8846,7 +8408,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_2__pyx_unpickle_Interval(CYT
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -8857,9 +8418,7 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_2__pyx_unpickle_Interval(CYT
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_TraceFrameInit(__pyx_codeobj__6)
   __Pyx_RefNannySetupContext("__pyx_unpickle_Interval", 0);
-  __Pyx_TraceCall("__pyx_unpickle_Interval", __pyx_f[2], 1, 0, __PYX_ERR(2, 1, __pyx_L1_error));
 
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
@@ -9024,7 +8583,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_2__pyx_unpickle_Interval(CYT
   __Pyx_XDECREF(__pyx_v___pyx_PickleError);
   __Pyx_XDECREF(__pyx_v___pyx_result);
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9039,7 +8597,6 @@ static PyObject *__pyx_pf_10MontyCarlo_5tools_4RITA_2__pyx_unpickle_Interval(CYT
 
 static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA___pyx_unpickle_Interval__set_state(struct __pyx_obj_10MontyCarlo_5tools_4RITA_Interval *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   double __pyx_t_2;
@@ -9054,7 +8611,6 @@ static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA___pyx_unpickle_Interval__set_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__pyx_unpickle_Interval__set_state", 0);
-  __Pyx_TraceCall("__pyx_unpickle_Interval__set_state", __pyx_f[2], 11, 0, __PYX_ERR(2, 11, __pyx_L1_error));
 
   /* "(tree fragment)":12
  *     return __pyx_result
@@ -9337,7 +8893,6 @@ static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA___pyx_unpickle_Interval__set_
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9352,14 +8907,12 @@ static PyObject *__pyx_f_10MontyCarlo_5tools_4RITA___pyx_unpickle_Interval__set_
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__pyx_v_a) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew1", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew1", __pyx_f[3], 734, 0, __PYX_ERR(3, 734, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":735
  * 
@@ -9390,7 +8943,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9405,14 +8957,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__pyx_v_a, PyObject *__pyx_v_b) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew2", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew2", __pyx_f[3], 737, 0, __PYX_ERR(3, 737, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":738
  * 
@@ -9443,7 +8993,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9458,14 +9007,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__pyx_v_a, PyObject *__pyx_v_b, PyObject *__pyx_v_c) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew3", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew3", __pyx_f[3], 740, 0, __PYX_ERR(3, 740, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":741
  * 
@@ -9496,7 +9043,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9511,14 +9057,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__pyx_v_a, PyObject *__pyx_v_b, PyObject *__pyx_v_c, PyObject *__pyx_v_d) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew4", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew4", __pyx_f[3], 743, 0, __PYX_ERR(3, 743, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":744
  * 
@@ -9549,7 +9093,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9564,14 +9107,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__pyx_v_a, PyObject *__pyx_v_b, PyObject *__pyx_v_c, PyObject *__pyx_v_d, PyObject *__pyx_v_e) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew5", 0);
-  __Pyx_TraceCall("PyArray_MultiIterNew5", __pyx_f[3], 746, 0, __PYX_ERR(3, 746, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":747
  * 
@@ -9602,7 +9143,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9617,14 +9157,9 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__pyx_v_d) {
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyDataType_SHAPE", 0);
-  __Pyx_TraceCall("PyDataType_SHAPE", __pyx_f[3], 749, 0, __PYX_ERR(3, 749, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":750
  * 
@@ -9680,12 +9215,8 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("numpy.PyDataType_SHAPE", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9699,13 +9230,8 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyDataType_SHAPE(PyArray_Descr *__
  */
 
 static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_arr, PyObject *__pyx_v_base) {
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_array_base", 0);
-  __Pyx_TraceCall("set_array_base", __pyx_f[3], 868, 0, __PYX_ERR(3, 868, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":869
  * 
@@ -9734,11 +9260,6 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("numpy.set_array_base", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -9753,14 +9274,9 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__pyx_v_arr) {
   PyObject *__pyx_v_base;
   PyObject *__pyx_r = NULL;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_array_base", 0);
-  __Pyx_TraceCall("get_array_base", __pyx_f[3], 872, 0, __PYX_ERR(3, 872, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":873
  * 
@@ -9822,12 +9338,8 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("numpy.get_array_base", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9842,7 +9354,6 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
 
 static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -9856,7 +9367,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("import_array", 0);
-  __Pyx_TraceCall("import_array", __pyx_f[3], 880, 0, __PYX_ERR(3, 880, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":881
  * # Cython code.
@@ -9919,7 +9429,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 884, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 884, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -9962,7 +9472,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
   __Pyx_AddTraceback("numpy.import_array", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9977,7 +9486,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
 
 static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -9991,7 +9499,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("import_umath", 0);
-  __Pyx_TraceCall("import_umath", __pyx_f[3], 886, 0, __PYX_ERR(3, 886, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":887
  * 
@@ -10054,7 +9561,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 890, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 890, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -10097,7 +9604,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
   __Pyx_AddTraceback("numpy.import_umath", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10112,7 +9618,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
 
 static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   int __pyx_r;
-  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -10126,7 +9631,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("import_ufunc", 0);
-  __Pyx_TraceCall("import_ufunc", __pyx_f[3], 892, 0, __PYX_ERR(3, 892, __pyx_L1_error));
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":893
  * 
@@ -10189,7 +9693,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  * 
  * cdef extern from *:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 896, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 896, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -10232,7 +9736,6 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   __Pyx_AddTraceback("numpy.import_ufunc", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -11016,9 +10519,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(3, 884, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(3, 884, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
 
   /* "../../../../ProgramData/Anaconda3/lib/site-packages/numpy/__init__.pxd":890
  *         _import_umath()
@@ -11027,32 +10530,32 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(3, 890, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(3, 890, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
 
   /* "MontyCarlo/tools/RITA.pyx":1
  * print(">>>>>   IMPORTING RITA")             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_IMPORTING_RITA); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_IMPORTING_RITA); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_RationalInterpolation(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
+  __pyx_tuple__8 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_RationalInterpola, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__10 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_RationalInterpola, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(2, 1, __pyx_L1_error)
-  __pyx_tuple__11 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Interval, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Interval, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -11322,7 +10825,6 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_RITA(PyObject *__pyx_pyinit_module
 #endif
 #endif
 {
-  __Pyx_TraceDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -11430,14 +10932,13 @@ if (!__Pyx_RefNanny) {
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  __Pyx_TraceCall("__Pyx_PyMODINIT_FUNC PyInit_RITA(void)", __pyx_f[0], 1, 0, __PYX_ERR(0, 1, __pyx_L1_error));
 
   /* "MontyCarlo/tools/RITA.pyx":1
  * print(">>>>>   IMPORTING RITA")             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -11492,7 +10993,6 @@ if (!__Pyx_RefNanny) {
  *     try:
  *         _import_umath()
  */
-  __Pyx_TraceReturn(Py_None, 0);
 
   /*--- Wrapped vars code ---*/
 
@@ -11705,123 +11205,6 @@ invalid_keyword:
 bad:
     return -1;
 }
-
-/* PyErrFetchRestore */
-#if CYTHON_FAST_THREAD_STATE
-static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
-    PyObject *tmp_type, *tmp_value, *tmp_tb;
-    tmp_type = tstate->curexc_type;
-    tmp_value = tstate->curexc_value;
-    tmp_tb = tstate->curexc_traceback;
-    tstate->curexc_type = type;
-    tstate->curexc_value = value;
-    tstate->curexc_traceback = tb;
-    Py_XDECREF(tmp_type);
-    Py_XDECREF(tmp_value);
-    Py_XDECREF(tmp_tb);
-}
-static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
-    *type = tstate->curexc_type;
-    *value = tstate->curexc_value;
-    *tb = tstate->curexc_traceback;
-    tstate->curexc_type = 0;
-    tstate->curexc_value = 0;
-    tstate->curexc_traceback = 0;
-}
-#endif
-
-/* Profile */
-#if CYTHON_PROFILE
-static int __Pyx_TraceSetupAndCall(PyCodeObject** code,
-                                   PyFrameObject** frame,
-                                   PyThreadState* tstate,
-                                   const char *funcname,
-                                   const char *srcfile,
-                                   int firstlineno) {
-    PyObject *type, *value, *traceback;
-    int retval;
-    if (*frame == NULL || !CYTHON_PROFILE_REUSE_FRAME) {
-        if (*code == NULL) {
-            *code = __Pyx_createFrameCodeObject(funcname, srcfile, firstlineno);
-            if (*code == NULL) return 0;
-        }
-        *frame = PyFrame_New(
-            tstate,                          /*PyThreadState *tstate*/
-            *code,                           /*PyCodeObject *code*/
-            __pyx_d,                  /*PyObject *globals*/
-            0                                /*PyObject *locals*/
-        );
-        if (*frame == NULL) return 0;
-        if (CYTHON_TRACE && (*frame)->f_trace == NULL) {
-            Py_INCREF(Py_None);
-            (*frame)->f_trace = Py_None;
-        }
-#if PY_VERSION_HEX < 0x030400B1
-    } else {
-        (*frame)->f_tstate = tstate;
-#endif
-    }
-      __Pyx_PyFrame_SetLineNumber(*frame, firstlineno);
-    retval = 1;
-    tstate->tracing++;
-    tstate->use_tracing = 0;
-    __Pyx_ErrFetchInState(tstate, &type, &value, &traceback);
-    #if CYTHON_TRACE
-    if (tstate->c_tracefunc)
-        retval = tstate->c_tracefunc(tstate->c_traceobj, *frame, PyTrace_CALL, NULL) == 0;
-    if (retval && tstate->c_profilefunc)
-    #endif
-        retval = tstate->c_profilefunc(tstate->c_profileobj, *frame, PyTrace_CALL, NULL) == 0;
-    tstate->use_tracing = (tstate->c_profilefunc ||
-                           (CYTHON_TRACE && tstate->c_tracefunc));
-    tstate->tracing--;
-    if (retval) {
-        __Pyx_ErrRestoreInState(tstate, type, value, traceback);
-        return tstate->use_tracing && retval;
-    } else {
-        Py_XDECREF(type);
-        Py_XDECREF(value);
-        Py_XDECREF(traceback);
-        return -1;
-    }
-}
-static PyCodeObject *__Pyx_createFrameCodeObject(const char *funcname, const char *srcfile, int firstlineno) {
-    PyCodeObject *py_code = 0;
-#if PY_MAJOR_VERSION >= 3
-    py_code = PyCode_NewEmpty(srcfile, funcname, firstlineno);
-    if (likely(py_code)) {
-        py_code->co_flags |= CO_OPTIMIZED | CO_NEWLOCALS;
-    }
-#else
-    PyObject *py_srcfile = 0;
-    PyObject *py_funcname = 0;
-    py_funcname = PyString_FromString(funcname);
-    if (unlikely(!py_funcname)) goto bad;
-    py_srcfile = PyString_FromString(srcfile);
-    if (unlikely(!py_srcfile)) goto bad;
-    py_code = PyCode_New(
-        0,
-        0,
-        0,
-        CO_OPTIMIZED | CO_NEWLOCALS,
-        __pyx_empty_bytes,     /*PyObject *code,*/
-        __pyx_empty_tuple,     /*PyObject *consts,*/
-        __pyx_empty_tuple,     /*PyObject *names,*/
-        __pyx_empty_tuple,     /*PyObject *varnames,*/
-        __pyx_empty_tuple,     /*PyObject *freevars,*/
-        __pyx_empty_tuple,     /*PyObject *cellvars,*/
-        py_srcfile,       /*PyObject *filename,*/
-        py_funcname,      /*PyObject *name,*/
-        firstlineno,
-        __pyx_empty_bytes      /*PyObject *lnotab*/
-    );
-bad:
-    Py_XDECREF(py_srcfile);
-    Py_XDECREF(py_funcname);
-#endif
-    return py_code;
-}
-#endif
 
 /* PyFunctionFastCall */
 #if CYTHON_FAST_PYCALL
@@ -12322,6 +11705,30 @@ bad:
     cached_type = NULL;
     goto done;
 }
+
+/* PyErrFetchRestore */
+#if CYTHON_FAST_THREAD_STATE
+static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    tmp_type = tstate->curexc_type;
+    tmp_value = tstate->curexc_value;
+    tmp_tb = tstate->curexc_traceback;
+    tstate->curexc_type = type;
+    tstate->curexc_value = value;
+    tstate->curexc_traceback = tb;
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+}
+static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
+    *type = tstate->curexc_type;
+    *value = tstate->curexc_value;
+    *tb = tstate->curexc_traceback;
+    tstate->curexc_type = 0;
+    tstate->curexc_value = 0;
+    tstate->curexc_traceback = 0;
+}
+#endif
 
 /* RaiseException */
 #if PY_MAJOR_VERSION < 3

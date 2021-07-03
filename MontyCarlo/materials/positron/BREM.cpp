@@ -9,7 +9,8 @@
         "extra_compile_args": [
             "-std=c++11",
             "-O2",
-            "-fp:fast"
+            "-fp:fast",
+            "-favor:INTEL64"
         ],
         "include_dirs": [
             ".\\MontyCarlo\\_random"

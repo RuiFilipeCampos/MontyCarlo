@@ -6,7 +6,8 @@
         "depends": [],
         "extra_compile_args": [
             "-O2",
-            "-fp:fast"
+            "-fp:fast",
+            "-favor:INTEL64"
         ],
         "name": "MontyCarlo.tools.interpol1",
         "sources": [
