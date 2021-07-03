@@ -39,47 +39,47 @@ ext_modules = [
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+if __name__ == "__main__":
+    setup(
+        name = "MontyCarlo",
+        version = "0.0.35",
+        author = "Rui Filipe de Sousa Campos",
+        description = "A fast general purpose monte carlo particle simulator (photons, electrons and positrons). Written in Cython, Python and C++.",
+        long_description = long_description,
+        long_description_content_type="text/markdown",
+        url="https://github.com/RuiFilipeCampos/MontyCarlo",
 
-setup(
-    name = "MontyCarlo",
-    version = "0.0.35",
-    author = "Rui Filipe de Sousa Campos",
-    description = "A fast general purpose monte carlo particle simulator (photons, electrons and positrons). Written in Cython, Python and C++.",
-    long_description = long_description,
-    long_description_content_type="text/markdown",
-    url="https://github.com/RuiFilipeCampos/MontyCarlo",
-    
 
-    setup_requires   = ['setuptools_scm'],
-    install_requires = ['requests',     # for downloading databases
-                        'gdown',        # for downloading databases
-                        'numpy',        # for data processing and C-API
-                        'scipy',        # for data processing
-                        'matplotlib',   # for data visualization
-                        'pyvista',      # for geometry debugging and data visualization
-                        'numba',        # for JIT compilation, will be deprecated in the future
-                        'bs4',          # for some other dependency
-                        'pandas',       # for data processing, data reading and for htmlcreator
-                        'plotly',       # for htmlcreator
-                        'scikit-image',
-                        'Jinja2', 
-                        'pyunpack',
-                        'patool'],
+        setup_requires   = ['setuptools_scm'],
+        install_requires = ['requests',     # for downloading databases
+                            'gdown',        # for downloading databases
+                            'numpy',        # for data processing and C-API
+                            'scipy',        # for data processing
+                            'matplotlib',   # for data visualization
+                            'pyvista',      # for geometry debugging and data visualization
+                            'numba',        # for JIT compilation, will be deprecated in the future
+                            'bs4',          # for some other dependency
+                            'pandas',       # for data processing, data reading and for htmlcreator
+                            'plotly',       # for htmlcreator
+                            'scikit-image',
+                            'Jinja2', 
+                            'pyunpack',
+                            'patool'],
 
-    include_package_data = True,
-    packages             = find_packages(),
-    cmdclass             = {'build_ext': build_ext},
-    include_dirs         = [".", np.get_include(), "_random"],
+        include_package_data = True,
+        packages             = find_packages(),
+        cmdclass             = {'build_ext': build_ext},
+        include_dirs         = [".", np.get_include(), "_random"],
 
-    ext_modules = cythonize(
-                            ext_modules, 
-    						            annotate = False, # this is getting overriden locally ._.
-                            compiler_directives = {
-                                                   'profile'        : False, # this is also getting overriden locally ._.
-                                                   'language_level' : "3"
-                                                  }
-                           )
-)  
+        ext_modules = cythonize(
+                                ext_modules, 
+                                            annotate = False, # this is getting overriden locally ._.
+                                compiler_directives = {
+                                                       'profile'        : False, # this is also getting overriden locally ._.
+                                                       'language_level' : "3"
+                                                      }
+                               )
+    )  
 
 
 
