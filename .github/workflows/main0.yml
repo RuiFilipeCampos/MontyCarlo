@@ -3,6 +3,30 @@ name: Python Package using Conda
 on: [push]
 
 jobs:
+  build-mac:
+      runs-on: mac-latest
+
+      steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: 'x86' # optional x64 or x86. Defaults to x64 if not specified
+      - run: |
+          pip install cython
+          pip install numpy
+          pip install wheel
+          pip install setuptools
+          python setup.py bdist_wheel
+          git config --global user.name 'RuiFilipeCampos'
+          git config --global user.email 'RuiFilipeCampos@users.noreply.github.com'
+          git add dist/*
+          git commit -am "MAC DIST"
+          git push
+
+
+
+
   build-win:
     runs-on: windows-latest
     
@@ -24,4 +48,7 @@ jobs:
         git commit -am "Automated report"
         git push
     
+
+
+
 
