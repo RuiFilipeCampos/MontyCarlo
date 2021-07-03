@@ -20,5 +20,6 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Cython
       run: |
-        conda install cython
+        conda create -n cp38 python=3.8 anaconda
+        conda activate cp38
         python setup.py bdist_wheel
