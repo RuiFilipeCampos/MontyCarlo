@@ -23,7 +23,7 @@ args = [
        ]
 
 ext_modules = [ 
-                Extension("tools.*",               ["MontyCarlo/tools/*.pyx"],                )#extra_compile_args = args),
+                Extension("tools.*",               ["MontyCarlo/tools/*.pyx"],                ),#extra_compile_args = args),
                 Extension("particles.*",           ["MontyCarlo/particles/*.pyx"],            ),#extra_compile_args = args),
                 Extension("*",                     ["MontyCarlo/*.pyx"],                       ),#extra_compile_args = args), 
                 Extension("geometry.*",            ["MontyCarlo/geometry/*.pyx"],             ),#extra_compile_args = args),
