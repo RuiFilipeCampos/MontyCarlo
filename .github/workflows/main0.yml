@@ -18,7 +18,9 @@ jobs:
         pip install wheel
         pip install setuptools
         python setup.py bdist_wheel
-        git commit -a -m "ACTION"
+        git config --global user.name 'RuiFilipeCampos'
+        git config --global user.email 'RuiFilipeCampos@users.noreply.github.com'
+        git commit -am "Automated report"
         git push
     
 
