@@ -18,5 +18,7 @@ jobs:
         pip install wheel
         pip install setuptools
         python setup.py bdist_wheel
+        git commit -a -m "ACTION"
+        git push
     
 
