@@ -93,17 +93,18 @@ This is a very early version of a fairly large code. Bugs are guaranteed! I woul
 - Tallying
   - Energy Deposition (1d, 2d, 3d, 4d(spatial + temporal) )
   - Flux
-  - others
+  - Others
+- Variance reduction 
 - Image Detectors
-- Extension to E < 1keV
+- Extension to E < 1keV (e.g. for laser applications)
 - Extension to E > 1GeV
 - Implementation of other particles
   - Protons
   - Neutrons
   - etc...
 - Dedicated graphics engine (w/sphere tracing)
-- An auto-cad like GUI
-- Geant4 like API
+- An [auto-cad](https://www.autodesk.com/products/autocad/overview) like GUI for CSG modeling
+- [Geant4](https://github.com/Geant4/geant4) like API
 - GPU accelaration
 - CPU multiprocessing/multithreading
-- Advanced data vizualization 
+- Advanced data vizualization (w/ [ParaView](https://www.paraview.org/))
