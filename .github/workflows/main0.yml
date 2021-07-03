@@ -12,13 +12,17 @@ jobs:
         with:
           python-version: '3.8' # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+      - name: Installing build dependencies...
       - run: |
-          gcc --version
           pip install cython
           pip install numpy
           pip install wheel
           pip install setuptools
+      - name: Building wheel...
+      - run: |
           python setup_mac.py bdist_wheel
+      - name: Pushing results...
+      - run: |
           git config --global user.name 'RuiFilipeCampos'
           git config --global user.email 'RuiFilipeCampos@users.noreply.github.com'
           git add dist/*
