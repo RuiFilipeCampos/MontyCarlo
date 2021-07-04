@@ -25,9 +25,22 @@ jobs:
           pip install numpy
           pip install wheel
           pip install setuptools
+      - name: Removing xcode
+        run: |
+          rm /Applications/Xcode.app
+          rm ~/Library/Caches/com.apple.dt.Xcode
+          rm ~/Library/Developer
+          rm ~/Library/MobileDevice
+          rm ~/Library/Preferences/com.apple.dt.Xcode.plist
+          rm /Library/Preferences/com.apple.dt.Xcode.plist
+          rm /System/Library/Receipts/com.apple.pkg.XcodeExtensionSupport.bom
+          rm /System/Library/Receipts/com.apple.pkg.XcodeExtensionSupport.plist
+          rm /System/Library/Receipts/com.apple.pkg.XcodeSystemResources.bom
+          rm /System/Library/Receipts/com.apple.pkg.XcodeSystemResources.plist
+          rm /private/var/db/receipts/com.apple.pkg.Xcode.bom
       - name: Building wheel...
         run: |
-          CC=cl python setup_mac.py bdist_wheel --compiler=msvc
+          CC=cl python setup_mac.py bdist_wheel
       - name: Pushing results...
         run: |
           git config --global user.name 'RuiFilipeCampos'
