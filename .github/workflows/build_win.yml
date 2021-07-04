@@ -3,7 +3,7 @@ name: Build wheels on windows.
 on: workflow_dispatch
 
 jobs:
-  build-mac:
+  build-win:
       runs-on: windows-latest
       strategy:
         matrix:
