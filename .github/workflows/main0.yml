@@ -1,14 +1,6 @@
 name: Python Package using Conda
 
-on: 
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'     
-        required: true
-        default: 'warning'
-      tags:
-        description: 'Test scenario tags'  
+on: workflow_dispatch
 
 jobs:
   build-mac:
