@@ -6,7 +6,6 @@ jobs:
   pip-mac:
       runs-on: macos-latest
       strategy:
-        max-parallel: 1
         matrix:
           cp: ['3.7', '3.8']
       steps:
