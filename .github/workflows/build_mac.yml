@@ -12,12 +12,12 @@ jobs:
       steps:
       - name: Installing visual-studio (via brew update)
         run: brew update
+        
       - name: trying to remove x-code and gcc
         run: |
           brew unlink gcc
           rm /Applications/Xcode.app
-          
-          
+
       - uses: actions/checkout@v2
       
       - name: Installing python...
@@ -32,9 +32,10 @@ jobs:
           pip install numpy
           pip install wheel
           pip install setuptools
+          
       - name: Building wheel...
-        run: |
-          python setup_mac.py bdist_wheel
+        run: python setup_mac.py bdist_wheel
+        
       - name: Pushing results...
         run: |
           git config --global user.name 'RuiFilipeCampos'
