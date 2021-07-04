@@ -18,7 +18,7 @@ import numpy as np # need to compile it with the extension modules
 
 # MSVC ARGUMENTS
 args = [
-        "-std=c++11", "-Wno-cpp"
+        "-Wno-cpp"
        ]
 
 ext_modules = [ 
