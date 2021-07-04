@@ -1,5 +1,4 @@
 name: Build wheels on mac.
-
 on: workflow_dispatch
 
 jobs:
@@ -13,11 +12,9 @@ jobs:
       - name: Installing visual-studio (via brew update)
         run: brew update
 
-      - name: Installing git stuff...
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       
-      - name: Installing python...
-        uses: actions/setup-python@v2
+      - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.cp }} # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
