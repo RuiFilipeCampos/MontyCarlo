@@ -1,5 +1,5 @@
 
-name: (macos) pip install MontyCarlo.
+name: (test) Installing on macos.
 on: workflow_dispatch
 
 jobs:
