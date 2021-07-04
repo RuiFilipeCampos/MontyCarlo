@@ -22,15 +22,15 @@ args = [
        ]
 
 ext_modules = [ 
-                Extension("tools.*",               ["MontyCarlo/tools/*.pyx"]     ,        extra_compile_args = args, language="c++"),
-                Extension("particles.*",           ["MontyCarlo/particles/*.pyx"]  ,       extra_compile_args = args, language="c++"),
-                Extension("*",                     ["MontyCarlo/*.pyx"]      ,               extra_compile_args = args, language="c++"), 
-                Extension("geometry.*",            ["MontyCarlo/geometry/*.pyx"],         extra_compile_args = args, language="c++"),
-                Extension("materials.electron.*",  ["MontyCarlo/materials/electron/*.pyx"], extra_compile_args = args, language="c++"),
-                Extension("materials.positron.*",  ["MontyCarlo/materials/positron/*.pyx"], extra_compile_args = args, language="c++"),
-                Extension("materials.*",           ["MontyCarlo/materials/*.pyx"],           extra_compile_args = args, language="c++"),
-                Extension("materials.photon.*",    ["MontyCarlo/materials/photon/*.pyx"],   extra_compile_args = args, language="c++"),
-                Extension("_random.*",             ["MontyCarlo/_random/*.pyx"],             extra_compile_args = args, language="c++")
+                Extension("tools.*",               ["MontyCarlo/tools/*.pyx"]     ,          extra_compile_args = args),
+                Extension("particles.*",           ["MontyCarlo/particles/*.pyx"]  ,         extra_compile_args = args),
+                Extension("*",                     ["MontyCarlo/*.pyx"]      ,               extra_compile_args = args), 
+                Extension("geometry.*",            ["MontyCarlo/geometry/*.pyx"],            extra_compile_args = args),
+                Extension("materials.electron.*",  ["MontyCarlo/materials/electron/*.pyx"],  extra_compile_args = args),
+                Extension("materials.positron.*",  ["MontyCarlo/materials/positron/*.pyx"],  extra_compile_args = args),
+                Extension("materials.*",           ["MontyCarlo/materials/*.pyx"],           extra_compile_args = args),
+                Extension("materials.photon.*",    ["MontyCarlo/materials/photon/*.pyx"],    extra_compile_args = args),
+                Extension("_random.*",             ["MontyCarlo/_random/*.pyx"],             extra_compile_args = args)
               ]
  
 
