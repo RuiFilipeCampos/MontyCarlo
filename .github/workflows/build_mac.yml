@@ -8,7 +8,7 @@ jobs:
       strategy:
         max-parallel: 1
         matrix:
-          cp: ['3.7', '3.8']
+          cp: ['3.8']
       steps:
       - name: Installing visual-studio (via brew update)
         run: brew update
