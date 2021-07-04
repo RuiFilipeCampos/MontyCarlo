@@ -10,8 +10,6 @@ jobs:
         matrix:
           cp: ['3.8']
       steps:
-      - name: Installing visual-studio (via brew update)
-        run: brew update
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
@@ -25,8 +23,8 @@ jobs:
           pip install wheel
           pip install setuptools
           
-      - name: Cythonizing and Compiling with MSVC...
-        run: CC=cl python setup_mac.py build_ext --compiler=msvc
+      - name: Building wheell...
+        run: python setup_mac.py bdist_wheel
         
       - name: Pulling remote (just in case)...
         run: |
