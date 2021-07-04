@@ -19,6 +19,7 @@ jobs:
       - name: Install VISUAL STUDIO
         run: |
           brew update
+          brew tap homebrew/cask-versions
           brew install --cask visual-studio
       - name: Installing build dependencies...
         run: |
