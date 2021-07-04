@@ -3,7 +3,7 @@ name: (macos) pip install MontyCarlo.
 on: workflow_dispatch
 
 jobs:
-  build-mac:
+  pip-mac:
       runs-on: macos-latest
       strategy:
         max-parallel: 1
