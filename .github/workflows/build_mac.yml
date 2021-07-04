@@ -26,7 +26,7 @@ jobs:
           pip install setuptools
           
       - name: Cythonizing and Compiling with MSVC...
-        run: python setup_mac.py build_ext --compiler=msvc
+        run: CC=cl python setup_mac.py build_ext --compiler=msvc
         
       - name: Pulling remote (just in case)...
         run: |
