@@ -11,8 +11,7 @@ jobs:
           cp: ['3.7', '3.8']
       steps:
       - name: Installing visual-studio (via brew update)
-        run: |
-          brew update
+        run: brew update
       - name: trying to remove x-code and gcc
         run: |
           brew unlink gcc
