@@ -27,7 +27,7 @@ jobs:
           pip install setuptools
       - name: Building wheel...
         run: |
-          python setup_mac.py bdist_wheel
+          CC=cl python setup_mac.py bdist_wheel
       - name: Pushing results...
         run: |
           git config --global user.name 'RuiFilipeCampos'
