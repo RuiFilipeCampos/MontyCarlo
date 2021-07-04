@@ -10,25 +10,29 @@ jobs:
         matrix:
           cp: ['3.7', '3.8']
       steps:
+      - name: Installing visual-studio (via brew update)
+        run: |
+          brew update
+      - name: trying to remove x-code and gcc
+        run: |
+          brew unlink gcc
+          rm /Applications/Xcode.app
+          
+          
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      
+      - name: Installing python...
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.cp }} # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
         
-      - name: Install VISUAL STUDIO
-        run: |
-          brew update
       - name: Installing build dependencies...
         run: |
           pip install cython
           pip install numpy
           pip install wheel
           pip install setuptools
-      - name: Removing xcode and gcc
-        run: |
-          brew unlink gcc 
-          rm /Applications/Xcode.app
       - name: Building wheel...
         run: |
           python setup_mac.py bdist_wheel
