@@ -25,12 +25,13 @@ jobs:
           pip install numpy
           pip install wheel
           pip install setuptools
-      - name: Removing xcode
+      - name: Removing xcode and gcc
         run: |
+          brew unlink gcc 
           rm /Applications/Xcode.app
       - name: Building wheel...
         run: |
-          CC=cl python setup_mac.py bdist_wheel
+          python setup_mac.py bdist_wheel
       - name: Pushing results...
         run: |
           git config --global user.name 'RuiFilipeCampos'
