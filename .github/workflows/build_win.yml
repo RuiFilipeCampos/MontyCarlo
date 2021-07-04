@@ -6,6 +6,7 @@ jobs:
   build-win:
       runs-on: windows-latest
       strategy:
+        max-parallel: 1
         matrix:
           cp: ['3.7', '3.8']
           arch: ['x64', 'x86']
