@@ -463,7 +463,7 @@ cdef class Atom:
         print(f"{(tf-t0)/N}ns per run") 
         
     def sample(self, int shell_index, int N):
-        
+        nothing = """
         from numpy.random import rand
         cdef rShell* shell = self.fetchFI(shell_index)
         
@@ -478,7 +478,8 @@ cdef class Atom:
             sample[i] = <int> shell.sample_transition()
         tf = time.perf_counter_ns()
         print(f"{(tf-t0)/N}ns per run") 
-        return sample
+        return sample"""
+        return None
 
             
         
