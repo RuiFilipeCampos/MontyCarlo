@@ -41,7 +41,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 if __name__ == "__main__":
     setup(
         name = "MontyCarlo",
-        version = "0.0.36",
+        version = "0.0.40",
         author = "Rui Filipe de Sousa Campos",
         description = "A fast general purpose monte carlo particle simulator (photons, electrons and positrons). Written in Cython, Python and C++.",
         long_description = long_description,
