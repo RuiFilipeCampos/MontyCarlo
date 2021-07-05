@@ -1,6 +1,7 @@
-
-
-
+__doc__ = """
+plotter.py
+    Where plots are made. xd
+"""
 
 
 										 
