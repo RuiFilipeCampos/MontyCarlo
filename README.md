@@ -108,3 +108,4 @@ This is a very early version of a fairly large code. Bugs are guaranteed! I woul
 - GPU accelaration
 - CPU multiprocessing/multithreading
 - Advanced data vizualization (w/ [ParaView](https://www.paraview.org/))
+- Distributed Cloud Computing
