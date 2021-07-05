@@ -1,8 +1,7 @@
-"""
-__init__.py cannot be compiled, so I'm just calling this from there.
-
-Initializes all globals.
-
+__doc__ = """
+_init.pyx
+ __init__.py cannot be compiled, so I'm just calling this from there.
+ Initializes all globals.
 """
 
 
