@@ -1,5 +1,13 @@
 # cython: profile=True
 
+__doc__ = """
+    sources.pyx
+        This module is VERY incomplete. Sources decide the flow of the simulation, they get to choose which primary particles get created, in which order
+        they are simulated and even will be responsible for seeding them for multi processing.
+"""
+
+
+
 print(">>>>>   IMPORTING SOURCES")
 
 
