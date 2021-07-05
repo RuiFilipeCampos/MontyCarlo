@@ -24,7 +24,7 @@ print("SHOWING setting.py")
 #__PATH__ = repr(__file__)[:-14][1:]
 
 from pathlib import Path
-__montecarlo__ = Path(repr(__file__))
+__montecarlo__ = Path(repr(__file__)[1:])
 __montecarlo__ = __montecarlo__.parent
 
 
