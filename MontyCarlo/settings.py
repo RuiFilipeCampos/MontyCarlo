@@ -21,10 +21,15 @@ How this file will change:
 
 print("SHOWING setting.py")
 
-__PATH__ = repr(__file__)[:-14][1:]
+#__PATH__ = repr(__file__)[:-14][1:]
+
+from pathlib import Path
+__montecarlo__ = Path(repr(__file__))
+__montecarlo__ = __montecarlo__.parent
+
 
 print("_________________________________________________________________")
-print("INSTALL PATH: ", repr(__file__))
+print("INSTALL PATH: ", __montecarlo__)
 print("----")
 
 DEBUG = False # runtime debug mode
@@ -50,7 +55,6 @@ print("");print("");
 
 Wcc = Wcc*1e-6 
 
-from pathlib import Path
-__montecarlo__ = Path(__PATH__)
+
 
 print("BRANCH: default1 - pre-alpha")
