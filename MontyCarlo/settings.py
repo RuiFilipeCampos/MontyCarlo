@@ -24,7 +24,7 @@ print("SHOWING setting.py")
 __PATH__ = repr(__file__)[:-14][1:]
 
 print("_________________________________________________________________")
-print("INSTALL PATH: ", __PATH__)
+print("INSTALL PATH: ", repr(__file__))
 print("----")
 
 DEBUG = False # runtime debug mode
