@@ -25,6 +25,9 @@ jobs:
       - name: Building MyCo...
         run: python setup_mac.py build_ext --inplace -j9
         
+      - name: Installing requirements...
+        run: pip install -r requirements.txt
+        
       - name: Importing MyCo...
         run: python -c "import MontyCarlo"
         
