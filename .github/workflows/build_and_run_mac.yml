@@ -1,0 +1,25 @@
+
+name: (test::macos) Build and run.
+on: workflow_dispatch
+
+jobs:
+  pip-mac:
+      runs-on: macos-latest
+      strategy:
+        matrix:
+          cp: ['3.7', '3.8']
+      steps:
+      - run: brew install rar
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.cp }} # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+      - name: Installing MyCo
+        run: |
+          pip install MontyCarlo
+          python -c "import MontyCarlo"
+
+
+
+
+
