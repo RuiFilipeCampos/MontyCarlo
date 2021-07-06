@@ -1,1 +1,14 @@
-
+requests
+gdown
+numpy
+scipy
+matplotlib
+pyvista
+numba
+bs4
+pandas
+plotly
+scikit-image
+Jinja2
+pyunpack
+patool
