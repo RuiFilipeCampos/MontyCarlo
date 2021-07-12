@@ -2,7 +2,7 @@ name: (test::windows) Build and run.
 on: [push]
 
 jobs:
-  build-mac:
+  build-win:
       runs-on: windows-latest
       strategy:
         matrix:
