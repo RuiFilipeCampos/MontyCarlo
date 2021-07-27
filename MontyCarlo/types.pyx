@@ -3,6 +3,8 @@ types.pyx
     A place to keep the frequently used data structures. (I will eventually move everything here).
 """
 
+__author__ = "Rui Campos"
+
 print("Importing .types")
 
 
