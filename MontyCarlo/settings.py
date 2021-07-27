@@ -18,6 +18,8 @@ How this file will change:
   __montecarlo__ is also a very old name, should be changed to __path__ or __PATH__. 
 """
 
+__author__ = "Rui Campos"
+
 
 print("Importing .settings")
 
