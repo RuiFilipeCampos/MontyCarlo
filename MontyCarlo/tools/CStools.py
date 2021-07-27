@@ -1,3 +1,10 @@
+__doc__ = """
+"""
+
+__author__ = "Rui Campos"
+
+
+
 #External Imports
 from numpy import *
 #from scipy.interpolate import interpl1d
