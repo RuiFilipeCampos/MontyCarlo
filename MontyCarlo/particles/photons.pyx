@@ -1,7 +1,7 @@
 # cython: annotate=True
 # cython: profile =False
 # distutils: language = c++
-print(">>>>>   IMPORTING PHOTONS")
+print("Importing particles.photons")
 
 DEF TEST = True
 DEF _DEBUG_BASIC = False
