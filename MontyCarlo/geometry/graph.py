@@ -1,3 +1,9 @@
+__doc__ = """Legacy plotter: volumetric plotting by checking a grid of points if they belong to the volume or not.
+"""
+
+__author__ = "Rui Campos"
+
+
 #Internal Imports
 from .primitives import *
 
