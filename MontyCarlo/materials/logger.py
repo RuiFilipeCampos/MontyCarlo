@@ -1,3 +1,9 @@
+__doc__ = """Implements a class that aids in the construction of the *.html output file.
+"""
+
+__author__ = "Rui Campos"
+
+
 from .htmlcreator import HTMLDocument
 import numpy as np
 from pandas import *
