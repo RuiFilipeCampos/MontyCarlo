@@ -1,6 +1,6 @@
 # distutils: language = c++
 
-print("Importing `.particles.particle` ...")
+print("Importing .particles.particle")
 
 
 # Conditional compilation 
