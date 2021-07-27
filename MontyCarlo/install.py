@@ -1,12 +1,18 @@
 __doc__ = """
 install.py
     Second phase of installation. Triggered on first import. Downloads the following databases:
-      - EADL :: Evaluated Atomic Data Library (*.txt)
-      - EPDL :: Evaluated Photon Data Library  (*.txt)
+      - EADL :: Evaluated Atomic Data Library   (*.txt)
+      - EPDL :: Evaluated Photon Data Library   (*.txt)
       - EEDL :: Evaluated Electron Data Library (*.txt)
       - Data regarding the elastic scattering of electrons, compiled using ELSPA (*.npy) 
       - Data regarding the elastic scattering of positrons, compiled using ELSPA (*.npy)
 """
+
+
+print("""
+The data being download can be seen in `https://github.com/RuiFilipeCampos/MontyCarlo/tree/pre-alpha/0.0.41/docs` 
+in the `EADL`, `EPDL`, `EEDL`, and `elastic` folders. 
+""")
 
 
 print("Downloading EADL...")
