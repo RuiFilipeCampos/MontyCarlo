@@ -1,4 +1,12 @@
-print(">>>>>   IMPORTING CUBIC INVERSE TRANSFORM")
+print("Importing .tools.CubicInverseTransform ...")
+
+
+__doc__ = """
+
+Cubic Inverse Transform :: An alternative to RITA
+
+"""
+
 
 class MAP(dict):
     def __getattr__(self, key):
@@ -18,29 +26,19 @@ class MAP(dict):
 
 
 
-
-
-
-
-
-
-
-
-
-from scipy.integrate import cumtrapz, trapz
+# EXTERNAL IMPORTS
+from scipy.integrate   import cumtrapz, trapz
 from scipy.interpolate import CubicSpline
+
 import numpy as np
 from numpy import array, linspace, floor
-
 from numpy cimport ndarray
 #from libc.math cimport floor
-
 from libc.stdlib cimport rand, RAND_MAX
-
-
 cimport cython
 
 
+# INTERNAL IMPORTS
 
 
 
@@ -48,6 +46,8 @@ cimport cython
 cdef double urand():
     cdef double r = rand()
     return r / RAND_MAX
+
+
 
 
 
@@ -74,12 +74,10 @@ cdef object remove_duplicates(ndarray x, ndarray Y):
             keep = True
         new_y.append(y)
         
-    print("ppppp")
     for y1, y2 in zip(Y, new_y): print(y1, y2)
     import time
     time.sleep(10000)
     return u, np.array(new_y)
-
 
 
 
@@ -136,7 +134,7 @@ def fromCallable(f, a, b, num = 100, endpoints = True):
     else:
         X = linspace(a, b, num = num + 2)
         X = X[1:-1]
-        
+
     
     Y = [f(x) for x in X]
     Y = array(Y)
@@ -152,6 +150,7 @@ def fromCallable(f, a, b, num = 100, endpoints = True):
     
     return aFastCubicSpline(cumul,X , aliases = A)
 
+
 cdef aFastCubicSpline fromSample(x, y):
     y = y/trapz(y, x)
     
@@ -162,19 +161,22 @@ cdef aFastCubicSpline fromSample(x, y):
     A = makeAlias(indexes, prob)        
     
     return aFastCubicSpline(cumul, x, aliases = A)
-    
+
     
 cimport numpy as cnp
 
 
+
+
+
 def rebuildaFastCubicSpline(this):
     cdef aFastCubicSpline self
-    self = <aFastCubicSpline> aFastCubicSpline.__new__(aFastCubicSpline)
-    self.c = this.c
-    self.x = this.x
+    self    = <aFastCubicSpline> aFastCubicSpline.__new__(aFastCubicSpline)
+    self.c  = this.c
+    self.x  = this.x
     self.DX = this.DX
 
-    self.cut_offs = this.cut_offs
+    self.cut_offs    = this.cut_offs
     self.rej_indexes = this.rej_indexes
 
     self.N = this.N
@@ -230,9 +232,6 @@ cdef class aFastCubicSpline:
         
     
     cdef double _sample(self):
-        
-        
-
         self.R = self.N * rand()
         self.i = <int> self.R
 
