@@ -1,5 +1,7 @@
 # cython: profile=False
-print(">>>>>   IMPORTING VECTORS")
+
+print("Importing .tools.vectors")
+
 
 #from pyquaternion import Quaternion
 from libc.math cimport sin, cos
