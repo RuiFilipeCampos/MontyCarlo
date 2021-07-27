@@ -1,3 +1,9 @@
+
+__doc__ = """Downloads EADL from github.
+"""
+
+__author__ = "Rui Campos"
+
 import requests
 
 from ...settings import __montecarlo__
