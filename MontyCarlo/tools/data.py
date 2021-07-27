@@ -1,3 +1,10 @@
+__doc__ = """ Functions for handling the EPDL/EEDL/EADL databases.
+"""
+
+__author__ = "Rui Campos"
+
+
+
 from numpy import array
 
 def getAxis(text):
