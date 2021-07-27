@@ -9,6 +9,9 @@ install.py
 """
 
 
+print("Importing .install")
+
+
 print("""
 The data being download can be seen in `https://github.com/RuiFilipeCampos/MontyCarlo/tree/pre-alpha/0.0.41/docs` 
 in the `EADL`, `EPDL`, `EEDL`, and `elastic` folders. 
