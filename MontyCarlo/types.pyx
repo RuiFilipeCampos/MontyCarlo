@@ -3,6 +3,9 @@ types.pyx
     A place to keep the frequently used data structures. (I will eventually move everything here).
 """
 
+print("Importing .types")
+
+
 import numpy as np
 
 nan = np.nan
