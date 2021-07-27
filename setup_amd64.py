@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+__doc__ = """A setup script targeted to windows_latest-amd64.
+"""
 
 import os
 from Cython.Build import cythonize
