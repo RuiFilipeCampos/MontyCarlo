@@ -1,5 +1,8 @@
 #distutils: language = c++
 
+print("Importing .geometry.CSG")
+
+
 DEF VERBOSE = False
 DEF VERBOSE_TALLY = False
 DEF DEBUG_MODE = False
