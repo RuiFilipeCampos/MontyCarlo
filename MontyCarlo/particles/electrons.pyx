@@ -3,9 +3,7 @@
 # distutils: language = c++ 
 # distutils: extra_compile_args = -std=c++11
 
-print(">>>>>   IMPORTING ELECTRONS")
-
-
+print("Importing .particles.electrons")
 
 DEF _DEBUG_BASIC = False
 DEF _SIGNAL_INTERACTION = False
