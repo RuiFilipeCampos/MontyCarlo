@@ -1,6 +1,6 @@
 
 name: (test::macos) Build and run.
-on: [push]
+on: workflow_dispatch
 
 jobs:
   build-mac:
