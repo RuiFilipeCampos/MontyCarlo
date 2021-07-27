@@ -1,3 +1,10 @@
+__doc__ = """Deprecated.
+"""
+
+__author__ = "Rui Campos"
+
+
+
 from scipy.interpolate import CubicSpline, RectBivariateSpline, BarycentricInterpolator, interp1d
 from numpy import *
 from numpy.random import rand
