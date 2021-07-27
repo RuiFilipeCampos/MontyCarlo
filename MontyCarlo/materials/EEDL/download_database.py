@@ -1,7 +1,7 @@
 import requests
 from ...settings import __montecarlo__
 
-PATH = __montecarlo__/'materials'/'EADL'
+PATH = __montecarlo__/'materials'/'EEDL'
 
 for N in range(1, 101):
     #url = "https://www-nds.iaea.org/epics/ENDL2017/EADL.ELEMENTS/ZA00" + str(N) + "000"
