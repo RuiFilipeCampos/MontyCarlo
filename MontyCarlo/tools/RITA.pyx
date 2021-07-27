@@ -1,4 +1,10 @@
-print(">>>>>   IMPORTING RITA")
+__doc__ = """
+"""
+
+__author__ = "Rui Campos"
+
+
+print("Importing .tools.RITA")
 
 
 
