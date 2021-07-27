@@ -1,4 +1,14 @@
-# -*- coding: utf-8 -*-
+__doc__ = """A setup script targeted to my computer. Should work fine on any windows_latest-amd64.
+
+Usage:
+
+`python setup.py build_ext --inplace -j9`
+
+It will build the extension modules directly in the `\MontyCarlo` folder using 9 threads.
+"""
+
+__author__ = "Rui Campos"
+
 
 import os
 from Cython.Build import cythonize
