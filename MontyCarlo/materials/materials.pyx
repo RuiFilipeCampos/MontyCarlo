@@ -1,11 +1,15 @@
 # distutils: language = c++
 
-"""
+__doc__ = """
 
 MAIN SOURCE OF INFO:
     PENELOPE 11  - https://drive.google.com/file/d/1aIfsVbZUbIwjDzlvOwWBA_lN2XTu2VGd/
     PENELOP 2018 - https://drive.google.com/file/d/1rb_wKkICOyL5UMuG4chuRxBQHuqR_8q1/
 """
+
+__author__ = "Rui Campos"
+
+print("Importing .materials.materials")
 
 #print(">>>> IMPORTING materials.pyx")
 
