@@ -1,4 +1,4 @@
-__doc__ = """
+__doc__ = """This will be removed.
 """
 
 __author__ = "Rui Campos"
