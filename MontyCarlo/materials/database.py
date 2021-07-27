@@ -1,15 +1,19 @@
 # cython: profile=True
-print(">>>> importing database.py")
+print("Importing .materials.database")
+
+__doc__ = """
+DATABASE DOCUMENTATION: 
+    https://www-nds.iaea.org/epics/DOCUMENTS/ENDL2002.pdf
+    https://www-nds.iaea.org/epics/
+"""
+
+__author__ = "Rui Campos"
 
 
 from ..tools.CubicInverseTransform import makeAlias
 
 
-"""
-DATABASE DOCUMENTATION: 
-    https://www-nds.iaea.org/epics/DOCUMENTS/ENDL2002.pdf
-    https://www-nds.iaea.org/epics/
-"""
+
 
 from numpy import * #array, geomspace, flip, load, searchsorted
 
