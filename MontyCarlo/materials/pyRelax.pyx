@@ -2,7 +2,12 @@
 # cython: c_string_type=unicode, c_string_encoding=utf8
 # cython: profile=False
 
-print("pyRelax")
+__doc__ = """ Atomic Relaxation model. NEEDS CLEANING.
+"""
+
+__author__ = "Rui Campos"
+
+print("Importing .materials.pyRelax")
 
 from .cppRelaxAPI cimport Shell as rShell
 from .cppRelaxAPI cimport Atom as rAtom
