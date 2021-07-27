@@ -6,9 +6,10 @@ __doc__ = """
         they are simulated and even will be responsible for seeding them for multi processing.
 """
 
+__author__ = "Rui Campos"
 
 
-print(">>>>>   IMPORTING SOURCES")
+print("Importing .sources")
 
 
 from .particles.particle cimport STATE

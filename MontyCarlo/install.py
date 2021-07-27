@@ -1,12 +1,13 @@
 __doc__ = """
 install.py
     Second phase of installation. Triggered on first import. Downloads the following databases:
-      - EADL :: Evaluated Atomic Data Library :: downloaded with a webscraper <---- this will eventually change and the data base will be downloaded from my drive
-      - EPDL :: Evaluated Photon Data Library :: downloaded with a webscraper <---- this will eventually change and the data base will be downloaded from my drive
-      - EEDL :: Evaluated Electron Data Library :: downloaded with a webscraper <---- this will eventually change and the data base will be downloaded from my drive
-      - Data regarding the elastic scattering of electrons, compiled using ELSPA :: downloaded from my personal drive
-      - Data regarding the elastic scattering of positrons, compiled using ELSPA :: downloaded from my personal drive
+      - EADL :: Evaluated Atomic Data Library (*.txt)
+      - EPDL :: Evaluated Photon Data Library  (*.txt)
+      - EEDL :: Evaluated Electron Data Library (*.txt)
+      - Data regarding the elastic scattering of electrons, compiled using ELSPA (*.npy) 
+      - Data regarding the elastic scattering of positrons, compiled using ELSPA (*.npy)
 """
+
 
 print("Downloading EADL...")
 from .materials.EADL import download_database

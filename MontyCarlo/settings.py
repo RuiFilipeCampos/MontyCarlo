@@ -19,7 +19,7 @@ How this file will change:
 """
 
 
-print("SHOWING setting.py")
+print("Importing .settings")
 
 #__PATH__ = repr(__file__)[:-14][1:]
 
@@ -57,4 +57,5 @@ Wcc = Wcc*1e-6
 
 
 
-print("BRANCH: default1 - pre-alpha")
+print("BRANCH: pre-alpha/0.0.41")
+print("")
