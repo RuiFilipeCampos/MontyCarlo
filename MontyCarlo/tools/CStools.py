@@ -1,4 +1,4 @@
-__doc__ = """
+__doc__ = """DEPRECATED
 """
 
 __author__ = "Rui Campos"
