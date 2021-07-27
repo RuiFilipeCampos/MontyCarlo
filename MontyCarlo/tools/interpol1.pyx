@@ -1,6 +1,13 @@
 # cython: profile=False
 
 
+__doc__ = """Interpolation tools. 
+"""
+
+__author__ = "Rui Campos"
+
+print("Importing .tools.interpol1")
+
 
 
 
