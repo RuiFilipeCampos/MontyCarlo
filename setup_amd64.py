@@ -1,6 +1,8 @@
 __doc__ = """A setup script targeted to windows_latest-amd64.
 """
 
+__author__ = "Rui Campos"
+
 import os
 from Cython.Build import cythonize
 
