@@ -1,7 +1,7 @@
 # distutils: language = c++
 # cython: profile=False
 
-print(">>>>>   IMPORTING GEOMETRY")
+print("Importing .geometry.main")
 
 from libc.math cimport fmin, fmax, sqrt , cos, pi
 from libcpp.vector cimport vector
