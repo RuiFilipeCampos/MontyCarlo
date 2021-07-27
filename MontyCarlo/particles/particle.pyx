@@ -64,15 +64,15 @@ cdef class Particle:
 
 
 		cpdef get_record_pos(self):
-				"""Return the particles trajectory, making it available on python.
+			"""Return the particles trajectory, making it available on python.
 
-				Note:
-						If `self.state_record` does not exist (see: conditional compilation on this module), it
-						will cause segmentation error. 
+			Note:
+					If `self.state_record` does not exist (see: conditional compilation on this module), it
+					will cause segmentation error. 
 
-				Returns:
-						Python deque holding the particles trajectory. (??): deque([(x,y,z), (x,y,z)])
-				"""
+			Returns:
+					Python deque holding the particles trajectory. (??): deque([(x,y,z), (x,y,z)])
+			"""
 
 
 			cdef vector[STATE].iterator it = self.state_record.begin()
