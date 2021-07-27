@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
+__doc__ = """
 """
-Created on Sun Dec 27 12:41:36 2020
 
-@author: Rui Campos
-"""
+__author__ = "Rui Campos"
 
 # from setuptools import setup
 from Cython.Build import cythonize
