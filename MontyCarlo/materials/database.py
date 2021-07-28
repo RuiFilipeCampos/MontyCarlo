@@ -1,4 +1,5 @@
-# cython: profile=True
+# cython: profile=False
+
 print("Importing .materials.database")
 
 __doc__ = """
@@ -10,19 +11,17 @@ DATABASE DOCUMENTATION:
 __author__ = "Rui Campos"
 
 
-from ..tools.CubicInverseTransform import makeAlias
 
-
-
-
+#External Imports
 from numpy import * #array, geomspace, flip, load, searchsorted
 
-
-
-
+#Internal Imports
+from ..tools.CubicInverseTransform import makeAlias
 from ..settings import __montecarlo__
 from ..tools.data import getAxis
 from ..tools.interpol1 import LinLinInterpolation
+
+
 
 
 __materials__ = __montecarlo__/'materials'
@@ -45,14 +44,11 @@ E0_electron = 510.998928 #keV
 
 class EADL:
 	def __init__(self):
-		
 		self.container = [EADLelement(Z) for Z in range(1, 101)]
-		
-	
+
 	def __getitem__(self, Z):
 		return self.container[Z-1]
 			
-
 
 
 
@@ -60,41 +56,38 @@ class EADLelement:
 	def __init__(self, Z):
 		self.Z = Z
 	
-	file = str(Z) + ".txt"
-	self.path = str(__materials__/'EADL'/file)
-	del file
+		file = str(Z) + ".txt"
+		self.path = str(__materials__/'EADL'/file)
+		del file
 	
 		#self.path = directory + "\\EADL\\" + str(Z) + ".txt"
 		self.Aw, self.EADL_dict = self.getBookmarkedText()
 		self.container = {}
 		
 		for Id in self.EADL_dict:
-		   if Id[0:3] == (0, 92, 91) and Id[4:] == (7, 931):
-			   j_, fr_, Er_ = [], [], []
+			if Id[0:3] == (0, 92, 91) and Id[4:] == (7, 931):
+				j_, fr_, Er_ = [], [], []
+				for line in self.EADL_dict[Id]:
+					j, fr, Er = [float(x) for x in line.split()]
+					j_ += [j]
+					fr_ += [fr]
+					Er_ += [Er]
+
+				self.container[Id] = tuple(map(array, (j_, fr_, Er_) ))
 			   
-			   for line in self.EADL_dict[Id]:
-				   j, fr, Er = [float(x) for x in line.split()]
+			if Id[0:3] == (0, 92, 91) and Id[4:] == (9, 932):
+				j_, k_, fnr_, Enr_ = [], [], [], []
+			   
+				for line in self.EADL_dict[Id]:
+					j, k, fnr, Enr = [float(x) for x in line.split()]
 				   
-				   j_ += [j]
-				   fr_ += [fr]
-				   Er_ += [Er]
+					j_ += [j]
+					k_ += [k]
+					fnr_ += [fnr]
+					Enr_ += [Enr]
 			
 				
-			   self.container[Id] = tuple(map(array, (j_, fr_, Er_) ))
-			   
-		   if Id[0:3] == (0, 92, 91) and Id[4:] == (9, 932):
-			   j_, k_, fnr_, Enr_ = [], [], [], []
-			   
-			   for line in self.EADL_dict[Id]:
-				   j, k, fnr, Enr = [float(x) for x in line.split()]
-				   
-				   j_ += [j]
-				   k_ += [k]
-				   fnr_ += [fnr]
-				   Enr_ += [Enr]
-			
-				
-			   self.container[Id] = tuple(map(array, (j_, k_, fnr_, Enr_) ))
+				self.container[Id] = tuple(map(array, (j_, k_, fnr_, Enr_) ))
 		
 		
 		
@@ -105,71 +98,15 @@ class EADLelement:
 		path = self.path
 
 		with open(path, "r") as file:
-				text = file.readlines()
-				text = [line.strip('\n') for line in text]
-
-				bookmarks = [0]
-				
-				for n, line in enumerate(text):
-						if line == "                                                                       1":
-								bookmarks += [n + 1]
-								
-				#gather all bookmarked text into a dict
-				bookmark_ = bookmarks[0:-1]
-				_ookmarks = bookmarks[1:]
-				
-				line0 = text[0]
-				Z  = int(line0[0:3])
-				Aw = float(line0[13:24])
-				
-		
-				bookmarked_text = {}
-				
-				for i, j in zip(bookmark_, _ookmarks):
-						line1, line2 = text[i], text[i+1]
-						
-					   #on line 1
-						Yi = float(line1[7:9])    #particle identifier
-						Yo = float(line1[10:12])  #secondary particle designator
-						
-						#on line 2
-						C  = float(line2[0:2])    #reaction descriptor
-						I  = float(line2[2:5])    #reaction property
-						S  = float(line2[5:8])    #reaction modifier
-						X1 = float(line2[22:32])  #subshell designator
-						
-						flags = (Yi, C, S, X1, Yo, I)
-
-						flags = tuple(map(int, flags))
-						bookmarked_text[flags] = text[i+2:j-1]
-						
-		return Aw, bookmarked_text
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def get_bookmarked_text_EADL(path):
-
-	with open(path, "r") as file:
 			text = file.readlines()
 			text = [line.strip('\n') for line in text]
 
 			bookmarks = [0]
-			
+				
 			for n, line in enumerate(text):
-					if line == "                                                                       1":
-							bookmarks += [n + 1]
-							
+				if line == "                                                                       1":
+					bookmarks += [n + 1]
+	
 			#gather all bookmarked text into a dict
 			bookmark_ = bookmarks[0:-1]
 			_ookmarks = bookmarks[1:]
@@ -198,6 +135,50 @@ def get_bookmarked_text_EADL(path):
 
 					flags = tuple(map(int, flags))
 					bookmarked_text[flags] = text[i+2:j-1]
+						
+		return Aw, bookmarked_text
+
+
+
+def get_bookmarked_text_EADL(path):
+
+	with open(path, "r") as file:
+		text = file.readlines()
+		text = [line.strip('\n') for line in text]
+
+		bookmarks = [0]
+
+		for n, line in enumerate(text):
+			if line == "                                                                       1":
+				bookmarks += [n + 1]
+
+		#gather all bookmarked text into a dict
+		bookmark_ = bookmarks[0:-1]
+		_ookmarks = bookmarks[1:]
+
+		line0 = text[0]
+		Z  = int(line0[0:3])
+		Aw = float(line0[13:24])
+
+		bookmarked_text = {}
+
+		for i, j in zip(bookmark_, _ookmarks):
+				line1, line2 = text[i], text[i+1]
+				
+			 	#on line 1
+				Yi = float(line1[7:9])    #particle identifier
+				Yo = float(line1[10:12])  #secondary particle designator
+				
+				#on line 2
+				C  = float(line2[0:2])    #reaction descriptor
+				I  = float(line2[2:5])    #reaction property
+				S  = float(line2[5:8])    #reaction modifier
+				X1 = float(line2[22:32])  #subshell designator
+				
+				flags = (Yi, C, S, X1, Yo, I)
+
+				flags = tuple(map(int, flags))
+				bookmarked_text[flags] = text[i+2:j-1]
 					
 	return Aw, bookmarked_text
 
