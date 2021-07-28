@@ -3,7 +3,7 @@ name: (test) Installing on windows.
 on: workflow_dispatch
 
 jobs:
-  build-win:
+  pip-win:
       runs-on: windows-latest
       strategy:
         matrix:
@@ -15,8 +15,8 @@ jobs:
         with:
           python-version: ${{ matrix.cp }} # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: ${{ matrix.arch }} # optional x64 or x86. Defaults to x64 if not specified
-      - name: Installing build dependencies...
-        run: |
-          pip install MontyCarlo
-          python -c "import MontyCarlo"
-      
+      - name: pip install MontyCarlo
+        run: pip install MontyCarlo
+      - name: python -c "import MontyCarlo"
+        run: python -c "import MontyCarlo"
+
