@@ -24,7 +24,7 @@ if arg1 == "--pip_installed" or arg1 == "-p":
 	pass
 
 elif arg1 == "--built_inplace" or arg1 == "-b":
-	print(__path__)
+	#print(__path__)
 	__path__ = Path(__file__)
 	__folder__ = __path__.parent
 	sys.path.append(str(__folder__.parent))
