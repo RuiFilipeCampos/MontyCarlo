@@ -7,7 +7,7 @@ jobs:
       runs-on: windows-latest
       strategy:
         matrix:
-          cp: ['3.8']
+          cp: ['3.7', '3.8', '3.9']
           arch: ['x64']
       steps:
       - uses: actions/setup-python@v2
