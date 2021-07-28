@@ -59,7 +59,12 @@ class EADL:
 class EADLelement:
     def __init__(self, Z):
         self.Z = Z
-        self.path = directory + "\\EADL\\" + str(Z) + ".txt"
+	
+	file = str(Z) + ".txt"
+	self.path = str(__materials__/'EADL'/file)
+	del file
+	
+        #self.path = directory + "\\EADL\\" + str(Z) + ".txt"
         self.Aw, self.EADL_dict = self.getBookmarkedText()
         self.container = {}
         
@@ -216,18 +221,15 @@ def getEADL(Z):
     EADL DOC: 
         https://drive.google.com/file/d/1i5ndh-G6eD1ginpxNLzBtskJh3XTU5p9/
     """
-    
-    EADL_path      = directory + "\\EADL\\" + str(Z) + ".txt"
-    
+	
+	file = str(Z) + ".txt"
+    EADL_path = str(__materials__/'EADL'/file)
+    del file
+	
     Aw, EADL_dict = get_bookmarked_text_EADL(EADL_path)
-
-
 
     EADL_dict['Aw'] = Aw
     EADL_dict['Z']  = Z 
-    
-
-    
     
     return EADL_dict
     
