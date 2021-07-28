@@ -15,8 +15,11 @@ jobs:
         with:
           python-version: ${{ matrix.cp }} # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: ${{ matrix.arch }} # optional x64 or x86. Defaults to x64 if not specified
-      - name: pip install MontyCarlo --user
-        run: pip install MontyCarlo --user
+          
+      - name: upgrade pip
+        run: python -m pip install --upgrade pip
+      - name: pip install MontyCarlo
+        run: pip install MontyCarlo
       - name: python -c "import MontyCarlo"
         run: python -c "import MontyCarlo"
 
