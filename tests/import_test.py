@@ -1,6 +1,10 @@
 __doc__ = """
 """
 
+
+
+from . import _cmd
+
 import sys
 module_arguments = sys.argv
 
