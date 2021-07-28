@@ -9,8 +9,10 @@ This is necessary since there are several possible scenarios when unit testing M
 
 __author__ = "Rui Campos"
 
+print(__file__)
 
 import sys
+print(sys.argv)
 from pathlib import Path
 
 if len(sys.argv) == 1:
