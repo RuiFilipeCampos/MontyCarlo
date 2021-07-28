@@ -2,7 +2,7 @@
 
 import os
 from Cython.Build import cythonize
-
+from setup_version import version
 try:
     from setuptools import setup, find_packages
     from setuptools import Extension
@@ -43,7 +43,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name = "MontyCarlo",
-    version = "0.0.35",
+    version = version,
     author = "Rui Filipe de Sousa Campos",
     description = "A fast general purpose monte carlo particle simulator (photons, electrons and positrons). Written in Cython, Python and C++.",
     long_description = long_description,
