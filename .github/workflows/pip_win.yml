@@ -8,7 +8,7 @@ jobs:
       strategy:
         matrix:
           cp: ['3.7', '3.8']
-          arch: ['x64', 'x86']
+          arch: ['x64']
       steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
