@@ -261,8 +261,12 @@ def getEPDL(Z):
 	cullen1997
 	https://drive.google.com/file/d/1WqppBrR-C3yiRuhp7P16c0yCPDFr2T9t/view?usp=sharing
 	"""
-	
-	EPDL_path      = directory + "\\EPDL\\" + str(Z) + ".txt"
+	file = str(Z) + ".txt"
+	EPDL_path = str(__materials__/'EPDL'/file)
+	del file
+
+	#EPDL_path      = directory + "\\EPDL\\" + str(Z) + ".txt"
+
 	EPDL_dict = get_bookmarked_text(EPDL_path)
 	
 	
@@ -280,7 +284,13 @@ def getEEDL(Z):
 
 	"""
 	Z = int(Z)
-	EEDL_path = directory + r"\\EEDL\\" + str(Z) + ".txt"
+
+	file = str(Z) + ".txt"
+	EPDL_path = str(__materials__/'EEDL'/file)
+	del file
+
+	#EEDL_path = directory + r"\\EEDL\\" + str(Z) + ".txt"
+
 	EEDL_dict = get_bookmarked_text(EEDL_path)
 	
 	
