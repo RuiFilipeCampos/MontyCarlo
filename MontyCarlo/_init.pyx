@@ -76,4 +76,4 @@ for i in range(Imax + 1): #every possible value of the hash, index = hash
 
     lims.append(np.array([selected[0], selected[-1] , n], dtype = int))
 
-LIMS = np.array(lims[1:], dtype = int) ### memory view defined in pxd, cdef double[::1] EAX
+LIMS = np.array(lims[1:], dtype = np.int32) ### memory view defined in pxd, cdef double[::1] EAX
