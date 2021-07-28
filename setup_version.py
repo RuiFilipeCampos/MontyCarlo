@@ -6,4 +6,8 @@ __author__ = "Rui Campos"
 version = "0.0.41" # to be imported by setup*.py scripts
 
 
+with open("setup.cfg", "rw") as setup_cfg:
+  text = setup_cfg.read_lines()
+  print(text)
+
 ### to be added: open files and write version
