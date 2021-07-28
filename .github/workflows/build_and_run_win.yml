@@ -6,8 +6,8 @@ jobs:
       runs-on: windows-latest
       strategy:
         matrix:
-          cp: ['3.8']
-          arch: ['x64']
+          cp: ['3.7', '3.8']
+          arch: ['x64', 'x86']
       steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
