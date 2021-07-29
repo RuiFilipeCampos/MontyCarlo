@@ -41,6 +41,9 @@ python main.py
 
 Have fun exploring high energy particle tracks in a 3d environment!
 
+
+<!---
+
 ## What to expect
  
 ### Speed
@@ -98,6 +101,9 @@ MyCo will create an output file (\*.html) for debugging purposes (the output fil
 
 
 A propper example will be shown here: https://github.com/RuiFilipeCampos/MyCo-EXAMPLE1
+-->
+
+
 
 ### Bugs
 
@@ -125,3 +131,4 @@ This is a very early version of a fairly large code. Bugs are guaranteed! I woul
 - CPU multiprocessing/multithreading
 - Advanced data vizualization (w/ [ParaView](https://www.paraview.org/))
 - Distributed Cloud Computing
+- Dedicated python notebook (like Jupyter)
