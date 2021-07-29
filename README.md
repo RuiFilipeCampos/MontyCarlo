@@ -4,6 +4,42 @@ Monty Carlo is a Python package that simulates the propagation and effects of io
 
 **As of yet, this is an unstable version.** This is a thesis project and, as a student, I am still learning! 
 
+# Installation
+
+It is highly recommended that you install MontyCarlo v0.0.41-pre-alpha on a conda virtual environment containing one of the following python versions, and **nothing else**: 3.7, 3.8 or 3.8. To do so, open an anaconda prompt and run the commands:
+
+```bash
+conda create --name py39 python=3.9
+conda activate py39
+```
+
+The installation steps are simple:
+
+```bash
+pip install MontyCarlo
+python -c "import MontyCarlo"
+```
+
+MyCo will detect that it is the first import and will proceed to download all the necessary databases:
+
+- EADL (\*.txt)
+- EPDL (\*.txt)
+- EEDL (\*.txt)
+- Electron Elastic (\*.npy)
+- Positron Elastic (\*.npy)
+
+
+# A first run !
+
+Once you've installed MontyCarlo, clone the following repository: https://github.com/RuiFilipeCampos/MyCo-EXAMPLE1
+
+Inside this repository folder simply run:
+
+```bash
+python main.py
+````
+
+
 ## What to expect
  
 ### Speed
@@ -30,27 +66,6 @@ Using the power of [vtk](https://vtk.org/) through the wonderful work of [mayavi
 ![SSSS250k](https://user-images.githubusercontent.com/63464503/110109261-14626280-7da5-11eb-8f0b-cd46bf08fca0.png)
 
 
-## Instalation
-
-It is now possible to install an untested version of MontyCarlo (v0.0.34). The instalation consists in two simple steps:
-
-```
-pip install MontyCarlo
-```
-
-and
-
-```python 
-import MontyCarlo
-```
-
-MyCo will detect that it is the first import and will proceed to download all the necessary databases:
-
-- EADL (\*.txt)
-- EPDL (\*.txt)
-- EEDL (\*.txt)
-- Electron Elastic (\*.npy)
-- Positron Elastic (\*.npy)
 
 ## Running a first script
 
