@@ -39,6 +39,7 @@ Inside this repository folder simply run:
 python main.py
 ````
 
+Have fun exploring high energy particle tracks in a 3d environment!
 
 ## What to expect
  
