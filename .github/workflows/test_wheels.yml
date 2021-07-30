@@ -1,1 +1,2 @@
+name: Test wheels
 on: workflow_dispatch
