@@ -1,8 +1,13 @@
+![](https://img.shields.io/github/v/release/RuiFilipeCampos/MontyCarlo?include_prereleases) ![license](https://img.shields.io/github/license/RuiFilipeCampos/MontyCarlo) ![pyversion](https://img.shields.io/pypi/pyversions/MontyCarlo)
+
 # MontyCarlo
 
 Monty Carlo is a Python package that simulates the propagation and effects of ionizing radiation (photons, electrons and positrons with 1keV < E < 1GeV) in matter of homogeneous density, filling CSG models. 
 
 **As of yet, this is an unstable version.** This is a thesis project and, as a student, I am still learning! 
+
+
+
 
 # Installation
 
