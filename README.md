@@ -116,9 +116,7 @@ A propper example will be shown here: https://github.com/RuiFilipeCampos/MyCo-EX
 
 # Bugs
 
-This is a very early version of a fairly large code. Bugs are guaranteed! I would very much appreaciate if you report them to me. 
-
-
+This is a very early version of a fairly large code. Bugs are guaranteed! Submitting an [issue](https://github.com/RuiFilipeCampos/MontyCarlo/issues) is a great way to contribute to the project at this stage! 
 
 
 
