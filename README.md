@@ -114,11 +114,15 @@ A propper example will be shown here: https://github.com/RuiFilipeCampos/MyCo-EX
 
 
 
-### Bugs
+# Bugs
 
 This is a very early version of a fairly large code. Bugs are guaranteed! I would very much appreaciate if you report them to me. 
 
-### Possible Future Work
+
+
+
+
+# Possible Future Work
 
 - Sources
 - Tallying
