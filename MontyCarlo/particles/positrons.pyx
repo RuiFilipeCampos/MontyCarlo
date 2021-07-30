@@ -1,5 +1,5 @@
-# profile = True
-# cython: annotate=True
+# profile = False
+# cython: annotate=False
 # distutils: language = c++ 
 # distutils: extra_compile_args = -std=c++11
 
