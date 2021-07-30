@@ -1,4 +1,4 @@
-![](https://img.shields.io/github/v/release/RuiFilipeCampos/MontyCarlo?include_prereleases) ![license](https://img.shields.io/github/license/RuiFilipeCampos/MontyCarlo) ![pyversion](https://img.shields.io/pypi/pyversions/MontyCarlo)
+![](https://img.shields.io/github/v/release/RuiFilipeCampos/MontyCarlo?include_prereleases) ![license](https://img.shields.io/github/license/RuiFilipeCampos/MontyCarlo) ![pyversion](https://img.shields.io/pypi/pyversions/MontyCarlo) ![architecture](https://img.shields.io/badge/architecture%20-64--bit-blue)
 
 # MontyCarlo
 
