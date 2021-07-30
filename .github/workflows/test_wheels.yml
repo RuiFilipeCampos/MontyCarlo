@@ -1,2 +1,39 @@
 name: Test wheels
 on: workflow_dispatch
+
+
+
+jobs:
+  build-win:
+      runs-on: windows-latest
+      strategy:
+        matrix:
+          cp: ['3.7', '3.8', '3.9']
+          arch: ['x64']
+      steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.cp }} # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: ${{ matrix.arch }} # optional x64 or x86. Defaults to x64 if not specified
+        
+      - name: Installing build dependencies...
+        run: |
+          pip install cython
+          pip install numpy
+          pip install wheel
+          pip install setuptools
+          
+      - name: Building MyCo...
+        run: python setup.py build_ext --inplace -j9
+        
+      - name: Installing requirements...
+        run: pip install -r requirements.txt
+        
+      - name: Importing MyCo...
+        run: python -c "import MontyCarlo"
+        
+      - name: Running tests...
+        run: |
+          cd tests
+          python import_test.py --built_inplace
