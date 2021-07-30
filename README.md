@@ -11,7 +11,7 @@ Monty Carlo is a Python package that simulates the propagation and effects of io
 
 # Installation
 
-It is highly recommended that you install MontyCarlo v0.0.41-pre-alpha on a conda virtual environment containing one of the following python versions, and **nothing else**: 3.7, 3.8 or 3.8. To do so, open an anaconda prompt and run the commands:
+It is highly recommended that you install MontyCarlo v0.0.41-pre-alpha on a conda virtual environment containing one of the following python versions, and **nothing else**: 3.7, 3.8 or 3.9. To do so, open an anaconda prompt and run the commands:
 
 ```bash
 conda create --name py39 python=3.9
