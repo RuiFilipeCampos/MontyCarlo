@@ -11,7 +11,6 @@ DEF _SIGNAL_INTERACTION = False
 cdef double  ELECTRON_REST_MASS      = 0.51099895000e6            
 
 DEF RECORD = True
-from ..materials.cppRelaxAPI cimport PARTICLES
 
 
 #          _____          
@@ -37,6 +36,7 @@ from ..materials.cppRelaxAPI cimport PARTICLES
 #         \/____/ 
 
 
+from ..materials.cppRelaxAPI cimport PARTICLES
 
 from libc.math cimport isnan
 
@@ -72,9 +72,6 @@ from libcpp.vector cimport vector
 from ..materials.materials cimport Material
 
 
-
-
-print("Size of mater", sizeof(Material))
 cdef extern from "<math.h>" nogil:
     double frexp(double x, int* exponent)
 
@@ -86,7 +83,6 @@ cdef extern from "<math.h>" nogil:
 
 
 from ..materials.materials cimport Material
-
 from ..materials.electron.main cimport Brem, Inelastic, Elastic, DIST
 
 
@@ -181,20 +177,17 @@ cdef class Positron(Particle):
     
     @staticmethod
     cdef Positron _new(STATE& state):
-        
         cdef Positron self
         self = <Positron>Positron.__new__(Positron)
         self.state = state
-
         return self
     
     @staticmethod
     cdef Positron _newISOTROPIC(STATE& state):
-        
         cdef Positron self
         self = <Positron>Positron.__new__(Positron)
         self.state = state
-        
+
         cdef double a
 
         while True:
@@ -210,15 +203,9 @@ cdef class Positron(Particle):
         self.state.dire.z = y*a
 #        self.throwAZIMUTH()
         self.index = <int> (10*self.z)
-
         return self    
     
     
-    
-
-
-
-
 
 
 
