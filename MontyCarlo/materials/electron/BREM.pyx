@@ -60,7 +60,8 @@ def rebuildsampler(this):
 cdef class sampler:
     """Sampling the Bremsstrahlung interaction.
     """
-    
+
+
     def __init__(self, object molecule):
         
         cdef double[:] X
@@ -87,39 +88,38 @@ cdef class sampler:
         self.kcr = molecule.Wcr/(molecule.E*1e6)
         self.logE = np.log(molecule.E*1e6)
         self.En = len(self.E) - 1
-        
-        
+
+
     cdef (double, double) full_sample(self, double E,  mixmax_engine *genPTR):
         """Sample electrons fractional energy loss (k) and the emitted photons polar angular 
         with respect to the direction of the electrons movement (theta).
         """
-        
         cdef double k = self._sample(E,genPTR)
-        #cdef double theta = sample_theta(E, self.Zeff, k)
         return (k , sample_theta(E, self.Zeff, k, genPTR))
-        
+
+ 
     cdef double _sample(self, double E, mixmax_engine *genPTR):
         """Sample the electrons fractional energy loss (k).
         """
 
         self.i = search._sortedArrayDOUBLE(self.E, E, 0, self.En)
-        
+
         if self.E[self.i] == E:
             return self.sample_ds(genPTR)
-        
+
         cdef double logE1, logE2, logE
         assert self.E[self.i] <= E < self.E[self.i+1]
-        
+
         logE1, logE2 = self.logE[self.i], self.logE[self.i+1]
         logE = log(E)
-        
+
         if genPTR.get_next_float() > ( logE2 - logE ) / (logE2 - logE1): 
             self.i +=1
-        
+
         return self.sample_ds(genPTR)
-        
+
+
     cdef double sample_ds(self,  mixmax_engine *genPTR):
-        
         """Sample the electrons fractional energy loss (k) from the chosen X-Section.
         """
 
@@ -128,7 +128,7 @@ cdef class sampler:
         cdef double Xmax    # maximum value of the X-Section 
         cdef LLI    XX      # LinLinInterpolation of the chosen X-Section 
 
-        kcr  = self.kcr[self.i] 
+        kcr  = self.kcr[self.i]
         XX   = self.X[self.i]
         Xmax = self.Xmax[self.i]
 
@@ -136,6 +136,7 @@ cdef class sampler:
             k = kcr**genPTR.get_next_float()
             if genPTR.get_next_float()*Xmax < XX._eval(k):
                 return k
+
 
     def __reduce__(self):
         this = MAP()
