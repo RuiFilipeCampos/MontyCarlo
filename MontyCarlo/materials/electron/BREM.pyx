@@ -4,6 +4,11 @@
 # distutils: extra_compile_args = -std=c++11
 
 __doc__ = """Provides tools for holding data pertaining the bremsstrahlung interaction and for its subsquent sampling.
+
+IMPORTANT TO DO'S HERE:
+    - [ ] UNIT TESTING
+    - [ ] DOCUMENTATION
+
 """
 
 __author__ = "Rui Campos"
