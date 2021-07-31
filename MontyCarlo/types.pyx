@@ -5,7 +5,7 @@ types.pyx
 
 __author__ = "Rui Campos"
 
-print("Importing .types")
+print("Importing `.types`")
 
 
 import numpy as np
