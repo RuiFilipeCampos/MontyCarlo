@@ -130,10 +130,22 @@ cdef class sampler:
     cdef double sample_ds(self,  mixmax_engine *genPTR):
         """Sample the electrons fractional energy loss (k) using the chosen X-SECTION.
         
-        The Differential Cross Section being sampled is:
-            
-            DCS: [0, kc] -> R
-                 k       -> (1/k) * X(k)
+        
+        >>> DCS <<<
+        The differential cross section has the form:
+        
+            (1/k) * X(k) for 0 < k < kcr;
+        
+        Where:
+            E0 is the initial energy of the electron;
+            W is the energy loss of the electron;
+            Wcr is the value of energy loss below which the effects of the interaction on the particle are simulated through condensed history;
+            k  = W/E0 is the fractional energy loss of the electron;
+            kcr = W/Wcr 
+            X(k) = k*dsimga/dW is the scaled DCS in fractional energy loss of the electron (k). 
+        
+        
+        >>> SAMPLING ALGORITHM <<<
                  
         The algorithm consists in two steps:
             (1) Sample from 1/k limited to [0, kc]
