@@ -3,6 +3,24 @@
 # distutils: language = c++ 
 # distutils: extra_compile_args = -std=c++11
 
+__doc__ = """Provides tools for holding data pertaining the bremsstrahlung interaction and for its subsquent sampling.
+"""
+
+__author__ = "Rui Campos"
+
+
+# Internal Imports
+from ..._random.interface cimport mixmax_engine
+
+# External Imports
+import numpy as np
+
+cimport cython
+from MontyCarlo.tools cimport search
+from MontyCarlo.tools.interpol1 cimport LinLinInterpolation
+from libc.math cimport fmax
+from libc.math cimport pi
+from libc.math cimport log
 
 # THIS SHOULD BE MOVED TO `.types`.
 class MAP(dict):
@@ -22,34 +40,19 @@ class MAP(dict):
             raise AttributeError
 
 
-# Internal Imports
-from ..._random.interface cimport mixmax_engine
-
-# External Imports
-import numpy as np
-
-cimport cython
-from MontyCarlo.tools cimport search
-from MontyCarlo.tools.interpol1 cimport LinLinInterpolation
-from libc.math cimport fmax
-from libc.math cimport pi
-from libc.math cimport log
-
-    
-
 def rebuildsampler(this):
     cdef sampler self
     self = <sampler> sampler.__new__(sampler)
+    
     self.Zeff = this.Zeff
-
     self.k    = this.k       # molecule.k
     self.X    = this.X       # np.array(XX)    
     self.Xmax = this.Xmax    # np.array(Xmax)
     self.E    = this.E       # np.array(molecule.E)*1e6
     self.kcr  = this.kcr     # molecule.Wcr/(molecule.E*1e6)
     self.logE = this.logE    # np.log(molecule.E*1e6)
-
     self.En = this.En
+
     return self
 
 
