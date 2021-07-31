@@ -865,35 +865,33 @@ ENERGY: {E}eV
         
         
     cdef inline void _brem(self):
+        """Simulate the bremstrahlung interaction.
+        """
+        
+        ## Debugging Flags
         IF _SIGNAL_INTERACTION: print("BREM")
-        cdef double k, theta
+            
+            
+        ## Implementation
+        cdef double k       # Fraction of energy that the electron has lost.
+        cdef double theta   # Angular deflection with respect to the electrons direction, in which the secondary photon will be emitted. 
         
-        k, theta = self.brem.sampler.full_sample(self.state.E, self.state.genPTR) # <- dont forget secondary particle
+        k, theta = self.brem.sampler.full_sample(self.state.E, self.state.genPTR)
         
+        cdef double dE      # Energy that the electron has lost. 
         
-        cdef double dE = k*self.state.E
-        
+        dE = k*self.state.E
         self.state.E -= dE
 
-        
-        
-        
         if dE < photonCUTOFF:
-            (<V> self.state.current_region).depositLOCAL(self.state.pos,dE)
-
+            (<V> self.state.current_region).depositLOCAL(self.state.pos, dE)
             return
+    
+        cdef Photon p       # The secondary photon.
         
+        p = Photon._new(self.state)
         
-        # axis = ez0ss
-        # ey = ey0.rotateAngle(axis, twoPI*self.state.genPTR.get_next_float())
-        
-        # axis = ey
-        # ez = ez0.rotateAngle(axis, theta)
-              
-        cdef Photon p = Photon._new(self.state)
-
         p.state.E = dE
-
         p.throwAZIMUTH()
         p.rotateTHETA(cos(theta))
         self.nSECONDARY += 1
