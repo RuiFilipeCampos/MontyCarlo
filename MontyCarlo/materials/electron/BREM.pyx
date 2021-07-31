@@ -3,6 +3,8 @@
 # distutils: language = c++ 
 # distutils: extra_compile_args = -std=c++11
 
+
+# THIS SHOULD BE MOVED TO `.types`.
 class MAP(dict):
     def __getattr__(self, key):
         try:
@@ -20,26 +22,21 @@ class MAP(dict):
             raise AttributeError
 
 
-
+# Internal Imports
 from ..._random.interface cimport mixmax_engine
 
+# External Imports
+## import
+import numpy as np
 
-
+# cimport
 cimport cython
 from libc.math cimport log, fmax
-import numpy as np
 from MontyCarlo.tools cimport search
 from MontyCarlo.tools.interpol1 cimport LinLinInterpolation
 
 
 #cdef double Wcr = 0.001
-
-
-
-
-
-
-
 # @cython.cdivision(True)
 # cdef double urand():
 #     cdef double r = rand()
@@ -48,7 +45,7 @@ from MontyCarlo.tools.interpol1 cimport LinLinInterpolation
 # def purand():
 #     print(urand())
     
-    
+
 def rebuildsampler(this):
     cdef sampler self
     self = <sampler> sampler.__new__(sampler)
@@ -70,25 +67,6 @@ def rebuildsampler(this):
 @cython.initializedcheck(False)
 @cython.cdivision(True)
 cdef class sampler:
-
-
-    def __reduce__(self):
-        this = MAP()
-        this.Zeff = self.Zeff
-
-        from numpy import array
-        this.k    = array(self.k   )    # molecule.k
-        this.X    = array(self.X   )    # np.array(XX)    
-        this.Xmax = array(self.Xmax)    # np.array(Xmax)
-        this.E    = array(self.E   )    # np.array(molecule.E)*1e6
-        this.kcr  = array(self.kcr )    # molecule.Wcr/(molecule.E*1e6)
-        this.logE = array(self.logE)    # np.log(molecule.E*1e6)
-
-        this.En = self.En
-        return rebuildsampler, (this, )
-
-
-    
     
     def __init__(self, object molecule):
         self.Zeff = molecule.Zeff
@@ -164,9 +142,21 @@ cdef class sampler:
             w = kcr**genPTR.get_next_float()
             if genPTR.get_next_float()*Xmax < XX._eval(w):
                 return w
-    
 
-        
+    def __reduce__(self):
+        this = MAP()
+        this.Zeff = self.Zeff
+
+        from numpy import array
+        this.k    = array(self.k   )    # molecule.k
+        this.X    = array(self.X   )    # np.array(XX)    
+        this.Xmax = array(self.Xmax)    # np.array(Xmax)
+        this.E    = array(self.E   )    # np.array(molecule.E)*1e6
+        this.kcr  = array(self.kcr )    # molecule.Wcr/(molecule.E*1e6)
+        this.logE = array(self.logE)    # np.log(molecule.E*1e6)
+
+        this.En = self.En
+        return rebuildsampler, (this, )
     
    # def sample(self, double E):
      #   return self._sample(E)   
