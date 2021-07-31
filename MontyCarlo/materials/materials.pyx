@@ -862,7 +862,7 @@ def rebuildMaterial(this):
 def Mat(formula, density, name = "Untitled", 
                  C1 = 0.1, C2 = 0.1,
                  Wcr = 10e3, Wcc = 100e3):
-	"""Create a new `Material` instance or read it from cache if it already has been compiled.
+    """Create a new `Material` instance or read it from cache if it already has been compiled.
     """
 
     # Safety Check
