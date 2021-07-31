@@ -863,21 +863,21 @@ def Mat(formula, density, name = "Untitled",
                  C1 = 0.1, C2 = 0.1,
                  Wcr = 10e3, Wcc = 100e3):
 	"""Create a new `Material` instance or read it from cache if it already has been compiled.
-	"""
+    """
 
     # Safety Check
-	for Z in formula:
-		if isinstance(formula[Z], float) or isinstance(formula[Z], int):
-			raise ValueError(f"Coefficient of the element `{Z}` must be numeric type.")
-		
-		if isintance(Z, int):
-			continue
+    for Z in formula:
+        if isinstance(formula[Z], float) or isinstance(formula[Z], int):
+            raise ValueError(f"Coefficient of the element `{Z}` must be numeric type.")
 
-	    if isinstance(Z, float):
-			formula[int(Z)] = formula.pop(Z)
-			continue
+        if isintance(Z, int):
+            continue
+
+        if isinstance(Z, float):
+            formula[int(Z)] = formula.pop(Z)
+            continue
 		
-		raise ValueError("Elements must be a numeric type.")
+        raise ValueError("Elements must be a numeric type.")
 		
 			
 	# Check if it exists, return from cache if so		
