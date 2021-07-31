@@ -122,13 +122,11 @@ cdef class sampler:
         
         """Sample the electrons fractional energy loss (k) from the chosen X-Section.
         """
-        
+
         cdef double k       # the sampled fractional energy loss
         cdef double kcr     # cut off value for the fractional energy loss (as imposed by Wcr) $ kcr = Wcr / E_el $  
         cdef double Xmax    # maximum value of the X-Section 
         cdef LLI    XX      # LinLinInterpolation of the chosen X-Section 
- 
-
 
         kcr  = self.kcr[self.i] 
         XX   = self.X[self.i]
@@ -136,7 +134,7 @@ cdef class sampler:
 
         while 1:
             k = kcr**genPTR.get_next_float()
-            if genPTR.get_next_float()*Xmax < XX._eval(w):
+            if genPTR.get_next_float()*Xmax < XX._eval(k):
                 return k
 
     def __reduce__(self):
