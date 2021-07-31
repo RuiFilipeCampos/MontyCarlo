@@ -878,8 +878,7 @@ def Mat(formula, density, name = "Untitled",
             continue
 		
         raise ValueError("Elements must be a numeric type.")
-		
-			
+	
 	# Check if it exists, return from cache if so		
     saved = f"{name}_C1{C1}_C2{C2}_Wcc{Wcc}_Wcr{Wcr}"
 
@@ -891,7 +890,7 @@ def Mat(formula, density, name = "Untitled",
             mat = pickle.load(f)
         return mat
 
-	# else, compile and return a new material
+    # else, compile and return a new material
     return Material(formula, density, name = name, C1 = C1, C2 = C2, Wcr = Wcr, Wcc = Wcc)
 
 
