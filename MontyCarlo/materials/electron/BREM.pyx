@@ -132,7 +132,7 @@ cdef class sampler:
                  
         The algorithm consists in two steps:
             (1) Sample from 1/k limited to [0, kc]
-            (2) Perform a rejection step using the available interpolation of X(k): k < X(k)/Xmax
+            (2) Perform a rejection step using the available interpolation of X(k): rand() < X(k)/Xmax
         """
 
         cdef double k       # the sampled fractional energy loss
