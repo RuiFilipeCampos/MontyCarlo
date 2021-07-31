@@ -26,24 +26,15 @@ class MAP(dict):
 from ..._random.interface cimport mixmax_engine
 
 # External Imports
-## import
 import numpy as np
 
-# cimport
 cimport cython
-from libc.math cimport log, fmax
 from MontyCarlo.tools cimport search
 from MontyCarlo.tools.interpol1 cimport LinLinInterpolation
+from libc.math cimport fmax
+from libc.math cimport pi
+from libc.math cimport log
 
-
-#cdef double Wcr = 0.001
-# @cython.cdivision(True)
-# cdef double urand():
-#     cdef double r = rand()
-#     return r / RAND_MAX
-
-# def purand():
-#     print(urand())
     
 
 def rebuildsampler(this):
@@ -67,13 +58,18 @@ def rebuildsampler(this):
 @cython.initializedcheck(False)
 @cython.cdivision(True)
 cdef class sampler:
+    """Sampling the Bremsstrahlung interaction.
+    """
     
     def __init__(self, object molecule):
-        self.Zeff = molecule.Zeff
+        
         cdef double[:] X
+        
+
+        self.Zeff = molecule.Zeff
         self.k = molecule.k
         
-        XX = []
+        XX   = []
         Xmax = []
         for X in molecule.ds:
             Xmax.append(max(X))
@@ -81,22 +77,21 @@ cdef class sampler:
         
         self.X = np.array(XX)    
         self.Xmax = np.array(Xmax)
-        
-        
+
         #molecule.E = np.array(molecule.E)*1e6
         
         self.E = np.array(molecule.E)*1e6
 
-        
         assert len(self.X) == len(self.E)
+        
         self.kcr = molecule.Wcr/(molecule.E*1e6)
         self.logE = np.log(molecule.E*1e6)
-        
         self.En = len(self.E) - 1
         
         
     cdef (double, double) full_sample(self, double E,  mixmax_engine *genPTR):
-        """Sample electrons fractional energy loss (k) and the emitted photons polar angular with respect to the direction of the electrons movement (theta).
+        """Sample electrons fractional energy loss (k) and the emitted photons polar angular 
+        with respect to the direction of the electrons movement (theta).
         """
         
         cdef double k = self._sample(E,genPTR)
@@ -117,14 +112,6 @@ cdef class sampler:
         
         logE1, logE2 = self.logE[self.i], self.logE[self.i+1]
         logE = log(E)
-  
-        
-        #cdef double pi_1, pi_2
-        #pi_1 = 
-        #pi_2 = (logE - logE1)/log_diff
-        
-        
-
         
         if genPTR.get_next_float() > ( logE2 - logE ) / (logE2 - logE1): 
             self.i +=1
@@ -165,7 +152,6 @@ cdef class sampler:
    #     return self.full_sample(E)
     
     
-from libc.math cimport pi, log
 
 @cython.cdivision(True)
 cdef double f(double x, double E0):
