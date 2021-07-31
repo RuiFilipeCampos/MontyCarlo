@@ -763,11 +763,19 @@ cdef class Brem:
         this.fullSTRAGG = array(self.fullSTRAGG) # y*1e6*1e6
         return rebuildBrem, (this, )
 
-
-
-
     def __init__(self, formula):
+        """Initialize Brem object: compile and store the necessary data to simulate the Bremstrahlung interaction.
+        
+        
+        
+        """
+        
         print("        MAKING BREM SAMPLER")
+        
+        ## CREATING SAMPLERS
+        # PIPELINE
+        #       formula -> makeX -> X -> sampler
+        
         molecule = makeBrem.makeX(formula)
         molecule = makeBrem.X(molecule)
         molecule.Wcr = formula.Wcr
@@ -775,14 +783,12 @@ cdef class Brem:
         
         
         #formula or molecule?
-        
-        
-        
         #eax = logspace(-3, 3, 2500)
+        
         Wcr = formula.Wcr*1e-6
         
         
-        print(f"        MAKING SOFT SP | Wcr = {Wcr} MeV")
+        print(f"        MAKING SOFT SP")
         x, y = makeBrem.getSP(molecule, Wcr, eax = eax*1e-6)
         self.softSP = y*1e6
         #self.softSP = hLinLinInterpolation(x*1e6, y*1e6)
@@ -805,11 +811,6 @@ cdef class Brem:
         print("        MAKING FULL STRAGGA")
         x, y = makeBrem.getFULLSTRAGG(molecule, eax = eax*1e-6)
         self.fullSTRAGG = y*1e6*1e6
-
-
-
-
-
 
         #self.fullSP = hLinLinInterpolation(x*1e6, y*1e6)
         
