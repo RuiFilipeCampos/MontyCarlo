@@ -141,7 +141,7 @@ cdef class sampler:
             W is the energy loss of the electron;
             Wcr is the value of energy loss below which the effects of the interaction on the particle are simulated through condensed history;
             k  = W/E0 is the fractional energy loss of the electron;
-            kcr = W/Wcr 
+            kcr = Wcr/E0 
             X(k) = k*dsimga/dW is the scaled DCS in fractional energy loss of the electron (k). 
         
         
