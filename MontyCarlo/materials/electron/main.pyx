@@ -1,8 +1,6 @@
 # distutils: language = c++
-print(">>>> IMPORTING main.pyx")
 
-
-
+print("Importing .materials.electron.main")
 
 class MAP(dict):
     def __getattr__(self, key):
