@@ -119,16 +119,25 @@ cdef class sampler:
         return self.sample_ds(genPTR)
         
     cdef double sample_ds(self,  mixmax_engine *genPTR):
+        
         """Sample the electrons fractional energy loss (k) from the chosen X-Section.
         """
-        cdef double w
-        cdef double kcr = self.kcr[self.i] 
-        cdef LLI XX = self.X[self.i]
-        cdef double Xmax = self.Xmax[self.i]
+        
+        cdef double k       # the sampled fractional energy loss
+        cdef double kcr     # cut off value for the fractional energy loss (as imposed by Wcr) $ kcr = Wcr / E_el $  
+        cdef double Xmax    # maximum value of the X-Section 
+        cdef LLI    XX      # LinLinInterpolation of the chosen X-Section 
+ 
+
+
+        kcr  = self.kcr[self.i] 
+        XX   = self.X[self.i]
+        Xmax = self.Xmax[self.i]
+
         while 1:
-            w = kcr**genPTR.get_next_float()
+            k = kcr**genPTR.get_next_float()
             if genPTR.get_next_float()*Xmax < XX._eval(w):
-                return w
+                return k
 
     def __reduce__(self):
         this = MAP()
