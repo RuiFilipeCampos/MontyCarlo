@@ -867,7 +867,7 @@ def Mat(formula, density, name = "Untitled",
 
     # Safety Check
     for Z in formula:
-        if isinstance(formula[Z], float) or isinstance(formula[Z], int):
+        if not (isinstance(formula[Z], float) or isinstance(formula[Z], int)):
             raise ValueError(f"Coefficient of the element `{Z}` must be numeric type.")
 
         if isinstance(Z, int):
