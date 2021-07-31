@@ -9,7 +9,7 @@ MAIN SOURCE OF INFO:
 
 __author__ = "Rui Campos"
 
-print("Importing .materials.materials")
+print("Importing `.materials.materials`")
 
 
 cimport cython 
