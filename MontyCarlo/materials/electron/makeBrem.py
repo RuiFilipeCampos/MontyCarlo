@@ -1,30 +1,40 @@
+__doc__ = """
+"""
+
+__author__ = "Rui Campos"
+
 
 
 from ...settings import __montecarlo__
-
-
 __path__ = __montecarlo__/'materials'/'electron'/'NRC_BREM'
-
 __data__ = str(__path__) + '/nrc_brems_'
 
-from numpy import array, zeros, searchsorted, log, logspace, insert, append
+
+# External Imports
+from numpy import array
+from numpy import zeros
+from numpy import searchsorted
+from numpy import log
+from numpy import logspace
+from numpy import insert
+from numpy import append
+from scipy.interpolate import interp1d
+
+# Are these really necessary?
 from matplotlib.pyplot import *
 from matplotlib import pyplot
 from mpl_toolkits.mplot3d import Axes3D
-from scipy.interpolate import interp1d
 
 
 
 def getX(Z):
+    """Read the bremstrahlung X-sections from the NRC_BREM_Z file and returns all X-sections in units of `barn`.
     """
-    Read X from NRC_BREM_Z file.
-    Returns all X in units of *barn*.
-    """
+
     with open(__data__ + str(Z), "r") as f:
         ds = f.read()
 
     dsigma = [float(x) for x in ds.split()]
-
     Xcoll = []
     X = []
 
@@ -36,6 +46,8 @@ def getX(Z):
             
     Xcoll.append(array(X))
     return array(Xcoll[1:])*1e-3
+
+
 
 def makeX(formula):
     Zeq2, ntot = 0, 0
@@ -53,7 +65,10 @@ def makeX(formula):
     return formula
 
 
+
 class X:
+    """ Convenience class for handling X-Sections data.
+    """
     
     with open(__data__ + "grid", "r") as f:
         grid = f.read()
@@ -85,8 +100,7 @@ class X:
         Z = array(Z)
         p = n/sum(n)
         self.Zeff = sum(p*Z*(Z+1))**.5
-        
-        
+
 
     def __iter__(self):
         yield from self.ds
