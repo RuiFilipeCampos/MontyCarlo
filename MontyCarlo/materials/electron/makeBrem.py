@@ -31,7 +31,7 @@ def getX(Z):
     """Read the bremstrahlung X-sections from the NRC_BREM_Z file and returns all X-sections in units of `barn`.
     """
 
-    with open(__data__ + str(Z), "r") as f:
+    with open(__data__ + str(int(Z)), "r") as f:
         ds = f.read()
 
     dsigma = [float(x) for x in ds.split()]
