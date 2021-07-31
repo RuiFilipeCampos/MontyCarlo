@@ -117,9 +117,17 @@ cdef class sampler:
         self.En = len(self.E) - 1
         
         
-
+    cdef (double, double) full_sample(self, double E,  mixmax_engine *genPTR):
+        """Sample electrons fractional energy loss (k) and the emitted photons polar angular with respect to the direction of the electrons movement (theta).
+        """
+        
+        cdef double k = self._sample(E,genPTR)
+        #cdef double theta = sample_theta(E, self.Zeff, k)
+        return (k , sample_theta(E, self.Zeff, k, genPTR))
         
     cdef double _sample(self, double E, mixmax_engine *genPTR):
+        """Sample the electrons fractional energy loss (k).
+        """
 
         self.i = search._sortedArrayDOUBLE(self.E, E, 0, self.En)
         
@@ -146,6 +154,8 @@ cdef class sampler:
         return self.sample_ds(genPTR)
         
     cdef double sample_ds(self,  mixmax_engine *genPTR):
+        """Sample the electrons fractional energy loss (k) from the chosen X-Section.
+        """
         cdef double w
         cdef double kcr = self.kcr[self.i] 
         cdef LLI XX = self.X[self.i]
@@ -155,10 +165,7 @@ cdef class sampler:
             if genPTR.get_next_float()*Xmax < XX._eval(w):
                 return w
     
-    cdef (double, double) full_sample(self, double E,  mixmax_engine *genPTR):
-        cdef double k = self._sample(E,genPTR)
-        #cdef double theta = sample_theta(E, self.Zeff, k)
-        return (k , sample_theta(E, self.Zeff, k, genPTR))
+
         
     
    # def sample(self, double E):
