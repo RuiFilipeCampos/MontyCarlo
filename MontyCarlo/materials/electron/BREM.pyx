@@ -123,7 +123,16 @@ cdef class sampler:
 
 
     cdef double sample_ds(self,  mixmax_engine *genPTR):
-        """Sample the electrons fractional energy loss (k) from the chosen X-Section.
+        """Sample the electrons fractional energy loss (k) using the chosen X-SECTION.
+        
+        The Differential Cross Section being sampled is:
+            
+            DCS: [0, kc] -> R
+                 k       -> (1/k) * X(k)
+                 
+        The algorithm consists in two steps:
+            (1) Sample from 1/k limited to [0, kc]
+            (2) Perform a rejection step using the available interpolation of X(k): k < X(k)/Xmax
         """
 
         cdef double k       # the sampled fractional energy loss
