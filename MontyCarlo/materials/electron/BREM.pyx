@@ -107,7 +107,7 @@ cdef class sampler:
 
  
     cdef double _sample(self, double E, mixmax_engine *genPTR):
-        """Sample the electrons fractional energy loss (k).
+        """Chooses an interpolated X-Section based on the initial energy of the electron.
         """
 
         self.i = search._sortedArrayDOUBLE(self.E, E, 0, self.En)
