@@ -9,6 +9,10 @@ __author__ = "Rui Campos"
 
 print("Importing `.materials.pyRelax`")
 
+
+
+
+# Internal Imports
 from .cppRelaxAPI cimport Shell as rShell
 from .cppRelaxAPI cimport Atom as rAtom
 from .cppRelaxAPI cimport Transition as rTransition
@@ -19,12 +23,13 @@ from .cppRelaxAPI cimport setADRESS_NONRAD
 
 from .._random.interface cimport mixmax_engine
 
-
 # only for debug purposes
 cdef mixmax_engine gen = mixmax_engine(0,0,0,123);
 cdef mixmax_engine *genPTR = &gen;
 
 from .cppRelaxAPI cimport PARTICLES
+
+# External Imports
 from libc.string cimport memcpy 
 
 
@@ -55,8 +60,12 @@ from ..tools.CubicInverseTransform import makeAlias
 
 from . import database as db
 from libc.stdlib cimport malloc, free
-__materials__ = __montecarlo__/'materials'
 
+
+# META
+
+__materials__ = __montecarlo__/'materials'
+__directory__ = __montecarlo__/'materials'
 
 cdef str directory = str(__materials__)
 
@@ -81,7 +90,11 @@ cdef class Atom:
 
         #data processing in python
         self.Z = Z
-        self.path = directory + "\\EADL\\" + str(Z) + ".txt"
+
+        file_name = str(Z) + ".txt"
+        self.path = str(__directory__/'EADL'/file_name)
+        del file_name
+
         self.Aw, self.EADL_dict = self.getBookmarkedText()
         
         self.data = {Id:getTable(self.EADL_dict[Id]) for Id in self.EADL_dict}
