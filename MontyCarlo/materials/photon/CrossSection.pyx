@@ -7,7 +7,7 @@ Created on Sun Nov 29 14:41:41 2020
 
 @author: Rui Campos
 """
-print(">>>> IMPORTING material.photon.CrossSection.pyx")
+print("Importing `.material.photon.CrossSection`")
 
 
 

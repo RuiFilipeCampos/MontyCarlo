@@ -253,9 +253,7 @@ cdef class Coherent(CSLOGIC):
             
         from scipy.integrate import trapz, cumtrapz
         
-        
 
-        
         norm = trapz(Y, XX)
         Y = Y/norm
 
@@ -270,7 +268,7 @@ cdef class Coherent(CSLOGIC):
         
         
 
-        
+        CUMUL = CUMUL.astype(float)
         CUMUL, myX = remove_duplicates(CUMUL, myX)
 
 
