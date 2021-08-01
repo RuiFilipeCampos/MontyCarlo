@@ -51,10 +51,12 @@ class AreDBPresent(ut.TestCase):
         """
 
         work_dir = __directory__
+        print("work_dir = " + str(work_dir))
+
         work_dir = work_dir/'MontyCarlo'/'materials'/'electron'/'elastic'
 
-        self.assertTrue(work_dir.exists(), msg = f"`{work_dir}` directory does not exist.")
-        self.assertTrue(work_dir.is_dir(), msg = f"`{work_dir}` is not a directory.")
+        self.assertTrue(work_dir.exists(), msg = f"`{str(work_dir)}` directory does not exist.")
+        self.assertTrue(work_dir.is_dir(), msg = f"`{str(work_dir)}` is not a directory.")
 
         for file_name in top_level_files:
             file = work_dir/file_name
