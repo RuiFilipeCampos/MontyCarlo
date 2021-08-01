@@ -60,7 +60,7 @@ class AreDBPresent(ut.TestCase):
             file = work_dir/file_name
             self.assertTrue(file.exists(), msg = "Missing file: " + str(file))
 
-        for i in range(100):
+        for i in range(1, 100):
             element_dir = work_dir/str(i)
 
             self.assertTrue(element_dir.exists(), msg = f"`electron/elastic/{i}` directory does not exist.")
