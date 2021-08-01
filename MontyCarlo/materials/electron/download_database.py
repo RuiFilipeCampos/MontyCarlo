@@ -2,6 +2,7 @@ __doc__ = """Download elastic scattering database from `https://ruifilipecampos.
 """
 __author__ = "Rui Campos"
 
+print("Importing `.materials.electron.download_database`")
 
 import requests
 import os
@@ -40,7 +41,7 @@ for i in range(1, 100):
 	element_folder = str(__folder__/'elastic'/str(i))
 	os.mkdir(element_folder)
 	for filename in element_level_files:
-		url_file = url + filename
+		url_file = url + str(i) + r"/" + filename
 		print("Downloading from: " + url_file)
 		with requests.get(url_file) as file:
 			with open(str(__folder__/'elastic'/str(i)/filename), 'wb') as local_file:
