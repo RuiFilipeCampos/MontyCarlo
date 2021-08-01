@@ -61,8 +61,17 @@ class Test_remove_duplicates(ut.TestCase):
 
         output_val.X, output_val.Y = remove_duplicates(input_val.X, input_val.Y)
 
-        ut.assertEqual(input_val.X, ground_truth.X, f"Should be {ground_truth.X}")
-        ut.assertEqual(input_val.Y, ground_truth.Y, f"Should be {ground_truth.Y}")
+        ut.assertEqual(
+                       list(input_val.X), 
+                       list(ground_truth.X), 
+                       f"Should be {ground_truth.X}"
+                       )
+
+        ut.assertEqual(
+                       list(input_val.Y), 
+                       list(ground_truth.Y),
+                       f"Should be {ground_truth.Y}"
+                       )
 
 if __name__ == '__main__':
     ut.main()
