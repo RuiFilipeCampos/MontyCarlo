@@ -9,7 +9,9 @@ import _cmd
 import numpy as np
 import unittest as ut
 
-from MontyCarlo.tools.main import remove_duplicates
+# Importing 
+from MontyCarlo.tools.main import python_hooks
+remove_duplicates = python_hooks.remove_duplicates
 
 
 class input_val:
