@@ -1369,8 +1369,8 @@ cdef class Elastic:
 
         dbdir = __directory__/'elastic'
         
-        HE_load_path = str(dbdir/'1'/'HEtransportTCS.npy')
-        LE_load_path = str(dbdir/'1'/'LEtransportTCS.npy')
+        HE_load_path = dbdir/'1'/'HEtransportTCS.npy'
+        LE_load_path = dbdir/'1'/'LEtransportTCS.npy'
         
         shape = np.append(np.load(LE_load_path, allow_pickle=True), 
                           np.load(HE_load_path, allow_pickle=True)[:, 1:], axis = 1)
@@ -1389,9 +1389,9 @@ cdef class Elastic:
         for Z, x in formula.items():
             formula.log.add_paragraph(f"Z = {Z}, x = {x}")
 
-            dcs_load_path = str(dbdir/f'{Z}'/'DCS.npy')
-            HE_load_path  = str(dbdir/f'{Z}'/'HEtransportTCS.npy')
-            LE_load_path  = str(dbdir/f'{Z}'/'LEtransportTCS.npy')
+            dcs_load_path = dbdir/f'{Z}'/'DCS.npy'
+            HE_load_path  = dbdir/f'{Z}'/'HEtransportTCS.npy'
+            LE_load_path  = dbdir/f'{Z}'/'LEtransportTCS.npy'
 
             dcs = np.load(dcs_load_path)
 
