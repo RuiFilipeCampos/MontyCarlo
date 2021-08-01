@@ -290,9 +290,9 @@ cdef class Coherent(CSLOGIC):
         
         self.ySPLINE  = cumul.c
         xADDER, xLIMS = self.construct_LIMS(myX)
-        self.xADDER   = xADDER
-        self.xLIMS    = xLIMS
-        self.X        = np.array(myX)
+        self.xADDER   = xADDER.astype(float)
+        self.xLIMS    = xLIMS.astype(float)
+        self.X        = myX.astype(float)
         self.xMAX     = max(myX)
         self.xMIN     = min(myX)
         
