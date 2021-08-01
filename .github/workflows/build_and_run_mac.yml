@@ -1,5 +1,5 @@
 
-name: (test::macos) Build and run.
+name: (MAC) Build and run tests.
 on: pull_request
 
 jobs:
