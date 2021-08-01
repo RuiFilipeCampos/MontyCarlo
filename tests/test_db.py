@@ -57,7 +57,7 @@ class AreDBPresent(ut.TestCase):
         self.assertTrue(work_dir.is_dir(), msg = f"`{work_dir}` is not a directory.")
 
         for file_name in top_level_files:
-            file = work_dir/'file_name'
+            file = work_dir/file_name
             self.assertTrue(file.exists(), msg = "Missing file: " + str(file))
 
         for i in range(100):
