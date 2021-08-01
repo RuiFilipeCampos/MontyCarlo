@@ -7,34 +7,35 @@ __author__ = "Rui Campos"
 
 
 import numpy as np
+from collections import deque
 
-cdef object remove_duplicates(ndarray x, ndarray Y):
+cdef object remove_duplicates(ndarray X, ndarray Y):
     """Removes duplicates from the (x, y) tuple of arrays.
     """
 
-    cdef ndarray u, c, dup
-    u, c = np.unique(x, return_counts=True)
-    dup = u[c > 1]
+    if not (X.shape == Y.shape):
+        raise RuntimeError("Arrays have different shape.")
+
+    new_x, new_y = deque(), deque()
     
-    cdef bint keep = True
-    cdef list new_y = []
     cdef int i
-    cdef double y
-    
-    for i, y in enumerate(Y):
-        
-        if x[i] in dup:
-            if keep:
-                new_y.append(y)
-                keep = False
+    cdef int N = len(X)
+    for i in range(N - 1):
+        if X[i+1] - X[i] == 0: # is duplicate
+            if X[i] == duplicates[-1]: # and has already been cached
                 continue
-            else: continue
-        
-        if keep is False:
-            keep = True
-        new_y.append(y)
-    
-    return u, np.array(new_y)
+
+            duplicates.append(X[i])
+            new_x.append(X[i])
+            new_y.append(Y[i])
+            continue
+
+        new_x.append(X[i])
+        new_y.append(Y[i])
+
+    return (np.array(new_x), np.array(new_y))
+
+
 
 
 class python_hooks:
