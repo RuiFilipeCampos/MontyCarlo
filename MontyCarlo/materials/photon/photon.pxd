@@ -12,9 +12,8 @@ from .CrossSection cimport CSLOGIC
 
 from ...tools.interpol1 cimport LinLinInterpolation
 
-    
 
-
+from numpy cimport ndarray
 
 
 

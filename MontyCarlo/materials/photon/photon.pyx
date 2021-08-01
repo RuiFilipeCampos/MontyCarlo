@@ -259,7 +259,8 @@ cdef class Coherent(CSLOGIC):
         norm = trapz(Y, XX)
         Y = Y/norm
         
-
+        cdef ndarray[double] CUMUL
+        
         CUMUL = cumtrapz(Y, XX, initial = 0)
         
         for exclude_from in range(len(CUMUL)):
