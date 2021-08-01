@@ -52,6 +52,8 @@ jobs:
           cd MontyCarlo
           cd materials
           cd electron
+          cd elastic
+          cd 1
           ls
 
       - name: Testing material creation...
