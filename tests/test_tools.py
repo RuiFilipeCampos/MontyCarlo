@@ -21,39 +21,45 @@ remove_duplicates = python_hooks.remove_duplicates
 class input_val:
     """A namespace indicating input values.
     """
+    test_cases = [[ 1,  1,  2, 3, 4, 5, 6],
+                  [-1, -1, -4, 2, 5, 7, 7],
+                  [1., 1., 1., 2., 2., 2., 3., 4., 5., 5., 5., 5., 6., 6., 6, 6, 6, 7, 1000, 1000, 5000]]
+
 
 class ground_truth:
     """A namespace indicating groundtruth.
     """
-    pass
+    test_cases = [[ 1,  2, 3, 4, 5, 6],
+                  [-1, -4, 2, 5, 7],
+                  [1., 2., 3., 4.,  5., 6, 7, 1000, 5000]]
+    
 
 class output_val:
-    """A namespace indicating calculated value.
+    """A namespace indicating calculated values.
     """
+    pass
 
-
-input_val.test_cases = [[ 1,  1,  2, 3, 4, 5, 6],
-                        [-1, -1, -4, 2, 5, 7, 7],
-                        [1., 1., 1., 2., 2., 2., 3., 4., 5., 5., 5., 5., 6., 6., 6, 6, 6, 7, 1000, 1000, 5000]]
-
-ground_truth.test_cases = [[ 1,  2, 3, 4, 5, 6],
-                           [-1, -4, 2, 5, 7],
-                           [1., 2., 3., 4.,  5., 6, 7, 1000, 5000]]
 
 functions = [lambda x: x**2,
              lambda x: x + 1,
              lambda x: x/10,
              np.cos]
 
-class main(ut.TestCase):
+class test_remove_duplicates(ut.TestCase):
+    """Unit testing the `.tools.main.remove_duplicates` function.
+    """
 
     def test_all(self):
+        """Test all cases.
+        """
 
-        for x_axis in input_val.test_cases:
-            input_val.X = np.array(x_axis, dtype = float)
+        for i, x_axis in enumerate(input_val.test_cases):
+            input_val.X    = np.array(x_axis, dtype = float)
+            ground_truth.X = np.arrya(ground_truth.test_cases[i], dtype = float)
 
             for func in functions:
                 input_val.Y = func(input_val.X)
+                ground_truth.Y = func(ground_truth.Y)
 
                 output_val.X, output_val.Y = remove_duplicates(input_val.X, input_val.Y)
 
