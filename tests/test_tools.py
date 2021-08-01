@@ -55,25 +55,25 @@ class test_remove_duplicates(ut.TestCase):
 
         for i, x_axis in enumerate(input_val.test_cases):
             input_val.X    = np.array(x_axis, dtype = float)
-            ground_truth.X = np.arrya(ground_truth.test_cases[i], dtype = float)
+            ground_truth.X = np.array(ground_truth.test_cases[i], dtype = float)
 
             for func in functions:
-                input_val.Y = func(input_val.X)
+                input_val.Y    = func(input_val.X)
                 ground_truth.Y = func(ground_truth.Y)
 
                 output_val.X, output_val.Y = remove_duplicates(input_val.X, input_val.Y)
 
                 self.assertEqual(
-                               list(output_val.X), 
-                               list(ground_truth.X), 
-                               f"Should be {ground_truth.X}"
-                               )
+                                 list(output_val.X), 
+                                 list(ground_truth.X), 
+                                 f"Should be {ground_truth.X}"
+                                )
 
                 self.assertEqual(
-                               list(output_val.Y), 
-                               list(ground_truth.Y),
-                               f"Should be {ground_truth.Y}"
-                               )
+                                 list(output_val.Y), 
+                                 list(ground_truth.Y),
+                                 f"Should be {ground_truth.Y}"
+                                )
 
 
 if __name__ == '__main__':
