@@ -6,10 +6,8 @@ __doc__ = """A place for tools to live before being moved to a proper module.
 __author__ = "Rui Campos"
 
 
+import numpy as np
 
-
-
-from numpy cimport ndarray
 cdef object remove_duplicates(ndarray x, ndarray Y):
     """Removes duplicates from the (x, y) tuple of arrays.
     """
