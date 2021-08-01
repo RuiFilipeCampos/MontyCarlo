@@ -50,10 +50,57 @@ def check_for_duplicates(arr):
         raise RuntimeError("Found duplicates.")
 
 
+print("""
 
 
 
-class Test_remove_duplicates(ut.TestCase):
+
+
+
+
+
+
+
+
+""")
+
+input_val.test_cases = [[ 1,  1,  2, 3, 4, 5, 6],
+                        [-1, -1, -4, 2, 5, 7, 7],
+                        [1., 1., 1., 2., 2., 2., 3., 4., 5., 5., 5., 5., 6., 6., 6, 6, 6, 7, 1000, 1000, 5000]]
+
+ground_truth.test_cases = [[ 1,  2, 3, 4, 5, 6],
+                           [-1, -4, 2, 5, 7],
+                           [1., 2., 3., 4.,  5., 6, 7, 1000, 5000]]
+
+functions = [lambda x: x**2,
+             lambda x: x + 1,
+             lambda x: x/10]
+
+class main(ut.TestCase):
+
+    def test_all(self):
+
+        for x_axis in input_val.test_cases:
+            input_val.X = np.array(x_axis, dtype = float)
+
+            for func in functions:
+                input_val.Y = f(func)
+
+                output_val.X, output_val.Y = remove_duplicates(input_val.X, input_val.Y)
+
+                self.assertEqual(
+                               list(output_val.X), 
+                               list(ground_truth.X), 
+                               f"Should be {ground_truth.X}"
+                               )
+
+                self.assertEqual(
+                               list(output_val.Y), 
+                               list(ground_truth.Y),
+                               f"Should be {ground_truth.Y}"
+                               )
+
+
 
 
     def test1(self):
@@ -103,4 +150,25 @@ class Test_remove_duplicates(ut.TestCase):
 
 
 if __name__ == '__main__':
+    print("""
+
+
+
+
+
+
+
+STARTING UNIT TEST
+""")
     ut.main()
+    print("""
+
+
+
+
+
+
+
+
+
+""")
