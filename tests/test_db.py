@@ -13,7 +13,7 @@ import unittest as ut
 
 
 from pathlib import Path
-__directory__ = Path(sys.argv)
+__directory__ = Path(sys.argv[0])
 __directory__ = __directory__.parent
 
 
