@@ -40,8 +40,8 @@ cdef object remove_duplicates(ndarray X, ndarray Y):
         new_y.append(Y[i])
 
     if not (X[-1] == duplicates[-1]):
-        new_x.append(X[i])
-        new_y.append(Y[i])
+        new_x.append(X[-1])
+        new_y.append(Y[-1])
 
     return (np.array(new_x), np.array(new_y))
 
