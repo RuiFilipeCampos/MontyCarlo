@@ -59,7 +59,7 @@ class test_remove_duplicates(ut.TestCase):
 
             for func in functions:
                 input_val.Y    = func(input_val.X)
-                ground_truth.Y = func(ground_truth.Y)
+                ground_truth.Y = func(ground_truth.X)
 
                 output_val.X, output_val.Y = remove_duplicates(input_val.X, input_val.Y)
 
