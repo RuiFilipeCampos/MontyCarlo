@@ -11,6 +11,9 @@ __author__ = "Rui Campos"
 
 from numpy cimport ndarray
 cdef object remove_duplicates(ndarray x, ndarray Y):
+    """Removes duplicates from the (x, y) tuple of arrays.
+    """
+
     cdef ndarray u, c, dup
     u, c = np.unique(x, return_counts=True)
     dup = u[c > 1]
