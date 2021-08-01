@@ -286,7 +286,7 @@ def getEEDL(Z):
 	Z = int(Z)
 
 	file = str(Z) + ".txt"
-	EPDL_path = str(__materials__/'EEDL'/file)
+	EEDL_path = str(__materials__/'EEDL'/file)
 	del file
 
 	#EEDL_path = directory + r"\\EEDL\\" + str(Z) + ".txt"
