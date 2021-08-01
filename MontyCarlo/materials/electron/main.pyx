@@ -1056,7 +1056,9 @@ cdef class Elastic:
         path = str(path)
         self.path = path
         
-        mu = np.load(path + "/muGRID.npy")
+        load_path = path/'muGRID.npy'
+        mu = np.load(str(load_path))
+        del load_path
         
         #LEeax = np.load(path + "/LEeax.npy")
         #HEeax = np.load(path + "/HEeax.npy")
