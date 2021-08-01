@@ -30,11 +30,6 @@ jobs:
         
       - name: Importing MyCo...
         run: python -c "import MontyCarlo"
-        
-      - name: Running tests...
-        run: |
-          cd tests
-          python import_test.py --built_inplace
           
       - name: Import test...
         run: |
