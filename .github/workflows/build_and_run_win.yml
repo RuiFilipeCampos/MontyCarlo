@@ -44,7 +44,7 @@ jobs:
       - name: Checking databases...
         run: |
           cd tests
-          python test_db.py --built_inplace
+          python -m test_db --built_inplace
           
       - name: The job has failed
         if: ${{ failure() }}
