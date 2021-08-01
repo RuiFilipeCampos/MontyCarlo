@@ -10,7 +10,10 @@ import _cmd
 import numpy as np
 import unittest as ut
 
-from MontyCarlo.tools.main import remove_duplicates
+
+from pathlib import Path
+__directory__ = Path(repr(__file__)[1:])
+__directory__ = __directory__.parent
 
 
 class input_val:
@@ -41,7 +44,20 @@ class AreDBPresent(ut.TestCase):
         pass
 
     def electron_elastic(self):
-        pass
+        work_dir = __directory__.parent
+        work_dir = _dir/'MontyCarlo'/'materials'/'electron'/'elastic'
+
+        self.assertTrue(work_dir.exists(), msg = "`electron/elastic` directory does not exist.")
+        self.assertTrue(work_dir.is_dir(), msg = "`electron/elastic` is not a directory.")
+
+
+        for i in range(100):
+            element_dir = work_dir/str(i)
+
+            self.assertTrue(element_dir.exists(), msg = f"`electron/elastic/{i}` directory does not exist.")
+            self.assertTrue(element_dir.is_dir(), msg = f"`electron/elastic/{i}` is not a directory.")
+
+
 
     def positron_elastic(self):
         pass

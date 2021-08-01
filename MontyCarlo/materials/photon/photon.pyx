@@ -273,6 +273,8 @@ cdef class Coherent(CSLOGIC):
 
         
         CUMUL, myX = remove_duplicates(CUMUL, myX)
+
+
         if len(CUMUL) != len(myX):
             formula.log.add_paragraph("         > Warning: line 305")
 
@@ -289,21 +291,24 @@ cdef class Coherent(CSLOGIC):
         
         cumul = CubicSpline(myX, CUMUL)
         
-
-        
-
-        
-        self.ySPLINE = cumul.c
+        self.ySPLINE  = cumul.c
         xADDER, xLIMS = self.construct_LIMS(myX)
-        self.xADDER = xADDER
-        self.xLIMS = xLIMS
-        self.X = np.array(myX, dtype = float)
-        self.xMAX = max(myX)
-        self.xMIN = min(myX)
+        self.xADDER   = xADDER
+        self.xLIMS    = xLIMS
+        self.X        = np.array(myX, dtype = float)
+        self.xMAX     = max(myX)
+        self.xMIN     = min(myX)
         
 
-        
-        
+        dx = np.diff(CUMUL)
+        if np.any(dx <= 0):
+            print("\n\n > DEBUG INFO BEFORE RAISING `ValueError`")
+            print("> The following array should be strictly increasing:")
+            print(CUMUL)
+            print("> If this has failed, add this case to the `/tests/test_tools.py` script.")
+            raise ValueError("`x` must be strictly increasing sequence.")
+        del dx
+
         invcumul = CubicSpline(CUMUL, myX)
 
         self.xSPLINE = invcumul.c

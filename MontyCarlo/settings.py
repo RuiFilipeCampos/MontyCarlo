@@ -21,7 +21,7 @@ How this file will change:
 __author__ = "Rui Campos"
 
 
-print("Importing .settings")
+print("Importing `.settings`")
 
 #__PATH__ = repr(__file__)[:-14][1:]
 
