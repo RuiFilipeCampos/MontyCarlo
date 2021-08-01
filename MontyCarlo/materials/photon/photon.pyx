@@ -258,9 +258,7 @@ cdef class Coherent(CSLOGIC):
         
         norm = trapz(Y, XX)
         Y = Y/norm
-        
-        cdef ndarray[double] CUMUL
-        
+
         CUMUL = cumtrapz(Y, XX, initial = 0)
         
         for exclude_from in range(len(CUMUL)):
@@ -296,7 +294,7 @@ cdef class Coherent(CSLOGIC):
         xADDER, xLIMS = self.construct_LIMS(myX)
         self.xADDER   = xADDER
         self.xLIMS    = xLIMS
-        self.X        = np.array(myX, dtype = float)
+        self.X        = np.array(myX)
         self.xMAX     = max(myX)
         self.xMIN     = min(myX)
         
