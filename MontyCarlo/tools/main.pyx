@@ -37,7 +37,7 @@ cdef object remove_duplicates(ndarray x, ndarray Y):
     return u, np.array(new_y)
 
 
- class python_hooks:
+class python_hooks:
     @staticmethod
     def remove_duplicates(arr):
         return remove_duplicates(arr)
