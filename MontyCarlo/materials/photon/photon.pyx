@@ -1,5 +1,5 @@
 # cython: profile=False
-print(">>>> IMPORTING material.photon.pyx")
+print("Importing `.material.photon.pyx`")
 
 
 
@@ -175,11 +175,13 @@ cdef class Photon:
     
     @property
     def ls(self):
-        print(""".coherent
+        print("""
+.coherent
 .incoherent    
 .photoelectric  
 .pairproduction 
-.tripletproduction""")
+.tripletproduction
+""")
 
 
 
@@ -285,10 +287,6 @@ cdef class Coherent(CSLOGIC):
         Y = Y/norm
         
 
-
-
-
-
         CUMUL = cumtrapz(Y, XX, initial = 0)
         
         for exclude_from in range(len(CUMUL)):
@@ -303,9 +301,9 @@ cdef class Coherent(CSLOGIC):
         
         CUMUL, myX = remove_duplicates(CUMUL, myX)
         if len(CUMUL) != len(myX):
-            formula.log.add_paragraph("         > Warining: line 305")
+            formula.log.add_paragraph("         > Warning: line 305")
 
-            print(">>>>>>>>>>>>> you'l need to patch this eventually, line 263 on material.photon.coherent")
+            print(">>>>>>>>>>>>> you'l need to patch this eventually, line 263 on `material.photon.coherent`")
             
             __XX, __YY = [], []
             for __xx, __yy in zip(myX, CUMUL):
@@ -334,6 +332,7 @@ cdef class Coherent(CSLOGIC):
         
         
         invcumul = CubicSpline(CUMUL, myX)
+
         self.xSPLINE = invcumul.c
         yADDER, yLIMS = self.construct_LIMS(CUMUL)
         self.yADDER = yADDER
