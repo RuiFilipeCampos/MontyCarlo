@@ -26,27 +26,24 @@ class output_val:
 	"""
 
 
+def check_for_duplicates(arr):
+	"""Checks if `arr` contains duplicate values.
+	"""
 
+	print(f"""
+	RESULT:	{arr}
+	""")
+
+
+	found = []
+	for x in arr:
+		if x not in found:
+			found.append(x)
+			continue
+
+		raise RuntimeError("Found duplicates.")
 
 class Test_remove_duplicates(ut.TestCase):
-
-	@staticmethod
-	def check_for_duplicates(arr):
-		"""Checks if `arr` contains duplicate values.
-		"""
-
-		print(f"""
-		RESULT:	{arr}
-		""")
-
-
-		found = []
-		for x in arr:
-			if x not in found:
-				found.append(x)
-				continue
-
-			raise RuntimeError("Found duplicates.")
 
 
 	def test1(self):
