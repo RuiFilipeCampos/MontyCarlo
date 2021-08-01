@@ -50,7 +50,7 @@ class AreDBPresent(ut.TestCase):
         """Checks if the database for elastic scattering of electrons is present.
         """
 
-        work_dir = __directory__.parent
+        work_dir = __directory__
         work_dir = work_dir/'MontyCarlo'/'materials'/'electron'/'elastic'
 
         self.assertTrue(work_dir.exists(), msg = f"`{work_dir}` directory does not exist.")
