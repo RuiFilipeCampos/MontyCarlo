@@ -44,16 +44,9 @@ class AreDBPresent(ut.TestCase):
     """Checks if databases are where they should be.
     """
 
-    def EADL(self):
-        pass
 
-    def EEDL(self):
-        pass
 
-    def EPDL(self):
-        pass
-
-    def electron_elastic(self):
+    def test_electron_elastic(self):
         """Checks if the database for elastic scattering of electrons is present.
         """
 
@@ -81,7 +74,14 @@ class AreDBPresent(ut.TestCase):
     def positron_elastic(self):
         pass
 
+    def EADL(self):
+        pass
 
+    def EEDL(self):
+        pass
+
+    def EPDL(self):
+        pass
 
 if __name__ == '__main__':
 	ut.main()
