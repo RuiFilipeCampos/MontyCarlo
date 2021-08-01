@@ -6,6 +6,7 @@ __author__ = "Rui Campos"
 
 
 import _cmd
+import sys
 del sys.argv[1]
 
 
