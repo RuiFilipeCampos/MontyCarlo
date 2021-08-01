@@ -6,8 +6,11 @@ Monty Carlo is a pyhon framework for setting up simulations and/or developing ap
 
 **As of yet, this is an unstable version.** This is a thesis project and, as a student, I am still learning! 
 
+This work has a poster presentation in the 3rd European Congress of Medical Physics and has been presented in a [workshop](https://ruifilipecampos.github.io/MontyCarlo/Poster_workshop_medical_physics.pdf) organized by the Faculty of Sciences of the University of Porto and the Ludwig Maximilian University of Munich.
 
-
+<a href="https://ruifilipecampos.github.io/MontyCarlo/ecmp2020.pptx">
+<img src="https://user-images.githubusercontent.com/63464503/127783224-295ea39e-b935-4cbd-b4d9-a1012bc12729.jpg" width="auto" height="250">
+</a>
 
 # Installation
 
