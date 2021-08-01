@@ -7,7 +7,7 @@ __doc__ = """ Atomic Relaxation model. NEEDS CLEANING.
 
 __author__ = "Rui Campos"
 
-print("Importing .materials.pyRelax")
+print("Importing `.materials.pyRelax`")
 
 from .cppRelaxAPI cimport Shell as rShell
 from .cppRelaxAPI cimport Atom as rAtom

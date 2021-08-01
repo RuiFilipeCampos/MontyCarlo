@@ -3,6 +3,7 @@ __doc__ = """Implements a class that aids in the construction of the *.html outp
 
 __author__ = "Rui Campos"
 
+print("Importing `.materials.logger`")
 
 from .htmlcreator import HTMLDocument
 import numpy as np

@@ -3,7 +3,7 @@ plotter.py
     Where plots are made. xd
 """
 
-print("Importing .plotter")								 
+print("Importing `.plotter`")								 
 										 
 		
 
