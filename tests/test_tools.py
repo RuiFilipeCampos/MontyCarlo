@@ -15,52 +15,52 @@ remove_duplicates = python_hooks.remove_duplicates
 
 
 class input_val:
-	"""A namespace indicating input values.
-	"""
+    """A namespace indicating input values.
+    """
 
 class ground_truth:
-	"""A namespace indicating groundtruth.
-	"""
-	pass
+    """A namespace indicating groundtruth.
+    """
+    pass
 
 class output_val:
-	"""A namespace indicating calculated value.
-	"""
+    """A namespace indicating calculated value.
+    """
 
 
 def check_for_duplicates(arr):
-	"""Checks if `arr` contains duplicate values.
-	"""
+    """Checks if `arr` contains duplicate values.
+    """
 
-	print(f"""
-	RESULT:	{arr}
-	""")
+    print(f"""
+    RESULT: {arr}
+    """)
 
 
-	found = []
-	for x in arr:
-		if x not in found:
-			found.append(x)
-			continue
+    found = []
+    for x in arr:
+        if x not in found:
+            found.append(x)
+            continue
 
-		raise RuntimeError("Found duplicates.")
+        raise RuntimeError("Found duplicates.")
 
 class Test_remove_duplicates(ut.TestCase):
 
 
-	def test1(self):
+    def test1(self):
 
-		input_val.X = np.array([ 1,  1,  2, 3, 4, 5, 6])
-		input_val.Y = np.array([-1, -1, -4, 2, 5, 7, 7])
+        input_val.X = np.array([ 1,  1,  2, 3, 4, 5, 6])
+        input_val.Y = np.array([-1, -1, -4, 2, 5, 7, 7])
 
-		ground_truth.X = np.array([  1,  2, 3, 4, 5, 6])
-		ground_truth.Y = np.array([ -1, -4, 2, 5, 7, 7])
+        ground_truth.X = np.array([  1,  2, 3, 4, 5, 6])
+        ground_truth.Y = np.array([ -1, -4, 2, 5, 7, 7])
 
-		output_val.X, output_val.Y = remove_duplicates(input_val.X, input_val.Y)
+        output_val.X, output_val.Y = remove_duplicates(input_val.X, input_val.Y)
 
-		ut.assertEqual(input_val.X, ground_truth.X, f"Should be {ground_truth.X}")
-		ut.assertEqual(input_val.Y, ground_truth.Y, f"Should be {ground_truth.Y}")
+        ut.assertEqual(input_val.X, ground_truth.X, f"Should be {ground_truth.X}")
+        ut.assertEqual(input_val.Y, ground_truth.Y, f"Should be {ground_truth.Y}")
 
 if __name__ == '__main__':
-	ut.main()
+    ut.main()
 
