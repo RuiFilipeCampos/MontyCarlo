@@ -1373,7 +1373,8 @@ cdef class Elastic:
         HE_load_path = str(dbdir/'1'/'HEtransportTCS.npy')
         LE_load_path = str(dbdir/'1'/'LEtransportTCS.npy')
         
-        shape = np.append(np.load(LE_load_path), np.load(HE_load_path)[:, 1:], axis = 1)
+        shape = np.append(np.load(LE_load_path, allow_pickle=True), 
+                          np.load(HE_load_path, allow_pickle=True)[:, 1:], axis = 1)
         del LE_load_path
         del HE_load_path
         
@@ -1394,8 +1395,8 @@ cdef class Elastic:
             
             dcs = np.load(dcs_load_path)
             
-            sigma  = np.append(np.load(LE_load_path),
-                               np.load(HE_load_path)[:, 1:], axis = 1)
+            sigma  = np.append(np.load(LE_load_path, allow_pickle=True),
+                               np.load(HE_load_path, allow_pickle=True)[:, 1:], axis = 1)
             
             
             #dcs, sigma0, sigma1, sigma2, eax = self.getData(Z)
