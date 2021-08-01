@@ -1,4 +1,4 @@
-name: (test::windows) Build and run.
+name: (WIN) Build and run tests.
 on: pull_request
 
 jobs:
