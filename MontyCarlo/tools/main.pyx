@@ -14,7 +14,7 @@ cdef object remove_duplicates(ndarray X, ndarray Y):
     """
 
     if not (len(X) == len(Y)):
-        raise RuntimeError(f"Arrays have different shapes: `{X.shape}` vs `{Y.shape}`.")
+        raise RuntimeError(f"Arrays have different shapes.")
 
     new_x, new_y = deque(), deque()
 
