@@ -3,7 +3,10 @@ __doc__ = """
 
 __author__ = "Rui Campos"
 
+
+
 import _cmd
+del sys.argv[1]
 
 
 import numpy as np

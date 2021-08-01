@@ -38,6 +38,9 @@ cdef object remove_duplicates(ndarray x, ndarray Y):
 
 
 class python_hooks:
+    """Namespace for collecting python wrappers.
+    """
+
     @staticmethod
     def remove_duplicates(x, y):
         return remove_duplicates(x, y)

@@ -96,3 +96,10 @@ cdef int _sortedArrayDOUBLE(double[:] arr, double element, int start, int end):
 
 def sortedArrayDOUBLE(double [:] L, double l):
     return _sortedArrayDOUBLE(L, l, 0, len(L))
+
+
+class python_hooks:
+
+    @staticmethod
+    def _sortedArrayDOUBLE(arr, element, start, end):
+        return _sortedArrayDOUBLE(arr, element, start, end)
