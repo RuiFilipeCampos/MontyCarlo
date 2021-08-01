@@ -22,6 +22,7 @@ cdef object remove_duplicates(ndarray X, ndarray Y):
     
     cdef int i
     cdef int N = len(X)
+
     for i in range(N - 1):
         if X[i+1] - X[i] == 0: # is duplicate
             if X[i] == duplicates[-1]: # and has already been cached
@@ -30,6 +31,9 @@ cdef object remove_duplicates(ndarray X, ndarray Y):
             duplicates.append(X[i])
             new_x.append(X[i])
             new_y.append(Y[i])
+            continue
+
+        if X[i] == duplicates[-1]:
             continue
 
         new_x.append(X[i])
