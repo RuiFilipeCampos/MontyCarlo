@@ -5,7 +5,8 @@ __doc__ = """
 __author__ = "Rui Campos"
 
 import _cmd
-
+import sys
+del sys.argv[1]
 
 import numpy as np
 import unittest as ut
@@ -28,6 +29,15 @@ class ground_truth:
 class output_val:
 	"""A namespace indicating calculated value.
 	"""
+    pass
+
+
+
+
+
+top_level_files = ["HEeax.npy", "LEeax.npy", "muGRID.npy"]
+element_level_files = ["DCS.npy", "HEtransportTCS.npy", "LEtransportTCS.npy"]
+
 
 
 class AreDBPresent(ut.TestCase):
@@ -44,12 +54,18 @@ class AreDBPresent(ut.TestCase):
         pass
 
     def electron_elastic(self):
+        """Checks if the database for elastic scattering of electrons is present.
+        """
+
         work_dir = __directory__.parent
         work_dir = _dir/'MontyCarlo'/'materials'/'electron'/'elastic'
 
         self.assertTrue(work_dir.exists(), msg = "`electron/elastic` directory does not exist.")
         self.assertTrue(work_dir.is_dir(), msg = "`electron/elastic` is not a directory.")
 
+        for file_name in top_level_files:
+            file = work_dir/'file_name'
+            self.assertTrue(file.exists(), msg = "Missing file: " + str(file))
 
         for i in range(100):
             element_dir = work_dir/str(i)
@@ -57,6 +73,9 @@ class AreDBPresent(ut.TestCase):
             self.assertTrue(element_dir.exists(), msg = f"`electron/elastic/{i}` directory does not exist.")
             self.assertTrue(element_dir.is_dir(), msg = f"`electron/elastic/{i}` is not a directory.")
 
+            for file_name in element_level_files:
+                file = element_dir/file_name
+                self.assertTrue(file.exists(), msg = "Missing file: " + str(file))
 
 
     def positron_elastic(self):
