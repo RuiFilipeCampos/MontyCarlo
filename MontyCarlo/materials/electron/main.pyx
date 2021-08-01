@@ -1131,7 +1131,7 @@ cdef class Elastic:
                 plt.plot(_x, __eqn(_x))
                 plt.plot(_x, [0]*len(_x))
                 plt.show()
-                raise RuntimeError("did not converge")
+                raise RuntimeError("Did not converge.")
                 
         A0 = np.array(A0)
         MWavgMU  = avgMU
@@ -1367,9 +1367,11 @@ cdef class Elastic:
         #SIGMA1 = zeros(200)
         #SIGMA2 = zeros(200)
         
+
+        dbdir = __directory__/'elastic'
         
-        HE_load_path = str(__directory__/'1'/'HEtransportTCS.npy')
-        LE_load_path = str(__directory__/'1'/'LEtransportTCS.npy')
+        HE_load_path = str(dbdir/'1'/'HEtransportTCS.npy')
+        LE_load_path = str(dbdir/'1'/'LEtransportTCS.npy')
         
         shape = np.append(np.load(LE_load_path),
                              np.load(HE_load_path)[:, 1:], axis = 1)
@@ -1387,9 +1389,9 @@ cdef class Elastic:
         for Z, x in formula.items():
             formula.log.add_paragraph(f"Z = {Z}, x = {x}")
             
-            dcs_load_path = str(__directory__/f'{Z}'/'DCS.npy')
-            HE_load_path  = str(__directory__/f'{Z}'/'HEtransportTCS.npy')
-            LE_load_path  = str(__directory__/f'{Z}'/'LEtransportTCS.npy')
+            dcs_load_path = str(dbdir/f'{Z}'/'DCS.npy')
+            HE_load_path  = str(dbdir/f'{Z}'/'HEtransportTCS.npy')
+            LE_load_path  = str(dbdir/f'{Z}'/'LEtransportTCS.npy')
             
             dcs = np.load(dcs_load_path)
             
