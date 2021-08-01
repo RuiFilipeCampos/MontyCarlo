@@ -35,3 +35,14 @@ jobs:
         run: |
           cd tests
           python import_test.py --built_inplace
+          
+      - name: Import test...
+        run: |
+          cd tests
+          python import_test.py --built_inplace
+          
+      - name: Testing tools...
+        run: python test_tools.py --built_inplace
+
+      - name: Testing material creation...
+        run: python create_mat.py --built_inplace
