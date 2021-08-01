@@ -84,7 +84,7 @@ class main(ut.TestCase):
             input_val.X = np.array(x_axis, dtype = float)
 
             for func in functions:
-                input_val.Y = f(func)
+                input_val.Y = func(input_val.X)
 
                 output_val.X, output_val.Y = remove_duplicates(input_val.X, input_val.Y)
 
