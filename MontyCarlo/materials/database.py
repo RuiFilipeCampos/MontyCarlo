@@ -778,38 +778,38 @@ class AtomDATA:
 		self.x = x
 		self.Z = Z
 
-	file_name = str(Z) + '.txt'
-	self.path = str(__directory__/'EADL'/file_name)
-	del file_name
-	
-	self.Aw, self.EADL_dict = self.getBookmarkedText()
+		file_name = str(Z) + '.txt'
+		self.path = str(__directory__/'EADL'/file_name)
+		del file_name
 
-		for key, item in self.EADL_dict.copy().items():
-			content = self.EADL_dict[key]
-			
-			replace = []
-			for line in content:
-				numerical_line = [float(x) for x in line.split()]
-				replace.append(numerical_line)
-			
-			self.EADL_dict[key] = np.array(replace)
-			
-			
-		self.number_of_electrons = self.EADL_dict[(0, 91, 0, 0, 0, 912)][:, 1]
-		self.binding_energy = self.EADL_dict[(0, 91, 0, 0, 0, 913)][:, 1]*1e6
-		self.kinetic_energy = self.EADL_dict[(0, 91, 0, 0, 0, 914)][:, 1]
-		
-		J0 = []
-		
-		J0path = directory + "\\comptonJ0.txt"
-		with open(J0path) as file:
-			text = file.readlines()[2:]
-			text = [line.strip('\n') for line in text]
-			for line in text:
-				numbers = [float(x) for x in line.split()]
-				if numbers[0] == self.Z:
-					J0.append(numbers[3])
-		self.J0 = np.array(J0)
+		self.Aw, self.EADL_dict = self.getBookmarkedText()
+
+			for key, item in self.EADL_dict.copy().items():
+				content = self.EADL_dict[key]
+
+				replace = []
+				for line in content:
+					numerical_line = [float(x) for x in line.split()]
+					replace.append(numerical_line)
+
+				self.EADL_dict[key] = np.array(replace)
+
+
+			self.number_of_electrons = self.EADL_dict[(0, 91, 0, 0, 0, 912)][:, 1]
+			self.binding_energy = self.EADL_dict[(0, 91, 0, 0, 0, 913)][:, 1]*1e6
+			self.kinetic_energy = self.EADL_dict[(0, 91, 0, 0, 0, 914)][:, 1]
+
+			J0 = []
+
+			J0path = directory + "\\comptonJ0.txt"
+			with open(J0path) as file:
+				text = file.readlines()[2:]
+				text = [line.strip('\n') for line in text]
+				for line in text:
+					numbers = [float(x) for x in line.split()]
+					if numbers[0] == self.Z:
+						J0.append(numbers[3])
+			self.J0 = np.array(J0)
 		
 		
 
