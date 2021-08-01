@@ -49,6 +49,10 @@ def check_for_duplicates(arr):
 
         raise RuntimeError("Found duplicates.")
 
+
+
+
+
 class Test_remove_duplicates(ut.TestCase):
 
 
@@ -63,13 +67,13 @@ class Test_remove_duplicates(ut.TestCase):
         output_val.X, output_val.Y = remove_duplicates(input_val.X, input_val.Y)
 
         self.assertEqual(
-                       list(input_val.X), 
+                       list(output_val.X), 
                        list(ground_truth.X), 
                        f"Should be {ground_truth.X}"
                        )
 
         self.assertEqual(
-                       list(input_val.Y), 
+                       list(output_val.Y), 
                        list(ground_truth.Y),
                        f"Should be {ground_truth.Y}"
                        )
