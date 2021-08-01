@@ -22,10 +22,11 @@ from ..tools.data import getAxis
 from ..tools.interpol1 import LinLinInterpolation
 
 
-
-
 __materials__ = __montecarlo__/'materials'
 directory = str(__materials__)
+
+# META
+__directory__ = __montecarlo__/'materials'
 
 
 
@@ -776,9 +777,12 @@ class AtomDATA:
 	def __init__(self, Z, x):
 		self.x = x
 		self.Z = Z
-
-		self.path = directory + "\\EADL\\" + str(Z) + ".txt"
-		self.Aw, self.EADL_dict = self.getBookmarkedText()
+        
+        file_name = str(Z) + '.txt'
+        self.path = str(__directory__/'EADL'/file_name)
+        del file_name
+        
+        self.Aw, self.EADL_dict = self.getBookmarkedText()
 		
 		for key, item in self.EADL_dict.copy().items():
 			content = self.EADL_dict[key]
