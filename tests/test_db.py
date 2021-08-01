@@ -51,7 +51,7 @@ class AreDBPresent(ut.TestCase):
         """
 
         work_dir = __directory__.parent
-        work_dir = _dir/'MontyCarlo'/'materials'/'electron'/'elastic'
+        work_dir = work_dir/'MontyCarlo'/'materials'/'electron'/'elastic'
 
         self.assertTrue(work_dir.exists(), msg = "`electron/elastic` directory does not exist.")
         self.assertTrue(work_dir.is_dir(), msg = "`electron/elastic` is not a directory.")
