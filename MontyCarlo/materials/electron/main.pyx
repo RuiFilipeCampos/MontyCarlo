@@ -1371,6 +1371,8 @@ cdef class Elastic:
         
         HE_load_path = dbdir/'1'/'HEtransportTCS.npy'
         LE_load_path = dbdir/'1'/'LEtransportTCS.npy'
+
+        assert LE_load_path.exists()
         
         shape = np.append(np.load(LE_load_path), 
                           np.load(HE_load_path)[:, 1:], axis = 1)
