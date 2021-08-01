@@ -18,17 +18,17 @@ __directory__ = __directory__.parent
 
 
 class input_val:
-	"""A namespace indicating input values.
-	"""
+    """A namespace indicating input values.
+    """
 
 class ground_truth:
-	"""A namespace indicating groundtruth.
-	"""
-	pass
+    """A namespace indicating groundtruth.
+    """
+    pass
 
 class output_val:
-	"""A namespace indicating calculated value.
-	"""
+    """A namespace indicating calculated value.
+    """
     pass
 
 
