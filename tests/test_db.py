@@ -24,7 +24,7 @@ class input_val:
 class ground_truth:
     """A namespace indicating groundtruth.
     """
-    pass
+    pass 
 
 class output_val:
     """A namespace indicating calculated value.
