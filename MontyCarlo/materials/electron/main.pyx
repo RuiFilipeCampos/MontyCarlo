@@ -20,8 +20,13 @@ class MAP(dict):
 
 
 # #### PREPARING ENERGY AXIS AND GRID
+
+
+# META
 from ...settings import __montecarlo__
+
 __path__ = __montecarlo__/'materials'/'electron'
+__directory__ = __montecarlo__/'materials'/'electron'
 
 
 # PATH = __path__/'elastic'
@@ -1056,7 +1061,7 @@ cdef class Elastic:
         path = str(path)
         self.path = path
         
-        load_path = __path__/'elastic'/'muGRID.npy'
+        load_path = __directory__/'elastic'/'muGRID.npy'
         mu = np.load(str(load_path))
         del load_path
         
@@ -1362,9 +1367,14 @@ cdef class Elastic:
         #SIGMA1 = zeros(200)
         #SIGMA2 = zeros(200)
         
-        shape = np.append(np.load(self.path + f"/{1}/HEtransportTCS.npy"),
-                             np.load(self.path + f"/{1}/LEtransportTCS.npy")[:, 1:], axis = 1)
         
+        HE_load_path = str(__directory__/'1'/'HEtransportTCS.npy')
+        LE_load_path = str(__directory__/'1'/'LEtransportTCS.npy')
+        
+        shape = np.append(np.load(LE_load_path),
+                             np.load(HE_load_path)[:, 1:], axis = 1)
+        del LE_load_path
+        del HE_load_path
         
         print(shape.shape)
         print("SUBSTITUTE THIS VALUE ")
@@ -1376,10 +1386,15 @@ cdef class Elastic:
         
         for Z, x in formula.items():
             formula.log.add_paragraph(f"Z = {Z}, x = {x}")
-            dcs = np.load(self.path + f"/{Z}/DCS.npy")
             
-            sigma  = np.append(np.load(self.path + f"/{Z}/LEtransportTCS.npy"),
-                             np.load(self.path + f"/{Z}/HEtransportTCS.npy")[:, 1:], axis = 1)
+            dcs_load_path = str(__directory__/f'{Z}'/'DCS.npy')
+            HE_load_path  = str(__directory__/f'{Z}'/'HEtransportTCS.npy')
+            LE_load_path  = str(__directory__/f'{Z}'/'LEtransportTCS.npy')
+            
+            dcs = np.load(dcs_load_path)
+            
+            sigma  = np.append(np.load(LE_load_path),
+                               np.load(HE_load_path)[:, 1:], axis = 1)
             
             
             #dcs, sigma0, sigma1, sigma2, eax = self.getData(Z)
