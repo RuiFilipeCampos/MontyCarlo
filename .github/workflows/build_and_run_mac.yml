@@ -45,6 +45,14 @@ jobs:
         run: |
           cd tests
           python test_db.py --built_inplace
+          
+      - name: The job has failed
+        if: ${{ failure() }}
+        run: |
+          cd MontyCarlo
+          cd materials
+          cd electron
+          ls
 
       - name: Testing material creation...
         run: |
