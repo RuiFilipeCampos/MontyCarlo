@@ -1,4 +1,4 @@
-__doc__ = """
+__doc__ = """Unit-testing the `.tools` package.
 """
 
 __author__ = "Rui Campos"
@@ -62,13 +62,13 @@ class Test_remove_duplicates(ut.TestCase):
 
         output_val.X, output_val.Y = remove_duplicates(input_val.X, input_val.Y)
 
-        ut.assertEqual(
+        self.assertEqual(
                        list(input_val.X), 
                        list(ground_truth.X), 
                        f"Should be {ground_truth.X}"
                        )
 
-        ut.assertEqual(
+        self.assertEqual(
                        list(input_val.Y), 
                        list(ground_truth.Y),
                        f"Should be {ground_truth.Y}"
@@ -76,4 +76,3 @@ class Test_remove_duplicates(ut.TestCase):
 
 if __name__ == '__main__':
     ut.main()
-
