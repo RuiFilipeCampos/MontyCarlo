@@ -41,6 +41,11 @@ jobs:
           cd tests
           python test_tools.py --built_inplace
 
+      - name: Checking databases...
+        run: |
+          cd tests
+          python test_db.py --built_inplace
+
       - name: Testing material creation...
         run: |
           cd tests
