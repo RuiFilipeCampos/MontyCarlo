@@ -297,7 +297,7 @@ cdef class Coherent(CSLOGIC):
         xADDER, xLIMS = self.construct_LIMS(myX)
         self.xADDER = xADDER
         self.xLIMS = xLIMS
-        self.X = myX
+        self.X = np.array(myX, dtype = float)
         self.xMAX = max(myX)
         self.xMIN = min(myX)
         
