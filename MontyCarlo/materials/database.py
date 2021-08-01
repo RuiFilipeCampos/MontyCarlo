@@ -800,8 +800,9 @@ class AtomDATA:
 		self.kinetic_energy = self.EADL_dict[(0, 91, 0, 0, 0, 914)][:, 1]
 
 		J0 = []
-
-		J0path = directory + "\\comptonJ0.txt"
+		
+		
+		J0path = str(__directory__/'comptonJ0.txt')
 		with open(J0path) as file:
 			text = file.readlines()[2:]
 			text = [line.strip('\n') for line in text]
