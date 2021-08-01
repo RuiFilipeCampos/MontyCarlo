@@ -17,6 +17,8 @@ cdef object remove_duplicates(ndarray X, ndarray Y):
         raise RuntimeError("Arrays have different shape.")
 
     new_x, new_y = deque(), deque()
+
+    duplicates = deque([None])
     
     cdef int i
     cdef int N = len(X)
