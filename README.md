@@ -53,6 +53,8 @@ Have fun exploring high energy particle tracks in a 3d environment!
 - Blue tracks: electrons
 - Red tracks: positrons
 
+The innermost sphere contains water, the outer sphere contains air and the rest of space is filled with gold.
+
 ![ex01](https://user-images.githubusercontent.com/63464503/124515938-880a8f80-ddd8-11eb-9439-409381b5124a.png)
 
 Be sure to zoom in on every detail! 
