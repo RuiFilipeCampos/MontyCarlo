@@ -7,7 +7,7 @@ import _cmd
 
 
 
-print("Importing MontyCarlo")
+print("Importing MontyCarlo.")
 import MontyCarlo as myco
 
 print("Creating a material")
