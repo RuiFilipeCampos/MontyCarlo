@@ -43,7 +43,7 @@ CONST = C**2 * 2e-4
 data = db.EPDL[0][(7, 93, 0, 0, 0, 941)]
 
 
-XX = np.array(data.X, dtype =np.longdouble)
+XX = np.array(data.X, dtype = np.longdouble)
 NN = len(data.X)
 XX = np.array(CONST*XX**2, dtype =np.longdouble)
 
@@ -65,13 +65,13 @@ cdef int get_exp(double x):
 cimport cython
 from scipy.interpolate import CubicSpline
 
-hashed =  np.array([get_exp(x) for x in XX], dtype = int)
+hashed =  np.array([get_exp(x) for x in XX], dtype = np.int32)
 indexes = np.arange(0, len(hashed))
 Imax = int(max(hashed))
 
 
 
-lims = [np.array([0, 0, 0], dtype = int)]
+lims = [np.array([0, 0, 0], dtype = np.int32)]
 
 
 cdef int i 
@@ -82,13 +82,13 @@ for i in range(Imax + 1): #every possible value of the hash, index = hash
         #if no values in this range, interpolate using last interval
         n_last = lims[-1][2]
         if n_last == 0: #out of bounds
-            lims.append(np.array([0, 0, 0], dtype = int))
+            lims.append(np.array([0, 0, 0], dtype = np.int32))
             continue
         i_last = lims[-1][1]
-        lims.append(np.array([i_last, i_last, 1], dtype = int))
+        lims.append(np.array([i_last, i_last, 1], dtype = np.int32))
         continue
 
-    lims.append(np.array([selected[0], selected[-1] , n], dtype = int))
+    lims.append(np.array([selected[0], selected[-1] , n], dtype = np.int32))
 
 cdef int[:, ::1] LIMS = np.array(lims[1:], dtype = np.int32) ### memory view defined in pxd, cdef double[::1] EAX
 
@@ -240,7 +240,7 @@ cdef class Coherent(CSLOGIC):
         xSPLINE = np.array(self.xSPLINE)
         ySPLINE = np.array(self.ySPLINE)
         X, Y = np.array(self.X), np.array(self.Y)
-        xLIMS, yLIMS = np.array(self.xLIMS, dtype = int), np.array(self.yLIMS, dtype = int)
+        xLIMS, yLIMS = np.array(self.xLIMS, dtype = np.int32), np.array(self.yLIMS, dtype = np.int32)
         tup = (imfpA, imfpB, xSPLINE, ySPLINE, X, Y, xLIMS, yLIMS, self.xMAX, self.xMIN, self.xADDER, self.yADDER)
         to_pickle = list(tup)
         return (reconstruct_Coherent,  tup)
@@ -374,7 +374,7 @@ cdef class Coherent(CSLOGIC):
             
         
     def construct_LIMS(self, ARR):
-        hashed =  np.array([get_exp(x) for x in ARR], dtype = int)
+        hashed =  np.array([get_exp(x) for x in ARR], dtype = np.int32)
 
         adder = min(hashed)
         if adder < 0: adder = abs(adder)
@@ -385,7 +385,7 @@ cdef class Coherent(CSLOGIC):
         
         
         
-        lims = [np.array([0, 0, 0], dtype = int)]
+        lims = [np.array([0, 0, 0], dtype = np.int32)]
         
         
         cdef int i 
@@ -396,15 +396,15 @@ cdef class Coherent(CSLOGIC):
                 #if no values in this range, interpolate using last interval
                 n_last = lims[-1][2]
                 if n_last == 0: #out of bounds
-                    lims.append(np.array([0, 0, 0], dtype = int))
+                    lims.append(np.array([0, 0, 0], dtype = np.int32))
                     continue
                 i_last = lims[-1][1]
-                lims.append(np.array([i_last, i_last, 1], dtype = int))
+                lims.append(np.array([i_last, i_last, 1], dtype = np.int32))
                 continue
         
-            lims.append(np.array([selected[0], selected[-1] , n], dtype = int))
+            lims.append(np.array([selected[0], selected[-1] , n], dtype = np.int32))
 
-        return adder, np.array(lims[1:], dtype = int) ### memory view defined in pxd, cdef double[::1] EAX
+        return adder, np.array(lims[1:], dtype = np.int32) ### memory view defined in pxd, cdef double[::1] EAX
 
         
         
