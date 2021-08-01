@@ -13,7 +13,7 @@ cdef object remove_duplicates(ndarray X, ndarray Y):
     """Removes duplicates from the (x, y) tuple of arrays.
     """
 
-    if not (X.shape == Y.shape):
+    if not (len(X) == len(Y)):
         raise RuntimeError(f"Arrays have different shapes: `{X.shape}` vs `{Y.shape}`.")
 
     new_x, new_y = deque(), deque()
