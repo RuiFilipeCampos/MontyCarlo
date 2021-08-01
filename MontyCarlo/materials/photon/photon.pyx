@@ -185,7 +185,7 @@ cdef class Photon:
 
 
 
-from ...tools cimport remove_duplicates
+from ...tools.main cimport remove_duplicates
 
 
 
