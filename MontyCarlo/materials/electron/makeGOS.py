@@ -28,9 +28,13 @@ def getData(Z):
     from MontyCarlo.settings import __montecarlo__
     from MontyCarlo.tools.data import getAxis, getTable
     
-    __materials__ = __montecarlo__/'materials'
-    directory = str(__materials__)
-    path = directory + "\\EADL\\" + str(Z) + ".txt"
+    file_name = str(Z) + ".txt"
+    file_path = __montecarlo__/'materials'/'EADL'/file_name
+    del file_name
+    path = str(file_path)
+    del file_path
+   # directory = str(__materials__)
+    #path = directory + "\\EADL\\" + str(Z) + ".txt"
     
     with open(path, "r") as file:
             text = file.readlines()
