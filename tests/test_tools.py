@@ -58,11 +58,11 @@ class Test_remove_duplicates(ut.TestCase):
 
     def test1(self):
 
-        input_val.X = np.array([ 1,  1,  2, 3, 4, 5, 6])
-        input_val.Y = np.array([-1, -1, -4, 2, 5, 7, 7])
+        input_val.X = np.array([ 1,  1,  2, 3, 4, 5, 6], dtype = float)
+        input_val.Y = np.array([-1, -1, -4, 2, 5, 7, 7], dtype = float)
 
-        ground_truth.X = np.array([  1,  2, 3, 4, 5, 6])
-        ground_truth.Y = np.array([ -1, -4, 2, 5, 7, 7])
+        ground_truth.X = np.array([  1,  2, 3, 4, 5, 6], dtype = float)
+        ground_truth.Y = np.array([ -1, -4, 2, 5, 7, 7], dtype = float)
 
         output_val.X, output_val.Y = remove_duplicates(input_val.X, input_val.Y)
 
@@ -80,10 +80,10 @@ class Test_remove_duplicates(ut.TestCase):
 
     def test2(self):
 
-        input_val.X = np.array([ 1, 1, 1, 2, 2, 2, 3, 4, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 1000, 1000, 5000])
+        input_val.X = np.array([ 1., 1., 1., 2., 2., 2., 3., 4., 5., 5., 5., 5., 6., 6., 6, 6, 6, 7, 1000, 1000, 5000], dtype = float)
         input_val.Y = input_val.X**2
 
-        ground_truth.X = np.array([1, 2, 3, 4, 5, 6, 7, 1000, 5000])
+        ground_truth.X = np.array([1, 2, 3, 4, 5, 6, 7, 1000, 5000], dtype = float)
         ground_truth.Y = ground_truth.X**2
 
         output_val.X, output_val.Y = remove_duplicates(input_val.X, input_val.Y)
