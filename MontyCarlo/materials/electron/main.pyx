@@ -1,6 +1,6 @@
 # distutils: language = c++
 
-print("Importing .materials.electron.main")
+print("Importing `.materials.electron.main`")
 
 class MAP(dict):
     def __getattr__(self, key):
@@ -1361,12 +1361,11 @@ cdef class Elastic:
     def compose(self, object formula):
         formula.log.add_paragraph("> COMPOSING ELASTIC")
         #cdef ndarray allDCS, SIGMA0, SIGMA1, SIGMA2
-        
+
         allDCS = np.zeros((200, 606))
         #SIGMA0 = zeros(200)
         #SIGMA1 = zeros(200)
         #SIGMA2 = zeros(200)
-        
 
         dbdir = __directory__/'elastic'
         
@@ -1375,40 +1374,41 @@ cdef class Elastic:
         
         shape = np.append(np.load(LE_load_path, allow_pickle=True), 
                           np.load(HE_load_path, allow_pickle=True)[:, 1:], axis = 1)
+
         del LE_load_path
         del HE_load_path
-        
+
         print(shape.shape)
         print("SUBSTITUTE THIS VALUE ")
-        
+
         SIGMA = np.zeros(shape.shape)
-        
+
         cdef int Z
         cdef double x
-        
+
         for Z, x in formula.items():
             formula.log.add_paragraph(f"Z = {Z}, x = {x}")
-            
+
             dcs_load_path = str(dbdir/f'{Z}'/'DCS.npy')
             HE_load_path  = str(dbdir/f'{Z}'/'HEtransportTCS.npy')
             LE_load_path  = str(dbdir/f'{Z}'/'LEtransportTCS.npy')
-            
+
             dcs = np.load(dcs_load_path)
-            
+
             sigma  = np.append(np.load(LE_load_path, allow_pickle=True),
                                np.load(HE_load_path, allow_pickle=True)[:, 1:], axis = 1)
-            
-            
+
+
             #dcs, sigma0, sigma1, sigma2, eax = self.getData(Z)
-            
+
             SIGMA += x*sigma
-            
+
             #SIGMA0 += x*sigma0
             #SIGMA1 += x*sigma1
             #SIGMA2 += x*sigma2
-            
+
             allDCS += x*dcs
-            
+
         return allDCS, SIGMA
 
     cdef object remove_duplicates(self, ndarray x, ndarray Y):

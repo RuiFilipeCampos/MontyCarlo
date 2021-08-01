@@ -1,9 +1,11 @@
-# -*- coding: utf-8 -*-
+__doc__ = """
 """
-Created on Sun Jan 24 18:51:27 2021
 
-@author: Rui Campos
-"""
+__author__ = "Rui Campos"
+
+
+print("Importing `.materials.electron.makeGOS`")
+
 
 from numpy import *
 from scipy.optimize import fsolve
