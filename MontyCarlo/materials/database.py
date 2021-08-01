@@ -784,15 +784,15 @@ class AtomDATA:
 
 		self.Aw, self.EADL_dict = self.getBookmarkedText()
 
-			for key, item in self.EADL_dict.copy().items():
-				content = self.EADL_dict[key]
+		for key, item in self.EADL_dict.copy().items():
+			content = self.EADL_dict[key]
 
-				replace = []
-				for line in content:
-					numerical_line = [float(x) for x in line.split()]
-					replace.append(numerical_line)
+			replace = []
+			for line in content:
+				numerical_line = [float(x) for x in line.split()]
+				replace.append(numerical_line)
 
-				self.EADL_dict[key] = np.array(replace)
+			self.EADL_dict[key] = np.array(replace)
 
 
 			self.number_of_electrons = self.EADL_dict[(0, 91, 0, 0, 0, 912)][:, 1]
