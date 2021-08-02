@@ -1505,11 +1505,12 @@ cdef class sFastCubicSpline(DIST):
 
     def __reduce__(self):
         this = MAP()
+        import numpy as np
         from numpy import array
  
         this.N  = self.N  
         this.rc = self.rc
-        this.LIMS = array(self.LIMS, dtype = int)
+        this.LIMS = array(self.LIMS, dtype = np.int32)
 
         this.mu_c = self.mu_c
         
@@ -1545,7 +1546,7 @@ cdef class sFastCubicSpline(DIST):
         Imax = int(max(hashed))
         
         
-        lims = [np.array([0, 0, 0], dtype = int)]
+        lims = [np.array([0, 0, 0], dtype = np.int32)]
         
         
         
@@ -1556,13 +1557,13 @@ cdef class sFastCubicSpline(DIST):
                 #if no values in this range, interpolate using last interval
                 n_last = lims[-1][2]
                 if n_last == 0: #out of bounds
-                    lims.append(np.array([0, 0, 0], dtype = int))
+                    lims.append(np.array([0, 0, 0], dtype = np.int32))
                     continue
                 i_last = lims[-1][1]
-                lims.append(np.array([i_last, i_last, 1], dtype = int))
+                lims.append(np.array([i_last, i_last, 1], dtype = np.int32))
                 continue
 
-            lims.append(np.array([selected[0], selected[-1], n], dtype = int))
+            lims.append(np.array([selected[0], selected[-1], n], dtype = np.int32))
         
         self.LIMS = np.array(lims[1:])
         
