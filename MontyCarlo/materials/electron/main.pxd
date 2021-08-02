@@ -1,7 +1,7 @@
 from ..materials cimport Atom as _Atom
 
 
-from ..._random.interface cimport mixmax_engine
+from ...external.mixmax_interface cimport mixmax_engine
 
 from numpy cimport ndarray
 
