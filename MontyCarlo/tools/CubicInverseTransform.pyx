@@ -36,7 +36,9 @@ from scipy.interpolate import CubicSpline
 from numpy import array
 from numpy import linspace
 from numpy import  floor
+from scipy.integrate import quad
 
+cimport numpy as cnp
 from numpy cimport ndarray
 from libc.stdlib cimport rand
 from libc.stdlib cimport RAND_MAX
@@ -56,9 +58,6 @@ cdef double urand():
 
 
 
-
-
-
 def getDist(X):   
     var = []
     prob = []
@@ -69,10 +68,7 @@ def getDist(X):
     prob = array(prob)
     return var, prob/sum(prob)
 
-    
 
-
-        
 def makeAlias(X, Y):
     X, Y = X.copy(), Y.copy()
     N = len(Y)
@@ -104,8 +100,6 @@ def makeAlias(X, Y):
     return array(points)
 
 
-from scipy.integrate import quad
-    
 def fromCallable(f, a, b, num = 100, endpoints = True):
     if endpoints:
         X = linspace(a, b, num = num)
@@ -141,7 +135,6 @@ cdef aFastCubicSpline fromSample(x, y):
     return aFastCubicSpline(cumul, x, aliases = A)
 
     
-cimport numpy as cnp
 
 
 
@@ -195,9 +188,9 @@ cdef class aFastCubicSpline:
         self.DX = np.diff(x)/RAND_MAX
         
         self.cut_offs = aliases[:, 1]
-        self.rej_indexes = array([int(x) for x in aliases[:, 2]], dtype = np.int)
+        self.rej_indexes = array([int(x) for x in aliases[:, 2]], dtype = np.int32)
 
-        self.N =  (len(self.x) -2) 
+        self.N =  (len(self.x) - 2) 
         self.N = self.N / RAND_MAX
         
         
