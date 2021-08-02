@@ -1,4 +1,4 @@
-The first stable realeased will be version `0.1`.
+The first stable realease will be version `0.1`.
 
 # MontyCarlo (0.1a0.dev2)
 ![](https://img.shields.io/github/v/release/RuiFilipeCampos/MontyCarlo?include_prereleases) ![license](https://img.shields.io/github/license/RuiFilipeCampos/MontyCarlo) ![pyversion](https://img.shields.io/badge/python-%3E%3D3.7-blue) ![architecture](https://img.shields.io/badge/architecture%20-64--bit-blue) ![os](https://img.shields.io/badge/OS-win%2Fmac-blue)
