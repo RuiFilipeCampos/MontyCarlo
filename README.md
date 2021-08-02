@@ -4,7 +4,7 @@ The first stable realeased will be version `0.1`.
 
 # MontyCarlo (0.1a0.dev1)
 
-**MontyCarlo** is a pyhon framework for setting up simulations and/or developing applications whose basis is the simulation of radiation transport. It simulates the propagation and effects of ionizing radiation ([photons](https://en.wikipedia.org/wiki/Photon), [electrons](https://en.wikipedia.org/wiki/Electron) and [positrons](https://en.wikipedia.org/wiki/Positron) with energies between 1keV and 1GeV) in matter of homogeneous density, filling CSG models.
+**MontyCarlo** is a python framework for setting up simulations and/or developing applications whose basis is the simulation of radiation transport. It simulates the propagation and effects of ionizing radiation ([photons](https://en.wikipedia.org/wiki/Photon), [electrons](https://en.wikipedia.org/wiki/Electron) and [positrons](https://en.wikipedia.org/wiki/Positron) with energies between 1keV and 1GeV) in matter of homogeneous density, filling CSG models.
 
 **As of yet, this is an unstable version.** This is a thesis project and, as a student, I am still learning! 
 
