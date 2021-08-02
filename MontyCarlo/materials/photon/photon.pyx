@@ -1,5 +1,5 @@
 # cython: profile=False
-print(">>>> IMPORTING material.photon.pyx")
+print("Importing `.material.photon.pyx`")
 
 
 
@@ -43,7 +43,7 @@ CONST = C**2 * 2e-4
 data = db.EPDL[0][(7, 93, 0, 0, 0, 941)]
 
 
-XX = np.array(data.X, dtype =np.longdouble)
+XX = np.array(data.X, dtype = np.longdouble)
 NN = len(data.X)
 XX = np.array(CONST*XX**2, dtype =np.longdouble)
 
@@ -65,13 +65,13 @@ cdef int get_exp(double x):
 cimport cython
 from scipy.interpolate import CubicSpline
 
-hashed =  np.array([get_exp(x) for x in XX], dtype = int)
+hashed =  np.array([get_exp(x) for x in XX], dtype = np.int32)
 indexes = np.arange(0, len(hashed))
 Imax = int(max(hashed))
 
 
 
-lims = [np.array([0, 0, 0], dtype = int)]
+lims = [np.array([0, 0, 0], dtype = np.int32)]
 
 
 cdef int i 
@@ -82,13 +82,13 @@ for i in range(Imax + 1): #every possible value of the hash, index = hash
         #if no values in this range, interpolate using last interval
         n_last = lims[-1][2]
         if n_last == 0: #out of bounds
-            lims.append(np.array([0, 0, 0], dtype = int))
+            lims.append(np.array([0, 0, 0], dtype = np.int32))
             continue
         i_last = lims[-1][1]
-        lims.append(np.array([i_last, i_last, 1], dtype = int))
+        lims.append(np.array([i_last, i_last, 1], dtype = np.int32))
         continue
 
-    lims.append(np.array([selected[0], selected[-1] , n], dtype = int))
+    lims.append(np.array([selected[0], selected[-1] , n], dtype = np.int32))
 
 cdef int[:, ::1] LIMS = np.array(lims[1:], dtype = np.int32) ### memory view defined in pxd, cdef double[::1] EAX
 
@@ -175,42 +175,17 @@ cdef class Photon:
     
     @property
     def ls(self):
-        print(""".coherent
+        print("""
+.coherent
 .incoherent    
 .photoelectric  
 .pairproduction 
-.tripletproduction""")
+.tripletproduction
+""")
 
 
 
-
-from numpy cimport ndarray
-cdef object remove_duplicates(ndarray x, ndarray Y):
-    cdef ndarray u, c, dup
-    u, c = np.unique(x, return_counts=True)
-    dup = u[c > 1]
-    
-    cdef bint keep = True
-    cdef list new_y = []
-    cdef int i
-    cdef double y
-    
-    for i, y in enumerate(Y):
-        
-        if x[i] in dup:
-            if keep:
-                new_y.append(y)
-                keep = False
-                continue
-            else: continue
-        
-        if keep is False:
-            keep = True
-        new_y.append(y)
-    
-    return u, np.array(new_y)
-
-
+from ...tools.main cimport remove_duplicates
 
 
 
@@ -240,7 +215,7 @@ cdef class Coherent(CSLOGIC):
         xSPLINE = np.array(self.xSPLINE)
         ySPLINE = np.array(self.ySPLINE)
         X, Y = np.array(self.X), np.array(self.Y)
-        xLIMS, yLIMS = np.array(self.xLIMS, dtype = int), np.array(self.yLIMS, dtype = int)
+        xLIMS, yLIMS = np.array(self.xLIMS, dtype = np.int32), np.array(self.yLIMS, dtype = np.int32)
         tup = (imfpA, imfpB, xSPLINE, ySPLINE, X, Y, xLIMS, yLIMS, self.xMAX, self.xMIN, self.xADDER, self.yADDER)
         to_pickle = list(tup)
         return (reconstruct_Coherent,  tup)
@@ -278,16 +253,9 @@ cdef class Coherent(CSLOGIC):
             
         from scipy.integrate import trapz, cumtrapz
         
-        
 
-        
         norm = trapz(Y, XX)
         Y = Y/norm
-        
-
-
-
-
 
         CUMUL = cumtrapz(Y, XX, initial = 0)
         
@@ -300,12 +268,14 @@ cdef class Coherent(CSLOGIC):
         
         
 
-        
+        CUMUL = CUMUL.astype(float)
         CUMUL, myX = remove_duplicates(CUMUL, myX)
-        if len(CUMUL) != len(myX):
-            formula.log.add_paragraph("         > Warining: line 305")
 
-            print(">>>>>>>>>>>>> you'l need to patch this eventually, line 263 on material.photon.coherent")
+
+        if len(CUMUL) != len(myX):
+            formula.log.add_paragraph("         > Warning: line 305")
+
+            print(">>>>>>>>>>>>> you'l need to patch this eventually, line 263 on `material.photon.coherent`")
             
             __XX, __YY = [], []
             for __xx, __yy in zip(myX, CUMUL):
@@ -318,22 +288,26 @@ cdef class Coherent(CSLOGIC):
         
         cumul = CubicSpline(myX, CUMUL)
         
-
-        
-
-        
-        self.ySPLINE = cumul.c
+        self.ySPLINE  = cumul.c
         xADDER, xLIMS = self.construct_LIMS(myX)
-        self.xADDER = xADDER
-        self.xLIMS = xLIMS
-        self.X = myX
-        self.xMAX = max(myX)
-        self.xMIN = min(myX)
+        self.xADDER   = xADDER
+        self.xLIMS    = xLIMS
+        self.X        = myX.astype(float)
+        self.xMAX     = max(myX)
+        self.xMIN     = min(myX)
         
 
-        
-        
+        dx = np.diff(CUMUL)
+        if np.any(dx <= 0):
+            print("\n\n > DEBUG INFO BEFORE RAISING `ValueError`")
+            print("> The following array should be strictly increasing:")
+            print(CUMUL)
+            print("> If this has failed, add this case to the `/tests/test_tools.py` script.")
+            raise ValueError("`x` must be strictly increasing sequence.")
+        del dx
+
         invcumul = CubicSpline(CUMUL, myX)
+
         self.xSPLINE = invcumul.c
         yADDER, yLIMS = self.construct_LIMS(CUMUL)
         self.yADDER = yADDER
@@ -374,7 +348,7 @@ cdef class Coherent(CSLOGIC):
             
         
     def construct_LIMS(self, ARR):
-        hashed =  np.array([get_exp(x) for x in ARR], dtype = int)
+        hashed =  np.array([get_exp(x) for x in ARR], dtype = np.int32)
 
         adder = min(hashed)
         if adder < 0: adder = abs(adder)
@@ -385,7 +359,7 @@ cdef class Coherent(CSLOGIC):
         
         
         
-        lims = [np.array([0, 0, 0], dtype = int)]
+        lims = [np.array([0, 0, 0], dtype = np.int32)]
         
         
         cdef int i 
@@ -396,15 +370,15 @@ cdef class Coherent(CSLOGIC):
                 #if no values in this range, interpolate using last interval
                 n_last = lims[-1][2]
                 if n_last == 0: #out of bounds
-                    lims.append(np.array([0, 0, 0], dtype = int))
+                    lims.append(np.array([0, 0, 0], dtype = np.int32))
                     continue
                 i_last = lims[-1][1]
-                lims.append(np.array([i_last, i_last, 1], dtype = int))
+                lims.append(np.array([i_last, i_last, 1], dtype = np.int32))
                 continue
         
-            lims.append(np.array([selected[0], selected[-1] , n], dtype = int))
+            lims.append(np.array([selected[0], selected[-1] , n], dtype = np.int32))
 
-        return adder, np.array(lims[1:], dtype = int) ### memory view defined in pxd, cdef double[::1] EAX
+        return adder, np.array(lims[1:], dtype = np.int32) ### memory view defined in pxd, cdef double[::1] EAX
 
         
         

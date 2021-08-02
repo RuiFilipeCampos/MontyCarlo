@@ -1062,7 +1062,7 @@ cdef class gosInnerShell(gosShell):
         
         totalCS = np.zeros(len(eax))
         ionizationCS = []
-        self.INDEX = np.array(cshell.INDEX)
+        self.INDEX = np.array(cshell.INDEX, dtype = np.int32)
         self.BE = np.array(cshell.BE)
         self.Ncol = cshell.Ncollection
         

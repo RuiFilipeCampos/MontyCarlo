@@ -378,13 +378,13 @@ cdef class CSa:
        # self.N = len(x) - 1
         
 
-        hashed =  np.array([get_exp(x) for x in self.X], dtype = int)
+        hashed =  np.array([get_exp(x) for x in self.X], dtype = np.int32)
         indexes = np.arange(0, len(hashed))
         Imax = int(max(hashed))
         
         
         
-        lims = [np.array([0, 0, 0], dtype = int)]
+        lims = [np.array([0, 0, 0], dtype = np.int32)]
         
         
         cdef int i 
@@ -395,15 +395,15 @@ cdef class CSa:
                 #if no values in this range, interpolate using last interval
                 n_last = lims[-1][2]
                 if n_last == 0: #out of bounds
-                    lims.append(np.array([0, 0, 0], dtype = int))
+                    lims.append(np.array([0, 0, 0], dtype = np.int32))
                     continue
                 i_last = lims[-1][1]
-                lims.append(np.array([i_last, i_last, 1], dtype = int))
+                lims.append(np.array([i_last, i_last, 1], dtype = np.int32))
                 continue
         
-            lims.append(np.array([selected[0], selected[-1] , n], dtype = int))
+            lims.append(np.array([selected[0], selected[-1] , n], dtype = np.int32))
         
-        self.LIMS = np.array(lims[1:], dtype = int) ### memory view defined in pxd, cdef double[::1] EAX
+        self.LIMS = np.array(lims[1:], dtype = np.int32) ### memory view defined in pxd, cdef double[::1] EAX
         
         
         

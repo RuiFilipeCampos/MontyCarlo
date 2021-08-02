@@ -1,6 +1,16 @@
 # cython: profile=False
 
 
+__doc__ = """
+"""
+
+__author__ = "Rui Campos"
+
+
+print("Importing `.materials.electron.GOS`")
+
+
+
 from libc.math cimport log10,pi, log
 import numpy as np
 from ...tools.interpol1 cimport LogLinInterpolation

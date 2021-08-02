@@ -22,10 +22,11 @@ from ..tools.data import getAxis
 from ..tools.interpol1 import LinLinInterpolation
 
 
-
-
 __materials__ = __montecarlo__/'materials'
 directory = str(__materials__)
+
+# META
+__directory__ = __montecarlo__/'materials'
 
 
 
@@ -286,7 +287,7 @@ def getEEDL(Z):
 	Z = int(Z)
 
 	file = str(Z) + ".txt"
-	EPDL_path = str(__materials__/'EEDL'/file)
+	EEDL_path = str(__materials__/'EEDL'/file)
 	del file
 
 	#EEDL_path = directory + r"\\EEDL\\" + str(Z) + ".txt"
@@ -777,27 +778,31 @@ class AtomDATA:
 		self.x = x
 		self.Z = Z
 
-		self.path = directory + "\\EADL\\" + str(Z) + ".txt"
+		file_name = str(Z) + '.txt'
+		self.path = str(__directory__/'EADL'/file_name)
+		del file_name
+
 		self.Aw, self.EADL_dict = self.getBookmarkedText()
-		
+
 		for key, item in self.EADL_dict.copy().items():
 			content = self.EADL_dict[key]
-			
+
 			replace = []
 			for line in content:
 				numerical_line = [float(x) for x in line.split()]
 				replace.append(numerical_line)
-			
+
 			self.EADL_dict[key] = np.array(replace)
-			
-			
+
+
 		self.number_of_electrons = self.EADL_dict[(0, 91, 0, 0, 0, 912)][:, 1]
 		self.binding_energy = self.EADL_dict[(0, 91, 0, 0, 0, 913)][:, 1]*1e6
 		self.kinetic_energy = self.EADL_dict[(0, 91, 0, 0, 0, 914)][:, 1]
-		
+
 		J0 = []
 		
-		J0path = directory + "\\comptonJ0.txt"
+		
+		J0path = str(__directory__/'comptonJ0.txt')
 		with open(J0path) as file:
 			text = file.readlines()[2:]
 			text = [line.strip('\n') for line in text]

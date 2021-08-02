@@ -3,6 +3,14 @@
 # cython: annotate=True
 
 
+__doc__ = """
+"""
+
+__author__ = "Rui Campos"
+
+print("Importing `.materials.electron.GOSfinal`")
+
+
 class MAP(dict):
     def __getattr__(self, key):
         try:
@@ -1078,7 +1086,7 @@ cdef class gosInnerShell(gosShell):
         
         totalCS = np.zeros(len(eax))
         ionizationCS = []
-        self.INDEX = np.array(cshell.INDEX)
+        self.INDEX = np.array(cshell.INDEX, dtype = np.int32)
         self.BE = np.array(cshell.BE)
         self.Ncol = cshell.Ncollection
         

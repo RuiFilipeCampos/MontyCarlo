@@ -1,13 +1,15 @@
+
+
 print("Importing .tools.CubicInverseTransform ...")
 
 
 __doc__ = """
-
 Cubic Inverse Transform :: An alternative to RITA
 
 """
 
 
+# Should be imported from `.types`.
 class MAP(dict):
     def __getattr__(self, key):
         try:
@@ -27,18 +29,25 @@ class MAP(dict):
 
 
 # EXTERNAL IMPORTS
-from scipy.integrate   import cumtrapz, trapz
-from scipy.interpolate import CubicSpline
-
 import numpy as np
-from numpy import array, linspace, floor
+from scipy.integrate   import cumtrapz
+from scipy.integrate   import trapz
+from scipy.interpolate import CubicSpline
+from numpy import array
+from numpy import linspace
+from numpy import  floor
+from scipy.integrate import quad
+
+cimport numpy as cnp
 from numpy cimport ndarray
-#from libc.math cimport floor
-from libc.stdlib cimport rand, RAND_MAX
+from libc.stdlib cimport rand
+from libc.stdlib cimport RAND_MAX
 cimport cython
+#from libc.math cimport floor
 
 
 # INTERNAL IMPORTS
+from .main cimport remove_duplicates
 
 
 
@@ -46,38 +55,6 @@ cimport cython
 cdef double urand():
     cdef double r = rand()
     return r / RAND_MAX
-
-
-
-
-
-cdef object remove_duplicates(ndarray x, ndarray Y):
-    cdef ndarray u, c, dup
-    u, c = np.unique(x, return_counts=True)
-    dup = u[c > 1]
-    
-    cdef bint keep = True
-    cdef list new_y = []
-    cdef int i
-    cdef double y
-    
-    for i, y in enumerate(Y):
-        
-        if x[i] in dup:
-            if keep:
-                new_y.append(y)
-                keep = False
-                continue
-            else: continue
-        
-        if keep is False:
-            keep = True
-        new_y.append(y)
-        
-    for y1, y2 in zip(Y, new_y): print(y1, y2)
-    import time
-    time.sleep(10000)
-    return u, np.array(new_y)
 
 
 
@@ -91,10 +68,7 @@ def getDist(X):
     prob = array(prob)
     return var, prob/sum(prob)
 
-    
 
-
-        
 def makeAlias(X, Y):
     X, Y = X.copy(), Y.copy()
     N = len(Y)
@@ -126,8 +100,6 @@ def makeAlias(X, Y):
     return array(points)
 
 
-from scipy.integrate import quad
-    
 def fromCallable(f, a, b, num = 100, endpoints = True):
     if endpoints:
         X = linspace(a, b, num = num)
@@ -163,7 +135,6 @@ cdef aFastCubicSpline fromSample(x, y):
     return aFastCubicSpline(cumul, x, aliases = A)
 
     
-cimport numpy as cnp
 
 
 
@@ -217,9 +188,9 @@ cdef class aFastCubicSpline:
         self.DX = np.diff(x)/RAND_MAX
         
         self.cut_offs = aliases[:, 1]
-        self.rej_indexes = array([int(x) for x in aliases[:, 2]], dtype = np.int)
+        self.rej_indexes = array([int(x) for x in aliases[:, 2]], dtype = np.int32)
 
-        self.N =  (len(self.x) -2) 
+        self.N =  (len(self.x) - 2) 
         self.N = self.N / RAND_MAX
         
         

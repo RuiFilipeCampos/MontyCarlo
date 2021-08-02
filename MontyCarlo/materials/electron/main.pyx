@@ -1,7 +1,55 @@
 # distutils: language = c++
 
-print("Importing .materials.electron.main")
+__doc__ = """
 
+TO DO'S HERE:
+    - [ ] THIS NEEDS CLEANING FOR THE LOVE OF GOD  D:
+"""
+
+__author__ = "Rui Campos"
+
+
+print("Importing `.materials.electron.main`")
+
+# Internal Imports
+from .. import database as db
+from ...settings import __montecarlo__
+from ..._init import eax
+from ...tools import  CubicInverseTransform as CIT
+
+from ..._init cimport LIMS
+from ..._init cimport EAX
+from ...tools cimport search
+from ...tools cimport CubicInverseTransform
+from ...tools.interpol1 cimport InvRationalInterpolation
+from ...tools.interpol1 cimport LinLinInterpolation
+from ...tools.interpol1 cimport FastCubicSpline
+from ...tools.interpol1 cimport hLinLinInterpolation
+from ..._random.interface cimport mixmax_engine
+
+
+# External Imports
+import numpy as np
+from collections import deque
+from numpy import logspace
+from scipy.interpolate import CubicSpline
+from scipy.integrate import cumtrapz
+from numba import njit
+
+from numpy     cimport ndarray
+from libc.math cimport fmax
+from libc.math cimport fmin
+from libc.math cimport log
+#from libcpp.vector cimport vector
+
+# META
+__path__ = __montecarlo__/'materials'/'electron'
+__directory__ = __montecarlo__/'materials'/'electron'
+
+
+
+
+# should be imported from `.types` 
 class MAP(dict):
     def __getattr__(self, key):
         try:
@@ -17,59 +65,6 @@ class MAP(dict):
             del self[key]
         except KeyError:
             raise AttributeError
-
-
-# #### PREPARING ENERGY AXIS AND GRID
-from ...settings import __montecarlo__
-__path__ = __montecarlo__/'materials'/'electron'
-
-
-# PATH = __path__/'elastic'
-# PATH = str(PATH)
-
-
-# #mu = np.load(path + "/muGRID.npy")
-
-# LEeax = np.load(PATH + "/LEeax.npy")
-# HEeax = np.load(PATH + "/HEeax.npy")
-# _eax =  np.append(LEeax, HEeax[1:])
-
-
-# eax = _eax
-
-
-
-from ..._init import eax
-from ..._init  cimport LIMS
-from ..._init  cimport EAX
-
-
-
-
-
-
-
-
-from ..._random.interface cimport mixmax_engine
-
-from collections import deque
-
-import numpy as np
-from scipy.interpolate import CubicSpline
-from scipy.integrate import cumtrapz
-
-
-from .. import database as db
-
-
-from ...tools.interpol1 cimport InvRationalInterpolation, LinLinInterpolation, FastCubicSpline, hLinLinInterpolation
-#from libcpp.vector cimport vector
-from numpy import logspace
-from ...tools cimport search, CubicInverseTransform
-from ...tools import  CubicInverseTransform as CIT
-from numpy cimport ndarray
-from libc.math cimport fmax, fmin, log
-
 
 
 
@@ -149,42 +144,8 @@ def makeLinLin(x, y):
 
 getLinLin = makeLinLin
 
-
-
 #getDCS = lambda Z: db.EEDL(Z)[(9, 8, 0, 0, 9, 22)]
-
 #from numpy import array
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-from numba import njit
-
-
-
-
-
-
-
-
-
 
 
 
@@ -224,7 +185,7 @@ def G(w, avg = 0, std = 1):
     return exp(-dw2/ std2  )
 
 
-
+# Should be static method.
 def rebuildElectron(this):
     cdef Electron self
     self = <Electron> Electron.__new__(Electron)
@@ -257,31 +218,33 @@ def rebuildElectron(this):
 
 @cython.auto_pickle(True)
 cdef class Electron:
+
     def __reduce__(self):
         this = MAP()
+
         this.inelastic = self.inelastic
         this.brem =  self.brem
 
         from numpy import array 
-        this.softSP = array(self.softSP)
+        this.softSP  = array(self.softSP)
         this.softSPA = array(self.softSPA)
         this.softSPB = array(self.softSPB)
         
-        this.softSTRAGG = array(self.softSTRAGG)
+        this.softSTRAGG  = array(self.softSTRAGG)
         this.softSTRAGGA = array(self.softSTRAGGA)
         this.softSTRAGGB = array(self.softSTRAGGB)
 
 
         this.elastic = self.elastic
 
-        this.imfpA = array(self.imfpA)
-        this.imfpB = array(self.imfpB)
+        this.imfpA  = array(self.imfpA)
+        this.imfpB  = array(self.imfpB)
         this.Itable = array(self.Itable)
 
 
         this.integral = self.integral
-        this.invI = self.invI
-        this.gauss = self.gauss
+        this.invI     = self.invI
+        this.gauss    = self.gauss
         return rebuildElectron, (this,)
 
 
@@ -1056,7 +1019,9 @@ cdef class Elastic:
         path = str(path)
         self.path = path
         
-        mu = np.load(path + "/muGRID.npy")
+        load_path = __directory__/'elastic'/'muGRID.npy'
+        mu = np.load(str(load_path))
+        del load_path
         
         #LEeax = np.load(path + "/LEeax.npy")
         #HEeax = np.load(path + "/HEeax.npy")
@@ -1124,7 +1089,7 @@ cdef class Elastic:
                 plt.plot(_x, __eqn(_x))
                 plt.plot(_x, [0]*len(_x))
                 plt.show()
-                raise RuntimeError("did not converge")
+                raise RuntimeError("Did not converge.")
                 
         A0 = np.array(A0)
         MWavgMU  = avgMU
@@ -1354,42 +1319,56 @@ cdef class Elastic:
     def compose(self, object formula):
         formula.log.add_paragraph("> COMPOSING ELASTIC")
         #cdef ndarray allDCS, SIGMA0, SIGMA1, SIGMA2
-        
+
         allDCS = np.zeros((200, 606))
         #SIGMA0 = zeros(200)
         #SIGMA1 = zeros(200)
         #SIGMA2 = zeros(200)
+
+        dbdir = __directory__/'elastic'
         
-        shape = np.append(np.load(self.path + f"/{1}/HEtransportTCS.npy"),
-                             np.load(self.path + f"/{1}/LEtransportTCS.npy")[:, 1:], axis = 1)
+        HE_load_path = dbdir/'1'/'HEtransportTCS.npy'
+        LE_load_path = dbdir/'1'/'LEtransportTCS.npy'
+
+        assert LE_load_path.exists()
         
-        
+        shape = np.append(np.load(LE_load_path), 
+                          np.load(HE_load_path)[:, 1:], axis = 1)
+
+        del LE_load_path
+        del HE_load_path
+
         print(shape.shape)
         print("SUBSTITUTE THIS VALUE ")
-        
+
         SIGMA = np.zeros(shape.shape)
-        
+
         cdef int Z
         cdef double x
-        
+
         for Z, x in formula.items():
             formula.log.add_paragraph(f"Z = {Z}, x = {x}")
-            dcs = np.load(self.path + f"/{Z}/DCS.npy")
-            
-            sigma  = np.append(np.load(self.path + f"/{Z}/LEtransportTCS.npy"),
-                             np.load(self.path + f"/{Z}/HEtransportTCS.npy")[:, 1:], axis = 1)
-            
-            
+
+            dcs_load_path = dbdir/f'{Z}'/'DCS.npy'
+            HE_load_path  = dbdir/f'{Z}'/'HEtransportTCS.npy'
+            LE_load_path  = dbdir/f'{Z}'/'LEtransportTCS.npy'
+
+            dcs = np.load(dcs_load_path)
+
+            sigma  = np.append(np.load(LE_load_path),
+                               np.load(HE_load_path)[:, 1:], axis = 1)
+
+
             #dcs, sigma0, sigma1, sigma2, eax = self.getData(Z)
-            
+
             SIGMA += x*sigma
-            
+
             #SIGMA0 += x*sigma0
             #SIGMA1 += x*sigma1
             #SIGMA2 += x*sigma2
-            
+
             allDCS += x*dcs
-            
+
         return allDCS, SIGMA
 
     cdef object remove_duplicates(self, ndarray x, ndarray Y):
@@ -1484,11 +1463,12 @@ cdef class sFastCubicSpline(DIST):
 
     def __reduce__(self):
         this = MAP()
+        import numpy as np
         from numpy import array
  
         this.N  = self.N  
         this.rc = self.rc
-        this.LIMS = array(self.LIMS, dtype = int)
+        this.LIMS = array(self.LIMS, dtype = np.int32)
 
         this.mu_c = self.mu_c
         
@@ -1500,10 +1480,7 @@ cdef class sFastCubicSpline(DIST):
 
     def __init__(self, ndarray invcum, ndarray y, double rc):
         self.rc = rc
-        
-        
-        
-        
+
         
         lims = []
         cdef int i
@@ -1511,12 +1488,7 @@ cdef class sFastCubicSpline(DIST):
         self.N = len(invcum)
         hashed = np.floor(invcum*self.N)
         
-        
-        
-        
-        
-        
-        
+ 
         #self.N -= 1
         # NOW DO THE SAME FOR MAIN
         # ALSO, TAKE PRINT OUT OF ELECTRON PARTICLE  
@@ -1524,7 +1496,7 @@ cdef class sFastCubicSpline(DIST):
         Imax = int(max(hashed))
         
         
-        lims = [np.array([0, 0, 0], dtype = int)]
+        lims = [np.array([0, 0, 0], dtype = np.int32)]
         
         
         
@@ -1535,13 +1507,13 @@ cdef class sFastCubicSpline(DIST):
                 #if no values in this range, interpolate using last interval
                 n_last = lims[-1][2]
                 if n_last == 0: #out of bounds
-                    lims.append(np.array([0, 0, 0], dtype = int))
+                    lims.append(np.array([0, 0, 0], dtype = np.int32))
                     continue
                 i_last = lims[-1][1]
-                lims.append(np.array([i_last, i_last, 1], dtype = int))
+                lims.append(np.array([i_last, i_last, 1], dtype = np.int32))
                 continue
 
-            lims.append(np.array([selected[0], selected[-1], n], dtype = int))
+            lims.append(np.array([selected[0], selected[-1], n], dtype = np.int32))
         
         self.LIMS = np.array(lims[1:])
         
