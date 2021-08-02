@@ -41,6 +41,6 @@ for i in range(1, 100):
 	for filename in element_level_files:
 		url_file = url + str(i) + r"/" + filename
 		print("Downloading from: " + url_file)
-		with requests.get(url + filename) as file:
+		with requests.get(url_file) as file:
 			with open(str(__folder__/'elastic'/str(i)/filename), 'wb') as local_file:
 				local_file.write(file.content)
