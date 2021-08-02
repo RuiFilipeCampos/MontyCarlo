@@ -1,7 +1,7 @@
 # cython: annotate=True
 # cython: profile =False
 # distutils: language = c++
-print("Importing particles.photons")
+print("Importing `.particles.photons`")
 
 DEF TEST = True
 DEF _DEBUG_BASIC = False
@@ -15,7 +15,7 @@ DEF _PP = True
 DEF _TP = True
 DEF _PH = True
 
-from .._random.interface cimport mixmax_engine
+from ..external.mixmax_interface cimport mixmax_engine
 
 
 

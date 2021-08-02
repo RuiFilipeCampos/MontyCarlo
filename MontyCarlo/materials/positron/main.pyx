@@ -1,5 +1,5 @@
 # distutils: language = c++
-print(">>>> IMPORTING main.pyx")
+print("Importing `.materials.positron.main`")
 
 
 class MAP(dict):
