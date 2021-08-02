@@ -30,7 +30,7 @@ ext_modules = [
                 Extension("materials.positron.*",  ["MontyCarlo/materials/positron/*.pyx"],  extra_compile_args = args, language = "c++"),
                 Extension("materials.*",           ["MontyCarlo/materials/*.pyx"],           extra_compile_args = args, language = "c++"),
                 Extension("materials.photon.*",    ["MontyCarlo/materials/photon/*.pyx"],    extra_compile_args = args, language = "c++"),
-                Extension("_random.*",             ["MontyCarlo/_random/*.pyx"],             extra_compile_args = args, language = "c++")
+                Extension("external.*",            ["MontyCarlo/external/*.pyx"],            extra_compile_args = args, language = "c++")
               ]
  
 
