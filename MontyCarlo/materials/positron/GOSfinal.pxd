@@ -7,7 +7,7 @@ from ..materials cimport Molecule
 from ..materials cimport Atom
 
 
-from ..._random.interface cimport mixmax_engine
+from ...external.mixmax_interface cimport mixmax_engine
 
 
 cdef class gosMolecule:
