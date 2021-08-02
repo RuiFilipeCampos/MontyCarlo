@@ -13,6 +13,8 @@ This work has a [poster](https://ruifilipecampos.github.io/MontyCarlo/ecmp2020.p
 
 <img src="https://user-images.githubusercontent.com/63464503/127783224-295ea39e-b935-4cbd-b4d9-a1012bc12729.jpg" width="auto" height="250">
 
+
+<!--
 # Installation
 
 It is highly recommended that you install MontyCarlo 0.1a0.dev1 on a conda virtual environment containing one of the following python versions, and **nothing else**: 3.7, 3.8 or 3.9. To do so, open an anaconda prompt and run the commands:
@@ -37,10 +39,12 @@ MyCo will detect that it is the first import and will proceed to download all th
 - Electron Elastic (\*.npy)
 - Positron Elastic (\*.npy)
 
+-->
+# Try it out!
 
-# A first run !
+See [here](https://github.com/RuiFilipeCampos/MontyCarlo/releases/tag/v0.1a0.dev1) for instructions on installing the latest release.
 
-Once you've installed MontyCarlo, clone the following repository: https://github.com/RuiFilipeCampos/MyCo-EXAMPLE1
+Once you've installed MontyCarlo, clone or download the following repository: https://github.com/RuiFilipeCampos/MyCo-EXAMPLE1
 
 Inside this repository folder simply run:
 
