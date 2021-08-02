@@ -1,6 +1,6 @@
 #distutils: language = c++
 
-print("Importing .geometry.CSG")
+print("Importing `.geometry.CSG`")
 
 
 DEF VERBOSE = False
@@ -54,7 +54,7 @@ from libc.math cimport fmin, fmax, sqrt, cos, sin
 
 from libc.stdlib cimport malloc, free
 
-from . import sdf as plt_geo
+from ..external import sdf as plt_geo
 
 cdef double nan = np.nan;
 ctypedef BVH Vol

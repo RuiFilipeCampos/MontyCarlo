@@ -132,7 +132,7 @@ from libc.stdlib cimport rand, RAND_MAX, srand
 
 
 
-from .._random.interface cimport mixmax_engine
+from ..external.mixmax_interface cimport mixmax_engine
 
 
 cdef extern from "math.h":

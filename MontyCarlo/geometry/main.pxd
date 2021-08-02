@@ -1,39 +1,13 @@
 # distutils: language = c++
 
-
 from ..materials.materials cimport Material
 from ..particles.particle cimport Particle
 
 from ..types cimport double3
 
-
-
 cdef struct TRANSFORM:
     double3 a
     double3 b
-
-# cdef class CSGvol
-
-
-# cdef class AND(CSGvol):
-#     cdef CSGvol vol1, vol2
-    
-#     cdef Interval getINTERSECTION(self, origin, direction)
-#     cdef double getSDF(double x, double y, double z)
-
-# cdef class OR(CSGvol):
-#     cdef CSGvol vol1, vol2
-    
-#     cdef Interval getINTERSECTION(self, origin, direction)
-#     cdef double getSDF(double x, double y, double z)
-
-
-# cdef class NOT(CSGvol):
-#     cdef CSGvol vol1
-    
-#     cdef Interval getINTERSECTION(self, origin, direction)
-#     cdef double getSDF(double x, double y, double z)
-
 
 from ..particles.particle cimport STATE
 
@@ -72,16 +46,6 @@ cdef class Volume:
     cdef void depositLocaly(self, double3 pos, double E)
 
 
-# cdef class Interval:
-#     cdef long double t1, t2
-#     cdef bint EMPTY
-#     cdef Volume REGION
-    
-#     @staticmethod
-#     cdef Interval _new(long double t1, long double t2)
-#     cdef Interval _NOT(Interval self)
-#     cdef Interval _AND(Interval self, Interval other)
-#     cdef Interval _OR(Interval self, Interval other)
         
 
             

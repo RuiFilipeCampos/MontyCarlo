@@ -5,7 +5,7 @@ __author__ = "Rui Campos"
 
 print("Importing `.materials.logger`")
 
-from .htmlcreator import HTMLDocument
+from ..external.htmlcreator import HTMLDocument
 import numpy as np
 from pandas import *
 

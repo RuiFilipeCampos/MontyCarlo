@@ -25,7 +25,7 @@ from ...tools.interpol1 cimport InvRationalInterpolation
 from ...tools.interpol1 cimport LinLinInterpolation
 from ...tools.interpol1 cimport FastCubicSpline
 from ...tools.interpol1 cimport hLinLinInterpolation
-from ..._random.interface cimport mixmax_engine
+from ...external.mixmax_interface cimport mixmax_engine
 
 
 # External Imports

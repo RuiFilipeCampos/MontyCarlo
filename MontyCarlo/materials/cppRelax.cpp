@@ -13,7 +13,7 @@
 #include <list>
 #include <forward_list>
 #include <stdlib.h> 
-#include "../_random/mixmax_release_200final/mixmax.hpp"
+#include "../external/mixmax_release_200final/mixmax.hpp"
 
 // will eventually clean this up 
 
@@ -33,14 +33,6 @@ namespace model{
 		Shell* k;
 		void (*perform)(Transition *, PARTICLES *);
 	};
-	
-	
-
-
-
-
-
-		
 	
 
 	Shell::Shell () {};
@@ -87,17 +79,6 @@ namespace model{
 		return "";
 		
 	};
-	
-
-
-	
-
-
-	
-
-	
-
-	
 	
 
 			

@@ -1,5 +1,5 @@
 # distutils: language = c++
-print(">>>> IMPORTING main.pyx")
+print("Importing `.materials.positron.main`")
 
 
 class MAP(dict):
@@ -51,7 +51,7 @@ from libc.math cimport sqrt, pi, log
 
 
 
-from ..._random.interface cimport mixmax_engine
+from ...external.mixmax_interface cimport mixmax_engine
 
 from collections import deque
 

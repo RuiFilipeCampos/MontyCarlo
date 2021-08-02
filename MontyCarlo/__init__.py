@@ -1,6 +1,9 @@
 import os
 
 
+
+
+print("____INITIALIZING MONTY CARLO_____")
 from .settings import __montecarlo__
 
 
@@ -33,14 +36,13 @@ from .geometry.CSG import Sphere
 
 #print("IMPORTING MATERIAL")
 from .materials.materials import *
-
-
 from .sources import *
-
-
 from matplotlib.pyplot import *
 from numpy import *
-
 from .materials import database
+
+
+print("_________________________________")
+
 
 

@@ -9,7 +9,7 @@ __doc__ = """
 __author__ = "Rui Campos"
 
 
-print("Importing .sources")
+print("Importing `.sources`")
 
 
 from .particles.particle cimport STATE
@@ -24,7 +24,7 @@ from .geometry.main cimport Volume
 from collections import deque
 
 
-from ._random.interface cimport mixmax_engine
+from .external.mixmax_interface cimport mixmax_engine
 
 
 from numpy.random import randint

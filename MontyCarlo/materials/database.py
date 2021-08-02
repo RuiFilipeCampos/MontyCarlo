@@ -1,6 +1,6 @@
 # cython: profile=False
 
-print("Importing .materials.database")
+print("Importing `.materials.database`")
 
 __doc__ = """
 DATABASE DOCUMENTATION: 

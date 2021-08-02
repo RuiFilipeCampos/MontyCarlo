@@ -9,7 +9,7 @@
 #include <stack>
 #include <list>
 #include <forward_list>
-#include "../_random/mixmax_release_200final/mixmax.hpp"
+#include "../external/mixmax_release_200final/mixmax.hpp"
 
 
 using namespace std;

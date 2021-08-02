@@ -20,6 +20,8 @@ except ImportError:
     from distutils.core import setup, find_packages
     from distutils.extension import Extension
 
+
+from pathlib import Path
 from Cython.Distutils import build_ext
 import Cython.Compiler.Options # COMPILER OPTIONS
 import numpy as np # need to compile it with the extension modules
@@ -41,7 +43,7 @@ ext_modules = [
                 Extension("materials.positron.*",  ["MontyCarlo\\materials\\positron\\*.pyx"],  extra_compile_args = args),
                 Extension("materials.*",           ["MontyCarlo\\materials\\*.pyx"],            extra_compile_args = args),
                 Extension("materials.photon.*",    ["MontyCarlo\\materials\\photon\\*.pyx"],    extra_compile_args = args),
-                Extension("_random.*",             ["MontyCarlo\\_random\\*.pyx"],              extra_compile_args = args)
+                Extension("external.*",             ["MontyCarlo\\external\\*.pyx"],              extra_compile_args = args)
               ]
  
 
