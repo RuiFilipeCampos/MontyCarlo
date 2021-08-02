@@ -1,6 +1,9 @@
 # distutils: language = c++
 
 __doc__ = """
+
+TO DO'S HERE:
+    - [ ] THIS NEEDS CLEANING FOR THE LOVE OF GOD  D:
 """
 
 __author__ = "Rui Campos"

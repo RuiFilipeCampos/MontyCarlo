@@ -3,6 +3,7 @@ __doc__ = """
 
 __author__ = "Rui Campos"
 
+print("Importing `.materials.electron.makeBrem`")
 
 
 from ...settings import __montecarlo__
