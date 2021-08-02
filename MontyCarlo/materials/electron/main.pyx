@@ -1397,8 +1397,8 @@ cdef class Elastic:
 
             dcs = np.load(dcs_load_path)
 
-            sigma  = np.append(np.load(LE_load_path, allow_pickle=True),
-                               np.load(HE_load_path, allow_pickle=True)[:, 1:], axis = 1)
+            sigma  = np.append(np.load(LE_load_path),
+                               np.load(HE_load_path)[:, 1:], axis = 1)
 
 
             #dcs, sigma0, sigma1, sigma2, eax = self.getData(Z)
