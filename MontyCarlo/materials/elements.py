@@ -1,3 +1,6 @@
+
+print("Importing `.materials.elements`")
+
 from . import materials as mat
 
 Element = mat.Element
