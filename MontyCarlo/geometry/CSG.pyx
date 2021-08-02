@@ -1,6 +1,6 @@
 #distutils: language = c++
 
-print("Importing .geometry.CSG")
+print("Importing `.geometry.CSG`")
 
 
 DEF VERBOSE = False

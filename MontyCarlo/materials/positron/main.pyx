@@ -51,7 +51,7 @@ from libc.math cimport sqrt, pi, log
 
 
 
-from ..._random.interface cimport mixmax_engine
+from ...external.mixmax_interface cimport mixmax_engine
 
 from collections import deque
 

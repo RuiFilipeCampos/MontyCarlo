@@ -21,7 +21,7 @@ from .cppRelaxAPI cimport setADRESS_NONRAD
 
 #from .._random.random cimport genPTR # only for debug purposes
 
-from .._random.interface cimport mixmax_engine
+from ..external.mixmax_interface cimport mixmax_engine
 
 # only for debug purposes
 cdef mixmax_engine gen = mixmax_engine(0,0,0,123);

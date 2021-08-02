@@ -6,7 +6,7 @@ __doc__ = """Contains an abstract class that serves as template for any geometry
 
 __author__ = "Rui Campos"
 
-print("Importing .geometry.main")
+print("Importing `.geometry.main`")
 
 
 

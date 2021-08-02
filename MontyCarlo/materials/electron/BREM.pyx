@@ -15,7 +15,7 @@ __author__ = "Rui Campos"
 
 
 # Internal Imports
-from ..._random.interface cimport mixmax_engine
+from ...external.mixmax_interface cimport mixmax_engine
 
 # External Imports
 import numpy as np

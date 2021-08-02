@@ -1,7 +1,7 @@
 #distutils: language = c++
 #distutils: sources = cppRelax.cpp
 
-from .._random.interface cimport mixmax_engine
+from ..external.mixmax_interface cimport mixmax_engine
 from libcpp.deque cimport deque
 from libcpp.vector cimport vector
 from libcpp.string cimport string
