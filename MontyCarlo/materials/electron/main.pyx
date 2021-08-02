@@ -1,7 +1,52 @@
 # distutils: language = c++
 
+__doc__ = """
+"""
+
+__author__ = "Rui Campos"
+
+
 print("Importing `.materials.electron.main`")
 
+# Internal Imports
+from .. import database as db
+from ...settings import __montecarlo__
+from ..._init import eax
+from ...tools import  CubicInverseTransform as CIT
+
+from ..._init cimport LIMS
+from ..._init cimport EAX
+from ...tools cimport search
+from ...tools cimport CubicInverseTransform
+from ...tools.interpol1 cimport InvRationalInterpolation
+from ...tools.interpol1 cimport LinLinInterpolation
+from ...tools.interpol1 cimport FastCubicSpline
+from ...tools.interpol1 cimport hLinLinInterpolation
+from ..._random.interface cimport mixmax_engine
+
+
+# External Imports
+import numpy as np
+from collections import deque
+from numpy import logspace
+from scipy.interpolate import CubicSpline
+from scipy.integrate import cumtrapz
+from numba import njit
+
+from numpy     cimport ndarray
+from libc.math cimport fmax
+from libc.math cimport fmin
+from libc.math cimport log
+#from libcpp.vector cimport vector
+
+# META
+__path__ = __montecarlo__/'materials'/'electron'
+__directory__ = __montecarlo__/'materials'/'electron'
+
+
+
+
+# should be imported from `.types` 
 class MAP(dict):
     def __getattr__(self, key):
         try:
@@ -17,64 +62,6 @@ class MAP(dict):
             del self[key]
         except KeyError:
             raise AttributeError
-
-
-# #### PREPARING ENERGY AXIS AND GRID
-
-
-# META
-from ...settings import __montecarlo__
-
-__path__ = __montecarlo__/'materials'/'electron'
-__directory__ = __montecarlo__/'materials'/'electron'
-
-
-# PATH = __path__/'elastic'
-# PATH = str(PATH)
-
-
-# #mu = np.load(path + "/muGRID.npy")
-
-# LEeax = np.load(PATH + "/LEeax.npy")
-# HEeax = np.load(PATH + "/HEeax.npy")
-# _eax =  np.append(LEeax, HEeax[1:])
-
-
-# eax = _eax
-
-
-
-from ..._init import eax
-from ..._init  cimport LIMS
-from ..._init  cimport EAX
-
-
-
-
-
-
-
-
-from ..._random.interface cimport mixmax_engine
-
-from collections import deque
-
-import numpy as np
-from scipy.interpolate import CubicSpline
-from scipy.integrate import cumtrapz
-
-
-from .. import database as db
-
-
-from ...tools.interpol1 cimport InvRationalInterpolation, LinLinInterpolation, FastCubicSpline, hLinLinInterpolation
-#from libcpp.vector cimport vector
-from numpy import logspace
-from ...tools cimport search, CubicInverseTransform
-from ...tools import  CubicInverseTransform as CIT
-from numpy cimport ndarray
-from libc.math cimport fmax, fmin, log
-
 
 
 
@@ -154,42 +141,8 @@ def makeLinLin(x, y):
 
 getLinLin = makeLinLin
 
-
-
 #getDCS = lambda Z: db.EEDL(Z)[(9, 8, 0, 0, 9, 22)]
-
 #from numpy import array
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-from numba import njit
-
-
-
-
-
-
-
-
-
 
 
 
@@ -229,7 +182,7 @@ def G(w, avg = 0, std = 1):
     return exp(-dw2/ std2  )
 
 
-
+# Should be static method.
 def rebuildElectron(this):
     cdef Electron self
     self = <Electron> Electron.__new__(Electron)
@@ -262,31 +215,33 @@ def rebuildElectron(this):
 
 @cython.auto_pickle(True)
 cdef class Electron:
+
     def __reduce__(self):
         this = MAP()
+
         this.inelastic = self.inelastic
         this.brem =  self.brem
 
         from numpy import array 
-        this.softSP = array(self.softSP)
+        this.softSP  = array(self.softSP)
         this.softSPA = array(self.softSPA)
         this.softSPB = array(self.softSPB)
         
-        this.softSTRAGG = array(self.softSTRAGG)
+        this.softSTRAGG  = array(self.softSTRAGG)
         this.softSTRAGGA = array(self.softSTRAGGA)
         this.softSTRAGGB = array(self.softSTRAGGB)
 
 
         this.elastic = self.elastic
 
-        this.imfpA = array(self.imfpA)
-        this.imfpB = array(self.imfpB)
+        this.imfpA  = array(self.imfpA)
+        this.imfpB  = array(self.imfpB)
         this.Itable = array(self.Itable)
 
 
         this.integral = self.integral
-        this.invI = self.invI
-        this.gauss = self.gauss
+        this.invI     = self.invI
+        this.gauss    = self.gauss
         return rebuildElectron, (this,)
 
 
@@ -1522,10 +1477,7 @@ cdef class sFastCubicSpline(DIST):
 
     def __init__(self, ndarray invcum, ndarray y, double rc):
         self.rc = rc
-        
-        
-        
-        
+
         
         lims = []
         cdef int i
@@ -1533,12 +1485,7 @@ cdef class sFastCubicSpline(DIST):
         self.N = len(invcum)
         hashed = np.floor(invcum*self.N)
         
-        
-        
-        
-        
-        
-        
+ 
         #self.N -= 1
         # NOW DO THE SAME FOR MAIN
         # ALSO, TAKE PRINT OUT OF ELECTRON PARTICLE  
