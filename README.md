@@ -1,6 +1,8 @@
 ![](https://img.shields.io/github/v/release/RuiFilipeCampos/MontyCarlo?include_prereleases) ![license](https://img.shields.io/github/license/RuiFilipeCampos/MontyCarlo) ![pyversion](https://img.shields.io/badge/python-%3E%3D3.7-blue) ![architecture](https://img.shields.io/badge/architecture%20-64--bit-blue) ![os](https://img.shields.io/badge/OS-win%2Fmac-blue)
 
-# MontyCarlo (v0.0.41-pre-alpha)
+The first stable realeased will be version `0.1`.
+
+# MontyCarlo (0.1a0.dev1)
 
 **MontyCarlo** is a pyhon framework for setting up simulations and/or developing applications whose basis is the simulation of radiation transport. It simulates the propagation and effects of ionizing radiation ([photons](https://en.wikipedia.org/wiki/Photon), [electrons](https://en.wikipedia.org/wiki/Electron) and [positrons](https://en.wikipedia.org/wiki/Positron) with energies between 1keV and 1GeV) in matter of homogeneous density, filling CSG models.
 
@@ -12,7 +14,7 @@ This work has a [poster](https://ruifilipecampos.github.io/MontyCarlo/ecmp2020.p
 
 # Installation
 
-It is highly recommended that you install MontyCarlo v0.0.41-pre-alpha on a conda virtual environment containing one of the following python versions, and **nothing else**: 3.7, 3.8 or 3.9. To do so, open an anaconda prompt and run the commands:
+It is highly recommended that you install MontyCarlo 0.1a0.dev1 on a conda virtual environment containing one of the following python versions, and **nothing else**: 3.7, 3.8 or 3.9. To do so, open an anaconda prompt and run the commands:
 
 ```bash
 conda create --name py39 python=3.9
