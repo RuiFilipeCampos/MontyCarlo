@@ -6,4 +6,3 @@
 *.pxd linguist-vendored=false
 *.cpp linguist-vendored=false
 *.h linguist-vendored=false
-*.s linguist-vendored=false
