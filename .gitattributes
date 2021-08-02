@@ -1,5 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 * linguist-vendored
-*.c linguist-vendored=false
-*.ipynb linguist-vendored=false
+*.py linguist-vendored=false
+*.pyx linguist-vendored=false
+*.cpp linguist-vendored=false
+
