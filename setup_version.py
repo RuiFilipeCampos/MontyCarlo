@@ -5,7 +5,7 @@ __author__ = "Rui Campos"
 
 
 
-version = "0.0.41" # to be imported by setup*.py scripts
+version = "0.0.5pa1" # to be imported by setup*.py scripts
 
 
 with open("setup.cfg", "r") as setup_cfg:
