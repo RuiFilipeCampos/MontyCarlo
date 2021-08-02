@@ -129,6 +129,45 @@ A propper example will be shown here: https://github.com/RuiFilipeCampos/MyCo-EX
 This is a very early version of a fairly large code. Bugs are guaranteed! Submitting an [issue](https://github.com/RuiFilipeCampos/MontyCarlo/issues) is a great way to contribute to the project at this stage! 
 
 
+# Available Features:
+
+- Construction of any material via a stochiometric formula and density `water = Mat({1:2, 8:1}, 1)`;
+- Constructed materials are automatically cached in the folder `your_project\mat`.
+- Only spheres are available. This will remain as such until all this has been thoroughly tested:
+    - Constructive Solid Geometry (CSG) using the `|` `&` and `-` operators;
+    - linear transformations on the volumes (translation and rotation);
+    - bounding volume hierarchy (BVH) constructed with the aid of the user;
+    - a syntatic indication of the BVH using `with` statements;
+    - a new method of particle transport that greatly accelerates the simulation of electrons and positrons;
+- The volumes surfaces are rendered and cached in `your_project/geo`;
+- Three particles are available:
+   - Photons (analogue simulation);
+     - Compton Scattering;
+     - Rayleigh Scattering;
+     - Photoelectric Effect;
+     - Pair Production;
+     - Triplet Production;
+   - Electrons (class II condensed history);
+     - Elastic Scattering;
+     - Bremstrahlung Production;
+     - Impact Ionization and Excitation;
+   - Positrons (class II condensed history);
+     - Elastic Scattering;
+     - Bremstrahlung Production;
+     - Impact Ionization and Excitation;
+     - Anihilation;
+- The simulation is coupled (e.g. supports secondary particle creation)
+- Supports simulation of post-ionization relaxation effects;
+- Two particle sources are available:
+   - Isotropic point source: emits particles from a point with randomized directions - `IsotropicPoint`
+   - Directional point source: emits particles from a point towards a specified direction - `Beam`
+- Automated database download on first import;
+- 3d plotting of particle trajectories;
+- 3d plotting of the constructed geometry;
+- simultaneous plotting of both geometry and trajectories;
+- One tally is available:
+   - `Z_TALLY` - calculates PDD's
+- Automatic generation of \*.html output files (work in progress though)
 
 # Possible Future Work
 
