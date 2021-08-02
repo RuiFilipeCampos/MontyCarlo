@@ -6,4 +6,4 @@
 *.pxd linguist-vendored=false
 *.cpp linguist-vendored=false
 *.h linguist-vendored=false
-
+_random/mixmax_release_200final/* linguist-documentation
