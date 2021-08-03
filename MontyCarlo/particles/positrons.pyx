@@ -3,7 +3,7 @@
 # distutils: language = c++ 
 # distutils: extra_compile_args = -std=c++11
 
-print("Importing .particles.positrons")
+print("Importing `.particles.positrons`")
 
 DEF _DEBUG_BASIC = False
 DEF _SIGNAL_INTERACTION = False
