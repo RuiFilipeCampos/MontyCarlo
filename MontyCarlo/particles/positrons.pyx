@@ -127,7 +127,9 @@ cdef class Positron(Particle):
     """
 
 
-    
+
+
+
     @staticmethod
     cdef Positron _new(STATE& state):
         cdef Positron self
@@ -140,7 +142,7 @@ cdef class Positron(Particle):
         """Create a new `Positron` from the provided `state`. Returns it pointing in a random
         direction but without a polarization vector (no azimuth).
         """
-        
+
         cdef Positron self
         self = <Positron>Positron.__new__(Positron)
         self.state = state
@@ -160,11 +162,13 @@ cdef class Positron(Particle):
         self.state.dire.z = y*a
         self.index = <int> (10*self.z)
         return self    
-    
-    
 
     cdef double ENERGY(self):
         return self.state.E
+
+
+
+
 
     ####################################################################################
     ########                           RUN                                      ########
@@ -172,31 +176,41 @@ cdef class Positron(Particle):
     ####################################################################################
 
     cdef void _run(self, mixmax_engine *genPTR):
-        IF _DEBUG_BASIC: print("> Positron")
-        self.secondary = deque()
+        """Perform the simulation. Puts all the pieces together.
+        """
 
+        IF _DEBUG_BASIC: print("_DEBUG_BASIC: `positron._run(genPTR)`")
+
+        # This needs to be set even if particle is bellow threshold.
+        self.secondary  = deque()
         self.nSECONDARY = 0
+
         if self.state.E < CUT_OFF:
             (<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
             return
         
         self.state.genPTR = genPTR
-        
-        
         self.update_references()
         
-        #s#elf.record()
         IF RECORD: self.record()
-        
-        cdef double r
-        cdef double  tau, S_soft
-        cdef bint delta = False
-        cdef double tau2
 
+
+
+
+
+        cdef double r           # Random value between 0 and self.imfp_max
+        cdef double tau         # Size of first segment.
+        cdef double tau2        # Size of second segment.
+        cdef double S_soft      # Soft/Restricted stopping power.
+        cdef bint delta = False # Indicates if current iteration ends in a delta interaction.
 
         while True:
+
+            # To be removed:
             if self.state.pos.x**2 + self.state.pos.y**2 + self.state.pos.z**2 > 10_000**2:
                 return
+
+            # Choose the total path to be travelled.
             self.s = -log(self.state.genPTR.get_next_float() )/self.imfp_max
 
             if self.s > self.s_max:
@@ -205,9 +219,8 @@ cdef class Positron(Particle):
 
 
 
-            # FIRST PART OF TRAJECTORY
-            
-            
+
+
             # FIRST PART OF TRAJECTORY
             tau = self.s*self.state.genPTR.get_next_float()
             self.sample_w(self.s)
@@ -262,7 +275,6 @@ cdef class Positron(Particle):
             
             
             if delta:
-               # self._delta()
                 self.update_imfp()
                 delta = False
                 continue
@@ -292,16 +304,16 @@ cdef class Positron(Particle):
                 self._brem()
                 if self.state.E < CUT_OFF:
                     (<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
-
                     (<Volume> self.state.current_region).exit()
                     return
                 self.update_imfp()
                 
             elif r < self.IMFP_CUMUL.C3: 
                 self._elastic()
-                
-           # else: self._delta() 
-            
+
+
+
+
 
     ####################################################################################
     ########                           UPDATE                                   ########
@@ -310,16 +322,18 @@ cdef class Positron(Particle):
 
     cdef void update_references(self) :
         """
-        Updates all references. Called when there is a region crossing.
+        Updates all references. Called when:
+            - there is a region crossing;
+            - particle is being run for the first time.
         """
         
         #getting material from current region
         self.current_material = (<Volume> self.state.current_region).material
-        
 
         self.GOS = self.current_material.positron.inelastic.gosMOLECULE
         
         self.positron = self.current_material.positron
+
         #these references are used by their corresponding _fooInteraction method
         self.elastic    = self.positron.elastic
         self.inelastic  = self.positron.inelastic
@@ -398,10 +412,9 @@ cdef class Positron(Particle):
 
         self.s_max = 4/self.s_max
 
-        
 
-        
-        
+
+
 
     ####################################################################################
     ########                           RANDOM                                   ########
@@ -1094,11 +1107,7 @@ cdef class Positron(Particle):
         cdef double Eplus  = (1 - v)*(self.state.E + 2*0.511e6)
         cdef double Eminus = v*(self.state.E + 2*0.511e6)
         
-        
-        
-        
-        
-        
+
         self.throwAZIMUTH()
         cdef Photon p = Photon._new(self.state)
         p.state.E = Eplus
@@ -1117,4 +1126,10 @@ cdef class Positron(Particle):
         
         self.secondary.append(p)
         self.nSECONDARY += 1
+
+
+
+
+
+
 
