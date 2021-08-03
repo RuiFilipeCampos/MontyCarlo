@@ -1213,13 +1213,18 @@ class python_hooks:
             if attribute == "IMFP_CUMUL":       return (<Photon> self).IMFP_CUMUL
             if attribute == "current_material": return  <MAT> ( (<Photon> self).current_material )
 
+
+            if attribute in self.__dict__:
+                return self.__dict__[attribute]
+
             raise AttributeError(f"No attribute named {attribute}")
 
         def __setattr__(self, attribute, value):
             if   attribute == 'E': (<Photon> self).state.E = value
             elif attribute == "current_material":  (<Photon> self).current_material = <void*> value
+            elif attribute == "current_region":    (<Photon> self).state.current_region   = <void*> value
 
-            raise AttributeError(f"No attribute named {attribute}")
+            self.__dict__[attribute] = value
 
         def calculate_polar(self):
             pass

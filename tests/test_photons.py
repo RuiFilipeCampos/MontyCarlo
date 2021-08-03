@@ -37,47 +37,39 @@ class output_val:
 
 
 class test_Photon(ut.TestCase):
-    """Unit testing the `.tools.main.remove_duplicates` function.
+    """Unit testing photons.
     """
+    from MontyCarlo.geometry.CSG import Sphere
+    from MontyCarlo.geometry.CSG import InfiniteVolume
+    from MontyCarlo.materials.materials import Mat
 
-    def test_python_hooks(self):
+    py_state = PySTATE()
+    photon = Photon(py_state)
+    water = Mat({1:2, 8:1}, 1)
 
-        print("\n\n\nCreating `py_state`.")
-        py_state = PySTATE()
+    with InfiniteVolume() as OUTER:
+        OUTER.fill(water)
+        OUTER.configure("no_name", render = False)
+        with Sphere(1) as sphere:
+            sphere in OUTER
+            sphere.fill(water)
+            sphere.configure("no_name", render = False)
 
-        print("\nCreating `photon`.")
-        photon = Photon(py_state)
-
-        print("\nPrinting attributes...")
-        x = photon(get = "E")
-        print(f"E = {x}")
-
-        x = photon(get = "IMFP_CUMUL")
-        print(f"IMFP_CUMUL = {x}")
-
-        print("\n\nSetting attributes...")
-
-
-        E = 1.123e3;
-        photon(1.123e3, set = "E") 
-        self.assertEqual(1.123e3, photon(get = "E"), msg = "Failed?")
+    photon.current_region = sphere
 
 
-        print("\n\n\n")
-
-
-
-
-
-
-
-    def test_all(self):
-        """Test all cases.
+    def test_updates(self):
+        """Checks for segmentation errors when calling update methods.
         """
-        py_state = PySTATE()
-        photon = Photon(py_state)
+        cls = test_Photon
+        cls.photon(method = "update_references")
+        cls.photon(method = "update_imfp")
 
-        print(photon(get = "E"))
+    def test_compton(self):
+        pass
+
+    def test_coherent(self):
+        pass
 
 
 if __name__ == '__main__':
