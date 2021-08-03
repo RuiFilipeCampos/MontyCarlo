@@ -21,9 +21,9 @@ cdef class py_state:
     cdef mixmax_engine gen # need to keep the generator somewhere...
 
     # This guys need to be acessible from python.
-    cdef public ndarray[double, ndim=1] pos
-    cdef public ndarray[double, ndim=1] dire
-    cdef public ndarray[double, ndim=1] axis
+    cdef public ndarray pos
+    cdef public ndarray dire
+    cdef public ndarray axis
     cdef public double E
     cdef public double L 
     cdef public double last_displacement
