@@ -1144,10 +1144,12 @@ cdef class Photon(Particle):
 class python_hooks:
     class Photon(Photon):
 
-        def __init__(self, *args, **kwargs):
+        def __init__(self, py_state):
             """Initializes a particle.
             """
-            pass
+
+            self.state = py_state.to_cython()
+            
 
         def find_index__(self):
             self.find_index()
@@ -1157,100 +1159,10 @@ class python_hooks:
 
         def _incoherent__(self):
             self._incoherent()
-        
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-    ####################################################################################
-    ########                           PYTHON                                   ########
-    ########                          INTERFACE                                 ########
-    ####################################################################################
-    
-    
-    
-    # @staticmethod #thin wrapper for python acess
-    # def new(Volume space, 
-    #         Volume current_region,
-    #         E     = 6.,
-    #         pos   = Vector(0., 0., 0.),
-    #         theta = 0.,
-    #         phi   = 0.,
-    #         ex    = Vector(1., 0., 0.), 
-    #         ey    = Vector(0., 1., 0.), 
-    #         ez    = Vector(0., 0., 1.),
-    #         simulate_secondary = False):
-        
-        
-    #     return Photon._new(space, current_region, E, pos, 
-    #                        theta, phi, 
-    #                        ex, ey, ez, 
-    #                        simulate_secondary)
-    
-    #thin wrapper for python access
-
-    
-    
-    
-  #  def __repr__(self):
-  #      return f"<Photon: pos = {self.x},{self.y},{self.z} , ez = {self.state.Ez}, E = {self.k*Eel0_eV} eV>"
-#
-  #  def __str__(self):
-  #      string = f"""
-  #      Photon:
-  #          pos = {self.pos} ;
-  #          ex = {self.state.Ex} 
-  #          ey = {self.state.Ey} 
-  #          ez = {self.state.Ez} ;
-  #          E = {self.k*Eel0_eV}eV ;
-  #          
-  #      Number of Interactions:
-  #          coh: {self.N_coh}
-  #          incoh: {self.N_incoh}
-  #          pair: {self.N_pair}
-  #          trip: {self.N_trip}
-  #          photo: {self.N_photo}
-  #          
-  #      Material (rho = {(<Mat> self.current_material).density}): 
-  #          {(<Mat> self.current_material).molecule.formula}
-  #      
-  #      Current Region:
-  #          {(<V> self.current_region)}
-  #          
-  #      
-  #      
-  #      """
-  #      return string
-#
-  #  def getTrack(self):
-  #      return self.X, self.Y, self.Z
-  #  
-  #  def getZZ(self):
-  #      print(self.ZZ)
-  #      
-  #  def getEnergy(self):
-  #      return self.state.Energy
-  #  
-  #  def printTrack(self):
-  #      print("x", "y", "z")
-  #      for x, y, z, E in zip(self.X, self.Y, self.Z, self.state.Energy):
-  #          print(f"{x}                 {y}                 {z}                 {E}")
-  #  
-  #  def plotTrack(self, **kwargs):
-  #      import mayavi.mlab as mlab
-  #      mlab.plot3d(self.X, self.Y, self.Z, **kwargs)
-  #      mlab.show()
-#
 
 
 
