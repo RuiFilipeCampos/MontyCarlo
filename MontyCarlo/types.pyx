@@ -5,17 +5,19 @@ types.pyx
 
 __author__ = "Rui Campos"
 
+
+
+
+
+
 print("Importing `.types`")
 
-
 import numpy as np
-
 nan = np.nan
 
 cdef struct double3:
     double x, y, z
-    
-    
+
 class MAP(dict):
     """A dictionary with the following syntax sugar:
     
@@ -43,8 +45,6 @@ class MAP(dict):
             del self[key]
         except KeyError:
             raise AttributeError
-
-
 
 cdef class py_state:
     """The python analog of `STATE`:
