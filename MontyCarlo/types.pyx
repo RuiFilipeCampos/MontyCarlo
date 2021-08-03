@@ -63,11 +63,14 @@ cdef class py_state:
 
     """
 
-    def __init__(self, 
-    pos  = np.array([0, 0, 0], dtype = float),
-    dir  = np.array([0, 0, 1], dtype = float),
-    axis = np.array([0, 1, 0], dtype = float), 
-    E = 1e6, L = 0, last_displacement = 0
+    def __init__(self,
+    cnp.ndarray[ndim=1] pos  = np.array([0, 0, 0], dtype = float),
+    cnp.ndarray[ndim=1] dir  = np.array([0, 0, 1], dtype = float),
+    cnp.ndarray[ndim=1] axis = np.array([0, 1, 0], dtype = float), 
+    double E = 1e6,
+    double L = 0, 
+    double last_displacement = 0, 
+    long int seed = 12345
     ):
 
         self.pos = pos
@@ -76,11 +79,11 @@ cdef class py_state:
         self.E = E
         self.L = L
         self.last_displacement = last_displacement
+        self.seed = seed
+        self.gen = mixmax_engine(0, 0, 0, self.seed)
 
 
     def to_cython(self):
-
-        cdef STATE state
 
         self.state.pos.x = self.pos[0]
         self.state.pos.y = self.pos[1]
@@ -97,5 +100,7 @@ cdef class py_state:
         self.state.E = self.E
         self.state.L = self.L
         self.state.last_displacement = self.last_displacement
+
+        self.state.genPTR = &self.gen
 
         return self.state
