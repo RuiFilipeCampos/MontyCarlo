@@ -1147,18 +1147,49 @@ class python_hooks:
         def __init__(self, PySTATE py_state):
             """Initializes a particle.
             """
+            self.py_state = py_state # I need to keep this alive, it's storing the generator.
             (<Photon> self).state = py_state.to_cython()
 
 
-        def find_index__(self):
-            self.find_index()
+        def __call__(self, *args, **kwargs):
+            """Usage:
 
-        def _coherent__(self):
-            self._coherent()
+            > photon(method = "find_index")
+            > photon(1e6, assign = "E")
+            > E = photon(get = "E")
 
-        def _incoherent__(self):
-            self._incoherent()
+            """
 
+            if len(kwargs) == 0:
+                print("Running `Photon`...")
+                (<Photon> self)._run(self.py_state.get_genPTR())
+
+            if len(kwargs) > 1:
+                raise RuntimeError("Too many keyword arguments.")
+
+            if method := kwargs['method']:
+                if   method == 'find_index':         (<Photon> self).find_index()
+                elif method == '_coherent':          (<Photon> self)._coherent()
+                elif method == '_incoherent':        (<Photon> self)._incoherent()
+                elif method == '_pairproduction':    (<Photon> self)._pairproduction()
+                elif method == '_photoelectric':     (<Photon> self)._photoelectric()
+                elif method == '_tripletproduction': (<Photon> self)._tripletproduction()
+
+            if assign := kwargs['assign']:
+
+                if   assign == 'E': (<Photon> self).state.E = args[0]
+                elif assign == 'i': (<Photon> self).i = args[0]
+
+            if get := kwargs['get']:
+                if get == "E": return (<Photon> self).state.E
+                if get == "i": return (<Photon> self).state.E
+
+
+        def __repr__(self):
+            return "<pyhook.Photon>"
+
+        def __str__(self):
+            return "RETURN DEBUG INFO"
 
 
 
