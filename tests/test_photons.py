@@ -41,14 +41,32 @@ class test_Photon(ut.TestCase):
     """
 
     def test_python_hooks(self):
+
+        print("\n\n\nCreating `py_state`.")
         py_state = PySTATE()
+
+        print("\nCreating `photon`.")
         photon = Photon(py_state)
 
+        print("\nPrinting attributes...")
         x = photon(get = "E")
         print(f"E = {x}")
 
-        x = photon(get = "i")
-        print(f"i = {x}")
+        x = photon(get = "IMFP_CUMUL")
+        print(f"IMFP_CUMUL = {x}")
+
+        print("\n\nSetting attributes...")
+
+
+        E = 1.123e3;
+        photon(1.123e3, set = "E") 
+        self.assertEqual(1.123e3, photon(get = "E"), msg = "Failed?")
+
+
+        print("\n\n\n")
+
+
+
 
 
 

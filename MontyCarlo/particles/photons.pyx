@@ -1187,9 +1187,11 @@ class python_hooks:
                 if get == "E": return (<Photon> self).state.E
                 if get == "IMFP_CUMUL": return (<Photon> self).IMFP_CUMUL
 
-            elif 'assign' in kwargs:
-                assign = kwargs['assign']
+            elif 'set' in kwargs:
+                assign = kwargs['set']
                 if   assign == 'E': (<Photon> self).state.E = args[0]
+                return
+            raise RuntimeError("Unknown argument combination.")
 
 
 
