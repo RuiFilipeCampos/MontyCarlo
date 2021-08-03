@@ -1131,5 +1131,7 @@ cdef class Positron(Particle):
 
 
 
-
-
+class python_hooks:
+    class Positron(Positron):
+        def __init__(self, *args, **kwargs):
+            pass
