@@ -63,7 +63,24 @@ cdef class py_state:
 
     """
 
+    def __init__(self, 
+    pos  = np.array([0, 0, 0], dtype = float),
+    dir  = np.array([0, 0, 1], dtype = float),
+    axis = np.array([0, 1, 0], dtype = float), 
+    E = 1e6, L = 0, last_displacement = 0
+    ):
+
+        self.pos = pos
+        self.dir = dir
+        self.axis = axis
+        self.E = E
+        self.L = L
+        self.last_displacement = last_displacement
+
+
     def to_cython(self):
+
+        cdef STATE state
 
         self.state.pos.x = self.pos[0]
         self.state.pos.y = self.pos[1]
