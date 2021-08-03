@@ -1164,7 +1164,7 @@ class python_hooks:
 
             if len(kwargs) == 0:
                 print("Running `Photon`...")
-                (<Photon> self)._run(self.py_state.get_genPTR())
+                #(<Photon> self)._run((<PySTATE> self.py_state).get_genPTR())
 
             if len(kwargs) > 1:
                 raise RuntimeError("Too many keyword arguments.")
