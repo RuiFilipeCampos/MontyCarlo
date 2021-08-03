@@ -1,8 +1,6 @@
 
 
 
-
-
 #          /\    \                 /\    \         
 #         /::\    \               /::\____\        
 #        /::::\    \             /:::/    /        
@@ -26,56 +24,43 @@
                                              
 
 
-
-
-
-
-
-
-
-
-#Error messages (to be moved to its own module)
-errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
-
-#External Imports
-#from numpy import *
-#from numpy.random import rand, randint
-#import pickle -> probly not needed any more?
-
-
-
-from ..external.mixmax_interface cimport mixmax_engine
-
-
 #Local Imports
-from .particle import StopSimulation
-from .particle cimport Particle
-from ..tools.vectors cimport Vector
-
-
-
-
 from ..materials import database as db
-from ..materials.materials cimport Molecule, Atom, Shell
 
-# --  -- from . import electrons as e
-from libc.math cimport sin, cos, log, sqrt, pi 
+#from .particle cimport STATE
+from .particle cimport Particle
+from ..types cimport STATE
+from ..tools.vectors cimport Vector
+from ..external.mixmax_interface cimport mixmax_engine
 from ..geometry.main cimport Volume
-
-
-cdef struct IFMPcumul:
-    long double C0, C1, C2, C3, C4, C5
-    
-cdef IFMPcumul IMFP_CUMUL
+from ..materials.materials cimport Molecule
+from ..materials.materials cimport Atom
+from ..materials.materials cimport Shell
 from ..materials.materials cimport Material
-from ..materials.photon.photon cimport Coherent, Incoherent, Pairproduction, Tripletproduction
+from ..materials.photon.photon cimport Coherent
+from ..materials.photon.photon cimport Incoherent
+from ..materials.photon.photon cimport Pairproduction
+from ..materials.photon.photon cimport Tripletproduction
 from ..materials.photon.photon cimport Photon as MPhoton
 
-from .particle cimport STATE
 
 
+#External Imports
+from libc.math cimport sin
+from libc.math cimport cos
+from libc.math cimport log
+from libc.math cimport sqrt
+from libc.math cimport pi 
 
-#from ..materials.photon.photons cimport Electron as MATelectron
+cdef struct IFMPcumul:
+    long double C0
+    long double C1
+    long double C2
+    long double C3
+    long double C4
+    long double C5
+
+cdef IFMPcumul IMFP_CUMUL
 
 ctypedef Coherent Coh
 ctypedef Incoherent inCoh
@@ -92,8 +77,11 @@ ctypedef Material M
 cdef class Photon(Particle):
     cdef double k
     
-    cdef int N_coh, N_incoh, N_photo, N_pair, N_trip
-
+    cdef int N_coh
+    cdef int N_incoh
+    cdef int N_photo
+    cdef int N_pair
+    cdef int N_trip
 
     cdef void* current_material
     cdef void* coherent
