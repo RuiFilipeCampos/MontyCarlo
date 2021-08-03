@@ -73,6 +73,14 @@ ctypedef Volume V
 ctypedef Material Mat
 ctypedef Material M
 
+cdef struct counters:
+    int coherent
+    int incoherent
+    int photo_electric
+    int pair_production
+    int triplet_production
+
+
 #cimport cython
 
 cdef class Photon(Particle):

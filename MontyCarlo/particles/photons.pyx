@@ -1142,7 +1142,7 @@ cdef class Photon(Particle):
 
 
 class python_hooks:
-    class Photon(Photon):
+    cdef class Photon(Photon):
 
         def __init__(self, PySTATE py_state):
             """Initializes a particle.
