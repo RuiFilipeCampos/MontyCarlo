@@ -1142,13 +1142,13 @@ cdef class Photon(Particle):
 
 
 class python_hooks:
-    cdef class Photon(Photon):
+    class Photon(Photon):
 
         def __init__(self, PySTATE py_state):
             """Initializes a particle.
             """
-
-            self.state = py_state.to_cython()
+            cdef Photon this = <Photon> self
+            this.state = py_state.to_cython()
             
 
         def find_index__(self):
