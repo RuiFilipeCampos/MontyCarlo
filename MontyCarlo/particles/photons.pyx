@@ -1188,6 +1188,13 @@ class python_hooks:
                 if get == "i": return (<Photon> self).state.E
 
 
+        def calculate_polar(self):
+            pass
+        
+        def calculate_azimuth(self):
+            pass
+
+
         def __repr__(self):
             return "<pyhook.Photon>"
 
