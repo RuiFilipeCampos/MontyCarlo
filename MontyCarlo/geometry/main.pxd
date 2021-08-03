@@ -2,14 +2,13 @@
 
 from ..materials.materials cimport Material
 from ..particles.particle cimport Particle
-
 from ..types cimport double3
+from ..types cimport STATE
 
 cdef struct TRANSFORM:
     double3 a
     double3 b
 
-from ..particles.particle cimport STATE
 
 cimport numpy as cnp
 cdef class Volume:

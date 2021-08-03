@@ -26,7 +26,7 @@ from numpy.random import randint
 # Internal Imports
 #from ..tools.vectors cimport Vector
 #from ..random.mixmax.interface cimport mixmax_engine
-from ..particles.particle cimport STATE
+from ..types cimport STATE
 from ..types cimport double3
 
 cdef double MINdr = 0 # deprecated 
