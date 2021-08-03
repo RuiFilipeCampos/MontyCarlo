@@ -12,6 +12,10 @@
 
 print("Importing `.particles.positrons`")
 
+
+
+
+
 #Error messages (to be moved to its own module)
 errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 
@@ -23,7 +27,6 @@ errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 DEF _DEBUG_BASIC = False
 DEF _SIGNAL_INTERACTION = False
 DEF RECORD = True
-
 
 
 
@@ -50,7 +53,6 @@ from ..materials.cppRelaxAPI cimport PARTICLES
 from .._init  import eax
 from .._init  cimport EAX
 from .._init  cimport LIMS
-
 
 #External Imports
 import numpy as np
@@ -80,9 +82,6 @@ cdef extern from "<math.h>" nogil:
 
 
 
-
-
-
 # CONSTANTS AND GLOBALS
 cdef extern from "math.h":
     float INFINITY
@@ -103,11 +102,11 @@ cdef double[::1] diffLOGeax = np.diff(np.array(LOGeax))
 cdef inline double g(double v, double gamma):
     return -(gamma+1)**2*v + (gamma**2 + 4*gamma +1) - 1/v
 
+
+
+
+
 ctypedef Volume V
-
-
-
-
 
 
 
@@ -118,11 +117,16 @@ ctypedef Volume V
 @cython.initializedcheck(False)
 @cython.cdivision(True)
 cdef class Positron(Particle):
+    """Simulates positrons using a class II condensed history scheme.
 
-    
-    cdef double ENERGY(self):
-        return self.state.E
-    
+    Catastrophic Interactions:
+        Elastic Scattering
+        Bremsstrahlung Emission
+        Impact Ionization and/or Excitation.
+
+    """
+
+
     
     @staticmethod
     cdef Positron _new(STATE& state):
@@ -133,6 +137,10 @@ cdef class Positron(Particle):
     
     @staticmethod
     cdef Positron _newISOTROPIC(STATE& state):
+        """Create a new `Positron` from the provided `state`. Returns it pointing in a random
+        direction but without a polarization vector (no azimuth).
+        """
+        
         cdef Positron self
         self = <Positron>Positron.__new__(Positron)
         self.state = state
@@ -150,13 +158,13 @@ cdef class Positron(Particle):
         a = 2 * sqrt(1 - a)
         self.state.dire.y = x*a
         self.state.dire.z = y*a
-#        self.throwAZIMUTH()
         self.index = <int> (10*self.z)
         return self    
     
     
 
-
+    cdef double ENERGY(self):
+        return self.state.E
 
     ####################################################################################
     ########                           RUN                                      ########
