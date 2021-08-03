@@ -1004,13 +1004,12 @@ cdef class Photon(Particle):
                 
                 el.rotateTHETA(1-v)
                 break
- 
         
-            
+ 
         self.secondary.append(el)
         self.nSECONDARY += 1
-        
-        
+
+
         for i in range(particles.ELECTRONS.size()):
             E = particles.ELECTRONS.back()
             particles.ELECTRONS.pop_back()
@@ -1023,8 +1022,8 @@ cdef class Photon(Particle):
         
         (<V> self.state.current_region).depositLOCAL(self.state.pos, Etot)
         
-        
-        
+
+
 
     cdef void _tripletproduction(Photon self):
         IF not _TP: return
@@ -1151,7 +1150,7 @@ class python_hooks:
             (<Photon> self).state = py_state.to_cython()
 
         def reset(self):
-            (<Photon> self).state = (<PySTATE> self).py_state.to_cython()
+            (<Photon> self).state = (<PySTATE> self.py_state).to_cython()
 
         def __call__(self, *args, **kwargs):
             """Usage:
