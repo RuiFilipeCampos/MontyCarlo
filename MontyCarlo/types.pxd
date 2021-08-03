@@ -33,3 +33,4 @@ cdef class PySTATE:
     # like the `mixmax_engine` and `void *` pointer.
 
     cdef STATE to_cython(self)
+    cdef mixmax_engine *get_genPTR(self)

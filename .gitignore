@@ -128,3 +128,30 @@ dmypy.json
 
 # Cython
 *.pyd
+*.pyxbld
+MontyCarlo/*.c
+MontyCarlo/*.cpp
+MontyCarlo/tools/*.c
+MontyCarlo/tools/*.cpp
+MontyCarlo/particles/*.c
+MontyCarlo/particles/*.cpp
+MontyCarlo/materials/pyRelax.cpp
+MontyCarlo/materials/materials.cpp
+MontyCarlo/particles/*.cpp
+
+# ignore databases
+MontyCarlo/materials/EADL/*.txt
+MontyCarlo/materials/EPDL/*.txt
+MontyCarlo/materials/EEDL/*.txt
+MontyCarlo/materials/positron/elastic
+MontyCarlo/materials/electron/elastic
+MontyCarlo/materials/electron/*.cpp
+MontyCarlo/materials/electron/*.c
+MontyCarlo/materials/positron/*.cpp
+MontyCarlo/materials/positron/*.c
+MontyCarlo/materials/photon/*.cpp
+MontyCarlo/materials/photon/*.c
+
+deprecated
+
+*.ini

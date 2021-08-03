@@ -74,7 +74,7 @@ cdef class PySTATE:
     ):
 
         self.pos = pos
-        self.dir = dire
+        self.dire = dire
         self.axis = axis
         self.E = E
         self.L = L
@@ -104,3 +104,6 @@ cdef class PySTATE:
         self.state.genPTR = &self.gen
 
         return self.state
+
+    cdef mixmax_engine *get_genPTR(self):
+        return &self.gen

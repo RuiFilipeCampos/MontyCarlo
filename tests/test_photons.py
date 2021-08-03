@@ -40,11 +40,26 @@ class test_Photon(ut.TestCase):
     """Unit testing the `.tools.main.remove_duplicates` function.
     """
 
+    def test_python_hooks(self):
+        py_state = PySTATE()
+        photon = Photon(py_state)
+
+        x = photon(get = "E")
+        print(f"E = {x}")
+
+        x = photon(get = "i")
+        print(f"i = {x}")
+
+
+
+
     def test_all(self):
         """Test all cases.
         """
         py_state = PySTATE()
         photon = Photon(py_state)
+
+        print(photon(get = "E"))
 
 
 if __name__ == '__main__':

@@ -1164,11 +1164,12 @@ class python_hooks:
             if len(kwargs) == 0:
                 print("Running `Photon`...")
                 #(<Photon> self)._run((<PySTATE> self.py_state).get_genPTR())
+                return
 
             if len(kwargs) > 1:
                 raise RuntimeError("Too many keyword arguments.")
 
-            if kwargs['method']:
+            if 'method' in kwargs:
                 method = kwargs['method']
                 if   method == 'find_index':         (<Photon> self).find_index()
                 elif method == '_coherent':          (<Photon> self)._coherent()
@@ -1177,15 +1178,13 @@ class python_hooks:
                 elif method == '_photoelectric':     (<Photon> self)._photoelectric()
                 elif method == '_tripletproduction': (<Photon> self)._tripletproduction()
 
-            if kwargs['assign']:
+            elif 'assign' in kwargs:
                 assign = kwargs['assign']
                 if   assign == 'E': (<Photon> self).state.E = args[0]
-                elif assign == 'i': (<Photon> self).i = args[0]
 
-            if kwargs['get']:
+            elif 'get' in kwargs:
                 get = kwargs['get']
                 if get == "E": return (<Photon> self).state.E
-                if get == "i": return (<Photon> self).state.E
 
 
         def calculate_polar(self):
@@ -1193,7 +1192,6 @@ class python_hooks:
         
         def calculate_azimuth(self):
             pass
-
 
         def __repr__(self):
             return "<pyhook.Photon>"
