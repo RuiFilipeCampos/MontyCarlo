@@ -46,7 +46,7 @@ class MAP(dict):
         except KeyError:
             raise AttributeError
 
-cdef class py_state:
+cdef class PySTATE:
     """The python analog of `STATE`:
 
     ```

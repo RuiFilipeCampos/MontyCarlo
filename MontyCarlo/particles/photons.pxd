@@ -30,6 +30,7 @@ from ..materials import database as db
 #from .particle cimport STATE
 from .particle cimport Particle
 from ..types cimport STATE
+from ..types cimport PySTATE
 from ..tools.vectors cimport Vector
 from ..external.mixmax_interface cimport mixmax_engine
 from ..geometry.main cimport Volume
@@ -89,14 +90,8 @@ cdef class Photon(Particle):
     cdef void* pairproduction
     cdef void* tripletproduction
 
-    #cdef Material current_material
-    #cdef Coherent coherent
-    #cdef Incoherent incoherent
-    #cdef Pairproduction pairproduction
-    #cdef Tripletproduction tripletproduction
     cdef object S
 
-    #cdef vector[double] ZZ
     cdef IFMPcumul IMFP_CUMUL
     cdef void* current_molecule
 
@@ -109,14 +104,7 @@ cdef class Photon(Particle):
     @staticmethod
     cdef Photon _newISOTROPIC(STATE& state)
     
-    
-    ### RUN SIMULATION
     cdef void _run(Photon self, mixmax_engine* genPTR)
-    # cdef void _runFORCEcompton(self)
-    # cdef void _runSPLIT(self)
-    
-
-
 
     cdef void record(self)
     cdef inline int find_index(self)
@@ -132,9 +120,3 @@ cdef class Photon(Particle):
     cdef void _pairproduction(Photon self) 
     cdef void _photoelectric(Photon self)
     cdef void _tripletproduction(Photon self)
-
-
-
-
-
-

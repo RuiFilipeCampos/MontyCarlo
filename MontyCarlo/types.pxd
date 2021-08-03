@@ -16,7 +16,7 @@ cdef struct STATE:
     double L 
     double last_displacement
 
-cdef class py_state:
+cdef class PySTATE:
     cdef STATE state
     cdef mixmax_engine gen # need to keep the generator somewhere...
 
