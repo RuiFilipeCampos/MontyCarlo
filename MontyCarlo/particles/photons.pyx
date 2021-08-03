@@ -1216,8 +1216,8 @@ class python_hooks:
             raise AttributeError(f"No attribute named {attribute}")
 
         def __setattr__(self, attribute, value):
-            if   assign == 'E': (<Photon> self).state.E = value
-            elif assign == "current_material":  (<Photon> self).current_material = <void*> value
+            if   attribute == 'E': (<Photon> self).state.E = value
+            elif attribute == "current_material":  (<Photon> self).current_material = <void*> value
 
             raise AttributeError(f"No attribute named {attribute}")
 
