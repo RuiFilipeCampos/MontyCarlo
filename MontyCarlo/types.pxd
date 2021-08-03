@@ -6,7 +6,7 @@ cdef struct double3:
     double x, y, z
 
 cdef struct STATE:
-	mixmax_engine* genPTR
+	mixmax_engine *genPTR
 	void *current_region
 	double3 pos
 	double3 dire
