@@ -1,44 +1,6 @@
-# cython: annotate=True
-# cython: profile =False
+# cython: annotate = False
+# cython: profile = False
 # distutils: language = c++
-print("Importing `.particles.photons`")
-
-DEF TEST = True
-DEF _DEBUG_BASIC = False
-DEF _DEBUG = False
-DEF _DEBUGincoh = False
-DEF RECORD = True
-
-DEF _COH = True
-DEF _INCOH = True
-DEF _PP = True
-DEF _TP = True
-DEF _PH = True
-
-from ..external.mixmax_interface cimport mixmax_engine
-
-
-
-cdef extern from "<math.h>" nogil:
-    double frexp(double x, int* exponent)
-
-
-#from ..materials.electron.main import eax as _eax
-from .._init import eax
-from .._init cimport EAX
-from .._init cimport LIMS
-
-
-
-
-# cdef double eax[2695] 
-# eax[:] = _eax
-
-# from ..materials cimport LIMS 
-
-from libcpp.vector cimport vector
-
-from ..materials.cppRelaxAPI cimport PARTICLES
 
 
 #          /\    \                 /\    \         
@@ -64,72 +26,77 @@ from ..materials.cppRelaxAPI cimport PARTICLES
                                              
 
 
+print("Importing `.particles.photons`")
 
 
 
+# Conditional Compilation for debugging.
+DEF TEST = True
+DEF _DEBUG_BASIC = False
+DEF _DEBUG = False
+DEF _DEBUGincoh = False
+DEF RECORD = True
+
+DEF _COH = True
+DEF _INCOH = True
+DEF _PP = True
+DEF _TP = True
+DEF _PH = True
 
 
+# Internal Imports
+from .._init import eax
+from ..materials import database as db
+from ..settings import __photonCUTOFF__
+from ..settings import __electronCUTOFF__
+from ..settings import DEBUG
+
+
+#from ..materials.electron.main import eax as _eax
+from ..external.mixmax_interface cimport mixmax_engine
+from .._init cimport EAX
+from .._init cimport LIMS
+from .particle  cimport Particle
+from .particle  cimport STATE
+from .electrons cimport Electron
+from .positrons cimport Positron
+from ..geometry.main cimport Volume
+from ..materials.pyRelax cimport Atom as RAtom
+from ..materials.cppRelaxAPI cimport PARTICLES
+
+
+
+# External Imports
 from collections import deque
+
+from libcpp.vector cimport vector
+from libc.math cimport sin
+from libc.math cimport cos
+from libc.math cimport log
+from libc.math cimport sqrt
+from libc.math cimport pi
+from libc.math cimport acos
+from libc.math cimport exp
+cimport cython
+
+
+cdef extern from "<math.h>" nogil:
+    double frexp(double x, int* exponent)
 
 
 #Error messages (to be moved to its own module)
 errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 
-#External Imports
-#from numpy import *
-#from numpy.random import rand, randint
-#import pickle -> probly not needed any more?
 
 
-
-
-
-#Local Imports
-from .particle cimport Particle
-from .particle cimport STATE
-
-
-from .electrons cimport Electron
-from .positrons cimport Positron
-
-from ..materials import database as db
-# --  -- from . import electrons as e
-from libc.math cimport sin, cos, log, sqrt, pi , acos, exp
-
-
-from ..geometry.main cimport Volume
-
-from ..materials.pyRelax cimport Atom as RAtom
-
-#settings
-from ..settings import __photonCUTOFF__, DEBUG, __electronCUTOFF__
-
-#from ..materials.photon.CrossSection cimport IMFP
-
-
-
-
-
-
-# CONSTANTS AND GLOBALS
-
-
+# CONSTANTS AND GLOBALS - this needs to be better for sure
 cdef double Eel0_MeV = 0.510998950000
 cdef double Eel0_eV = Eel0_MeV*1e6
-
-
-
 cdef double k_cutoff = __photonCUTOFF__/Eel0_eV
-
-
 #cdef double CUTOFF = __photonCUTOFF__
 cdef double CUTOFFel = __electronCUTOFF__
-
-cimport cython
-
 cdef double photonCUTOFF = __photonCUTOFF__
 cdef double electronCUTOFF = __electronCUTOFF__
-
 cdef double minCUTOFF = min(photonCUTOFF, electronCUTOFF)
 
 IMFP_CUMUL.C0 = 0.
@@ -140,6 +107,9 @@ cdef struct INCOHERENT:
     double tau_min
     double tau, cos, N, D, sin2, x , T
     double k
+
+
+
 
 @cython.boundscheck(False)
 @cython.initializedcheck(False)
@@ -179,7 +149,6 @@ cdef class Photon(Particle):
         self.state.dire.z = y*a
         
         #azimuth is thrown in next interaction <- reconfirm
-        #self.throwAZIMUTH()
         return self
 
 
@@ -191,8 +160,6 @@ cdef class Photon(Particle):
     
     cdef void _run(Photon self, mixmax_engine* genPTR):
         IF _DEBUG_BASIC: print("> PHOTON")
-
-        
 
         #cdef double r
         self.secondary = deque()
@@ -1169,7 +1136,6 @@ cdef class Photon(Particle):
             
             START = MID + 1
         return END 
-
 
 
 
