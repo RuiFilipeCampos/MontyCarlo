@@ -64,9 +64,9 @@ cdef class py_state:
     """
 
     def __init__(self,
-    ndarray[ndim=1] pos  = np.array([0, 0, 0], dtype = float),
-    ndarray[ndim=1] dir  = np.array([0, 0, 1], dtype = float),
-    ndarray[ndim=1] axis = np.array([0, 1, 0], dtype = float), 
+    ndarray[double, ndim=1] pos  = np.array([0, 0, 0], dtype = float),
+    ndarray[double, ndim=1] dir  = np.array([0, 0, 1], dtype = float),
+    ndarray[double, ndim=1] axis = np.array([0, 1, 0], dtype = float), 
     double E = 1e6,
     double L = 0, 
     double last_displacement = 0, 
