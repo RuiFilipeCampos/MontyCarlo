@@ -3,15 +3,6 @@
 # distutils: language = c++ 
 # distutils: extra_compile_args = -std=c++11
 
-print("Importing .particles.electrons")
-
-DEF _DEBUG_BASIC = False
-DEF _SIGNAL_INTERACTION = False
-
-
-DEF RECORD = True
-from ..materials.cppRelaxAPI cimport PARTICLES
-
 
 #          _____          
 #         /\    \         
@@ -37,17 +28,25 @@ from ..materials.cppRelaxAPI cimport PARTICLES
 
 
 
+print("Importing `.particles.electrons`")
+
+DEF _DEBUG_BASIC = False
+DEF _SIGNAL_INTERACTION = False
+DEF RECORD = True
+
+
+from ..materials.cppRelaxAPI cimport PARTICLES
 from libc.math cimport isnan
-
-
 from .particle cimport STATE
+from ..materials.materials cimport Material
+
+from ..materials.electron.main cimport Brem, Inelastic, Elastic, DIST
 
 
 
-
-#Error messages (to be moved to its own module)
-errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
-
+from .._init  import eax
+from .._init  cimport EAX
+from .._init  cimport LIMS
 
 ## PYTHON IMPORTS
 #Local Imports
@@ -66,70 +65,11 @@ from ..tools.vectors cimport Vector
 from .photons cimport Photon
 from libcpp.vector cimport vector
 
-
-
-from ..materials.materials cimport Material
-
-
-
-
-print("Size of mater", sizeof(Material))
-cdef extern from "<math.h>" nogil:
-    double frexp(double x, int* exponent)
-
-
-# cdef int get_exp(double x):
-#     cdef int exp;
-#     frexp(x, &exp);
-#     return exp;
-
-
-from ..materials.materials cimport Material
-
-from ..materials.electron.main cimport Brem, Inelastic, Elastic, DIST
-
-
-
-from .._init  import eax
-from .._init  cimport EAX
-from .._init  cimport LIMS
-
-
-cdef double[::1] LOGeax = np.log(eax)
-cdef double[::1] diffLOGeax = np.diff(np.array(LOGeax))
-
-
-# cdef double[:] eax = _eax
-
-# 2695
-
-
-
-#from ..materials.electron.main cimport LIMS 
-
-
-
-# print(len(eax))
-# import time
-# time.sleep(100000)
-# External Imports
 from libc.math cimport sin, cos, log, sqrt, pi, exp, fmin, fmax, acos, pow
-
-cdef double twoPI = 2*pi
-
-
-
 
 cimport cython
 
-
-
-cdef double DMAX = .01
-
-# ---- RANDOM SAMPLER --- #######################
-
-
-
+from ..materials.materials cimport Material
 from libc.stdlib cimport rand, RAND_MAX, srand
 
 from ..types cimport double3
@@ -139,54 +79,47 @@ from ..types cimport double3
 from ..external.mixmax_interface cimport mixmax_engine
 
 
-cdef extern from "math.h":
-    float INFINITY
 
-#from numpy.random import rand as urand
-###################################################################
+
+#Error messages (to be moved to its own module)
+errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
+
+cdef extern from "<math.h>" nogil:
+    double frexp(double x, int* exponent)
+
+cdef double[::1] LOGeax = np.log(eax)
+cdef double[::1] diffLOGeax = np.diff(np.array(LOGeax))
+cdef double twoPI = 2*pi
+cdef double DMAX = .01
 
 # CONSTANTS AND GLOBALS
 cdef double CUTOFF = __photonCUTOFF__
 cdef double photonCUTOFF = __photonCUTOFF__
 cdef double MIN_CUT_OFF = min(__photonCUTOFF__, __electronCUTOFF__)
-
 cdef double E0_el = db.E0_electron*1e-3
-
-
-ctypedef Volume V
-    
-    
 cdef double CUT_OFF = __electronCUTOFF__
-#@cython.cdivision(True)
 cdef double ELECTRON_REST_ENERGY = 0.51099895000*1e6 #eV
 cdef double  _2ELECTRON_REST_ENERGY    = 2 *ELECTRON_REST_ENERGY
+
+cdef extern from "math.h":
+    float INFINITY
+
+ctypedef Volume V
+
+
+
+
 @cython.boundscheck(False)
 @cython.wraparound(False) 
 @cython.initializedcheck(False)
 @cython.cdivision(True)
 cdef class Electron(Particle):
  
-    # @staticmethod
-    # def new(Volume current_region, double E):
-    
-    #     return Electron._newISOTROPIC( current_region, E, Vector(0, 0, 0))
-    
-    
-    
     cdef double ENERGY(self):
         return self.state.E
-    
-
-
 
     @staticmethod
     cdef Electron _new(STATE& state):
-        """
-        A new Electron is created with its state set equal to the
-        provided STATE reference.
-        """
-
-
         cdef Electron self
         self = <Electron>Electron.__new__(Electron)
         self.state = state
@@ -1437,7 +1370,7 @@ ENERGY: {E}eV
         #do binary search 
         while START <= END:
             #find middle
-            MID = START + (END - START)//2 #prevents overflow somehow 
+            MID = START + (END - START)//2 #prevents overflow: END - START // 2 < START + END // 2
             
             xMID = EAX[MID]
             
@@ -1451,4 +1384,3 @@ ENERGY: {E}eV
             START = MID + 1
         return END 
                     
-            
