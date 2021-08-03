@@ -2,7 +2,6 @@
 # cython: annotate=False
 # distutils: language = c++ 
 
-
 #    ____       U  ___ u   ____                     _____      ____        U  ___ u   _   _     
 #  U|  _"\ u     \/"_ \/  / __"| u       ___       |_ " _|  U |  _"\ u      \/"_ \/  | \ |"|    
 #  \| |_) |/     | | | | <\___ \/       |_"_|        | |     \| |_) |/      | | | | <|  \| |>   
@@ -11,14 +10,15 @@
 #   ||>>_          \\      )(  (__) .-,_|___|_,-.  _// \\_    //   \\_        \\     ||   \\,-. 
 #  (__)__)        (__)    (__)       \_)-' '-(_/  (__) (__)  (__)  (__)      (__)    (_")  (_/  
 
-
 print("Importing `.particles.positrons`")
+
+
+#Error messages (to be moved to its own module)
+errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
+
 
 DEF _DEBUG_BASIC = False
 DEF _SIGNAL_INTERACTION = False
-
-cdef double  ELECTRON_REST_MASS      = 0.51099895000e6            
-
 DEF RECORD = True
 
 
@@ -26,18 +26,9 @@ DEF RECORD = True
 
 
 from ..materials.cppRelaxAPI cimport PARTICLES
-
 from libc.math cimport isnan
-
 # from .electron cimport Electron
 # from .photon cimport Photon
-
-
-
-
-#Error messages (to be moved to its own module)
-errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
-
 
 ## PYTHON IMPORTS
 #Local Imports
@@ -55,73 +46,52 @@ from ..geometry.main cimport Volume
 from ..tools.vectors cimport Vector
 from .photons cimport Photon
 from libcpp.vector cimport vector
-
-
-
 from ..materials.materials cimport Material
-
-
-cdef extern from "<math.h>" nogil:
-    double frexp(double x, int* exponent)
-
-
-# cdef int get_exp(double x):
-#     cdef int exp;
-#     frexp(x, &exp);
-#     return exp;
-
-
 from ..materials.materials cimport Material
-from ..materials.electron.main cimport Brem, Inelastic, Elastic, DIST
-
-
-
+from ..materials.electron.main cimport Brem
+from ..materials.electron.main cimport Inelastic
+from ..materials.electron.main cimport Elastic
+from ..materials.electron.main cimport DIST
 from .._init  import eax
 from .._init  cimport EAX
 from .._init  cimport LIMS
+
+from libc.math cimport sin 
+from libc.math cimport cos
+from libc.math cimport log
+from libc.math cimport sqrt
+from libc.math cimport pi
+from libc.math cimport exp
+from libc.math cimport fmin
+from libc.math cimport fmax
+from libc.math cimport acos
+from libc.math cimport pow
+
+cimport cython
+from libc.stdlib cimport rand, RAND_MAX, srand
+from ..external.mixmax_interface cimport mixmax_engine
+
+
+
+
+
+
+
+
+
+
+cdef double  ELECTRON_REST_MASS      = 0.51099895000e6            
+
 
 
 cdef double[::1] LOGeax = np.log(eax)
 cdef double[::1] diffLOGeax = np.diff(np.array(LOGeax))
 
+cdef extern from "<math.h>" nogil:
+    double frexp(double x, int* exponent)
 
-# cdef double[:] eax = _eax
-
-# 2695
-
-
-
-#from ..materials.electron.main cimport LIMS 
-
-
-
-# print(len(eax))
-# import time
-# time.sleep(100000)
-# External Imports
-from libc.math cimport sin, cos, log, sqrt, pi, exp, fmin, fmax, acos, pow
 
 cdef double twoPI = 2*pi
-
-
-
-
-cimport cython
-
-
-
-
-
-# ---- RANDOM SAMPLER --- #######################
-
-
-
-from libc.stdlib cimport rand, RAND_MAX, srand
-
-
-
-
-from ..external.mixmax_interface cimport mixmax_engine
 
 
 cdef extern from "math.h":
