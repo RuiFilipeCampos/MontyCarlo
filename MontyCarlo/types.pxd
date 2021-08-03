@@ -30,4 +30,6 @@ cdef class py_state:
     cdef public long int seed
 
     # Note: I can't just make `state` public since it contains c types
-    # like the `mixmax_engine` and `void *` pointer. 
+    # like the `mixmax_engine` and `void *` pointer.
+
+    cdef STATE to_cython(self)
