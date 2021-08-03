@@ -1147,9 +1147,8 @@ class python_hooks:
         def __init__(self, PySTATE py_state):
             """Initializes a particle.
             """
-            cdef Photon this = <Photon> self
-            this.state = py_state.to_cython()
-            
+            (<Photon> self).state = py_state.to_cython()
+
 
         def find_index__(self):
             self.find_index()

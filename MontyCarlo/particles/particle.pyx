@@ -29,15 +29,7 @@ from ..types cimport double3
 
 
 
-cdef struct STATE:
-		mixmax_engine* genPTR
-		void *current_region
-		double3 pos
-		double3 dire
-		double3 axis
-		double E
-		double L 
-		double last_displacement
+
 
 
 
