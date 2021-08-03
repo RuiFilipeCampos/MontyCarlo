@@ -1171,20 +1171,26 @@ class python_hooks:
 
             if 'method' in kwargs:
                 method = kwargs['method']
-                if   method == 'find_index':         (<Photon> self).find_index()
+                if   method == 'find_index':         return (<Photon> self).find_index()
                 elif method == '_coherent':          (<Photon> self)._coherent()
                 elif method == '_incoherent':        (<Photon> self)._incoherent()
                 elif method == '_pairproduction':    (<Photon> self)._pairproduction()
                 elif method == '_photoelectric':     (<Photon> self)._photoelectric()
                 elif method == '_tripletproduction': (<Photon> self)._tripletproduction()
+                elif method == "update_references":  (<Photon> self).update_references()
+                elif method == "update_imfp":        (<Photon> self).update_imfp()
+                elif method == "record":             (<Photon> self).record()
+                return
+
+            elif 'get' in kwargs:
+                get = kwargs['get']
+                if get == "E": return (<Photon> self).state.E
+                if get == "IMFP_CUMUL": return (<Photon> self).IMFP_CUMUL
 
             elif 'assign' in kwargs:
                 assign = kwargs['assign']
                 if   assign == 'E': (<Photon> self).state.E = args[0]
 
-            elif 'get' in kwargs:
-                get = kwargs['get']
-                if get == "E": return (<Photon> self).state.E
 
 
         def calculate_polar(self):
