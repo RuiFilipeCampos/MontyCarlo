@@ -1,6 +1,6 @@
 from .external.mixmax_interface cimport mixmax_engine
 
-from numpy cimport ndarray, 
+from numpy cimport ndarray
 
 cdef double nan
 
