@@ -67,7 +67,7 @@ from libc.math cimport sin, cos, log, sqrt, pi, exp, fmin, fmax
 cdef struct IFMPcumul:
     long double C0, C1, C2, C3, C4, C5
 
-from .particle cimport STATE
+from ..types cimport STATE
 
 
 cdef class Electron(Particle):

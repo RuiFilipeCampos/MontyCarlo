@@ -45,7 +45,7 @@ from ..external.mixmax_interface cimport mixmax_engine
 ## PYTHON IMPORTS
 #Local Imports
 
-from .particle cimport STATE
+from ..types cimport STATE
 from ..materials import database as db
 from ..settings import __photonCUTOFF__
 

@@ -78,37 +78,36 @@ ctypedef Material M
 cdef class Photon(Particle):
     cdef double k
     
-    cdef int N_coh
-    cdef int N_incoh
-    cdef int N_photo
-    cdef int N_pair
-    cdef int N_trip
+    # Counters:
+    cdef int N_coh # Coherent
+    cdef int N_incoh # Incoherent
+    cdef int N_photo # Photoelectric
+    cdef int N_pair # Pair Production 
+    cdef int N_trip # Triplet Production
 
+    # Pointers to `foo_interaction` data. 
     cdef void* current_material
+    cdef void* current_molecule # don't recall what this is <----- plz check
     cdef void* coherent
     cdef void* incoherent
     cdef void* pairproduction
     cdef void* tripletproduction
 
-    cdef object S
+    cdef object S # may be deprecated idk...
 
     cdef IFMPcumul IMFP_CUMUL
-    cdef void* current_molecule
 
-
-
-    ### CONSTRUCTORS
+    # Particle Constructors.
     @staticmethod
     cdef Photon _new(STATE& state)
 
     @staticmethod
     cdef Photon _newISOTROPIC(STATE& state)
     
+
+    # Methods directly related to the runtime simulation.
     cdef void _run(Photon self, mixmax_engine* genPTR)
 
-    cdef void record(self)
-    cdef inline int find_index(self)
-    
     #### UPDATE METHODS
     cdef void update_references(self)
     cdef void update_imfp(Photon self)
@@ -120,3 +119,7 @@ cdef class Photon(Particle):
     cdef void _pairproduction(Photon self) 
     cdef void _photoelectric(Photon self)
     cdef void _tripletproduction(Photon self)
+
+    ### UTILS
+    cdef inline int find_index(self) # this is here because of computational speed. fast acess to the current index.
+    cdef void record(self)
