@@ -1152,7 +1152,7 @@ class python_hooks:
 
         def reset(self):
             (<Photon> self).state = py_state.to_cython()
-            
+
         def __call__(self, *args, **kwargs):
             """Usage:
 
@@ -1169,7 +1169,8 @@ class python_hooks:
             if len(kwargs) > 1:
                 raise RuntimeError("Too many keyword arguments.")
 
-            if method := kwargs['method']:
+            if kwargs['method']:
+                method = kwargs['method']
                 if   method == 'find_index':         (<Photon> self).find_index()
                 elif method == '_coherent':          (<Photon> self)._coherent()
                 elif method == '_incoherent':        (<Photon> self)._incoherent()
@@ -1177,12 +1178,13 @@ class python_hooks:
                 elif method == '_photoelectric':     (<Photon> self)._photoelectric()
                 elif method == '_tripletproduction': (<Photon> self)._tripletproduction()
 
-            if assign := kwargs['assign']:
-
+            if kwargs['assign']:
+                assign = kwargs['assign']
                 if   assign == 'E': (<Photon> self).state.E = args[0]
                 elif assign == 'i': (<Photon> self).i = args[0]
 
-            if get := kwargs['get']:
+            if kwargs['get']:
+                get = kwargs['get']
                 if get == "E": return (<Photon> self).state.E
                 if get == "i": return (<Photon> self).state.E
 
