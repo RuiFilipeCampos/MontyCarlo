@@ -1151,7 +1151,7 @@ class python_hooks:
             (<Photon> self).state = py_state.to_cython()
 
         def reset(self):
-            (<Photon> self).state = self.py_state.to_cython()
+            (<Photon> self).state = (<PySTATE> self).py_state.to_cython()
 
         def __call__(self, *args, **kwargs):
             """Usage:
