@@ -16,4 +16,16 @@ cdef struct STATE:
 	double last_displacement
 
 cdef class py_state:
-	cdef STATE
+	cdef STATE state
+
+	# This guys need to be acessible from python.
+	cdef public ndarray pos
+	cdef public ndarray dire
+	cdef public ndarray axis
+	cdef public double E
+	cdef public double L 
+	cdef public double last_displacement
+
+
+	# Note: I can't just make `state` public since it contains c types
+	# like the `mixmax_engine` and `void *` pointer. 
