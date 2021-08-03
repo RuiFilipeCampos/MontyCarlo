@@ -1175,6 +1175,33 @@ cdef class Photon(Particle):
 
 
 
+class python_hooks:
+    class Photon(Photon):
+
+        def __init__(self, *args, **kwargs):
+            """Initializes a particle.
+            """
+            pass
+
+        def find_index__(self):
+            self.find_index()
+
+        def _coherent__(self):
+            self._coherent()
+
+        def _incoherent__(self):
+            self._incoherent()
+        
+
+
+
+
+
+
+
+
+
+
 
 
 
