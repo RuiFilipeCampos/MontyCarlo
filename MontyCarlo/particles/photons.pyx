@@ -1150,7 +1150,9 @@ class python_hooks:
             self.py_state = py_state # I need to keep this alive, it's storing the generator.
             (<Photon> self).state = py_state.to_cython()
 
-
+        def reset(self):
+            (<Photon> self).state = py_state.to_cython()
+            
         def __call__(self, *args, **kwargs):
             """Usage:
 
