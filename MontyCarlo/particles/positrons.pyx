@@ -15,38 +15,49 @@ print("Importing `.particles.positrons`")
 #Error messages (to be moved to its own module)
 errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 
+
+
+
+
+# Conditional Compilation for Debugging. 
 DEF _DEBUG_BASIC = False
 DEF _SIGNAL_INTERACTION = False
 DEF RECORD = True
+
+
+
+
+
 
 # Internal Imports
 from ..materials import database as db
 from ..settings import __photonCUTOFF__
 from ..settings import __electronCUTOFF__
+
 from .particle cimport Particle
+from .photons  cimport Photon
 from ..geometry.main cimport Volume
 from ..tools.vectors cimport Vector
-from .photons cimport Photon
-from libcpp.vector cimport vector
 from ..materials.materials cimport Material
 from ..materials.materials cimport Material
 from ..materials.electron.main cimport Brem
 from ..materials.electron.main cimport Inelastic
 from ..materials.electron.main cimport Elastic
 from ..materials.electron.main cimport DIST
-from .._init  import eax
-from .._init  cimport EAX
-from .._init  cimport LIMS
 from ..external.mixmax_interface cimport mixmax_engine
 from ..materials.cppRelaxAPI cimport PARTICLES
 
+from .._init  import eax
+from .._init  cimport EAX
+from .._init  cimport LIMS
 
 
 #External Imports
 import numpy as np
-
-from libc.math cimport isnan
 from collections import deque
+
+from libcpp.vector cimport vector
+from libc.math cimport isnan
 from libc.math cimport sin 
 from libc.math cimport cos
 from libc.math cimport log
@@ -57,38 +68,36 @@ from libc.math cimport fmin
 from libc.math cimport fmax
 from libc.math cimport acos
 from libc.math cimport pow
-from libc.stdlib cimport rand
-from libc.stdlib cimport RAND_MAX
-from libc.stdlib cimport srand
+from libc.stdlib cimport rand # Deprecated
+from libc.stdlib cimport RAND_MAX # Deprecated
+from libc.stdlib cimport srand # Deprecated
 cimport cython
-
-
-cdef double  ELECTRON_REST_MASS      = 0.51099895000e6
-
-cdef double[::1] LOGeax = np.log(eax)
-cdef double[::1] diffLOGeax = np.diff(np.array(LOGeax))
 
 cdef extern from "<math.h>" nogil:
     double frexp(double x, int* exponent)
 
-cdef double twoPI = 2*pi
 
-cdef extern from "math.h":
-    float INFINITY
+
+
+
+
 
 
 # CONSTANTS AND GLOBALS
+cdef extern from "math.h":
+    float INFINITY
+
+cdef double twoPI = 2*pi
+cdef double  ELECTRON_REST_MASS      = 0.51099895000e6
 cdef double CUTOFF = __photonCUTOFF__
 cdef double photonCUTOFF = __photonCUTOFF__
 cdef double MIN_CUT_OFF = min(__photonCUTOFF__, __electronCUTOFF__)
-
 cdef double E0_el = db.E0_electron*1e-3
-
- 
 cdef double CUT_OFF = __electronCUTOFF__
 cdef double ELECTRON_REST_ENERGY = 0.51099895000*1e6 #eV
 cdef double  _2ELECTRON_REST_ENERGY    = 2 *ELECTRON_REST_ENERGY
-
+cdef double[::1] LOGeax = np.log(eax)
+cdef double[::1] diffLOGeax = np.diff(np.array(LOGeax))
 
 
 cdef inline double g(double v, double gamma):
