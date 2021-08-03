@@ -64,9 +64,9 @@ cdef class py_state:
     """
 
     def __init__(self,
-    ndarray[double, ndim=1] pos  = np.array([0, 0, 0], dtype = float),
-    ndarray[double, ndim=1] dir  = np.array([0, 0, 1], dtype = float),
-    ndarray[double, ndim=1] axis = np.array([0, 1, 0], dtype = float), 
+    ndarray[double, ndim=1] pos  = np.array([0, 0, 0],  dtype = float),
+    ndarray[double, ndim=1] dire  = np.array([0, 0, 1], dtype = float),
+    ndarray[double, ndim=1] axis = np.array([0, 1, 0],  dtype = float), 
     double E = 1e6,
     double L = 0, 
     double last_displacement = 0, 
@@ -74,7 +74,7 @@ cdef class py_state:
     ):
 
         self.pos = pos
-        self.dir = dir
+        self.dir = dire
         self.axis = axis
         self.E = E
         self.L = L
@@ -83,15 +83,15 @@ cdef class py_state:
         self.gen = mixmax_engine(0, 0, 0, self.seed)
 
 
-    def to_cython(self):
+    cdef STATE to_cython(self):
 
         self.state.pos.x = self.pos[0]
         self.state.pos.y = self.pos[1]
         self.state.pos.z = self.pos[2]
 
-        self.state.dir.x = self.dir[0]
-        self.state.dir.y = self.dir[1]
-        self.state.dir.z = self.dir[2]
+        self.state.dire.x = self.dire[0]
+        self.state.dire.y = self.dire[1]
+        self.state.dire.z = self.dire[2]
 
         self.state.axis.x = self.axis[0]
         self.state.axis.y = self.axis[1]

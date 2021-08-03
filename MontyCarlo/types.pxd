@@ -25,7 +25,7 @@ cdef class py_state:
     cdef public ndarray dire
     cdef public ndarray axis
     cdef public double E
-    cdef public double L 
+    cdef public double L
     cdef public double last_displacement
     cdef public long int seed
 
