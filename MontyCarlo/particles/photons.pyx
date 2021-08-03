@@ -1142,6 +1142,28 @@ cdef class Photon(Particle):
 
 class python_hooks:
     class Photon(Photon):
+        """
+        - [ ] cdef double k
+    
+        # Counters:
+        - [ ] cdef int N_coh # Coherent
+        - [ ] cdef int N_incoh # Incoherent
+        - [ ] cdef int N_photo # Photoelectric
+        - [ ] cdef int N_pair # Pair Production 
+        - [ ] cdef int N_trip # Triplet Production
+
+        # Pointers to `foo_interaction` data. 
+        - [x] cdef void* current_material
+        - [ ] cdef void* current_molecule
+        - [ ] cdef void* coherent
+        - [ ] cdef void* incoherent
+        - [ ] cdef void* pairproduction
+        - [ ] cdef void* tripletproduction
+
+        - [ ] cdef object S # may be deprecated idk...
+
+        - [x] cdef IFMPcumul IMFP_CUMUL
+        """
 
         def __init__(self, PySTATE py_state):
             """Initializes a particle.
@@ -1151,6 +1173,8 @@ class python_hooks:
 
         def reset(self):
             (<Photon> self).state = (<PySTATE> self.py_state).to_cython()
+
+
 
         def __call__(self, *args, **kwargs):
             """Usage:
@@ -1182,18 +1206,20 @@ class python_hooks:
                 elif method == "record":             (<Photon> self).record()
                 return
 
-            elif 'get' in kwargs:
-                get = kwargs['get']
-                if get == "E": return (<Photon> self).state.E
-                if get == "IMFP_CUMUL": return (<Photon> self).IMFP_CUMUL
+            raise ValueError("Unknown argument combination.")
 
-            elif 'set' in kwargs:
-                assign = kwargs['set']
-                if   assign == 'E': (<Photon> self).state.E = args[0]
-                return
-            raise RuntimeError("Unknown argument combination.")
+        def __getattr__(self, attribute):
+            if attribute == "E":                return (<Photon> self).state.E
+            if attribute == "IMFP_CUMUL":       return (<Photon> self).IMFP_CUMUL
+            if attribute == "current_material": return  <MAT> ( (<Photon> self).current_material )
 
+            raise AttributeError(f"No attribute named {attribute}")
 
+        def __setattr__(self, attribute, value):
+            if   assign == 'E': (<Photon> self).state.E = value
+            elif assign == "current_material":  (<Photon> self).current_material = <void*> value
+
+            raise AttributeError(f"No attribute named {attribute}")
 
         def calculate_polar(self):
             pass

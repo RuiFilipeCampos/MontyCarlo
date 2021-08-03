@@ -70,7 +70,11 @@ ctypedef Tripletproduction PPP
 ctypedef Molecule Mol
 ctypedef MPhoton Ph
 ctypedef Volume V
+
 ctypedef Material Mat
+ctypedef Material MAT
+
+
 ctypedef Material M
 
 cdef struct counters:

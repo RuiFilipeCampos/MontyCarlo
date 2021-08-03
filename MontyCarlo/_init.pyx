@@ -14,8 +14,6 @@ _init.pyx
 #                   setup_args = {'include_dirs':np.get_include()})
 
 
-print("____INIT_____")
-
 
 #### PREPARING ENERGY AXIS AND GRID COMMON TO ALL MODULES
 from .settings import __montecarlo__
@@ -33,22 +31,14 @@ PATH = str(PATH)
 
 LEeax = np.load(PATH + "/LEeax.npy")
 HEeax = np.load(PATH + "/HEeax.npy")
-eax =  np.append(LEeax, HEeax[1:])
-
-
+eax   = np.append(LEeax, HEeax[1:])
 eax = np.ascontiguousarray(eax) # for python data processing
 EAX = eax  ### array  defined in pxd, cdef double EAX[2695]
-
- 
-
-
 
 cdef int get_exp(double x):
     cdef int exp;
     frexp(x, &exp);
     return exp;
-
-
 
 
 hashed =  np.array([get_exp(E) for E in eax], dtype = int)
@@ -77,3 +67,4 @@ for i in range(Imax + 1): #every possible value of the hash, index = hash
     lims.append(np.array([selected[0], selected[-1] , n], dtype = int))
 
 LIMS = np.array(lims[1:], dtype = np.int32) ### memory view defined in pxd, cdef double[::1] EAX
+
