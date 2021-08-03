@@ -1,7 +1,6 @@
-# cython: profile=False
-# cython: annotate=True
+# cython: profile = False
+# cython: annotate = False
 # distutils: language = c++ 
-# distutils: extra_compile_args = -std=c++11
 
 
 #          _____          
@@ -1383,4 +1382,3 @@ ENERGY: {E}eV
             
             START = MID + 1
         return END 
-                    
