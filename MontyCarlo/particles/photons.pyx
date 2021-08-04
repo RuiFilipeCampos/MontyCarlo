@@ -1155,10 +1155,10 @@ class python_hooks:
         # Pointers to `foo_interaction` data. 
         - [x] cdef void* current_material
         - [ ] cdef void* current_molecule
-        - [ ] cdef void* coherent
-        - [ ] cdef void* incoherent
-        - [ ] cdef void* pairproduction
-        - [ ] cdef void* tripletproduction
+        - [x] cdef void* coherent
+        - [x] cdef void* incoherent
+        - [x] cdef void* pairproduction
+        - [x] cdef void* tripletproduction
 
         - [ ] cdef object S # may be deprecated idk...
 
@@ -1170,6 +1170,23 @@ class python_hooks:
             """
             self.py_state = py_state # I need to keep this alive, it's storing the generator.
             (<Photon> self).state = py_state.to_cython()
+
+
+        def __getattr__(self, attribute):
+            if attribute == "E":                return          (<Photon> self).state.E
+            if attribute == "IMFP_CUMUL":       return          (<Photon> self).IMFP_CUMUL
+            if attribute == "current_material": return  <MAT> ( (<Photon> self).current_material )
+            if attribute == "coherent":         return  <COH> ( (<Photon> self).coherent )
+            if attribute == "incoherent":       return  <INC> ( (<Photon> self).incoherent )
+            if attribute == "pairproduction":   return  <PP>  ( (<Photon> self).pairproduction )
+            if attribute == "S":                return  <PPP> ( (<Photon> self).S )
+            if attribute == "current_molecule": return  <MOL> ( (<Photon> self).current_molecule )
+
+
+            if attribute in self.__dict__:
+                return self.__dict__[attribute]
+
+            raise AttributeError(f"No attribute named {attribute}")
 
         def _reset(self):
             (<Photon> self).state = (<PySTATE> self.py_state).to_cython()
@@ -1203,15 +1220,7 @@ class python_hooks:
             (<Photon> self)._incoherent()
 
 
-        def __getattr__(self, attribute):
-            if attribute == "E":                return (<Photon> self).state.E
-            if attribute == "IMFP_CUMUL":       return (<Photon> self).IMFP_CUMUL
-            if attribute == "current_material": return  <MAT> ( (<Photon> self).current_material )
 
-            if attribute in self.__dict__:
-                return self.__dict__[attribute]
-
-            raise AttributeError(f"No attribute named {attribute}")
 
         def __setattr__(self, attribute, value):
             if   attribute == 'E': (<Photon> self).state.E = value

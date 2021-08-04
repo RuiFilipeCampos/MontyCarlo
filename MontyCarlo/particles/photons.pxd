@@ -73,7 +73,11 @@ ctypedef Volume V
 
 ctypedef Material Mat
 ctypedef Material MAT
+ctypedef Coherent COH
+ctypedef Incoherent INC
 
+ctypedef Molecule MOL
+ctypedef MPhoton PH
 
 ctypedef Material M
 
@@ -99,7 +103,7 @@ cdef class Photon(Particle):
 
     # Pointers to `foo_interaction` data. 
     cdef void* current_material
-    cdef void* current_molecule # don't recall what this is <----- plz check
+    cdef void* current_molecule 
     cdef void* coherent
     cdef void* incoherent
     cdef void* pairproduction
