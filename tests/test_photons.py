@@ -58,6 +58,12 @@ class test_Photon(ut.TestCase):
 
     photon.current_region = sphere
 
+    def test_updates(self):
+        """Checks for segmentation errors when calling update methods.
+        """
+        cls = test_Photon
+        cls.photon(method = "update_references")
+        cls.photon(method = "update_imfp")
 
     def test_find_index(self):
         import numpy.random as npr
@@ -65,26 +71,46 @@ class test_Photon(ut.TestCase):
         cls = test_Photon
         photon = cls.photon
         eax = cls.eax
+        N = len(eax) - 1
+        points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9, ]
 
-        for i in range(500_000):
-            E = npr.rand()*1e9
+        for E0, Ef in zip(points[:-1], points[1:]):
 
-            photon.E = E
-            i = photon.find_index()
+            for i in range(10_000):
+                E = E0 + npr.rand()*(Ef - E0)
 
-            self.assertTrue(eax[i] <= E < eax[i+1], msg = f"Failed for E = {E}. Found index i = {i}: {eax[i]} < {E} < {eax[i+1]}")
+                photon.E = E
+                i = photon.find_index()
+
+                error_msg = f"""
+                INVALID INDEX
+                --------------
+                photon.find_index() failed for E = {E} eV. 
+
+                It found index i = {i}. Which is out of range for the array `eax`.
+                """
 
 
-    def test_updates(self):
-        """Checks for segmentation errors when calling update methods.
-        """
-        cls = test_Photon
-        print("Energy = ", cls.photon.E)
-        cls.photon(method = "update_references")
-        cls.photon(method = "update_imfp")
+                self.assertTrue(0 <= i <= N, msg = error_msg)
 
-        i = cls.photon.find_index()
-        print(f"i({cls.photon.E}) = ", i)
+                error_msg = f"""
+                FOUND WRONG INDEX
+                -----------------
+                photon.find_index() failed for E = {E}eV. 
+
+                It found index i = {i}. Corresponding to the following interval:
+
+                {eax[i]} <= {E} < {eax[i+1]}
+
+                Note: eax[i] <= E < eax[i+1]
+                """
+
+                self.assertTrue( eax[i] <= E < eax[i+1], msg = error_msg)
+                #print(f"SUCCESS: {eax[i]} <= {E} < {eax[i+1]}")
+
+
+
+
 
     def test_compton(self):
         pass
