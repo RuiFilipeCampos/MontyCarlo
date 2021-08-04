@@ -1171,6 +1171,8 @@ class python_hooks:
             self.py_state = py_state # I need to keep this alive, it's storing the generator.
             (<Photon> self).state = py_state.to_cython()
 
+        def _reset(self):
+            (<Photon> self).state = (<PySTATE> self.py_state).to_cython()
 
         def __getattr__(self, attribute):
             if attribute == "E":                return          (<Photon> self).state.E
@@ -1203,36 +1205,17 @@ class python_hooks:
 
 
 
-        def _reset(self):
-            (<Photon> self).state = (<PySTATE> self.py_state).to_cython()
+        def _coherent(self):          (<Photon> self)._coherent()
+        def _incoherent(self):        (<Photon> self)._incoherent()
+        def _pairproduction(self):    (<Photon> self)._pairproduction()
+        def _tripletproduction(self): (<Photon> self)._tripletproduction()
+        def _incoherent(self):        (<Photon> self)._incoherent()
+        def update_references(self):  (<Photon> self).update_references()
+        def update_imfp(self):        (<Photon> self).update_imfp()
+        def record(self):             (<Photon> self).record()
 
+        def find_index(self): return (<Photon> self).find_index()
 
-        def find_index(self):
-            return (<Photon> self).find_index()
-
-        def _coherent(self):
-            (<Photon> self)._coherent()
-
-        def _incoherent(self):
-            (<Photon> self)._incoherent()
-
-        def _pairproduction(self):
-            (<Photon> self)._pairproduction()
-
-        def _tripletproduction(self):
-            (<Photon> self)._tripletproduction()
-
-        def update_references(self):
-            (<Photon> self).update_references()
-
-        def update_imfp(self):
-            (<Photon> self).update_imfp()
-
-        def record(self):
-            (<Photon> self).record()
-
-        def _incoherent(self):
-            (<Photon> self)._incoherent()
 
 
 
