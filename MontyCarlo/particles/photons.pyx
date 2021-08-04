@@ -1171,45 +1171,37 @@ class python_hooks:
             self.py_state = py_state # I need to keep this alive, it's storing the generator.
             (<Photon> self).state = py_state.to_cython()
 
-        def reset(self):
+        def _reset(self):
             (<Photon> self).state = (<PySTATE> self.py_state).to_cython()
 
 
-
-        def __call__(self, *args, **kwargs):
-            """Usage:
-
-            > photon(method = "find_index")
-            > photon(1e6, assign = "E")
-            > E = photon(get = "E")
-
-            """
-
-            if len(kwargs) == 0:
-                print("Running `Photon`...")
-                #(<Photon> self)._run((<PySTATE> self.py_state).get_genPTR())
-                return
-
-            if len(kwargs) > 1:
-                raise RuntimeError("Too many keyword arguments.")
-
-            if 'method' in kwargs:
-                method = kwargs['method']
-                if   method == 'find_index':         return (<Photon> self).find_index()
-                elif method == '_coherent':          (<Photon> self)._coherent()
-                elif method == '_incoherent':        (<Photon> self)._incoherent()
-                elif method == '_pairproduction':    (<Photon> self)._pairproduction()
-                elif method == '_photoelectric':     (<Photon> self)._photoelectric()
-                elif method == '_tripletproduction': (<Photon> self)._tripletproduction()
-                elif method == "update_references":  (<Photon> self).update_references()
-                elif method == "update_imfp":        (<Photon> self).update_imfp()
-                elif method == "record":             (<Photon> self).record()
-                return
-
-            raise ValueError("Unknown argument combination.")
-
         def find_index(self):
             return (<Photon> self).find_index()
+
+        def _coherent(self):
+            (<Photon> self)._coherent()
+
+        def _incoherent(self):
+            (<Photon> self)._incoherent()
+
+        def _pairproduction(self):
+            (<Photon> self)._pairproduction()
+
+        def _tripletproduction(self):
+            (<Photon> self)._tripletproduction()
+
+        def update_references(self):
+            (<Photon> self).update_references()
+
+        def update_imfp(self):
+            (<Photon> self).update_imfp()
+
+        def record(self):
+            (<Photon> self).record()
+
+        def _incoherent(self):
+            (<Photon> self)._incoherent()
+
 
         def __getattr__(self, attribute):
             if attribute == "E":                return (<Photon> self).state.E
@@ -1228,14 +1220,9 @@ class python_hooks:
 
             self.__dict__[attribute] = value
 
-        def calculate_polar(self):
-            pass
-        
-        def calculate_azimuth(self):
-            pass
 
         def __repr__(self):
-            return "<pyhook.Photon>"
+            return "<python_hook.Photon>"
 
         def __str__(self):
             return "RETURN DEBUG INFO"
