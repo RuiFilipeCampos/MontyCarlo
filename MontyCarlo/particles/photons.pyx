@@ -1174,6 +1174,13 @@ class python_hooks:
         def _reset(self):
             (<Photon> self).state = (<PySTATE> self.py_state).to_cython()
 
+
+        def _run(self, SEED):
+            pass
+            # store `gen` in the python hook itself....
+            
+
+
         def __getattr__(self, attribute):
             if attribute == "E":                return          (<Photon> self).state.E
             if attribute == "IMFP_CUMUL":       return          (<Photon> self).IMFP_CUMUL
@@ -1203,8 +1210,6 @@ class python_hooks:
             elif attribute == "k":                 (<Photon> self).k = value
             else: self.__dict__[attribute] = value
 
-
-
         def _coherent(self):          (<Photon> self)._coherent()
         def _incoherent(self):        (<Photon> self)._incoherent()
         def _pairproduction(self):    (<Photon> self)._pairproduction()
@@ -1215,13 +1220,6 @@ class python_hooks:
         def record(self):             (<Photon> self).record()
 
         def find_index(self): return (<Photon> self).find_index()
-
-
-
-
-
-
-
 
         def __repr__(self):
             return "<python_hook.Photon>"
