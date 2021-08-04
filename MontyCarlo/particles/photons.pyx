@@ -1226,8 +1226,12 @@ class python_hooks:
             if   attribute == 'E': (<Photon> self).state.E = value
             elif attribute == "current_material":  (<Photon> self).current_material = <void*> value
             elif attribute == "current_region":    (<Photon> self).state.current_region   = <void*> value
-
-            self.__dict__[attribute] = value
+            elif attribute == "coherent":          (<Photon> self).coherent = <void*> value
+            elif attribute == "incoherent":        (<Photon> self).incoherent = <void*> value
+            elif attribute == "pairproduction":    (<Photon> self).pairproduction = <void*> value
+            elif attribute == "S":                 (<Photon> self).S = value
+            elif attribute == "current_molecule":  (<Photon> self).current_molecule = <void*> value
+            else: self.__dict__[attribute] = value
 
 
         def __repr__(self):
