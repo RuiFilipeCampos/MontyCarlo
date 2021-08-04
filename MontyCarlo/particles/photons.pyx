@@ -1208,11 +1208,13 @@ class python_hooks:
 
             raise ValueError("Unknown argument combination.")
 
+        def find_index(self):
+            return (<Photon> self).find_index()
+
         def __getattr__(self, attribute):
             if attribute == "E":                return (<Photon> self).state.E
             if attribute == "IMFP_CUMUL":       return (<Photon> self).IMFP_CUMUL
             if attribute == "current_material": return  <MAT> ( (<Photon> self).current_material )
-
 
             if attribute in self.__dict__:
                 return self.__dict__[attribute]
