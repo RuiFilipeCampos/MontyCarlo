@@ -1143,7 +1143,7 @@ cdef class Photon(Particle):
 class python_hooks:
     class Photon(Photon):
         """
-        - [ ] cdef double k
+        - [x] cdef double k
     
         # Counters:
         - [ ] cdef int N_coh # Coherent
@@ -1154,13 +1154,13 @@ class python_hooks:
 
         # Pointers to `foo_interaction` data. 
         - [x] cdef void* current_material
-        - [ ] cdef void* current_molecule
+        - [x] cdef void* current_molecule
         - [x] cdef void* coherent
         - [x] cdef void* incoherent
         - [x] cdef void* pairproduction
         - [x] cdef void* tripletproduction
 
-        - [ ] cdef object S # may be deprecated idk...
+        - [x] cdef object S # may be deprecated idk...
 
         - [x] cdef IFMPcumul IMFP_CUMUL
         """
@@ -1181,12 +1181,27 @@ class python_hooks:
             if attribute == "pairproduction":   return  <PP>  ( (<Photon> self).pairproduction )
             if attribute == "S":                return  <PPP> ( (<Photon> self).S )
             if attribute == "current_molecule": return  <MOL> ( (<Photon> self).current_molecule )
+            if attribute == "k":                return (<Photon> self).k
 
 
             if attribute in self.__dict__:
                 return self.__dict__[attribute]
 
             raise AttributeError(f"No attribute named {attribute}")
+
+        def __setattr__(self, attribute, value):
+            if   attribute == 'E': (<Photon> self).state.E = value
+            elif attribute == "current_material":  (<Photon> self).current_material = <void*> value
+            elif attribute == "current_region":    (<Photon> self).state.current_region   = <void*> value
+            elif attribute == "coherent":          (<Photon> self).coherent = <void*> value
+            elif attribute == "incoherent":        (<Photon> self).incoherent = <void*> value
+            elif attribute == "pairproduction":    (<Photon> self).pairproduction = <void*> value
+            elif attribute == "S":                 (<Photon> self).S = value
+            elif attribute == "current_molecule":  (<Photon> self).current_molecule = <void*> value
+            elif attribute == "k":                 (<Photon> self).k = value
+            else: self.__dict__[attribute] = value
+
+
 
         def _reset(self):
             (<Photon> self).state = (<PySTATE> self.py_state).to_cython()
@@ -1222,16 +1237,7 @@ class python_hooks:
 
 
 
-        def __setattr__(self, attribute, value):
-            if   attribute == 'E': (<Photon> self).state.E = value
-            elif attribute == "current_material":  (<Photon> self).current_material = <void*> value
-            elif attribute == "current_region":    (<Photon> self).state.current_region   = <void*> value
-            elif attribute == "coherent":          (<Photon> self).coherent = <void*> value
-            elif attribute == "incoherent":        (<Photon> self).incoherent = <void*> value
-            elif attribute == "pairproduction":    (<Photon> self).pairproduction = <void*> value
-            elif attribute == "S":                 (<Photon> self).S = value
-            elif attribute == "current_molecule":  (<Photon> self).current_molecule = <void*> value
-            else: self.__dict__[attribute] = value
+
 
 
         def __repr__(self):
