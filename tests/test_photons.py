@@ -76,7 +76,7 @@ class test_Photon(ut.TestCase):
 
         for E0, Ef in zip(points[:-1], points[1:]):
 
-            for i in range(10_000):
+            for i in range(50_000):
                 E = E0 + npr.rand()*(Ef - E0)
 
                 photon.E = E
