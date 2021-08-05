@@ -1221,7 +1221,7 @@ class python_hooks:
             needed.
             """
             global GEN
-            self._run(&GEN)
+            (<Photon> self)._run(&GEN)
 
 
 
