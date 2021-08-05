@@ -87,7 +87,9 @@ cdef extern from "math.h":
     float INFINITY
 
 cdef double twoPI = 2*pi
-cdef double  ELECTRON_REST_MASS      = 0.51099895000e6
+cdef double ELECTRON_REST_MASS      = 0.51099895000e6
+
+
 cdef double CUTOFF = __photonCUTOFF__
 cdef double photonCUTOFF = __photonCUTOFF__
 cdef double MIN_CUT_OFF = min(__photonCUTOFF__, __electronCUTOFF__)
@@ -1240,7 +1242,7 @@ class python_hooks:
         def __setattr__(self, attribute, value):
             if   attribute == 'E':                 (<Positron> self).state.E = value
             elif attribute == "current_material":  (<Positron> self).current_material = value
-            elif attribute == "current_region":    (<Positron> self).state.current_region  = value
+            elif attribute == "current_region":    (<Positron> self).state.current_region  = <void*> value
             elif attribute == "pos":
                 self.state.pos.x = value[0]
                 self.state.pos.y = value[1]
@@ -1268,9 +1270,6 @@ class python_hooks:
         def _brem(self):                (<Positron> self)._brem()
         def _inelastic(self):           (<Positron> self)._inelastic()
         def _delta(self):               (<Positron> self)._delta()
-
-
-
 
         def find_index(self): return (<Positron> self).find_index()
 
