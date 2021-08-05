@@ -68,6 +68,7 @@ from ..materials.cppRelaxAPI cimport PARTICLES
 
 # External Imports
 from collections import deque
+import numpy as np
 
 from libcpp.vector cimport vector
 from libc.math cimport sin
@@ -1166,9 +1167,9 @@ class python_hooks:
         - [x] cdef IFMPcumul IMFP_CUMUL
         """
 
-        def __init__(self, ndarray[double, ndim=1] pos  = np.array([0, 0, 0],  dtype = float),
-                           ndarray[double, ndim=1] dire  = np.array([0, 0, 1], dtype = float),
-                           ndarray[double, ndim=1] axis = np.array([0, 1, 0],  dtype = float), 
+        def __init__(self, pos  = np.array([0, 0, 0],  dtype = float),
+                           dire  = np.array([0, 0, 1], dtype = float),
+                           axis = np.array([0, 1, 0],  dtype = float), 
                            double E = 1e6
                     ):
 
