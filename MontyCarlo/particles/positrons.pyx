@@ -87,31 +87,27 @@ cdef extern from "math.h":
     float INFINITY
 
 cdef double twoPI = 2*pi
+
 cdef double ELECTRON_REST_MASS      = 0.51099895000e6
+cdef double ELECTRON_REST_ENERGY = 0.51099895000*1e6 #eV
+cdef double  _2ELECTRON_REST_ENERGY    = 2 *ELECTRON_REST_ENERGY
+cdef double E0_el = db.E0_electron*1e-3
 
+cdef double[::1] LOGeax = np.log(eax)
+cdef double[::1] diffLOGeax = np.diff(np.array(LOGeax))
 
+# I am very suspicious of all this....
 cdef double CUTOFF = __photonCUTOFF__
 cdef double photonCUTOFF = __photonCUTOFF__
 cdef double MIN_CUT_OFF = min(__photonCUTOFF__, __electronCUTOFF__)
-cdef double E0_el = db.E0_electron*1e-3
 cdef double CUT_OFF = __electronCUTOFF__
-cdef double ELECTRON_REST_ENERGY = 0.51099895000*1e6 #eV
-cdef double  _2ELECTRON_REST_ENERGY    = 2 *ELECTRON_REST_ENERGY
-cdef double[::1] LOGeax = np.log(eax)
-cdef double[::1] diffLOGeax = np.diff(np.array(LOGeax))
 
 
 cdef inline double g(double v, double gamma):
     return -(gamma+1)**2*v + (gamma**2 + 4*gamma +1) - 1/v
 
-
-
-
-
+# Should be moved to declaration file.
 ctypedef Volume V
-
-
-
 
 
 @cython.boundscheck(False)
@@ -128,10 +124,8 @@ cdef class Positron(Particle):
 
     """
 
-
-
-
-
+    # Constructors
+    
     @staticmethod
     cdef Positron _new(STATE& state):
         cdef Positron self
