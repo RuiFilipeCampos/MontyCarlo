@@ -1139,7 +1139,7 @@ cdef class Photon(Particle):
 
 
 
-cdef global mixmax_engine GEN # space to store a generator for the python_hooks.Photon
+cdef mixmax_engine GEN # space to store a generator for the python_hooks.Photon
 
 class python_hooks:
     class Photon(Photon):
@@ -1195,7 +1195,7 @@ class python_hooks:
             """Creates a mixmax_engine instance using `seed` and stores it in the module level
             variable `GEN`.
             """
-
+            global GEN
             GEN = mixmax_engine(0, 0, 0, seed)
 
         def _run(self, long int seed):
