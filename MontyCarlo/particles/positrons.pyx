@@ -1132,3 +1132,151 @@ cdef class Positron(Particle):
 
 
 cdef mixmax_engine GEN # space to store a generator for the python_hooks.Positron
+
+class python_hooks:
+    class Positron(Positron):
+        """
+    cdef gosMolecule GOS
+    cdef double cos, Esec, cos_sec
+    cdef IFMPcumul IMFP_CUMUL
+    cdef double avgW, varW
+    cdef hLinLinInterpolation _imfp
+    cdef MATpositron positron 
+    cdef Material current_material
+    cdef Elastic elastic
+    cdef Inelastic inelastic
+    cdef Brem brem
+    cdef Anihilation anih
+    cdef double imfp_max, SP, STRAGG
+    cdef double T1, T2, imfp0
+    cdef double s, s_max, w, mu
+    cdef double rc
+
+        """
+
+        def __init__(self, pos   = np.array([0, 0, 0],  dtype = float),
+                           dire  = np.array([0, 0, 1],  dtype = float),
+                           axis  = np.array([0, 1, 0],  dtype = float), 
+                           double E = 1e6
+                    ):
+
+            self.state.pos.x = pos[0]
+            self.state.pos.y = pos[1]
+            self.state.pos.z = pos[2]
+
+            self.state.dire.x = dire[0]
+            self.state.dire.y = dire[1]
+            self.state.dire.z = dire[2]
+
+            self.state.axis.x = axis[0]
+            self.state.axis.y = axis[1]
+            self.state.axis.z = axis[2]
+
+            self.state.E = E
+
+
+
+
+
+        @staticmethod
+        def set_seed(long int seed):
+            """Creates a mixmax_engine instance using `seed` and stores it in the module level
+            variable `GEN`.
+            """
+            global GEN
+            GEN = mixmax_engine(0, 0, 0, seed)
+
+        def _run(self):
+            """Very thin wrapper for the `_run` method.
+
+            Note: The interface between `_run` of this python hook and the actual
+            extension type are different:
+
+            ```Cython
+            cdef void _run(mixmax_engine *genPTR)
+            ```
+
+            versus
+
+            ```
+            @staticmethod
+            def _run()
+            ```
+
+            This is so that the pRNG can be set seperatly in another static method (see `set_seed()`).
+            Thus making this wrapper as thin as possible so that it can be properly benchmarked when
+            needed.
+            """
+            global GEN
+            (<Photon> self)._run(&GEN)
+
+
+
+        def __getattr__(self, attribute):
+            if attribute == "E":                return          (<Positron> self).state.E
+            if attribute == "current_material": return  <MAT> ( (<Positron> self).current_material )
+            if attribute == "pos":
+                pos = np.array([0, 0, 0], dtype = float)
+                pos[0] = self.state.pos.x
+                pos[1] = self.state.pos.y
+                pos[2] = self.state.pos.z
+            if attribute == "dire":
+                dire = np.array([0, 0, 0], dtype = float)
+                dire[0] = self.state.dire.x
+                dire[1] = self.state.dire.y
+                dire[2] = self.state.dire.z
+            if attribute == "axis":
+                axis = np.array([0, 0, 0], dtype = float)
+                axis[0] = self.state.axis.x
+                axis[1] = self.state.axis.y
+                axis[2] = self.state.axis.z
+
+
+            if attribute in self.__dict__:
+                return self.__dict__[attribute]
+
+            raise AttributeError(f"No attribute named {attribute}")
+
+        def __setattr__(self, attribute, value):
+            if   attribute == 'E':                 (<Positron> self).state.E = value
+            elif attribute == "current_material":  (<Positron> self).current_material = <void*> value
+            elif attribute == "current_region":    (<Positron> self).state.current_region   = <void*> value
+            elif attribute == "pos":
+                self.state.pos.x = value[0]
+                self.state.pos.y = value[1]
+                self.state.pos.z = value[2]
+            elif attribute == "dire":
+                self.state.dire.x = value[0]
+                self.state.dire.y = value[1]
+                self.state.dire.z = value[2]
+            elif attribute == "axis":
+                self.state.axis.x = value[0]
+                self.state.axis.y = value[1]
+                self.state.axis.z = value[2]
+
+            else: self.__dict__[attribute] = value
+
+        def update_references(self):    (<Positron> self).update_references()
+        def update_imfp(self):          (<Positron> self).update_imfp()
+        def update_imfp_cumul(self):    (<Positron> self).update_imfp_cumul()
+
+        def sample_w(self, double tau): (<Positron> self).sample_w()
+        def do_hinge(self):             (<Positron> self).do_hinge()
+
+        def _anihilation(self):         (<Positron> self)._anihilation()
+        def _elastic(self):             (<Positron> self)._elastic()
+        def _brem(self):                (<Positron> self)._brem()
+        def _inelastic(self):           (<Positron> self)._inelastic()
+        def _delta(self):               (<Positron> self)._delta()
+
+
+
+
+        def find_index(self): return (<Positron> self).find_index()
+
+        def __repr__(self):
+            return "<python_hook.Photon>"
+
+        def __str__(self):
+            return "RETURN DEBUG INFO"
+

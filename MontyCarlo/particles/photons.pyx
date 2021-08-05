@@ -1145,8 +1145,6 @@ cdef mixmax_engine GEN # space to store a generator for the python_hooks.Photon
 class python_hooks:
     class Photon(Photon):
         """
-        - [x] cdef double k
-    
         # Counters:
         - [ ] cdef int N_coh # Coherent
         - [ ] cdef int N_incoh # Incoherent
@@ -1154,22 +1152,11 @@ class python_hooks:
         - [ ] cdef int N_pair # Pair Production 
         - [ ] cdef int N_trip # Triplet Production
 
-        # Pointers to `foo_interaction` data. 
-        - [x] cdef void* current_material
-        - [x] cdef void* current_molecule
-        - [x] cdef void* coherent
-        - [x] cdef void* incoherent
-        - [x] cdef void* pairproduction
-        - [x] cdef void* tripletproduction
-
-        - [x] cdef object S # may be deprecated idk...
-
-        - [x] cdef IFMPcumul IMFP_CUMUL
         """
 
-        def __init__(self, pos  = np.array([0, 0, 0],  dtype = float),
-                           dire  = np.array([0, 0, 1], dtype = float),
-                           axis = np.array([0, 1, 0],  dtype = float), 
+        def __init__(self, pos   = np.array([0, 0, 0],  dtype = float),
+                           dire  = np.array([0, 0, 1],  dtype = float),
+                           axis  = np.array([0, 1, 0],  dtype = float), 
                            double E = 1e6
                     ):
 
@@ -1185,7 +1172,7 @@ class python_hooks:
             self.state.axis.y = axis[1]
             self.state.axis.z = axis[2]
 
-            self.E = E
+            self.state.E = E
 
 
 
@@ -1258,7 +1245,7 @@ class python_hooks:
             raise AttributeError(f"No attribute named {attribute}")
 
         def __setattr__(self, attribute, value):
-            if   attribute == 'E': (<Photon> self).state.E = value
+            if   attribute == 'E':                 (<Photon> self).state.E = value
             elif attribute == "current_material":  (<Photon> self).current_material = <void*> value
             elif attribute == "current_region":    (<Photon> self).state.current_region   = <void*> value
             elif attribute == "coherent":          (<Photon> self).coherent = <void*> value
