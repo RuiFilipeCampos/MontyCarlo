@@ -1260,7 +1260,7 @@ class python_hooks:
         def update_imfp(self):          (<Positron> self).update_imfp()
         def update_imfp_cumul(self):    (<Positron> self).update_imfp_cumul()
 
-        def sample_w(self, double tau): (<Positron> self).sample_w()
+        def sample_w(self, double tau): (<Positron> self).sample_w(tau)
         def do_hinge(self):             (<Positron> self).do_hinge()
 
         def _anihilation(self):         (<Positron> self)._anihilation()
