@@ -1191,14 +1191,14 @@ class python_hooks:
 
 
         @staticmethod
-        def set_seed():
+        def set_seed(long int seed):
             """Creates a mixmax_engine instance using `seed` and stores it in the module level
             variable `GEN`.
             """
             global GEN
             GEN = mixmax_engine(0, 0, 0, seed)
 
-        def _run(self, long int seed):
+        def _run(self):
             """Very thin wrapper for the `_run` method.
 
             Note: The interface between `_run` of this python hook and the actual
@@ -1219,7 +1219,7 @@ class python_hooks:
             Thus making this wrapper as thin as possible so that it can be properly benchmarked when
             needed.
             """
-
+            global GEN
             self._run(&GEN)
 
 
