@@ -1166,14 +1166,28 @@ class python_hooks:
         - [x] cdef IFMPcumul IMFP_CUMUL
         """
 
-        def __init__(self, PySTATE py_state):
-            """Initializes a particle.
-            """
-            self.py_state = py_state # I need to keep this alive, it's storing the generator.
-            (<Photon> self).state = py_state.to_cython()
+        def __init__(self, ndarray[double, ndim=1] pos  = np.array([0, 0, 0],  dtype = float),
+                           ndarray[double, ndim=1] dire  = np.array([0, 0, 1], dtype = float),
+                           ndarray[double, ndim=1] axis = np.array([0, 1, 0],  dtype = float), 
+                           double E = 1e6
+                    ):
 
-        def _reset(self):
-            (<Photon> self).state = (<PySTATE> self.py_state).to_cython()
+            self.state.pos.x = pos[0]
+            self.state.pos.y = pos[1]
+            self.state.pos.z = pos[2]
+
+            self.state.dire.x = dire[0]
+            self.state.dire.y = dire[1]
+            self.state.dire.z = dire[2]
+
+            self.state.axis.x = axis[0]
+            self.state.axis.y = axis[1]
+            self.state.axis.z = axis[2]
+
+            self.E = E
+
+
+
 
 
         @staticmethod
@@ -1181,7 +1195,7 @@ class python_hooks:
             """Creates a mixmax_engine instance using `seed` and stores it in the module level
             variable `GEN`.
             """
-            
+
             GEN = mixmax_engine(0, 0, 0, seed)
 
         def _run(self, long int seed):
@@ -1220,6 +1234,21 @@ class python_hooks:
             if attribute == "S":                return  <PPP> ( (<Photon> self).S )
             if attribute == "current_molecule": return  <MOL> ( (<Photon> self).current_molecule )
             if attribute == "k":                return (<Photon> self).k
+            if attribute == "pos":
+                pos = np.array([0, 0, 0], dtype = float)
+                pos[0] = self.state.pos.x
+                pos[1] = self.state.pos.y
+                pos[2] = self.state.pos.z
+            if attribute == "dire":
+                dire = np.array([0, 0, 0], dtype = float)
+                dire[0] = self.state.dire.x
+                dire[1] = self.state.dire.y
+                dire[2] = self.state.dire.z
+            if attribute == "axis":
+                axis = np.array([0, 0, 0], dtype = float)
+                axis[0] = self.state.axis.x
+                axis[1] = self.state.axis.y
+                axis[2] = self.state.axis.z
 
 
             if attribute in self.__dict__:
@@ -1237,6 +1266,19 @@ class python_hooks:
             elif attribute == "S":                 (<Photon> self).S = value
             elif attribute == "current_molecule":  (<Photon> self).current_molecule = <void*> value
             elif attribute == "k":                 (<Photon> self).k = value
+            elif attribute == "pos":
+                self.state.pos.x = value[0]
+                self.state.pos.y = value[1]
+                self.state.pos.z = value[2]
+            elif attribute == "dire":
+                self.state.dire.x = value[0]
+                self.state.dire.y = value[1]
+                self.state.dire.z = value[2]
+            elif attribute == "axis":
+                self.state.axis.x = value[0]
+                self.state.axis.y = value[1]
+                self.state.axis.z = value[2]
+            
             else: self.__dict__[attribute] = value
 
         def _coherent(self):          (<Photon> self)._coherent()

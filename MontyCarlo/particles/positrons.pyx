@@ -1131,7 +1131,4 @@ cdef class Positron(Particle):
 
 
 
-class python_hooks:
-    class Positron(Positron):
-        def __init__(self, *args, **kwargs):
-            pass
+cdef mixmax_engine GEN # space to store a generator for the python_hooks.Positron
