@@ -1,7 +1,5 @@
 # cython: annotate=True
 
-from ..materials.materials cimport Atom as _Atom
-
 
 
 
@@ -31,8 +29,9 @@ from ..materials.materials cimport Atom as _Atom
 
 
 
-
-
+# remove ... 
+from ..materials import database as db
+from ..settings import __photonCUTOFF__
 
 
 
@@ -41,18 +40,10 @@ from ..materials.materials cimport Atom as _Atom
 errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 
 from ..external.mixmax_interface cimport mixmax_engine
-
-## PYTHON IMPORTS
-#Local Imports
-
+from ..materials.materials cimport Atom as _Atom
 from ..types cimport STATE
-from ..materials import database as db
-from ..settings import __photonCUTOFF__
-
 from .electrons cimport Electron
 from .photons cimport Photon
-## CYTHON IMPORTS
-#Local Imports
 from .particle cimport Particle
 from ..geometry.main cimport Volume
 from ..tools.vectors cimport Vector
@@ -60,15 +51,19 @@ from ..tools.interpol1 cimport hLinLinInterpolation
 from ..materials.materials cimport Material
 from ..materials.positron.main cimport Brem, Inelastic, Elastic, Anihilation
 from ..materials.positron.main cimport Positron as MATpositron
-
 from ..materials.positron.GOS cimport CMolecule
 from ..materials.positron.GOSfinal cimport gosMolecule
 
 
-# External Imports
 from libc.math cimport sin, cos, log, sqrt, pi, exp, fmin, fmax
+
+
+
 cdef struct IFMPcumul:
     long double C0, C1, C2, C3, C4, C5
+
+
+ctypedef Material MAT
 
 
 cdef class Positron(Particle):
