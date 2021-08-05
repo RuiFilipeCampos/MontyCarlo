@@ -1139,6 +1139,7 @@ cdef class Photon(Particle):
 
 
 
+cdef mixmax_engine GEN # space to store a generator for the python_hooks.Photon
 
 class python_hooks:
     class Photon(Photon):
@@ -1175,10 +1176,38 @@ class python_hooks:
             (<Photon> self).state = (<PySTATE> self.py_state).to_cython()
 
 
-        def _run(self, SEED):
-            pass
-            # store `gen` in the python hook itself....
+        @staticmethod
+        def set_seed():
+            """Creates a mixmax_engine instance using `seed` and stores it in the module level
+            variable `GEN`.
+            """
             
+            GEN = mixmax_engine(0, 0, 0, seed)
+
+        def _run(self, long int seed):
+            """Very thin wrapper for the `_run` method.
+
+            Note: The interface between `_run` of this python hook and the actual
+            extension type are different:
+
+            ```Cython
+            cdef void _run(mixmax_engine *genPTR)
+            ```
+
+            versus
+
+            ```
+            @staticmethod
+            def _run()
+            ```
+
+            This is so that the pRNG can be set seperatly in another static method (see `set_seed()`).
+            Thus making this wrapper as thin as possible so that it can be properly benchmarked when
+            needed.
+            """
+
+            self._run(&GEN)
+
 
 
         def __getattr__(self, attribute):
