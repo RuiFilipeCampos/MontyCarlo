@@ -1275,7 +1275,7 @@ class python_hooks:
         def find_index(self): return (<Positron> self).find_index()
 
         def __repr__(self):
-            return "<python_hook.Photon>"
+            return "<python_hook.Positron>"
 
         def __str__(self):
             return "RETURN DEBUG INFO"
