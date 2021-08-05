@@ -1239,8 +1239,8 @@ class python_hooks:
 
         def __setattr__(self, attribute, value):
             if   attribute == 'E':                 (<Positron> self).state.E = value
-            elif attribute == "current_material":  (<Positron> self).current_material = <void*> value
-            elif attribute == "current_region":    (<Positron> self).state.current_region   = <void*> value
+            elif attribute == "current_material":  (<Positron> self).current_material = value
+            elif attribute == "current_region":    (<Positron> self).state.current_region  = value
             elif attribute == "pos":
                 self.state.pos.x = value[0]
                 self.state.pos.y = value[1]
