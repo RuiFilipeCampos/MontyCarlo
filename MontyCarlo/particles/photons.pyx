@@ -1139,7 +1139,7 @@ cdef class Photon(Particle):
 
 
 
-cdef mixmax_engine GEN # space to store a generator for the python_hooks.Photon
+cdef global mixmax_engine GEN # space to store a generator for the python_hooks.Photon
 
 class python_hooks:
     class Photon(Photon):
@@ -1278,7 +1278,7 @@ class python_hooks:
                 self.state.axis.x = value[0]
                 self.state.axis.y = value[1]
                 self.state.axis.z = value[2]
-            
+
             else: self.__dict__[attribute] = value
 
         def _coherent(self):          (<Photon> self)._coherent()
