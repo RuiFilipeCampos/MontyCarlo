@@ -1,32 +1,4 @@
-# cython: annotate=True
-
-
-
-
-#          _____          
-#         /\    \         
-#        /::\    \        
-#       /::::\    \       
-#      /::::::\    \      
-#     /:::/\:::\    \     
-#    /:::/__\:::\    \    
-#   /::::\   \:::\    \   
-#  /::::::\   \:::\    \  
-# /:::/\:::\   \:::\    \ 
-#/:::/__\:::\   \:::\____\
-#\:::\   \:::\   \::/    /
-# \:::\   \:::\   \/____/ 
-#  \:::\   \:::\    \     
-#   \:::\   \:::\____\    
-#    \:::\   \::/    /    
-#     \:::\   \/____/     
-#      \:::\    \         
-#       \:::\____\        
-#        \::/    /        
-#         \/____/ 
-
-
-
+# cython: annotate=False
 
 
 # remove ... 
@@ -34,37 +6,44 @@ from ..materials import database as db
 from ..settings import __photonCUTOFF__
 
 
-
-
-#Error messages (to be moved to its own module)
-errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
-
 from ..external.mixmax_interface cimport mixmax_engine
-from ..materials.materials cimport Atom as _Atom
-from ..types cimport STATE
+
+from .particle  cimport Particle
 from .electrons cimport Electron
-from .photons cimport Photon
-from .particle cimport Particle
-from ..geometry.main cimport Volume
-from ..tools.vectors cimport Vector
+from .photons   cimport Photon
+
+from ..types cimport STATE
+from ..geometry.main   cimport Volume
+from ..tools.vectors   cimport Vector
 from ..tools.interpol1 cimport hLinLinInterpolation
 from ..materials.materials cimport Material
-from ..materials.positron.main cimport Brem, Inelastic, Elastic, Anihilation
-from ..materials.positron.main cimport Positron as MATpositron
-from ..materials.positron.GOS cimport CMolecule
+from ..materials.materials cimport Atom as _Atom
+from ..materials.positron.main     cimport Brem
+from ..materials.positron.main     cimport Inelastic
+from ..materials.positron.main     cimport Elastic
+from ..materials.positron.main     cimport Anihilation
+from ..materials.positron.main     cimport Positron as MATpositron
+from ..materials.positron.GOS      cimport CMolecule
 from ..materials.positron.GOSfinal cimport gosMolecule
 
-
-from libc.math cimport sin, cos, log, sqrt, pi, exp, fmin, fmax
-
-
+from libc.math cimport sin
+from libc.math cimport cos
+from libc.math cimport log
+from libc.math cimport sqrt
+from libc.math cimport pi
+from libc.math cimport exp
+from libc.math cimport fmin
+from libc.math cimport fmax
 
 cdef struct IFMPcumul:
-    long double C0, C1, C2, C3, C4, C5
-
+    long double C0
+    long double C1
+    long double C2
+    long double C3
+    long double C4
+    long double C5
 
 ctypedef Material MAT
-
 
 cdef class Positron(Particle):
     #cdef CMolecule GOS
@@ -85,67 +64,25 @@ cdef class Positron(Particle):
     cdef double s, s_max, w, mu
     cdef double rc
     
-    # @staticmethod #custom constructor for speed
-    # cdef Electron _new(Volume current_region,
-    #                    double E, 
-    #                    Vector pos, 
-    #                    Vector ey,
-    #                    Vector ez,
-    #                    double s_max)
-    
     @staticmethod
     cdef Positron _new(STATE& state)
     
     @staticmethod
     cdef Positron _newISOTROPIC(STATE& state)
     
-    
-    
-    # @staticmethod #custom constructor for speed
-    # cdef Electron _newISOTROPIC(Volume current_region,
-    #                    double E, 
-    #                    Vector pos)
-        
 
     cdef void _run(self, mixmax_engine* genPTR)
-    
     cdef void _anihilation(self)
     cdef void update_references(self) 
-
-
-
     cdef void update_imfp_cumul(self)
-       
-        
     cdef void update_imfp(self) 
 
-        
-        
-        
-
-
-    
-    
-    
     cdef inline void sample_w(self, double tau)
-    
-    
     cdef inline void do_hinge(self)
-        
-    
-        
-        
-    
-    
-    
     cdef inline void _elastic(self) 
-        
-        
     cdef inline void _brem(self) 
-        
     cdef inline void _inelastic(self) 
     cdef inline void _delta(self)
-    
     cdef inline int find_index(self)
     
     
