@@ -48,41 +48,66 @@ ctypedef Material MAT
 cdef class Positron(Particle):
     #cdef CMolecule GOS
     cdef gosMolecule GOS
-    cdef double cos, Esec, cos_sec
     cdef IFMPcumul IMFP_CUMUL
-    cdef double avgW, varW
-    cdef hLinLinInterpolation _imfp
-    cdef MATpositron positron 
-    cdef Material current_material
-    cdef Elastic elastic
-    cdef Inelastic inelastic
-    cdef Brem brem
-    cdef Anihilation anih
-    cdef double imfp_max, SP, STRAGG
-    cdef double T1, T2, imfp0
 
-    cdef double s, s_max, w, mu
+    cdef double cos
+    cdef double Esec
+    cdef double cos_sec
+    cdef double avgW
+    cdef double varW
+
+    cdef hLinLinInterpolation _imfp
+
+    cdef MATpositron positron 
+
+    cdef Material current_material
+
+    cdef Elastic     elastic
+    cdef Inelastic   inelastic
+    cdef Brem        brem
+    cdef Anihilation anih
+
+    cdef double imfp_max
+    cdef double SP
+    cdef double STRAGG
+    cdef double T1
+    cdef double T2
+    cdef double imfp0
+
+    cdef double s
+    cdef double s_max
+    cdef double w
+    cdef double mu
     cdef double rc
     
+
+    cdef void _run(self, mixmax_engine* genPTR)
+
+    # Constructors
     @staticmethod
     cdef Positron _new(STATE& state)
     
     @staticmethod
     cdef Positron _newISOTROPIC(STATE& state)
-    
 
-    cdef void _run(self, mixmax_engine* genPTR)
-    cdef void _anihilation(self)
+    # Updates
     cdef void update_references(self) 
     cdef void update_imfp_cumul(self)
     cdef void update_imfp(self) 
 
-    cdef inline void sample_w(self, double tau)
-    cdef inline void do_hinge(self)
+
+    # Interactions
+    cdef void _anihilation(self)
     cdef inline void _elastic(self) 
     cdef inline void _brem(self) 
     cdef inline void _inelastic(self) 
     cdef inline void _delta(self)
+
+    # Condensed History
+    cdef inline void sample_w(self, double tau)
+    cdef inline void do_hinge(self)
+
+    # Utils
     cdef inline int find_index(self)
     
     
