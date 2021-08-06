@@ -44,8 +44,7 @@ class test_Photon(ut.TestCase):
     from MontyCarlo.materials.materials import Mat
     from MontyCarlo._init import eax
 
-    py_state = PySTATE()
-    photon = Photon(py_state)
+    photon = Photon()
     water = Mat({1:2, 8:1}, 1)
 
     with InfiniteVolume() as OUTER:
