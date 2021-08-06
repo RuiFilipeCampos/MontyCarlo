@@ -946,19 +946,19 @@ class python_hooks:
                            double E = 1e6
                     ):
 
-            self.state.pos.x = pos[0]
-            self.state.pos.y = pos[1]
-            self.state.pos.z = pos[2]
+            (<Photon> self).state.pos.x = pos[0]
+            (<Photon> self).state.pos.y = pos[1]
+            (<Photon> self).state.pos.z = pos[2]
 
-            self.state.dire.x = dire[0]
-            self.state.dire.y = dire[1]
-            self.state.dire.z = dire[2]
+            (<Photon> self).state.dire.x = dire[0]
+            (<Photon> self).state.dire.y = dire[1]
+            (<Photon> self).state.dire.z = dire[2]
 
-            self.state.axis.x = axis[0]
-            self.state.axis.y = axis[1]
-            self.state.axis.z = axis[2]
+            (<Photon> self).state.axis.x = axis[0]
+            (<Photon> self).state.axis.y = axis[1]
+            (<Photon> self).state.axis.z = axis[2]
 
-            self.state.E = E
+            (<Photon> self).state.E = E
 
 
 

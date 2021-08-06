@@ -1156,19 +1156,19 @@ class python_hooks:
                            double E = 1e6
                     ):
 
-            self.state.pos.x = pos[0]
-            self.state.pos.y = pos[1]
-            self.state.pos.z = pos[2]
+            (<Positron> self).state.pos.x = pos[0]
+            (<Positron> self).state.pos.y = pos[1]
+            (<Positron> self).state.pos.z = pos[2]
 
-            self.state.dire.x = dire[0]
-            self.state.dire.y = dire[1]
-            self.state.dire.z = dire[2]
+            (<Positron> self).state.dire.x = dire[0]
+            (<Positron> self).state.dire.y = dire[1]
+            (<Positron> self).state.dire.z = dire[2]
 
-            self.state.axis.x = axis[0]
-            self.state.axis.y = axis[1]
-            self.state.axis.z = axis[2]
+            (<Positron> self).state.axis.x = axis[0]
+            (<Positron> self).state.axis.y = axis[1]
+            (<Positron> self).state.axis.z = axis[2]
 
-            self.state.E = E
+            (<Positron> self).state.E = E
 
 
 
