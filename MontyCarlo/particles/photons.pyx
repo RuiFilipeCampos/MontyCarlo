@@ -319,8 +319,9 @@ cdef class Photon(Particle):
 
 
     cdef void _coherent(Photon self):
-        """
-        Rayleigh sampling!
+        """Simulate the coherent interaction.
+        
+        
         """
         IF not _COH: return
         IF _DEBUG: print("(( ._coherent")
@@ -328,69 +329,27 @@ cdef class Photon(Particle):
         #self.N_coh += 1
         
         
-        
+        # determine the maximum allowed value of `q`.
         cdef double k2 = self.k*self.k
         cdef double qmax2 = 2*k2
+        
+        # determine its corresponding maximum cumul value
         cdef double cumulMAX = (<Coh> self.coherent).evalY(qmax2)
         
-        cdef double  x2, cos
-        
-        cdef double r
-        
-        #print(cumulMAX)
-        
+        cdef double x2   # = x^2   
+        cdef double cos  # = cos(\theta) 
+        cdef double r    # for holding a random number drawn from U([0, cumulMAX[)
+                
         while 1:
-            #r = self.state.dire.x.get_next_float()*cumulMAX
             r = self.state.genPTR.get_next_float()*cumulMAX
-            #print(r)
             x2 = (<Coh> self.coherent).evalX(r)
-            cos = 1 - x2/k2 #x2/k2 = 1 - cos
+            cos = 1 - x2/k2                                   #x2/k2 = 1 - cos
             if self.state.genPTR.get_next_float()*2 < 1 + cos*cos:
                 break
 
         self.throwAZIMUTH()
         self.rotateTHETA(cos)
-        
-       #  cdef double r, x2, cos
-       #  #cdef double x_max = 20.6074*2*self.k
-       #  cdef double x_max = 41.2148*self.k
-       #  cdef double r_max = self.coherent.FF.cumul(x_max) #internals of this needs work
-       # # print(x_max, x_max**2)
-         
-       #  while 1:
-            
-       #      #Sample x**2 from squared form factor (limited in (0, x_max**2))
-       #      r  = self.genPTR.get_next_float()*r_max
 
-       #      x2 = self.coherent.FF.invCum(r)
-       #      #print(self.coherent.FF.invCum(r))
-
-       #      #Get cos(theta) from x**2 and k = E/0.511MeV
-       #      cos  = 1 - 0.5 * x2 / (20.6074*self.k)**2
-       #      #cos  = 1 - 0.0011773988362909597 * x2 / self.k**2
-
-       #      #Sample from thomson scattering.
-       #      if 2*self.genPTR.get_next_float() < 1+cos**2:
-       #          #print(">>>ray", cos)
-       #          self.throwAZIMUTH()
-       #          self.rotateTHETA(cos)
-       #          #if cos < -1: print("cos", cos)
-       #          #if cos > 1: print("cos", cos)
-                
-       #          #self.change_direction(cos, 2*pi*self.genPTR.get_next_float())
-       #          IF _DEBUG: print(" ._coherent  ))")
-       #          break
-
-    
-
-    # cdef void _incoherentFREE(self):
-    #     pass
-    
-    # cdef void _incoherentPENELOPE(self):
-    #     pass
-    
-    # cdef void _incoherentLIVERMORE(self):
-    #     pass
 
     cdef void _incoherent(Photon self):
         """
