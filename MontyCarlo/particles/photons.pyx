@@ -922,10 +922,12 @@ cdef class Photon(Particle):
           (3) Introduce vacancy in that shell. (instruct pyRelax)
           (4) Run the relaxation model.
           (5) Collect all resulting particles partial states.
-          (6) Emmit every particle in a random direction.
+          (6) Emmit every particle (resulting from relaxation effects) in a random direction.
           
          All this, while accounting for the energy that is lost during the process. 
          This energy is deposited locally.
+         
+         NOTE: The electron that left a vacancy is not emited isotropically.
         """
       
       
