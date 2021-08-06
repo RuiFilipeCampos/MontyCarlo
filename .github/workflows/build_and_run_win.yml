@@ -1,5 +1,5 @@
 name: (WIN) Build and run tests.
-on: pull_request
+on: [pull_request, workflow_dispatch]
 
 jobs:
   build-win:
