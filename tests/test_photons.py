@@ -42,6 +42,7 @@ class test_Photon(ut.TestCase):
 
 
     # A basic set-up for holding one particle -----------------------
+    print("SETTING UP")
     from MontyCarlo.geometry.CSG import Sphere
     from MontyCarlo.geometry.CSG import InfiniteVolume
     from MontyCarlo.materials.materials import Mat
@@ -66,11 +67,11 @@ class test_Photon(ut.TestCase):
     print("Setting current region...")
     photon.current_region = sphere
  
-    print("UPDATING .........................")
+    print("UPDATING")
     photon.update_references()
     photon.update_imfp()
 
-    print("WORKED")
+    print("DONE. STARTING TESTS")
     # ----------------------------------------------------------------
 
 
@@ -143,7 +144,7 @@ class test_Photon(ut.TestCase):
         points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9 ]
         
         for E in points:
-            print(f"Running incoherent for energy {E}eV")
+            print(f"Running `_incoherent` for energy {E}eV")
             photon.k = E/0.5110e6
             photon.E = E
             photon.secondary = deque()
@@ -159,7 +160,7 @@ class test_Photon(ut.TestCase):
         points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9 ]
         
         for E in points:
-            print(f"Running coherent for energy {E}eV")
+            print(f"Running `_coherent` for energy {E}eV")
             k = E/0.5110e6
             photon.k = E/0.5110e6
             photon._coherent()
@@ -174,13 +175,13 @@ class test_Photon(ut.TestCase):
         points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9 ]
         
         for E in points:
-            print(f"Running photoelectric for energy {E}eV")
+            print(f"Running `_photoelectric` for energy {E}eV")
             k = E/0.5110e6
             photon.k = E/0.5110e6
             photon._photoelectric()
 
     def test_pairproduction(self):
-        print("\n\nTESTING pairproduction")
+        print("\n\nTESTING `_pairproduction`")
         cls = test_Photon
         photon = cls.photon
         print("Seeding photon:")
@@ -188,7 +189,7 @@ class test_Photon(ut.TestCase):
         points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9 ]
         
         for E in points:
-            print(f"Running pairproduction for energy {E}eV")
+            print(f"Running `_pairproduction` for energy {E}eV")
             k = E/0.5110e6
             photon.k = E/0.5110e6
             photon._pairproduction()
@@ -202,7 +203,7 @@ class test_Photon(ut.TestCase):
         points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9 ]
         
         for E in points:
-            print(f"Running tripletproduction for energy {E}eV")
+            print(f"Running `_tripletproduction` for energy {E}eV")
             k = E/0.5110e6
             photon.k = E/0.5110e6
             photon._tripletproduction()
