@@ -977,6 +977,8 @@ class python_hooks:
 
             (<Photon> self).state.E = E
 
+            (<Photon> self).state.genPTR = &GEN
+
 
 
 
@@ -1025,6 +1027,7 @@ class python_hooks:
             if attribute == "S":                return  <PPP> ( (<Photon> self).S )
             if attribute == "current_molecule": return  <MOL> ( (<Photon> self).current_molecule )
             if attribute == "k":                return (<Photon> self).k
+            if attribute == "secondary":        return (<Photon> self).secondary
             if attribute == "pos":
                 pos = np.array([0, 0, 0], dtype = float)
                 pos[0] = self.state.pos.x
@@ -1057,6 +1060,7 @@ class python_hooks:
             elif attribute == "S":                 (<Photon> self).S = value
             elif attribute == "current_molecule":  (<Photon> self).current_molecule = <void*> value
             elif attribute == "k":                 (<Photon> self).k = value
+            elif attribute == "secondary":         (<Photon> self).secondary = value
             elif attribute == "pos":
                 self.state.pos.x = value[0]
                 self.state.pos.y = value[1]

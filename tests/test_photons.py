@@ -45,7 +45,7 @@ class test_Photon(ut.TestCase):
     from MontyCarlo.geometry.CSG import Sphere
     from MontyCarlo.geometry.CSG import InfiniteVolume
     from MontyCarlo.materials.materials import Mat
-
+    
     from MontyCarlo._init import eax
 
     print("Creating photon...")
@@ -69,6 +69,7 @@ class test_Photon(ut.TestCase):
     print("UPDATING .........................")
     photon.update_references()
     photon.update_imfp()
+
     print("WORKED")
     # ----------------------------------------------------------------
 
@@ -76,12 +77,13 @@ class test_Photon(ut.TestCase):
     def test_updates(self):
         """Checks for segmentation errors when calling update methods.
         """
-        print("TESTING UPDATES")
+        print("\n\nTESTING UPDATES")
         cls = test_Photon
         cls.photon.update_references()
         cls.photon.update_imfp()
 
     def test_find_index(self):
+        print("\n\n TESTING `find_index`")
         cls = test_Photon
         import numpy.random as npr
 
@@ -93,6 +95,7 @@ class test_Photon(ut.TestCase):
         points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9, ]
 
         for E0, Ef in zip(points[:-1], points[1:]):
+            print(f"Testing `find_index` in range [{E0}, {Ef}]")
 
             for i in range(50_000):
                 E = E0 + npr.rand()*(Ef - E0)
@@ -131,16 +134,32 @@ class test_Photon(ut.TestCase):
 
 
     def test_compton(self):
-        pass
-
-    def test_coherent(self):
+        print("\n\nTESTING INCOHERENT")
+        from collections import deque
         cls = test_Photon
-
         photon = cls.photon
-        
+        print("Seeding photon:")
+        photon.set_seed(1234)
         points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9 ]
         
         for E in points:
+            print(f"Running incoherent for energy {E}eV")
+            photon.k = E/0.5110e6
+            photon.E = E
+            photon.secondary = deque()
+            photon._incoherent()
+            
+
+    def test_coherent(self):
+        print("\n\nTESTING COHERENT")
+        cls = test_Photon
+        photon = cls.photon
+        print("Seeding photon:")
+        photon.set_seed(1234)
+        points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9 ]
+        
+        for E in points:
+            print(f"Running coherent for energy {E}eV")
             k = E/0.5110e6
             photon.k = E/0.5110e6
             photon._coherent()
