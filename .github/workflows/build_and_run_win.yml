@@ -1,8 +1,8 @@
-name: (WIN) Build and run tests.
+name: (RUN UNIT TESTS) win-latest
 on: [pull_request, workflow_dispatch]
 
 jobs:
-  build-win:
+  windows:
       runs-on: windows-latest
       strategy:
         matrix:
