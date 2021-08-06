@@ -35,13 +35,16 @@ DEF TEST = True
 DEF _DEBUG_BASIC = False
 DEF _DEBUG = False
 DEF _DEBUGincoh = False
-DEF RECORD = True
 
+# You can turn off interactions:
 DEF _COH = True
 DEF _INCOH = True
 DEF _PP = True
 DEF _TP = True
 DEF _PH = True
+
+# others
+DEF RECORD = True
 
 
 # Internal Imports
@@ -67,8 +70,8 @@ from ..materials.cppRelaxAPI cimport PARTICLES
 
 
 # External Imports
-from collections import deque
-import numpy as np
+from collections import deque # for holding particles
+import numpy as np 
 
 from libcpp.vector cimport vector
 from libc.math cimport sin
@@ -102,17 +105,24 @@ cdef double minCUTOFF = min(photonCUTOFF, electronCUTOFF)
 
 IMFP_CUMUL.C0 = 0.
 
+# MUST GUARANTEE DATA LOCALITY  >.<
 cdef struct INCOHERENT:
     double t1
     double t2
     double tau_min
-    double tau, cos, N, D, sin2, x , T
+    double tau
+    double cos
+    double N
+    double D
+    double sin2
+    double x 
+    double T
     double k
 
-
-
-
-@cython.boundscheck(False)
+    
+    
+    
+@cython.boundscheck(False)         # DANGER: no boundcheck on arrays -> segmentation fault can occur
 @cython.initializedcheck(False)
 @cython.cdivision(True)
 cdef class Photon(Particle):
@@ -120,6 +130,8 @@ cdef class Photon(Particle):
     cdef double ENERGY(self):
         return self.k*Eel0_eV
     
+    
+    # CUSTOM CONSTRUCTORS FOR THE SPEEEED
     @staticmethod
     cdef Photon _new(STATE& state):
         cdef Photon self
