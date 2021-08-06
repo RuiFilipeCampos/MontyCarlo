@@ -886,7 +886,8 @@ cdef class Photon(Particle):
          All this, while accounting for the energy that is lost during the process. 
          This energy is deposited locally.
          
-         NOTE: The electron that left a vacancy is not emited isotropically.
+         NOTE: The electron that left a vacancy is not emited isotropically. Its direction is sampled from
+         Sauter's K-shell differential cross section.
         """
       
       
