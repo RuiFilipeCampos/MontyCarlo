@@ -48,9 +48,13 @@ class test_Photon(ut.TestCase):
 
     from MontyCarlo._init import eax
 
+    print("Creating photon...")
     photon = Photon()
+
+    print("Creating water...")
     water = Mat({1:2, 8:1}, 1)
 
+    print("Creating geometry...")
     with InfiniteVolume() as OUTER:
         OUTER.fill(water)
         OUTER.configure("no_name", render = False)
@@ -59,6 +63,7 @@ class test_Photon(ut.TestCase):
             sphere.fill(water)
             sphere.configure("no_name", render = False)
 
+    print("Setting current region...")
     photon.current_region = sphere
  
     print("UPDATING .........................")
