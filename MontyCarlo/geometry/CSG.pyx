@@ -10,9 +10,10 @@ DEF DEBUG_MODE = False
 from libcpp.vector cimport vector
 from libcpp.list cimport list as cpplist;
 
+
+
 cdef extern from "IntervalArithmetics.cpp":
 	pass
-
 
 cdef extern from "IntervalArithmetics.h":
 	cdef cppclass Interval:
@@ -33,10 +34,8 @@ cdef extern from "IntervalArithmetics.h":
 		double current();
 
 
-
 cimport numpy as cnp
 import numpy as np 
-
 
 from libc.string cimport memcpy 
 from cython.operator import dereference as deref
@@ -44,7 +43,7 @@ from cython.operator import preincrement as inc
 
 from .main cimport Volume
 
-from ..particles.particle cimport STATE
+from ..types cimport STATE
 
 from numpy.math cimport INFINITY as INF
 
@@ -61,7 +60,6 @@ ctypedef BVH Vol
 ctypedef BVH V
 
 cdef double eps = .1
-
 
 from ..types cimport double3
 

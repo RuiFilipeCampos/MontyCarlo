@@ -1,47 +1,17 @@
 # profile = False
 # cython: annotate=False
 # distutils: language = c++ 
-# distutils: extra_compile_args = -std=c++11
 
-print("Importing .particles.positrons")
+#    ____       U  ___ u   ____                     _____      ____        U  ___ u   _   _     
+#  U|  _"\ u     \/"_ \/  / __"| u       ___       |_ " _|  U |  _"\ u      \/"_ \/  | \ |"|    
+#  \| |_) |/     | | | | <\___ \/       |_"_|        | |     \| |_) |/      | | | | <|  \| |>   
+#   |  __/   .-,_| |_| |  u___) |        | |        /| |\     |  _ <    .-,_| |_| | U| |\  |u   
+#   |_|       \_)-\___/   |____/>>     U/| |\u     u |_|U     |_| \_\    \_)-\___/   |_| \_|    
+#   ||>>_          \\      )(  (__) .-,_|___|_,-.  _// \\_    //   \\_        \\     ||   \\,-. 
+#  (__)__)        (__)    (__)       \_)-' '-(_/  (__) (__)  (__)  (__)      (__)    (_")  (_/  
 
-DEF _DEBUG_BASIC = False
-DEF _SIGNAL_INTERACTION = False
+print("Importing `.particles.positrons`")
 
-cdef double  ELECTRON_REST_MASS      = 0.51099895000e6            
-
-DEF RECORD = True
-
-
-#          _____          
-#         /\    \         
-#        /::\    \        
-#       /::::\    \       
-#      /::::::\    \      
-#     /:::/\:::\    \     
-#    /:::/__\:::\    \    
-#   /::::\   \:::\    \   
-#  /::::::\   \:::\    \  
-# /:::/\:::\   \:::\    \ 
-#/:::/__\:::\   \:::\____\
-#\:::\   \:::\   \::/    /
-# \:::\   \:::\   \/____/ 
-#  \:::\   \:::\    \     
-#   \:::\   \:::\____\    
-#    \:::\   \::/    /    
-#     \:::\   \/____/     
-#      \:::\    \         
-#       \:::\____\        
-#        \::/    /        
-#         \/____/ 
-
-
-from ..materials.cppRelaxAPI cimport PARTICLES
-
-from libc.math cimport isnan
-
-# from .electron cimport Electron
-# from .photon cimport Photon
 
 
 
@@ -50,131 +20,112 @@ from libc.math cimport isnan
 errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 
 
-## PYTHON IMPORTS
-#Local Imports
+
+
+
+# Conditional Compilation for Debugging. 
+DEF _DEBUG_BASIC = False
+DEF _SIGNAL_INTERACTION = False
+DEF RECORD = True
+
+
+
+
+
+# Internal Imports
 from ..materials import database as db
-from ..settings import __photonCUTOFF__, __electronCUTOFF__
+from ..settings import __photonCUTOFF__
+from ..settings import __electronCUTOFF__
 
-#external imports
-from collections import deque
-import numpy as np
-
-## CYTHON IMPORTS
-#Local Imports
 from .particle cimport Particle
+from .photons  cimport Photon
 from ..geometry.main cimport Volume
 from ..tools.vectors cimport Vector
-from .photons cimport Photon
-from libcpp.vector cimport vector
-
-
-
 from ..materials.materials cimport Material
-
-
-cdef extern from "<math.h>" nogil:
-    double frexp(double x, int* exponent)
-
-
-# cdef int get_exp(double x):
-#     cdef int exp;
-#     frexp(x, &exp);
-#     return exp;
-
-
 from ..materials.materials cimport Material
-from ..materials.electron.main cimport Brem, Inelastic, Elastic, DIST
-
-
+from ..materials.electron.main cimport Brem
+from ..materials.electron.main cimport Inelastic
+from ..materials.electron.main cimport Elastic
+from ..materials.electron.main cimport DIST
+from ..external.mixmax_interface cimport mixmax_engine
+from ..materials.cppRelaxAPI cimport PARTICLES
 
 from .._init  import eax
 from .._init  cimport EAX
 from .._init  cimport LIMS
 
+#External Imports
+import numpy as np
+from collections import deque
+
+from libcpp.vector cimport vector
+from libc.math cimport isnan
+from libc.math cimport sin 
+from libc.math cimport cos
+from libc.math cimport log
+from libc.math cimport sqrt
+from libc.math cimport pi
+from libc.math cimport exp
+from libc.math cimport fmin
+from libc.math cimport fmax
+from libc.math cimport acos
+from libc.math cimport pow
+from libc.stdlib cimport rand # Deprecated
+from libc.stdlib cimport RAND_MAX # Deprecated
+from libc.stdlib cimport srand # Deprecated
+cimport cython
+
+cdef extern from "<math.h>" nogil:
+    double frexp(double x, int* exponent)
+
+
+
+
+
+# CONSTANTS AND GLOBALS
+cdef extern from "math.h":
+    float INFINITY
+
+cdef double twoPI = 2*pi
+
+cdef double ELECTRON_REST_MASS      = 0.51099895000e6
+cdef double ELECTRON_REST_ENERGY = 0.51099895000*1e6 #eV
+cdef double  _2ELECTRON_REST_ENERGY    = 2 *ELECTRON_REST_ENERGY
+cdef double E0_el = db.E0_electron*1e-3
 
 cdef double[::1] LOGeax = np.log(eax)
 cdef double[::1] diffLOGeax = np.diff(np.array(LOGeax))
 
-
-# cdef double[:] eax = _eax
-
-# 2695
-
-
-
-#from ..materials.electron.main cimport LIMS 
-
-
-
-# print(len(eax))
-# import time
-# time.sleep(100000)
-# External Imports
-from libc.math cimport sin, cos, log, sqrt, pi, exp, fmin, fmax, acos, pow
-
-cdef double twoPI = 2*pi
-
-
-
-
-cimport cython
-
-
-
-
-
-# ---- RANDOM SAMPLER --- #######################
-
-
-
-from libc.stdlib cimport rand, RAND_MAX, srand
-
-
-
-
-from ..external.mixmax_interface cimport mixmax_engine
-
-
-cdef extern from "math.h":
-    float INFINITY
-
-#from numpy.random import rand as urand
-###################################################################
-
-# CONSTANTS AND GLOBALS
+# I am very suspicious of all this....
 cdef double CUTOFF = __photonCUTOFF__
 cdef double photonCUTOFF = __photonCUTOFF__
 cdef double MIN_CUT_OFF = min(__photonCUTOFF__, __electronCUTOFF__)
-
-cdef double E0_el = db.E0_electron*1e-3
-
-
-    
-    
-    
 cdef double CUT_OFF = __electronCUTOFF__
-#@cython.cdivision(True)
-cdef double ELECTRON_REST_ENERGY = 0.51099895000*1e6 #eV
-cdef double  _2ELECTRON_REST_ENERGY    = 2 *ELECTRON_REST_ENERGY
-
 
 
 cdef inline double g(double v, double gamma):
     return -(gamma+1)**2*v + (gamma**2 + 4*gamma +1) - 1/v
 
+# Should be moved to declaration file.
 ctypedef Volume V
+
 
 @cython.boundscheck(False)
 @cython.wraparound(False) 
 @cython.initializedcheck(False)
 @cython.cdivision(True)
 cdef class Positron(Particle):
+    """Simulates positrons using a class II condensed history scheme.
 
-    
-    cdef double ENERGY(self):
-        return self.state.E
-    
-    
+    Catastrophic Interactions:
+        Elastic Scattering
+        Bremsstrahlung Emission
+        Impact Ionization and/or Excitation.
+
+    """
+
+    # Constructors
+
     @staticmethod
     cdef Positron _new(STATE& state):
         cdef Positron self
@@ -184,6 +135,10 @@ cdef class Positron(Particle):
     
     @staticmethod
     cdef Positron _newISOTROPIC(STATE& state):
+        """Create a new `Positron` from the provided `state`. Returns it pointing in a random
+        direction but without a polarization vector (no azimuth).
+        """
+
         cdef Positron self
         self = <Positron>Positron.__new__(Positron)
         self.state = state
@@ -201,11 +156,13 @@ cdef class Positron(Particle):
         a = 2 * sqrt(1 - a)
         self.state.dire.y = x*a
         self.state.dire.z = y*a
-#        self.throwAZIMUTH()
         self.index = <int> (10*self.z)
         return self    
-    
-    
+
+    cdef double ENERGY(self):
+        return self.state.E
+
+
 
 
 
@@ -215,31 +172,41 @@ cdef class Positron(Particle):
     ####################################################################################
 
     cdef void _run(self, mixmax_engine *genPTR):
-        IF _DEBUG_BASIC: print("> Positron")
-        self.secondary = deque()
+        """Perform the simulation. Puts all the pieces together.
+        """
 
+        IF _DEBUG_BASIC: print("_DEBUG_BASIC: `positron._run(genPTR)`")
+
+        # This needs to be set even if particle is bellow threshold.
+        self.secondary  = deque()
         self.nSECONDARY = 0
+
         if self.state.E < CUT_OFF:
             (<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
             return
         
         self.state.genPTR = genPTR
-        
-        
         self.update_references()
         
-        #s#elf.record()
         IF RECORD: self.record()
-        
-        cdef double r
-        cdef double  tau, S_soft
-        cdef bint delta = False
-        cdef double tau2
 
+
+
+
+
+        cdef double r           # Random value between 0 and self.imfp_max
+        cdef double tau         # Size of first segment.
+        cdef double tau2        # Size of second segment.
+        cdef double S_soft      # Soft/Restricted stopping power.
+        cdef bint delta = False # Indicates if current iteration ends in a delta interaction.
 
         while True:
+
+            # To be removed:
             if self.state.pos.x**2 + self.state.pos.y**2 + self.state.pos.z**2 > 10_000**2:
                 return
+
+            # Choose the total path to be travelled.
             self.s = -log(self.state.genPTR.get_next_float() )/self.imfp_max
 
             if self.s > self.s_max:
@@ -248,9 +215,8 @@ cdef class Positron(Particle):
 
 
 
-            # FIRST PART OF TRAJECTORY
-            
-            
+
+
             # FIRST PART OF TRAJECTORY
             tau = self.s*self.state.genPTR.get_next_float()
             self.sample_w(self.s)
@@ -305,7 +271,6 @@ cdef class Positron(Particle):
             
             
             if delta:
-               # self._delta()
                 self.update_imfp()
                 delta = False
                 continue
@@ -335,16 +300,16 @@ cdef class Positron(Particle):
                 self._brem()
                 if self.state.E < CUT_OFF:
                     (<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
-
                     (<Volume> self.state.current_region).exit()
                     return
                 self.update_imfp()
                 
             elif r < self.IMFP_CUMUL.C3: 
                 self._elastic()
-                
-           # else: self._delta() 
-            
+
+
+
+
 
     ####################################################################################
     ########                           UPDATE                                   ########
@@ -353,16 +318,18 @@ cdef class Positron(Particle):
 
     cdef void update_references(self) :
         """
-        Updates all references. Called when there is a region crossing.
+        Updates all references. Called when:
+            - there is a region crossing;
+            - particle is being run for the first time.
         """
         
         #getting material from current region
         self.current_material = (<Volume> self.state.current_region).material
-        
 
         self.GOS = self.current_material.positron.inelastic.gosMOLECULE
         
         self.positron = self.current_material.positron
+
         #these references are used by their corresponding _fooInteraction method
         self.elastic    = self.positron.elastic
         self.inelastic  = self.positron.inelastic
@@ -441,10 +408,9 @@ cdef class Positron(Particle):
 
         self.s_max = 4/self.s_max
 
-        
 
-        
-        
+
+
 
     ####################################################################################
     ########                           RANDOM                                   ########
@@ -1137,11 +1103,7 @@ cdef class Positron(Particle):
         cdef double Eplus  = (1 - v)*(self.state.E + 2*0.511e6)
         cdef double Eminus = v*(self.state.E + 2*0.511e6)
         
-        
-        
-        
-        
-        
+
         self.throwAZIMUTH()
         cdef Photon p = Photon._new(self.state)
         p.state.E = Eplus
@@ -1160,4 +1122,180 @@ cdef class Positron(Particle):
         
         self.secondary.append(p)
         self.nSECONDARY += 1
+
+
+
+
+
+cdef mixmax_engine GEN # space to store a generator for the python_hooks.Positron
+
+class python_hooks:
+    class Positron(Positron):
+        """
+    cdef IFMPcumul IMFP_CUMUL
+
+
+
+    cdef hLinLinInterpolation _imfp
+
+    cdef MATpositron positron 
+    cdef Material current_material
+
+    cdef Elastic     elastic
+    cdef Inelastic   inelastic
+    cdef Brem        brem
+    cdef Anihilation anih
+
+
+
+        """
+
+        def __init__(self, pos   = np.array([0, 0, 0],  dtype = float),
+                           dire  = np.array([0, 0, 1],  dtype = float),
+                           axis  = np.array([0, 1, 0],  dtype = float), 
+                           double E = 1e6
+                    ):
+
+            self.state.pos.x = pos[0]
+            self.state.pos.y = pos[1]
+            self.state.pos.z = pos[2]
+
+            self.state.dire.x = dire[0]
+            self.state.dire.y = dire[1]
+            self.state.dire.z = dire[2]
+
+            self.state.axis.x = axis[0]
+            self.state.axis.y = axis[1]
+            self.state.axis.z = axis[2]
+
+            self.state.E = E
+
+
+
+
+
+        @staticmethod
+        def set_seed(long int seed):
+            """Creates a mixmax_engine instance using `seed` and stores it in the module level
+            variable `GEN`.
+            """
+            global GEN
+            GEN = mixmax_engine(0, 0, 0, seed)
+
+        def _run(self):
+            """Very thin wrapper for the `_run` method.
+
+            Note: The interface between `_run` of this python hook and the actual
+            extension type are different:
+
+            ```Cython
+            cdef void _run(mixmax_engine *genPTR)
+            ```
+
+            versus
+
+            ```
+            @staticmethod
+            def _run()
+            ```
+
+            This is so that the pRNG can be set seperatly in another static method (see `set_seed()`).
+            Thus making this wrapper as thin as possible so that it can be properly benchmarked when
+            needed.
+            """
+            global GEN
+            (<Photon> self)._run(&GEN)
+
+
+
+        def __getattr__(self, attribute):
+            if attribute == "current_material": return  <MAT> ( (<Positron> self).current_material )
+
+            if attribute == "E":        return (<Positron> self).state.E
+            if attribute == "cos":      return (<Positron> self).cos
+            if attribute == "Esec":     return (<Positron> self).Esec
+            if attribute == "cos_sec":  return (<Positron> self).cos_sec
+            if attribute == "avgW":     return (<Positron> self).avgW
+            if attribute == "varW":     return (<Positron> self).varW
+            if attribute == "imfp_max": return (<Positron> self).imfp_max
+            if attribute == "SP":       return (<Positron> self).SP
+            if attribute == "STRAGG":   return (<Positron> self).STRAGG
+            if attribute == "T1":       return (<Positron> self).T1
+            if attribute == "T2":       return (<Positron> self).T2
+            if attribute == "imfp0":    return (<Positron> self).imfp0
+            if attribute == "s":        return (<Positron> self).s
+            if attribute == "s_max":    return (<Positron> self).s_max
+            if attribute == "w":        return (<Positron> self).w
+            if attribute == "mu":       return (<Positron> self).mu
+            if attribute == "rc":       return (<Positron> self).rc
+            if attribute == "_imfp":    return (<Positron> self).rc
+
+            if attribute == "positron":  return (<Positron> self).positron 
+
+            if attribute == "elastic":   return (<Positron> self).elastic
+            if attribute == "inelastic": return (<Positron> self).inelastic
+            if attribute == "brem":      return (<Positron> self).brem
+            if attribute == "anih":      return (<Positron> self).anih
+
+            if attribute == "pos":
+                pos = np.array([0, 0, 0], dtype = float)
+                pos[0] = self.state.pos.x
+                pos[1] = self.state.pos.y
+                pos[2] = self.state.pos.z
+            if attribute == "dire":
+                dire = np.array([0, 0, 0], dtype = float)
+                dire[0] = self.state.dire.x
+                dire[1] = self.state.dire.y
+                dire[2] = self.state.dire.z
+            if attribute == "axis":
+                axis = np.array([0, 0, 0], dtype = float)
+                axis[0] = self.state.axis.x
+                axis[1] = self.state.axis.y
+                axis[2] = self.state.axis.z
+
+
+            if attribute in self.__dict__:
+                return self.__dict__[attribute]
+
+            raise AttributeError(f"No attribute named {attribute}")
+
+        def __setattr__(self, attribute, value):
+            if   attribute == 'E':                 (<Positron> self).state.E = value
+            elif attribute == "current_material":  (<Positron> self).current_material = value
+            elif attribute == "current_region":    (<Positron> self).state.current_region  = <void*> value
+            elif attribute == "pos":
+                self.state.pos.x = value[0]
+                self.state.pos.y = value[1]
+                self.state.pos.z = value[2]
+            elif attribute == "dire":
+                self.state.dire.x = value[0]
+                self.state.dire.y = value[1]
+                self.state.dire.z = value[2]
+            elif attribute == "axis":
+                self.state.axis.x = value[0]
+                self.state.axis.y = value[1]
+                self.state.axis.z = value[2]
+
+            else: self.__dict__[attribute] = value
+
+        def update_references(self):    (<Positron> self).update_references()
+        def update_imfp(self):          (<Positron> self).update_imfp()
+        def update_imfp_cumul(self):    (<Positron> self).update_imfp_cumul()
+
+        def sample_w(self, double tau): (<Positron> self).sample_w(tau)
+        def do_hinge(self):             (<Positron> self).do_hinge()
+
+        def _anihilation(self):         (<Positron> self)._anihilation()
+        def _elastic(self):             (<Positron> self)._elastic()
+        def _brem(self):                (<Positron> self)._brem()
+        def _inelastic(self):           (<Positron> self)._inelastic()
+        def _delta(self):               (<Positron> self)._delta()
+
+        def find_index(self): return (<Positron> self).find_index()
+
+        def __repr__(self):
+            return "<python_hook.Positron>"
+
+        def __str__(self):
+            return "RETURN DEBUG INFO"
 

@@ -54,10 +54,7 @@ print("---------------------------------------------")
 print("");print("");
 
 
-
 Wcc = Wcc*1e-6 
 
-
-
-print("BRANCH: pre-alpha/0.0.41")
+print("Version: 0.1a0.dev2")
 print("")

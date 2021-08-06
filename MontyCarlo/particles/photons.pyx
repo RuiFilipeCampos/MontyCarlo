@@ -1,44 +1,6 @@
-# cython: annotate=True
-# cython: profile =False
+# cython: annotate = False
+# cython: profile = False
 # distutils: language = c++
-print("Importing `.particles.photons`")
-
-DEF TEST = True
-DEF _DEBUG_BASIC = False
-DEF _DEBUG = False
-DEF _DEBUGincoh = False
-DEF RECORD = True
-
-DEF _COH = True
-DEF _INCOH = True
-DEF _PP = True
-DEF _TP = True
-DEF _PH = True
-
-from ..external.mixmax_interface cimport mixmax_engine
-
-
-
-cdef extern from "<math.h>" nogil:
-    double frexp(double x, int* exponent)
-
-
-#from ..materials.electron.main import eax as _eax
-from .._init import eax
-from .._init cimport EAX
-from .._init cimport LIMS
-
-
-
-
-# cdef double eax[2695] 
-# eax[:] = _eax
-
-# from ..materials cimport LIMS 
-
-from libcpp.vector cimport vector
-
-from ..materials.cppRelaxAPI cimport PARTICLES
 
 
 #          /\    \                 /\    \         
@@ -64,72 +26,78 @@ from ..materials.cppRelaxAPI cimport PARTICLES
                                              
 
 
+print("Importing `.particles.photons`")
 
 
 
+# Conditional Compilation for debugging.
+DEF TEST = True
+DEF _DEBUG_BASIC = False
+DEF _DEBUG = False
+DEF _DEBUGincoh = False
+DEF RECORD = True
+
+DEF _COH = True
+DEF _INCOH = True
+DEF _PP = True
+DEF _TP = True
+DEF _PH = True
 
 
+# Internal Imports
+from .._init import eax
+from ..materials import database as db
+from ..settings import __photonCUTOFF__
+from ..settings import __electronCUTOFF__
+from ..settings import DEBUG
+
+
+#from ..materials.electron.main import eax as _eax
+from ..external.mixmax_interface cimport mixmax_engine
+from .._init cimport EAX
+from .._init cimport LIMS
+from .particle  cimport Particle
+from .particle  cimport STATE
+from .electrons cimport Electron
+from .positrons cimport Positron
+from ..geometry.main cimport Volume
+from ..materials.pyRelax cimport Atom as RAtom
+from ..materials.cppRelaxAPI cimport PARTICLES
+
+
+
+# External Imports
 from collections import deque
+import numpy as np
+
+from libcpp.vector cimport vector
+from libc.math cimport sin
+from libc.math cimport cos
+from libc.math cimport log
+from libc.math cimport sqrt
+from libc.math cimport pi
+from libc.math cimport acos
+from libc.math cimport exp
+cimport cython
+
+
+cdef extern from "<math.h>" nogil:
+    double frexp(double x, int* exponent)
 
 
 #Error messages (to be moved to its own module)
 errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 
-#External Imports
-#from numpy import *
-#from numpy.random import rand, randint
-#import pickle -> probly not needed any more?
 
 
-
-
-
-#Local Imports
-from .particle cimport Particle
-from .particle cimport STATE
-
-
-from .electrons cimport Electron
-from .positrons cimport Positron
-
-from ..materials import database as db
-# --  -- from . import electrons as e
-from libc.math cimport sin, cos, log, sqrt, pi , acos, exp
-
-
-from ..geometry.main cimport Volume
-
-from ..materials.pyRelax cimport Atom as RAtom
-
-#settings
-from ..settings import __photonCUTOFF__, DEBUG, __electronCUTOFF__
-
-#from ..materials.photon.CrossSection cimport IMFP
-
-
-
-
-
-
-# CONSTANTS AND GLOBALS
-
-
+# CONSTANTS AND GLOBALS - this needs to be better for sure
 cdef double Eel0_MeV = 0.510998950000
 cdef double Eel0_eV = Eel0_MeV*1e6
-
-
-
 cdef double k_cutoff = __photonCUTOFF__/Eel0_eV
-
-
 #cdef double CUTOFF = __photonCUTOFF__
 cdef double CUTOFFel = __electronCUTOFF__
-
-cimport cython
-
 cdef double photonCUTOFF = __photonCUTOFF__
 cdef double electronCUTOFF = __electronCUTOFF__
-
 cdef double minCUTOFF = min(photonCUTOFF, electronCUTOFF)
 
 IMFP_CUMUL.C0 = 0.
@@ -140,6 +108,9 @@ cdef struct INCOHERENT:
     double tau_min
     double tau, cos, N, D, sin2, x , T
     double k
+
+
+
 
 @cython.boundscheck(False)
 @cython.initializedcheck(False)
@@ -179,7 +150,6 @@ cdef class Photon(Particle):
         self.state.dire.z = y*a
         
         #azimuth is thrown in next interaction <- reconfirm
-        #self.throwAZIMUTH()
         return self
 
 
@@ -191,8 +161,6 @@ cdef class Photon(Particle):
     
     cdef void _run(Photon self, mixmax_engine* genPTR):
         IF _DEBUG_BASIC: print("> PHOTON")
-
-        
 
         #cdef double r
         self.secondary = deque()
@@ -1037,13 +1005,12 @@ cdef class Photon(Particle):
                 
                 el.rotateTHETA(1-v)
                 break
- 
         
-            
+ 
         self.secondary.append(el)
         self.nSECONDARY += 1
-        
-        
+
+
         for i in range(particles.ELECTRONS.size()):
             E = particles.ELECTRONS.back()
             particles.ELECTRONS.pop_back()
@@ -1056,8 +1023,8 @@ cdef class Photon(Particle):
         
         (<V> self.state.current_region).depositLOCAL(self.state.pos, Etot)
         
-        
-        
+
+
 
     cdef void _tripletproduction(Photon self):
         IF not _TP: return
@@ -1173,96 +1140,159 @@ cdef class Photon(Particle):
 
 
 
+cdef mixmax_engine GEN # space to store a generator for the python_hooks.Photon
+
+class python_hooks:
+    class Photon(Photon):
+        """
+        # Counters:
+        - [ ] cdef int N_coh # Coherent
+        - [ ] cdef int N_incoh # Incoherent
+        - [ ] cdef int N_photo # Photoelectric
+        - [ ] cdef int N_pair # Pair Production 
+        - [ ] cdef int N_trip # Triplet Production
+
+        """
+
+        def __init__(self, pos   = np.array([0, 0, 0],  dtype = float),
+                           dire  = np.array([0, 0, 1],  dtype = float),
+                           axis  = np.array([0, 1, 0],  dtype = float), 
+                           double E = 1e6
+                    ):
+
+            self.state.pos.x = pos[0]
+            self.state.pos.y = pos[1]
+            self.state.pos.z = pos[2]
+
+            self.state.dire.x = dire[0]
+            self.state.dire.y = dire[1]
+            self.state.dire.z = dire[2]
+
+            self.state.axis.x = axis[0]
+            self.state.axis.y = axis[1]
+            self.state.axis.z = axis[2]
+
+            self.state.E = E
+
+
+
+
+
+        @staticmethod
+        def set_seed(long int seed):
+            """Creates a mixmax_engine instance using `seed` and stores it in the module level
+            variable `GEN`.
+            """
+            global GEN
+            GEN = mixmax_engine(0, 0, 0, seed)
+
+        def _run(self):
+            """Very thin wrapper for the `_run` method.
+
+            Note: The interface between `_run` of this python hook and the actual
+            extension type are different:
+
+            ```Cython
+            cdef void _run(mixmax_engine *genPTR)
+            ```
+
+            versus
+
+            ```
+            @staticmethod
+            def _run()
+            ```
+
+            This is so that the pRNG can be set seperatly in another static method (see `set_seed()`).
+            Thus making this wrapper as thin as possible so that it can be properly benchmarked when
+            needed.
+            """
+            global GEN
+            (<Photon> self)._run(&GEN)
+
+
+
+        def __getattr__(self, attribute):
+            if attribute == "E":                return          (<Photon> self).state.E
+            if attribute == "IMFP_CUMUL":       return          (<Photon> self).IMFP_CUMUL
+            if attribute == "current_material": return  <MAT> ( (<Photon> self).current_material )
+            if attribute == "coherent":         return  <COH> ( (<Photon> self).coherent )
+            if attribute == "incoherent":       return  <INC> ( (<Photon> self).incoherent )
+            if attribute == "pairproduction":   return  <PP>  ( (<Photon> self).pairproduction )
+            if attribute == "S":                return  <PPP> ( (<Photon> self).S )
+            if attribute == "current_molecule": return  <MOL> ( (<Photon> self).current_molecule )
+            if attribute == "k":                return (<Photon> self).k
+            if attribute == "pos":
+                pos = np.array([0, 0, 0], dtype = float)
+                pos[0] = self.state.pos.x
+                pos[1] = self.state.pos.y
+                pos[2] = self.state.pos.z
+            if attribute == "dire":
+                dire = np.array([0, 0, 0], dtype = float)
+                dire[0] = self.state.dire.x
+                dire[1] = self.state.dire.y
+                dire[2] = self.state.dire.z
+            if attribute == "axis":
+                axis = np.array([0, 0, 0], dtype = float)
+                axis[0] = self.state.axis.x
+                axis[1] = self.state.axis.y
+                axis[2] = self.state.axis.z
+
+
+            if attribute in self.__dict__:
+                return self.__dict__[attribute]
+
+            raise AttributeError(f"No attribute named {attribute}")
+
+        def __setattr__(self, attribute, value):
+            if   attribute == 'E':                 (<Photon> self).state.E = value
+            elif attribute == "current_material":  (<Photon> self).current_material = <void*> value
+            elif attribute == "current_region":    (<Photon> self).state.current_region   = <void*> value
+            elif attribute == "coherent":          (<Photon> self).coherent = <void*> value
+            elif attribute == "incoherent":        (<Photon> self).incoherent = <void*> value
+            elif attribute == "pairproduction":    (<Photon> self).pairproduction = <void*> value
+            elif attribute == "S":                 (<Photon> self).S = value
+            elif attribute == "current_molecule":  (<Photon> self).current_molecule = <void*> value
+            elif attribute == "k":                 (<Photon> self).k = value
+            elif attribute == "pos":
+                self.state.pos.x = value[0]
+                self.state.pos.y = value[1]
+                self.state.pos.z = value[2]
+            elif attribute == "dire":
+                self.state.dire.x = value[0]
+                self.state.dire.y = value[1]
+                self.state.dire.z = value[2]
+            elif attribute == "axis":
+                self.state.axis.x = value[0]
+                self.state.axis.y = value[1]
+                self.state.axis.z = value[2]
+
+            else: self.__dict__[attribute] = value
+
+        def _coherent(self):          (<Photon> self)._coherent()
+        def _incoherent(self):        (<Photon> self)._incoherent()
+        def _pairproduction(self):    (<Photon> self)._pairproduction()
+        def _tripletproduction(self): (<Photon> self)._tripletproduction()
+        def _incoherent(self):        (<Photon> self)._incoherent()
+        def update_references(self):  (<Photon> self).update_references()
+        def update_imfp(self):        (<Photon> self).update_imfp()
+        def record(self):             (<Photon> self).record()
+
+        def find_index(self): return (<Photon> self).find_index()
+
+        def __repr__(self):
+            return "<python_hook.Photon>"
+
+        def __str__(self):
+            return "RETURN DEBUG INFO"
 
 
 
 
 
 
-    ####################################################################################
-    ########                           PYTHON                                   ########
-    ########                          INTERFACE                                 ########
-    ####################################################################################
-    
-    
-    
-    # @staticmethod #thin wrapper for python acess
-    # def new(Volume space, 
-    #         Volume current_region,
-    #         E     = 6.,
-    #         pos   = Vector(0., 0., 0.),
-    #         theta = 0.,
-    #         phi   = 0.,
-    #         ex    = Vector(1., 0., 0.), 
-    #         ey    = Vector(0., 1., 0.), 
-    #         ez    = Vector(0., 0., 1.),
-    #         simulate_secondary = False):
-        
-        
-    #     return Photon._new(space, current_region, E, pos, 
-    #                        theta, phi, 
-    #                        ex, ey, ez, 
-    #                        simulate_secondary)
-    
-    #thin wrapper for python access
 
-    
-    
-    
-  #  def __repr__(self):
-  #      return f"<Photon: pos = {self.x},{self.y},{self.z} , ez = {self.state.Ez}, E = {self.k*Eel0_eV} eV>"
-#
-  #  def __str__(self):
-  #      string = f"""
-  #      Photon:
-  #          pos = {self.pos} ;
-  #          ex = {self.state.Ex} 
-  #          ey = {self.state.Ey} 
-  #          ez = {self.state.Ez} ;
-  #          E = {self.k*Eel0_eV}eV ;
-  #          
-  #      Number of Interactions:
-  #          coh: {self.N_coh}
-  #          incoh: {self.N_incoh}
-  #          pair: {self.N_pair}
-  #          trip: {self.N_trip}
-  #          photo: {self.N_photo}
-  #          
-  #      Material (rho = {(<Mat> self.current_material).density}): 
-  #          {(<Mat> self.current_material).molecule.formula}
-  #      
-  #      Current Region:
-  #          {(<V> self.current_region)}
-  #          
-  #      
-  #      
-  #      """
-  #      return string
-#
-  #  def getTrack(self):
-  #      return self.X, self.Y, self.Z
-  #  
-  #  def getZZ(self):
-  #      print(self.ZZ)
-  #      
-  #  def getEnergy(self):
-  #      return self.state.Energy
-  #  
-  #  def printTrack(self):
-  #      print("x", "y", "z")
-  #      for x, y, z, E in zip(self.X, self.Y, self.Z, self.state.Energy):
-  #          print(f"{x}                 {y}                 {z}                 {E}")
-  #  
-  #  def plotTrack(self, **kwargs):
-  #      import mayavi.mlab as mlab
-  #      mlab.plot3d(self.X, self.Y, self.Z, **kwargs)
-  #      mlab.show()
-#
-
-
-
-
-
+# REMOVE WHEN python_hooks IS DONE:
 
 #cdef mixmax_engine gen = mixmax_engine(0,0,0,123);
 #
