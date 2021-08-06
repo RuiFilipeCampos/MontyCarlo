@@ -60,12 +60,18 @@ class test_Photon(ut.TestCase):
             sphere.configure("no_name", render = False)
 
     photon.current_region = sphere
+ 
+    print("UPDATING .........................")
+    photon.update_references()
+    photon.update_imfp()
+    print("WORKED")
     # ----------------------------------------------------------------
 
 
     def test_updates(self):
         """Checks for segmentation errors when calling update methods.
         """
+        print("TESTING UPDATES")
         cls = test_Photon
         cls.photon.update_references()
         cls.photon.update_imfp()
