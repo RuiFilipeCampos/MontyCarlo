@@ -31,6 +31,7 @@ print("Importing `.particles.photons`")
 
 
 # Conditional Compilation for debugging.
+DEF DEBUG_MODE = False
 DEF TEST = True
 DEF _DEBUG_BASIC = False
 DEF _DEBUG = False
@@ -87,7 +88,6 @@ cimport cython
 cdef extern from "<math.h>" nogil:
     double frexp(double x, int* exponent)
 
-
 #Error messages (to be moved to its own module)
 errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 
@@ -134,6 +134,8 @@ cdef class Photon(Particle):
     # CUSTOM CONSTRUCTORS FOR THE SPEEEED
     @staticmethod
     cdef Photon _new(STATE& state):
+        IF DEBUG_MODE: input("Photon._new: Creating new photon.")
+
         cdef Photon self
         self = <Photon>Photon.__new__(Photon)
         self.state = state
@@ -141,6 +143,8 @@ cdef class Photon(Particle):
     
     @staticmethod
     cdef Photon _newISOTROPIC(STATE& state):
+        IF DEBUG_MODE: input("Photon._newISOTROPIC: Creating new photon.")
+
         cdef Photon self
         self = <Photon>Photon.__new__(Photon)
 
@@ -172,6 +176,7 @@ cdef class Photon(Particle):
 
     
     cdef void _run(Photon self, mixmax_engine* genPTR):
+        IF DEBUG_MODE: input("._run: Starting photon simulation.")
         IF _DEBUG_BASIC: print("> PHOTON")
 
         #cdef double r
@@ -269,7 +274,8 @@ cdef class Photon(Particle):
         """
         Updates all references. Called when there is a region crossing.
         """
-        
+        IF DEBUG_MODE: input("photon.update_references")
+
         #getting material from current region
         cdef void* handler = self.state.current_region
 
