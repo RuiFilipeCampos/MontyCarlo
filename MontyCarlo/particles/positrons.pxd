@@ -95,7 +95,6 @@ cdef class Positron(Particle):
     cdef void update_imfp_cumul(self)
     cdef void update_imfp(self) 
 
-
     # Interactions
     cdef void _anihilation(self)
     cdef inline void _elastic(self) 

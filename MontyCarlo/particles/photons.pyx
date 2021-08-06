@@ -279,25 +279,30 @@ cdef class Photon(Particle):
         #getting material from current region
         cdef void* handler = self.state.current_region
 
-        #input("current_mat")
+        IF DEBUG_MODE: input("self.current_material = <void*> (<V> handler).material")
         self.current_material =  <void*> (<V> handler).material
-        #input("current_molecule")
-        self.current_molecule =  <void*> (<M> (<V> handler).material).molecule
-        #input("photon")
-        cdef void* photon = <void*> (<M> self.current_material).photon
-        #input("others")
-        #these references are used by their corresponding _fooInteraction method
-        self.coherent          = <void*>  (<Ph> photon).coherent
-        #input("others")
-        self.incoherent        = <void*>  (<Ph> photon).incoherent
-        #self.photoelectric     = self.current_material.photoelectric
-        #input("others")
-        self.pairproduction    = <void*>  (<Ph> photon).pairproduction
-        #input("others")
-        self.tripletproduction = <void*>  (<Ph> photon).tripletproduction
-        #input("all of them worked")
 
-        #self.S = self.incoherent.S
+        IF DEBUG_MODE: input("self.current_molecule = <void*> (<M> (<V> handler).material).molecule")
+        self.current_molecule =  <void*> (<M> (<V> handler).material).molecule
+
+        IF DEBUG_MODE: input("cdef void* photon = <void*> (<M> self.current_material).photon")
+        cdef void* photon = <void*> (<M> self.current_material).photon
+
+        IF DEBUG_MODE: input("self.coherent = <void*>  (<Ph> photon).coherent")
+        self.coherent = <void*>  (<Ph> photon).coherent
+
+        IF DEBUG_MODE: input("self.incoherent        = <void*>  (<Ph> photon).incoherent")
+        self.incoherent = <void*>  (<Ph> photon).incoherent
+
+        IF DEBUG_MODE: input("self.pairproduction    = <void*>  (<Ph> photon).pairproduction")
+        self.pairproduction = <void*>  (<Ph> photon).pairproduction
+
+        IF DEBUG_MODE: input("self.tripletproduction = <void*>  (<Ph> photon).tripletproduction")
+        self.tripletproduction = <void*>  (<Ph> photon).tripletproduction
+
+
+        IF DEBUG_MODE: input("> All of them worked!")
+        IF DEBUG_MODE: input("> Updating imfp:")
 
         #since region crossing has ocurred, update the inverse mean free paths
         self.update_imfp()
@@ -314,20 +319,25 @@ cdef class Photon(Particle):
         #self.state.Energy.push_back(self.state.E)
         #IMFP_CUMUL.C0 = 0.
 
-        #print("energy:", self.state.E)
+        IF DEBUG_MODE: input(f"energy: {self.state.E} ")
+
         self.IMFP_CUMUL.C1 = (<Coh> self.coherent).imfpA[i] + self.state.E*(<Coh> self.coherent).imfpB[i]
-        #print("coh:", self.IMFP_CUMUL.C1)
+        IF DEBUG_MODE: input(f"coh: {self.IMFP_CUMUL.C1}")
+
         self.IMFP_CUMUL.C2 = self.IMFP_CUMUL.C1 + (<inCoh> self.incoherent).imfpA[i]      + self.state.E*(<inCoh> self.incoherent).imfpB[i]
-        #print("incoh", (<inCoh> self.incoherent).imfpA[i]      + self.state.E*(<inCoh> self.incoherent).imfpB[i])
+        IF DEBUG_MODE: input(f"incoh: {self.IMFP_CUMUL.C2}")
+
         self.IMFP_CUMUL.C3 = self.IMFP_CUMUL.C2 + (<PP> self.pairproduction).imfpA[i]     + self.state.E*(<PP> self.pairproduction).imfpB[i]
-        #print("pp: ", (<PP> self.pairproduction).imfpA[i]     + self.state.E*(<PP> self.pairproduction).imfpB[i])
+        IF DEBUG_MODE: input(f"pp: {self.IMFP_CUMUL.C3}")
+
         self.IMFP_CUMUL.C4 = self.IMFP_CUMUL.C3 + (<PPP> self.tripletproduction).imfpA[i] + self.state.E*(<PPP> self.tripletproduction).imfpB[i]
-        #print("ppp:", (<PPP> self.tripletproduction).imfpA[i] + self.state.E*(<PPP> self.tripletproduction).imfpB[i])
+        IF DEBUG_MODE: input(f"ppp: {self.IMFP_CUMUL.C4}")
+
         self.IMFP_CUMUL.C5 = self.IMFP_CUMUL.C4 + (<Mol> self.current_molecule).PHELa[i]  + self.state.E*(<Mol> self.current_molecule).PHELb[i]
-        #print("photo", (<Mol> self.current_molecule).PHELa[i]  + self.state.E*(<Mol> self.current_molecule).PHELb[i])
-        #a = input("continue?")
+        IF DEBUG_MODE: input(f"photo: {self.IMFP_CUMUL.C5}")
+
         self.imfp_T = self.IMFP_CUMUL.C5
-        #print("imfp_cumul WORKING")
+        IF DEBUG_MODE: input(f"imfp_T = {self.imfp_T}")
 
 
     ####################################################################################
@@ -343,6 +353,7 @@ cdef class Photon(Particle):
         """
         IF not _COH: return
         IF _DEBUG: print("(( ._coherent")
+        IF DEBUG_MODE: input("Simulating coherent scattering...")
 
         #self.N_coh += 1
         
@@ -405,7 +416,7 @@ cdef class Photon(Particle):
         
         IF _DEBUG: print("(( ._incoherent")
         IF _DEBUG: print(f"STARTING: N = {self.N_incoh} | k =  {self.k} | E = {self.k*Eel0_eV}")
-        
+        IF DEBUG_MODE: input("Simulating incoherent scattering...")
         
         # (1) Choose an atom with probabilities based on Z
      #   print("-------START COMPTON")
