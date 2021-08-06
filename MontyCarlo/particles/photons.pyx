@@ -705,18 +705,26 @@ cdef class Photon(Particle):
          NOTE: The electron that left a vacancy is not emited isotropically. Its direction is sampled from
          Sauter's K-shell differential cross section.
         """
-      
+        # compile time logic:
         IF not _PH: return
         IF _DEBUG: print("(( .photoelectric ")
         
+
+        # CALLING ON MATERIAL ---------------------------------------------------------------------------------------------------
+        # This code block will:
+        #   - choose the active shell
+        #   - sample energy of secondary particles:
+        #        - ejected electron: photon_energy - binding_energy
+        #        - photons and electrons from subsquent relaxation effects
+        
+        
         self.state.E = self.k * Eel0_eV
         cdef PARTICLES particles
-        
-        # This will choose a shell, simulate the relaxation effects and return every partial state
         (<Mol> self.current_molecule).PHELionize(self.find_index(), 
                                                  self.state.E,  
                                                  self.state.genPTR, 
-                                                 &particles) # first energy value of electrons is the first ejected electron
+                                                 &particles           # first energy value of electrons is the energy of the ejected electron
+                                                 ) 
         
         
         # PHOTONS FROM RELAXATION EFFECTS -------------------------------------------------------------------------------------
@@ -757,8 +765,9 @@ cdef class Photon(Particle):
         
         particles.ELECTRONS.pop_back()
         
-        # FOR SAMPLING THE EJECTED ELECTRON -------------------------------------------------------------------------------------
-        cdef Electron el
+        #  SAMPLING THE DIRECTION OF THE EJECTED ELECTRON ----------------------------------------------------------
+        cdef Electron el    # allocating for the electron
+        
         cdef double v
         cdef double A
         cdef double A2
