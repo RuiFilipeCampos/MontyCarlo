@@ -125,7 +125,7 @@ cdef class Positron(Particle):
     """
 
     # Constructors
-    
+
     @staticmethod
     cdef Positron _new(STATE& state):
         cdef Positron self
@@ -1132,21 +1132,21 @@ cdef mixmax_engine GEN # space to store a generator for the python_hooks.Positro
 class python_hooks:
     class Positron(Positron):
         """
-    cdef gosMolecule GOS
-    cdef double cos, Esec, cos_sec
     cdef IFMPcumul IMFP_CUMUL
-    cdef double avgW, varW
+
+
+
     cdef hLinLinInterpolation _imfp
+
     cdef MATpositron positron 
     cdef Material current_material
-    cdef Elastic elastic
-    cdef Inelastic inelastic
-    cdef Brem brem
+
+    cdef Elastic     elastic
+    cdef Inelastic   inelastic
+    cdef Brem        brem
     cdef Anihilation anih
-    cdef double imfp_max, SP, STRAGG
-    cdef double T1, T2, imfp0
-    cdef double s, s_max, w, mu
-    cdef double rc
+
+
 
         """
 
@@ -1209,8 +1209,34 @@ class python_hooks:
 
 
         def __getattr__(self, attribute):
-            if attribute == "E":                return          (<Positron> self).state.E
             if attribute == "current_material": return  <MAT> ( (<Positron> self).current_material )
+
+            if attribute == "E":        return (<Positron> self).state.E
+            if attribute == "cos":      return (<Positron> self).cos
+            if attribute == "Esec":     return (<Positron> self).Esec
+            if attribute == "cos_sec":  return (<Positron> self).cos_sec
+            if attribute == "avgW":     return (<Positron> self).avgW
+            if attribute == "varW":     return (<Positron> self).varW
+            if attribute == "imfp_max": return (<Positron> self).imfp_max
+            if attribute == "SP":       return (<Positron> self).SP
+            if attribute == "STRAGG":   return (<Positron> self).STRAGG
+            if attribute == "T1":       return (<Positron> self).T1
+            if attribute == "T2":       return (<Positron> self).T2
+            if attribute == "imfp0":    return (<Positron> self).imfp0
+            if attribute == "s":        return (<Positron> self).s
+            if attribute == "s_max":    return (<Positron> self).s_max
+            if attribute == "w":        return (<Positron> self).w
+            if attribute == "mu":       return (<Positron> self).mu
+            if attribute == "rc":       return (<Positron> self).rc
+            if attribute == "_imfp":    return (<Positron> self).rc
+
+            if attribute == "positron":  return (<Positron> self).positron 
+
+            if attribute == "elastic":   return (<Positron> self).elastic
+            if attribute == "inelastic": return (<Positron> self).inelastic
+            if attribute == "brem":      return (<Positron> self).brem
+            if attribute == "anih":      return (<Positron> self).anih
+
             if attribute == "pos":
                 pos = np.array([0, 0, 0], dtype = float)
                 pos[0] = self.state.pos.x
