@@ -641,7 +641,7 @@ cdef class Photon(Particle):
         
         
         while 1:
-            if True if (u1 + u2)*self.state.genPTR.get_next_float() < u1 else False:
+            if True if (u1 + u2)*self.state.genPTR.get_next_float() < u1 else False: # <----------------------------------------------- wut?
                 eps  = .5 + (.5 - 1/self.k)*(2*self.state.genPTR.get_next_float() - 1)**(1/3)
                 phi1, phi2 = (<PP> self.pairproduction).getPhis(eps, self.k)
 
