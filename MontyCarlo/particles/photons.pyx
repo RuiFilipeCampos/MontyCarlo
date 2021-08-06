@@ -768,7 +768,7 @@ cdef class Photon(Particle):
         #  SAMPLING THE DIRECTION OF THE EJECTED ELECTRON ----------------------------------------------------------
         cdef Electron el    # allocating for the electron
         
-        cdef double v
+        cdef double v # = 1 - cos(theta) | used in change of variable in the DCS (see text)
         cdef double A
         cdef double A2
         cdef double gamma
@@ -822,6 +822,9 @@ cdef class Photon(Particle):
         
         
     cdef void _tripletproduction(Photon self):
+        """Simulates triplet production.
+        """
+        
         IF not _TP: return
         #self.N_trip += 1
         
@@ -878,6 +881,8 @@ cdef class Photon(Particle):
 
 
     cdef inline int find_index(self):
+        """ Finds index such that eax[i] <= self.state.E < eax[i+1].
+        """
         cdef int i;
         frexp(self.state.E, &i);
 
@@ -939,16 +944,6 @@ cdef mixmax_engine GEN # space to store a generator for the python_hooks.Photon
 
 class python_hooks:
     class Photon(Photon):
-        """
-        # Counters:
-        - [ ] cdef int N_coh # Coherent
-        - [ ] cdef int N_incoh # Incoherent
-        - [ ] cdef int N_photo # Photoelectric
-        - [ ] cdef int N_pair # Pair Production 
-        - [ ] cdef int N_trip # Triplet Production
-
-        """
-
         def __init__(self, pos   = np.array([0, 0, 0],  dtype = float),
                            dire  = np.array([0, 0, 1],  dtype = float),
                            axis  = np.array([0, 1, 0],  dtype = float), 
