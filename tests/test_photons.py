@@ -39,9 +39,13 @@ class output_val:
 class test_Photon(ut.TestCase):
     """Unit testing photons.
     """
+
+
+    # A basic set-up for holding one particle -----------------------
     from MontyCarlo.geometry.CSG import Sphere
     from MontyCarlo.geometry.CSG import InfiniteVolume
     from MontyCarlo.materials.materials import Mat
+
     from MontyCarlo._init import eax
 
     photon = Photon()
@@ -56,20 +60,24 @@ class test_Photon(ut.TestCase):
             sphere.configure("no_name", render = False)
 
     photon.current_region = sphere
+    # ----------------------------------------------------------------
+
 
     def test_updates(self):
         """Checks for segmentation errors when calling update methods.
         """
         cls = test_Photon
-        cls.photon(method = "update_references")
-        cls.photon(method = "update_imfp")
+        cls.photon.update_references()
+        cls.photon.update_imfp()
 
     def test_find_index(self):
+        cls = test_Photon
         import numpy.random as npr
 
-        cls = test_Photon
         photon = cls.photon
-        eax = cls.eax
+        eax    = cls.eax
+
+
         N = len(eax) - 1
         points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9, ]
 
@@ -116,9 +124,10 @@ class test_Photon(ut.TestCase):
 
     def test_coherent(self):
         cls = test_Photon
+
         photon = cls.photon
         
-        points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9, ]
+        points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9 ]
         
         for E in points:
             k = E/0.5110e6
