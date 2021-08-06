@@ -6,7 +6,7 @@ jobs:
       runs-on: windows-latest
       strategy:
         matrix:
-          cp: ['3.7', '3.8', '3.9']
+          cp: ['3.0', '3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9']
           arch: ['x64']
       steps:
       - uses: actions/checkout@v2
