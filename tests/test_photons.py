@@ -116,7 +116,18 @@ class test_Photon(ut.TestCase):
         pass
 
     def test_coherent(self):
-        pass
+        cls = test_Photon
+        photon = cls.photon
+        
+        points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9, ]
+        
+        for E in points:
+            k = E/0.5110e6
+            photon.k = E/0.5110e6
+            photon._coherent()
+            self.assertEqual(photon.k, k, msg = "Coherent is not conserving energy...")
+            
+            
 
 
 if __name__ == '__main__':
