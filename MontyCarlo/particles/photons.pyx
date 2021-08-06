@@ -1081,6 +1081,8 @@ class python_hooks:
         def _pairproduction(self):    (<Photon> self)._pairproduction()
         def _tripletproduction(self): (<Photon> self)._tripletproduction()
         def _incoherent(self):        (<Photon> self)._incoherent()
+        def _photoelectric(self):     (<Photon> self)._photoelectric()
+
         def update_references(self):  (<Photon> self).update_references()
         def update_imfp(self):        (<Photon> self).update_imfp()
         def record(self):             (<Photon> self).record()

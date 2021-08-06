@@ -165,8 +165,47 @@ class test_Photon(ut.TestCase):
             photon._coherent()
             self.assertEqual(photon.k, k, msg = "Coherent is not conserving energy...")
             
-            
+    def test_photoelectric(self):
+        print("\n\nTESTING photoelectric")
+        cls = test_Photon
+        photon = cls.photon
+        print("Seeding photon:")
+        photon.set_seed(1234)
+        points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9 ]
+        
+        for E in points:
+            print(f"Running photoelectric for energy {E}eV")
+            k = E/0.5110e6
+            photon.k = E/0.5110e6
+            photon._photoelectric()
 
+    def test_pairproduction(self):
+        print("\n\nTESTING pairproduction")
+        cls = test_Photon
+        photon = cls.photon
+        print("Seeding photon:")
+        photon.set_seed(1234)
+        points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9 ]
+        
+        for E in points:
+            print(f"Running pairproduction for energy {E}eV")
+            k = E/0.5110e6
+            photon.k = E/0.5110e6
+            photon._pairproduction()
+
+    def test_tripletproduction(self):
+        print("\n\nTESTING tripletproduction")
+        cls = test_Photon
+        photon = cls.photon
+        print("Seeding photon:")
+        photon.set_seed(1234)
+        points = [1e3, 1.1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1.9e8, 1e9 ]
+        
+        for E in points:
+            print(f"Running tripletproduction for energy {E}eV")
+            k = E/0.5110e6
+            photon.k = E/0.5110e6
+            photon._tripletproduction()
 
 if __name__ == '__main__':
     ut.main()
