@@ -59,5 +59,10 @@ jobs:
         run: |
           cd tests
           python create_mat.py --built_inplace
+
+      - name: Running photon unit tests...
+        run: |
+          cd tests
+          python test_photons.py --built_inplace
     
 
