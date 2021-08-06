@@ -563,26 +563,70 @@ cdef class Photon(Particle):
         return
 
 
+    
+    
+    
+    
 
+    cdef void _tripletproduction(Photon self):
+        """Simulates triplet production.
+        """
+        # compile time stuff
+        IF not _TP: return
 
+        
+        # IONIZATION
+        cdef PARTICLES particles
+        (<Mol> self.current_molecule).ionize(self.state.genPTR, &particles)
+        
+        # RELAXATION
+        cdef Photon ph
+        for i in range(particles.PHOTONS.size()):
+            E = particles.PHOTONS.back()
+            particles.PHOTONS.pop_back()
+            
+            if E < photonCUTOFF:
+                (<V> self.state.current_region).depositLOCAL(self.state.pos, E)
+                continue
+            
+            
+            ph = Photon._newISOTROPIC(self.state)
+            ph.state.E = E
+            self.nSECONDARY += 1
+            self.secondary.append(ph)
+        
+        
+        
+        cdef Electron el
+        for i in range(particles.ELECTRONS.size()):
+            E = particles.ELECTRONS.back()
+            particles.ELECTRONS.pop_back()
+            if E < electronCUTOFF:
+                (<V> self.state.current_region).depositLOCAL(self.state.pos, E)
+                continue
 
+            el = Electron._newISOTROPIC(self.state)
+            el.state.E = E
+            self.nSECONDARY += 1
+            self.secondary.append(el)
+        
+        # PAIR PRODUCTION
+        self._pairproduction()
+        
+    
+    
+    
     cdef void _pairproduction(Photon self):
+        """Simulate electron-positron pair production.
         """
-        TESTING:
-            Conservation of energy: CONFIRMED
-        """
-
-
-
-
+        
+        # Compile time stuff
         IF not _PP: return
         IF _DEBUG: print("(( ._pairproduction")
-        
-        #self.N_pair += 1
-        
+                
         
         #SAMPLING ENERGY OF POSITRON AND ELECTRON
-        
+
         cdef double u1, u2, phiHalf_1, phiHalf_2, phi1, phi2
         cdef int i
         phiHalf_1, phiHalf_2 = (<PP> self.pairproduction).getPhis(.5, self.k)
@@ -592,30 +636,19 @@ cdef class Photon(Particle):
         
         
         while 1:
-
-            
             if True if (u1 + u2)*self.state.genPTR.get_next_float() < u1 else False:
                 eps  = .5 + (.5 - 1/self.k)*(2*self.state.genPTR.get_next_float() - 1)**(1/3)
                 phi1, phi2 = (<PP> self.pairproduction).getPhis(eps, self.k)
 
                 if self.state.genPTR.get_next_float() <= phi1/phiHalf_1:
                     break
-
             else:
                 eps = 1/self.k + (.5 - 1/self.k)*2*self.state.genPTR.get_next_float()
                 phi1, phi2 = (<PP> self.pairproduction).getPhis(eps, self.k)
 
                 if self.state.genPTR.get_next_float() <= phi2/phiHalf_2:
                     break
-        #else:
-            # import time
-            # print(">>>> rej samp")
-            # print("self.k = ", self.k)
-            # print(phiHalf_1, phiHalf_2, u1, u2, u1 + u2)
             
-            # time.sleep(1000)
-#('self.k = ', 6.6522136006430825)
-#(0.02498406417606347, -0.4748447902853812, 0.0, -0.4748447902853812, -0.4748447902853812)
         #SAMPLE THEIR DIRECTION
         # azimuth of both is unif distributed and independent
         
@@ -634,8 +667,7 @@ cdef class Photon(Particle):
         r = 2*self.state.genPTR.get_next_float() - 1
         cdef double cos_m = (r + beta_m)/(r*beta_m + 1)
         
-        #cdef double phi_p = 2*pi*self.genPTR.get_next_float()
-       # cdef double phi_m = 2*pi*self.genPTR.get_next_float()
+
         
         
 
@@ -821,49 +853,7 @@ cdef class Photon(Particle):
         
         
         
-    cdef void _tripletproduction(Photon self):
-        """Simulates triplet production.
-        """
-        
-        IF not _TP: return
-        #self.N_trip += 1
-        
-        cdef PARTICLES particles
-        (<Mol> self.current_molecule).ionize(self.state.genPTR, &particles)
-        cdef Photon ph
-        for i in range(particles.PHOTONS.size()):
-            
-            E = particles.PHOTONS.back()
-            particles.PHOTONS.pop_back()
-            if E < photonCUTOFF:
-                (<V> self.state.current_region).depositLOCAL(self.state.pos, E)
-                continue
-            
-            
-            ph = Photon._newISOTROPIC(self.state)
-            ph.state.E = E
-            self.nSECONDARY += 1
-            self.secondary.append(ph)
-        
-        
-        
-        cdef Electron el
-        for i in range(particles.ELECTRONS.size()):
-            E = particles.ELECTRONS.back()
-            particles.ELECTRONS.pop_back()
-            if E < electronCUTOFF:
-                (<V> self.state.current_region).depositLOCAL(self.state.pos, E)
-                continue
 
-            el = Electron._newISOTROPIC(self.state)
-            el.state.E = E
-            self.nSECONDARY += 1
-            self.secondary.append(el)
-
-        
-        
-        self._pairproduction()
-        
         
         
         
