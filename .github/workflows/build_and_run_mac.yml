@@ -1,9 +1,9 @@
 
-name: (MAC) Build and run tests.
+name: (RUN UNIT TESTS) macos-latest
 on: [pull_request, workflow_dispatch]
 
 jobs:
-  build-mac:
+  macos:
       runs-on: macos-latest
       strategy:
         matrix:
