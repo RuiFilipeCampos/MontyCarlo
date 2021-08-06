@@ -890,108 +890,93 @@ cdef class Photon(Particle):
          Sauter's K-shell differential cross section.
         """
       
-      
-      
         IF not _PH: return
         IF _DEBUG: print("(( .photoelectric ")
-        #self.N_photo += 1
         
         self.state.E = self.k * Eel0_eV
-        #cdef int i = self.find_index()
         cdef PARTICLES particles
-        #self.curent_material.molecule.PHELionize(self.k*Eel0_eV, &particles)
-        (<Mol> self.current_molecule).PHELionize(self.find_index(), self.state.E,  self.state.genPTR, &particles)
+        
+        # This will choose a shell, simulate the relaxation effects and return every partial state
+        (<Mol> self.current_molecule).PHELionize(self.find_index(), 
+                                                 self.state.E,  
+                                                 self.state.genPTR, 
+                                                 &particles) # first energy value of electrons is the first ejected electron
         
         
-        # first energy value of electrons is the first ejected electron
-        cdef double E
-        cdef double Etot = self.state.E
+        # PHOTONS FROM RELAXATION EFFECTS -------------------------------------------------------------------------------------
+        cdef double E                    # energy of secondary particle
+        cdef double Etot = self.state.E  # saving initial energy
+        cdef Photon ph                   # allocating space for the photon
+        cdef int i                       # allocating for the `for` loop
         
         
-        cdef Photon ph
         for i in range(particles.PHOTONS.size()):
-            
             E = particles.PHOTONS.back()
             particles.PHOTONS.pop_back()
-            if E < photonCUTOFF: continue
+            
+            if E < photonCUTOFF: 
+                continue
+                
             Etot -= E
             
             ph = Photon._newISOTROPIC(self.state)
             ph.state.E = E
+            
             self.nSECONDARY += 1
             self.secondary.append(ph)
         
+        # THE EJECTED ELECTRON -------------------------------------------------------------------------------------
         
-
-            
         E = particles.ELECTRONS.back()
         
-        
-        
+        # NOTE:
+        #   E_el = binding_energy, 
+        #   if this guy is bellow cutoff, all electrons produced by 
+        #   the relaxation will be bellow cut off
         
         if E < CUTOFFel: 
-            # E_el = binding_energy, if this guy is bellow cutoff, all electrons produced by the relaxation will be bellow cut off
             (<V> self.state.current_region).depositLOCAL(self.state.pos, Etot)
-
             return
+        
+        
         particles.ELECTRONS.pop_back()
         
-        # simulate ejected electron
-        
-        
-        
-        
-        # create electrons from relaxation
+        # FOR SAMPLING THE EJECTED ELECTRON -------------------------------------------------------------------------------------
         cdef Electron el
-        
-        
         cdef double v
-        cdef double A, A2
-        cdef double gamma = 1 + E/Eel0_eV
+        cdef double A
+        cdef double A2
+        cdef double gamma
+        
+        gamma = 1 + E/Eel0_eV
         A = 1/gamma - 1 
         A2 = A +2
         
-        cdef double beta = sqrt(E*(E + Eel0_eV))/(E + Eel0_eV)
-        
-        
-        
-        cdef double C = .5*beta*gamma*(gamma-1)*(gamma-2)
-        
-        
-        cdef double g0 = 2*(1/A   + C)
-        
+        cdef double beta
+        cdef double C
+        cdef double g0
         cdef double r
-        
-        
-        #(-0.17284654490603235, 1.8271534550939676, 1.2089655115886524, -11.65404076144662, -0.0415417034165238)
-        #print(1)
-        
-        #print(A, A2, gamma, g0, C)
+
+        beta = sqrt(E*(E + Eel0_eV))/(E + Eel0_eV)
+        C = .5*beta*gamma*(gamma-1)*(gamma-2)
+        g0 = 2*(1/A   + C)
         
         while True:
-            
             r = self.state.genPTR.get_next_float()
             v = 2*A/(A2**2 - r) * (2*r + A2*sqrt(r))
-
             if self.state.genPTR.get_next_float()*g0 < (2 - v)*(1/(A + v)  + C):
-                
-                
                 el = Electron._new(self.state)
-
                 el.state.E = E
                 Etot -= E
-                
-                
                 el.throwAZIMUTH()
-                
                 el.rotateTHETA(1-v)
                 break
-        
- 
+
         self.secondary.append(el)
         self.nSECONDARY += 1
-
-
+        
+       
+        # ELECTRONS FROM RELAXATION EFFECTS -------------------------------------------------------------------------------------
         for i in range(particles.ELECTRONS.size()):
             E = particles.ELECTRONS.back()
             particles.ELECTRONS.pop_back()
@@ -1001,12 +986,15 @@ cdef class Photon(Particle):
             el.state.E = E
             self.nSECONDARY += 1
             self.secondary.append(el)
-        
+
+        # depositing remaining energy...
         (<V> self.state.current_region).depositLOCAL(self.state.pos, Etot)
+
         
-
-
-
+        
+        
+        
+        
     cdef void _tripletproduction(Photon self):
         IF not _TP: return
         #self.N_trip += 1
@@ -1266,103 +1254,3 @@ class python_hooks:
 
         def __str__(self):
             return "RETURN DEBUG INFO"
-
-
-
-
-
-
-
-# REMOVE WHEN python_hooks IS DONE:
-
-#cdef mixmax_engine gen = mixmax_engine(0,0,0,123);
-#
-#cdef class PhotonProbe(Photon):
-#    
-#    
-#    def __init__(self, *args, **kwargs):
-#        raise RuntimeError("use .init")
-#    
-#    @staticmethod
-#    def init(double E, object current_region):
-#        # self = PhotonProbe._new(E,
-#        #                         0, 0, 0,
-#        #                         0, 1, 0,
-#        #                         0, 0, 1,
-#        #                         current_region)
-#        
-#        self = <PhotonProbe>PhotonProbe.__new__(PhotonProbe)
-#        
-#        self.x = 0
-#        self.y = 0
-#        self.z = 0
-#        self.k = E/Eel0_eV
-#        self.state.Eyx = 0
-#        self.state.Eyy = 1
-#        self.state.Eyz = 0
-#        self.state.Ezx = 0
-#        self.state.Ezy = 0
-#        self.state.Ezz = 1
-#        self.state.E = E
-#        self.current_region = current_region
-#        
-#        self.setGEN()
-#        self.update_references()
-#        self.nSECONDARY = 0
-#        self.secondary = deque()
-#        return self
-#
-#    cdef void setGEN(self):
-#        self.state.genPTR = &gen
-#    
-#    
-#    def reset(self):
-#        self.state.Eyx = 0
-#        self.state.Eyy = 1
-#        self.state.Eyz = 0
-#        
-#        self.state.Ezx = 0
-#        self.state.Ezy = 0
-#        self.state.Ezz = 1
-#
-#    def test_compton(self, N):
-#        k = self.k
-#        THETAS = []
-#        ENERGY = []
-#        for _ in range(N):
-#            self._incoherent()
-#            
-#            ENERGY.append(self.k*Eel0_eV)
-#            self.k = k
-#            
-#            theta = self.state.Ezz
-#            
-#            THETAS.append(theta)
-#            
-#            self.reset()
-#        import numpy as np
-#        THETAS = np.array(THETAS)
-#        ENERGY = np.array(ENERGY)
-#        THETAS = np.arccos(THETAS)
-#        THETAS = THETAS*180/pi
-#        
-#        return THETAS, ENERGY
-#
-#
-#    def test_coherent(self, N):
-#        THETAS = []
-#        for _ in range(N):
-#            self._coherent()
-#            
-#            
-#            theta = self.state.Ezz
-#            
-#            THETAS.append(theta)
-#            
-#            self.reset()
-#        import numpy as np
-#        THETAS = np.array(THETAS)
-#        THETAS = np.arccos(THETAS)
-#        THETAS = THETAS*180/pi
-#        
-#        return THETAS#
