@@ -624,11 +624,16 @@ cdef class Photon(Particle):
         IF not _PP: return
         IF _DEBUG: print("(( ._pairproduction")
                 
-        
-        #SAMPLING ENERGY OF POSITRON AND ELECTRON
-
-        cdef double u1, u2, phiHalf_1, phiHalf_2, phi1, phi2
-        cdef int i
+        #  SAMPLING ENERGY OF POSITRON AND ELECTRON ----------------------------------------------------------
+        cdef:
+            double u1
+            double u2
+            double phiHalf_1
+            double phiHalf_2
+            double phi1
+            double phi2
+            int i
+          
         phiHalf_1, phiHalf_2 = (<PP> self.pairproduction).getPhis(.5, self.k)
 
         u1 = phiHalf_1 * (2/3) * (.5 - 1/self.k)**2
@@ -648,50 +653,52 @@ cdef class Photon(Particle):
 
                 if self.state.genPTR.get_next_float() <= phi2/phiHalf_2:
                     break
-            
-        #SAMPLE THEIR DIRECTION
+        #  SAMPLING THEIR DIRECTION  ----------------------------------------------------------
         # azimuth of both is unif distributed and independent
         
-        cdef double E = self.k*Eel0_eV
+        cdef:
+            double E 
+            double Eminus 
+            double Eplus  
+            double beta_p 
+            double beta_m 
+            double r
+            double cos_p
+            Electron p
+            Positron pp
+
+
         
-        cdef double Eminus = eps*E - Eel0_eV
-        cdef double Eplus  =  E - Eminus - Eel0_eV - Eel0_eV
+        E = self.k*Eel0_eV
         
+        Eminus =  eps*E - Eel0_eV
+        Eplus  =  E - Eminus - Eel0_eV - Eel0_eV
         
-        cdef double beta_p = sqrt(Eplus * (Eplus + 2*Eel0_eV))   / (Eplus + Eel0_eV)
-        cdef double beta_m = sqrt(Eminus * (Eminus + 2*Eel0_eV)) / (Eminus + Eel0_eV)
+        beta_p = sqrt(Eplus  * (Eplus  + 2*Eel0_eV)) / (Eplus + Eel0_eV)
+        beta_m = sqrt(Eminus * (Eminus + 2*Eel0_eV)) / (Eminus + Eel0_eV)
         
-        cdef double r = 2*self.state.genPTR.get_next_float() - 1
-        cdef double cos_p = (r + beta_p)/(r*beta_p + 1)
+        r = 2*self.state.genPTR.get_next_float() - 1
+        cos_p = (r + beta_p)/(r*beta_p + 1)
 
         r = 2*self.state.genPTR.get_next_float() - 1
-        cdef double cos_m = (r + beta_m)/(r*beta_m + 1)
-        
-
+        cos_m = (r + beta_m)/(r*beta_m + 1)
         
         
-
         
         self.throwAZIMUTH()
-        cdef Electron p
-        #Eminus *= 1e6
+        
         if Eminus > CUTOFFel:
             IF _DEBUG: print(" ._pairproduction))")
 
-        
-        
             p = Electron._new(self.state)
             p.state.E = Eminus
-
-            
-            #p.throwAZIMUTH()
             p.rotateTHETA(cos_m)
             self.nSECONDARY += 1
             self.secondary.append(p)
         else:
             (<V> self.state.current_region).depositLOCAL(self.state.pos, Eminus)
         
-        cdef Positron pp
+
         if Eplus > CUTOFFel:
             pp = Positron._new(self.state)
             
@@ -708,8 +715,7 @@ cdef class Photon(Particle):
         else:
             (<V> self.state.current_region).depositLOCAL(self.state.pos, Eplus)
 
-            
-        
+
         IF _DEBUG: print(" ._pairproduction))")
         return
 
