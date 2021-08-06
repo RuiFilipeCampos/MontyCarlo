@@ -790,12 +790,13 @@ cdef class Photon(Particle):
             r = self.state.genPTR.get_next_float()
             v = 2*A/(A2**2 - r) * (2*r + A2*sqrt(r))
             if self.state.genPTR.get_next_float()*g0 < (2 - v)*(1/(A + v)  + C):
-                el = Electron._new(self.state)
-                el.state.E = E
-                Etot -= E
-                el.throwAZIMUTH()
-                el.rotateTHETA(1-v)
                 break
+                
+        el = Electron._new(self.state)
+        el.state.E = E
+        Etot -= E
+        el.throwAZIMUTH()
+        el.rotateTHETA(1-v)
 
         self.secondary.append(el)
         self.nSECONDARY += 1
