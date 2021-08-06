@@ -911,6 +911,25 @@ cdef class Photon(Particle):
 
 
     cdef void _photoelectric(Photon self):
+        """Simulate the photoelectric interaction.
+        
+        The final result of this interaction is the absorption of the photon. That is,
+        the photon simulation ends here.
+        
+        The algorithm is conceptually very simple:
+          (1) Choose the shell containing the electron that will absorb the photon;
+          (2) Store the electrons partial state (its energy: E_photon - binding_energy(shell) ); 
+          (3) Introduce vacancy in that shell. (instruct pyRelax)
+          (4) Run the relaxation model.
+          (5) Collect all resulting particles partial states.
+          (6) Emmit every particle in a random direction.
+          
+         All this, while accounting for the energy that is lost during the process. 
+         This energy is deposited locally.
+        """
+      
+      
+      
         IF not _PH: return
         IF _DEBUG: print("(( .photoelectric ")
         #self.N_photo += 1
