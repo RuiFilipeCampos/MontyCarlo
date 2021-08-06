@@ -6,7 +6,7 @@ jobs:
       runs-on: windows-latest
       strategy:
         matrix:
-          cp: ['3.7', '3.8', '3.9']
+          cp: ['3.6', '3.7', '3.8', '3.9']
           arch: ['x64']
       steps:
       - uses: actions/checkout@v2
@@ -23,7 +23,7 @@ jobs:
           pip install setuptools
           
       - name: Building MyCo...
-        run: python setup.py build_ext --inplace
+        run: python setup.py build_ext --inplace -j9
         
       - name: Installing requirements...
         run: pip install -r requirements.txt
