@@ -608,6 +608,13 @@ cdef class Incoherent(CSLOGIC):
     def ls(self):
         print(".S")
 
+        
+
+        
+
+        
+        
+        
 class Photoelectric(CSLOGIC):
     """
     PENELOPE SECTION: https://drive.google.com/file/d/1GY5ZvvnZSyJDwedNNvB5qg52P8Jxh5Q1/
@@ -619,21 +626,16 @@ class Photoelectric(CSLOGIC):
 
 
 
-def reconstruct_Pairproduction(imfpA, imfpB, factor, CONST, alpha, a, Zeq, fC):
-    cdef Pairproduction new = Pairproduction({}, 0, pickle = True)
-    new.imfpA = imfpA
-    new.imfpB = imfpB
-    
-    new.factor = factor
-    new.CONST = CONST
-    new.alpha = alpha
-    new.a = a
-    new.Zeq = Zeq
-    new.fC = fC
-    return new
+
+
+
+
 
 @cython.auto_pickle(True)
 cdef class Pairproduction(CSLOGIC):
+    """Holds data pertaining the positron-electron pair production.
+    """
+    
     def __init__(self, formula, density, pickle = False):  
         if pickle:
             return
@@ -641,6 +643,8 @@ cdef class Pairproduction(CSLOGIC):
         formula.log.add_paragraph("         INTERPOLATING Pairproduction IMFP")
         super().__init__((7, 74, 0, 0, 0, 0), formula, density)
 
+
+        
         from ..database import EADL
 
         Zeq = 0
@@ -668,9 +672,12 @@ cdef class Pairproduction(CSLOGIC):
                                + 0.00003*self.a**12  )
             
         self.factor = factors._eval(self.Zeq)
+        
         formula.log.add_paragraph(f"         >>>> Zeq = {self.Zeq}   | factor = {self.factor}")
 
         self.CONST = 4*log(self.factor)
+
+        
 
     def __reduce__(self):
         imfpA = np.asarray(self.imfpA)
@@ -732,33 +739,45 @@ cdef class Pairproduction(CSLOGIC):
         
         return res1 if res1 > 0 else 0, res2 if res2 > 0 else 0
 
-
-
-def reconstruct_Tripletproduction(imfpA, imfpB):
-    cdef Tripletproduction new = Tripletproduction({}, 0, pickle = True)
+def reconstruct_Pairproduction(imfpA, imfpB, factor, CONST, alpha, a, Zeq, fC):
+    cdef Pairproduction new = Pairproduction({}, 0, pickle = True)
     new.imfpA = imfpA
     new.imfpB = imfpB
+    
+    new.factor = factor
+    new.CONST = CONST
+    new.alpha = alpha
+    new.a = a
+    new.Zeq = Zeq
+    new.fC = fC
     return new
+
+
+
+
+
+
+
 
 @cython.auto_pickle(True)
 cdef class Tripletproduction(CSLOGIC):
     def __init__(self, formula, density, pickle = False):
-        
-        
-        
-                
         if pickle:
             return
             
         formula.log.add_paragraph("         INTERPOLATING Tripletproduction IMFP")
-
         super().__init__((7, 75, 0, 0, 0, 0), formula, density)
 
     def __reduce__(self):
         imfpA = np.asarray(self.imfpA)
         imfpB = np.asarray(self.imfpB)
         return (reconstruct_Tripletproduction, (imfpA, imfpB) )
-        
+
+def reconstruct_Tripletproduction(imfpA, imfpB):
+    cdef Tripletproduction new = Tripletproduction({}, 0, pickle = True)
+    new.imfpA = imfpA
+    new.imfpB = imfpB
+    return new
 
 
 
