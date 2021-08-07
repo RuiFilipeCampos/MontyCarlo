@@ -33,10 +33,10 @@ import numpy as np
 from scipy.integrate   import cumtrapz
 from scipy.integrate   import trapz
 from scipy.interpolate import CubicSpline
+from scipy.integrate import quad
 from numpy import array
 from numpy import linspace
 from numpy import  floor
-from scipy.integrate import quad
 
 cimport numpy as cnp
 from numpy cimport ndarray
