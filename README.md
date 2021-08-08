@@ -153,14 +153,14 @@ This is a very early version of a fairly large code. Bugs are guaranteed! Submit
      - Pair Production;
      - Triplet Production;
    - Electrons (class II condensed history);
-     - Elastic Scattering;
-     - Bremstrahlung Production;
-     - Impact Ionization and Excitation;
+     - Elastic Scattering (electron-atom collision);
+     - Impact Ionization and Excitation (electron-electron collision);
+     - Bremstrahlung Production (photon emission);
    - Positrons (class II condensed history);
-     - Elastic Scattering;
-     - Bremstrahlung Production;
-     - Impact Ionization and Excitation;
-     - Anihilation;
+     - Elastic Scattering; (Positrons-atom collision);
+     - Impact Ionization and Excitation (positron-electron collision);
+     - Bremstrahlung Production (photon emission);
+     - Anihilation (positron meets electron);
 - The simulation is coupled (e.g. supports secondary particle creation)
 - Supports simulation of post-ionization relaxation effects;
 - Two particle sources are available:
