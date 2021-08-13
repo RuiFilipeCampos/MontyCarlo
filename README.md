@@ -181,7 +181,7 @@ This is a very early version of a fairly large code. Bugs are guaranteed! Submit
   - Others
 - Variance reduction 
 - Image Detectors
-- Extension to E < 1keV (e.g. for laser applications)
+- Extension to E < 1keV (for laser applications)
 - Extension to E > 1GeV (for thermonuclear applications)
 - Implementation of other particles
   - Protons
