@@ -770,30 +770,27 @@ ENERGY: {E}eV
         return sample
     
     cdef inline void _elastic(self):
+        """Simulation of the angular deflection of the elctron when scattering off an atom. 
+        
+        Important:
+            1. Elasticity is assumed;
+            2. The bremsstrahlung emission resulting from the 
+            deflection is simulated as an independent event.
+        
+        For the range 1keV   to 100MeV: Numerical tables of the DCS are used. They have been calculated using ELSPA
+        For the range 100MeV to 1GeV:  The Weintzer model, as modified by Savat for the PENELOPE code system.
+        """
+      
         cdef int i = self.find_index()
-        #cdef DIST dist
-    
-        #LOGeax
+
         if self.state.genPTR.get_next_float()*(LOGeax[i+1] - LOGeax[i]) < ( LOGeax[i+1] - log(self.state.E) )  :
-            
-            #dist = self.elastic.DISTRIBUTIONS[i]
             self.mu = (<DIST>(self.elastic.DISTRIBUTIONS[i])).sample(self.state.genPTR)
         else:
-            #dist = self.elastic.DISTRIBUTIONS[i + 1]
-            #self.mu = dist.sample()
             self.mu = (<DIST>(self.elastic.DISTRIBUTIONS[i+1])).sample(self.state.genPTR)
-        
-     #   print("ELASTIC: ", self.mu, self.state.E)
 
-        #self.mu = self.elastic.sample(self.state.E)
-        
-        #self.mu = (1-2*self.mu)
-        
-
-            
         self.throwAZIMUTH()
         self.rotateTHETA(1-2*self.mu)
-        #self.change_direction(self.mu, twoPI*self.state.genPTR.get_next_float())
+
         
         
     cdef inline void _brem(self):
