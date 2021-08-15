@@ -779,7 +779,14 @@ ENERGY: {E}eV
         
         For the range 1keV   to 100MeV: Numerical tables of the DCS are used. They have been calculated using ELSPA
         For the range 100MeV to 1GeV:  The Weintzer model, as modified by Savat for the PENELOPE code system.
-        """
+        
+        Note that most of the random sampling is hidden in the `.sample` methods of instances of `DIST`. This is
+        an actual design choice. There are three kinds of distributions that are chosen in accordance with the current
+        energy value of the particle. These three distributions inherit from `DIST` and their instances are organized into the 
+        `self.elastic.DISTRIBUTIONS` array. The distribution is chosen by the index `i`, which is directly
+        dependent on the current energy, thus ensuring that the correct distribution, for the correct energy value is sampled
+        without actually having to check current energy value. Time is saved since the `i` value is used twice. 
+        """ 
       
         cdef int i = self.find_index()
 
