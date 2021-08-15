@@ -794,7 +794,29 @@ ENERGY: {E}eV
         
         
     cdef inline void _brem(self):
-        """Simulate the bremstrahlung interaction.
+        """Simulate the bremstrahlung photonic emission.
+        
+        All of the random sampling for is hidden in `self.brem.sampler.full_sample`. This method
+        just coordinates things:
+             - requests sample from `self.brem.sampler.full_sample`
+             - verifies if energy of emitted photon is above cut off
+             - if so, creates photon, sets its state and stores it in `self.secondary`
+        
+        IMPORTANT NOTE: The electrons direction of movement is not altered. It is assumed that its angular deflections
+        are accounted for by the elastic sampling algorithm.
+        
+        The random sampling hidden in `self.brem.sampler.full_sample`:
+        -> samples the electrons energy loss (k) using numerical data originally prepared for the EGSrnc code system which uses:
+            --> the electron-nuclear bremsstrahlung DCS reccomended by NIST  ---------------------------------- (relevant at low Z)
+            --> and improved numerical tables for the electron-electron bremsstrahlung by [ref her plz]. ------ (relevant at high Z)
+   
+        -> samples the angular deflection via analytical methods.
+        
+        TO DO's here:
+        -------------
+        - [ ] the random sampling should DEFINETLY be moved over here. For example, once `k` is sampled
+        it is possible to know imediatly if the photon is above or below threshold, if it's below, the 
+        subsquent sampling of the angular deflection of the photon is useless and time consuming.
         """
         
         ## Debugging Flags
@@ -817,18 +839,13 @@ ENERGY: {E}eV
             return
     
         cdef Photon p       # The secondary photon.
-        
         p = Photon._new(self.state)
-        
         p.state.E = dE
         p.throwAZIMUTH()
         p.rotateTHETA(cos(theta))
         self.nSECONDARY += 1
         self.secondary.append(p)
-        
 
-        
- 
         
     cdef inline void _inelastic(self):
         """
