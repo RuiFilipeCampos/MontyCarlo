@@ -151,13 +151,19 @@ This is a very early version of a fairly large code. Bugs are guaranteed! Submit
      - Pair Production;
      - Triplet Production;
    - Electrons (class II condensed history);
-     - Elastic Scattering (electron-atom collision);
-     - Impact Ionization and Excitation (electron-electron collision);
-     - Bremstrahlung Production (photon emission);
+     - Elastic Scattering (atom is not affected);
+       - Angular Deflection;
+       - Bremstrahlung Production;
+     - Inelastic Scattering (atom is affected)
+       - Interaction with an individual atom;
+       - Interaction with the condensed medium as a whole;
    - Positrons (class II condensed history);
-     - Elastic Scattering; (Positrons-atom collision);
-     - Impact Ionization and Excitation (positron-electron collision);
-     - Bremstrahlung Production (photon emission);
+     - Elastic Scattering (atom is not affected);
+       - Angular Deflection;
+       - Bremstrahlung Production;
+     - Inelastic Scattering (atom is affected)
+       - Interaction with an individual atom;
+       - Interaction with the condensed medium as a whole;
      - Anihilation (positron meets electron);
 - The simulation is coupled (e.g. supports secondary particle creation)
 - Supports simulation of post-ionization relaxation effects;
