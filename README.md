@@ -144,26 +144,18 @@ This is a very early version of a fairly large code. Bugs are guaranteed! Submit
     - a new method of particle transport that greatly accelerates the simulation of electrons and positrons;
 - The volumes surfaces are rendered and cached in `your_project/geo`;
 - Three particles are available:
-   - Photons (analogue simulation);
+   - **Photons** (analogue simulation);
      - Compton Scattering;
      - Rayleigh Scattering;
      - Photoelectric Effect;
      - Pair Production;
      - Triplet Production;
-   - Electrons (class II condensed history);
-     - Elastic Scattering (atom is not affected);
-       - Angular Deflection;
-       - Bremstrahlung Production;
-     - Inelastic Scattering (atom is affected)
-       - Interaction with an individual atom;
-       - Interaction with the condensed medium as a whole;
-   - Positrons (class II condensed history);
-     - Elastic Scattering (atom is not affected);
-       - Angular Deflection;
-       - Bremstrahlung Production;
-     - Inelastic Scattering (atom is affected)
-       - Interaction with an individual atom;
-       - Interaction with the condensed medium as a whole;
+   - **Electrons** (class II condensed history);
+     - Elastic Scattering (atom is not affected): Angular Deflection + Bremstrahlung Production;
+     - Inelastic Scattering (atom is affected): Interaction with an individual atom + with the condensed medium as a whole;
+   - **Positrons** (class II condensed history);
+     - Elastic Scattering (atom is not affected): Angular Deflection + Bremstrahlung Production;
+     - Inelastic Scattering (atom is affected): Interaction with an individual atom + with the condensed medium as a whole;
      - Anihilation (positron meets electron);
 - The simulation is coupled (e.g. supports secondary particle creation)
 - Supports simulation of post-ionization relaxation effects;
