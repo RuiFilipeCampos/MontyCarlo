@@ -874,28 +874,28 @@ ENERGY: {E}eV
 
         
     cdef inline void _inelastic(self):
-        """
-        INELASTIC COLLISION
-            GOS MODEL
-
-            CHOOSE SHELL AMONG ALL SHELLS IN THE MOLECULE
-            CHOOSE INTERACTION REGIME (FAR LONGITUDINAL, FAR TRANSVERSE, CLOSE)
-            SAMPLE INTERACTION REGIME -> EFFECT ON PROJECTILE AND EJECTED ELECTRON
-            SIMULATE RELAXATION EFFECTS -> CALL pyRELAX
+        """Simulate the inelastic collision of the electron with an atom.
+        
+        The simulation of this interaction uses the original Liljequist Generalized
+        Oscillator model. Which replaces the Bethe surface for a given k-shell by
+        a simple mathematical description of its ridge. It thus defines two interaction 
+        regimes with some given shell:
+        
+            - *Distant Excitations*: The momentum and energy transfers are on the order
+            of the ionization energy (Ui) of the shell.
+            - *Close/Binary Collisions*: The momentum and energy transfers are >> than
+            the ionization energy of the shell -> the targeted electron may be considered
+            as free.
+        
+        This model does not account for the fact that the electrons are moving, which is
+        what causes the broadening around the bethe ridge. 
         """
 
         # Compile time stuff
         IF _SIGNAL_INTERACTION: print("INELASTIC")
-            
-            
-        #cdef double [::1]
         
-        #self.GOS.sample(self.state.genPTR, self.find_index(), self.state.E, &particles)
-
-      #  input("STARTING _inelastic")
-      #  input(f"current energy: {self.state.E}eV")
-
-
+        
+        # ----- CHOOSING ACTIVE SHELL ------------------------------------------------
         cdef int j = self.find_index()
       #  input(f"found index {j}")
 
