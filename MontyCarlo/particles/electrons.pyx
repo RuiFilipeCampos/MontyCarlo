@@ -126,7 +126,9 @@ cdef class Electron(Particle):
     
     @staticmethod
     cdef Electron _newISOTROPIC(STATE& state):
-        """
+        """Generate an electron in a random direction.
+        
+        
         A particle with a random direction in the unit sphere is generated.
         The direction is randomly sampled here and the axis is assumed to be
         thrown in the next interaction.
@@ -161,33 +163,48 @@ cdef class Electron(Particle):
     ####################################################################################
 
     cdef void _run(Electron self, mixmax_engine* genPTR):
+        """Simulate the electron.
+        """
+        
+        # Compile time stuff
         IF _DEBUG_BASIC: print("> ELECTRON")
+        
+        
+        
+        # Initializing particle
         self.secondary = deque()
         self.MU = deque()
         self.nSECONDARY = 0
         cdef bint deposit_in_2 = True
         cdef double E0
         cdef double r
+        
+        # Checking state
         if self.state.E < CUT_OFF:
             (<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
             (<Volume> self.state.current_region).exit()
             return
 
         self.state.genPTR = genPTR
-        
         self.update_references()
 
         IF RECORD: self.record()
         
         #cdef double r
-        cdef double  tau, S_soft
-        cdef bint delta = False
-        cdef double tau2 
-        cdef double3 dep_pos
+        cdef double tau           # first part of the segment
+        cdef double tau2          # second part of the segment
+        cdef double S_soft        # soft/restricted stopping power
+        cdef bint delta = False   # flag indicating delta interaction in current iteration
+        cdef double3 dep_pos 
+        
         while True:
+            
+            # Temporary variance reduction
             if self.state.pos.x**2 + self.state.pos.y**2 + self.state.pos.z**2 > 10_000**2:
                 return
 
+            
+            # Propose a displacement
             self.s = -log(self.state.genPTR.get_next_float())/self.imfp_max
 
             if self.s > self.s_max:
@@ -350,8 +367,10 @@ cdef class Electron(Particle):
     ####################################################################################
 
     cdef void update_references(self):
-        """
-        Updates all references. Called when there is a region crossing.
+        """Update references to new material. That is, to the data pertaining to the simulation
+        of electrons in the new material, as well as some relevent random sampling routines.
+        
+        Note: If this is being called, a new volume has been set, or the particle is being initialized.
         """
 
         #getting material from current region
@@ -865,8 +884,10 @@ ENERGY: {E}eV
             SIMULATE RELAXATION EFFECTS -> CALL pyRELAX
         """
 
-
+        # Compile time stuff
         IF _SIGNAL_INTERACTION: print("INELASTIC")
+            
+            
         #cdef double [::1]
         
         #self.GOS.sample(self.state.genPTR, self.find_index(), self.state.E, &particles)
@@ -900,30 +921,23 @@ ENERGY: {E}eV
         
         #### sample secondary
         cdef Electron el
-        
-
-
         cdef int _
         cdef double p2E, p2d, Qs, p2Q, a, kc
+
         
         if Uk < self.state.E < Wk:
-            if self.state.E < Uk: raise RuntimeError("this hsould not be happening")
+            # Electron has enough energy to ionize the shell but 
+            # still has less energy than the partial ionization
+            # energy of the shell.
+            
             #input(f"CASE 1, JUST REDUCING ENERGY BY Wk-Uk")
-
             self.state.E -= Uk
-            # this is equivelent to assuming that the electron has given all its energy, an ejected electron with the same direction
-            # 
-            # if self.state.E - Uk > CUT_OFF:
-            #     self.state.E -= Uk
-            #     el = Electron._new(Wk-Uk, self.x, self.y, self.z,
-            #                        self.eyx, self.eyy, self.eyz,
-            #                        self.ezx, self.ezy, self.ezz,
-            #                        self.current_region)
-                
+            
+            # this is equivelent to assuming that the electron has given all 
+            # its energy, an ejected electron with the same direction.
 
-            #     self.secondary.append(el)
-            #     self.nSECONDARY += 1
-        
+
+        # ----------- Close Collision with Shell ----------------------------------------------------------------------------
         elif i/6 % 3 == 0: # hard close
            # input(f"SAMPLING HARD CLOSE COLLISION")
             kc = Wk/self.state.E
@@ -984,9 +998,13 @@ ENERGY: {E}eV
 
             self.state.E -= Wk
             # sample close
-        elif i/6 % 3 == 1: # sample L far
+            
+            
+        # ----------- Distant Longitudinal Excitation ----------------------------------------------------------------------------
+        elif i/6 % 3 == 1: 
             #self.state.E -= Wk
             #input(f"SAMPLING FAR LONGITUDINAL")
+            
             p2E = self.state.E * (self.state.E + _2ELECTRON_REST_ENERGY)
             #input(f"p2E = {p2E}")
 
@@ -997,9 +1015,6 @@ ENERGY: {E}eV
             Qs = sqrt( (sqrt( p2E )  - sqrt(p2d))**2  + ELECTRON_REST_ENERGY*ELECTRON_REST_ENERGY  ) - ELECTRON_REST_ENERGY
             #input(f"Qs = {Qs}")
 
-            
-            
-            
             Qs = Qs/(1 + Qs / _2ELECTRON_REST_ENERGY)
             #input(f"Qs = {Qs}")
              
@@ -1032,7 +1047,7 @@ ENERGY: {E}eV
                 self.secondary.append(el)
                 self.nSECONDARY += 1
             else:
-                (<V> self.state.current_region).depositLOCAL(self.state.pos,Wk - Uk)
+                (<V> self.state.current_region).depositLOCAL(self.state.pos, Wk - Uk)
 
             
             self.rotateTHETA(.5*(p2E + p2d - p2Q)/sqrt(p2E*p2d))
@@ -1043,20 +1058,16 @@ ENERGY: {E}eV
             #particles.ELECTRONS.push_back(E - self.Wk)
             #particles.ELECTRONS.push_back(.5*(p2E + p2d - p2Q)/sqrt(p2E*p2d))
             
-            
-            
-            
-            
-    
-            
+
             #particles.ELECTRONS.push_back(Wk - Uk)
             #particles.ELECTRONS.push_back(Wk*Wk / ((Qs*Qs-1)/(Qs*Qs) / p2Q * (1 + (p2Q - Wk*Wk)/(2*Wk*(E + _2ELECTRON_REST_ENERGY)))**2))
             
+            
+        # ----------- Distant Transverse Excitation ----------------------------------------------------------------------------
         else:
-            #input(f"TRANSVERSE DISTANT - NO DEFFLECTION")
+            #input(f"Distant Transverse Excitation -> NO DEFFLECTION")
             self.throwAZIMUTH()
 
-            
             if Wk -  Uk > CUT_OFF:
                 print("WARNING: Hard transverse distant interaction")
                 print("Above threshold particle is being depoisted locally.")
@@ -1074,8 +1085,6 @@ ENERGY: {E}eV
                 (<V> self.state.current_region).depositLOCAL(self.state.pos,Wk - Uk)
 
             #self.rotateTHETA(1)
-                
-                
             self.state.E -= Wk
                 
             
@@ -1089,7 +1098,6 @@ ENERGY: {E}eV
       #  self.secondary.append(el)
         
       
-       # print(Uk)
         if Uk < MIN_CUT_OFF: 
             (<V> self.state.current_region).depositLOCAL(self.state.pos, Uk)
             return
@@ -1132,222 +1140,17 @@ ENERGY: {E}eV
         (<V> self.state.current_region).depositLOCAL(self.state.pos,Etot)
 
 
-
-
-
-
-    # @cython.boundscheck(False)
-    # @cython.wraparound(False) 
-    # @cython.initializedcheck(False)
-    # @cython.cdivision(True) 
-    # cdef inline void sampleLFAR(self, double Wk):
-        
-    #            # cdef double dE = E - self.Wk
-    #     #return sqrt( (self.momentum(E) - self.momentum(dE))**2  + ELECTRON_REST_ENERGY**2  ) \
-    #           # - ELECTRON_REST_ENERGY
-              
-    #     cdef double p2E = E * (E + _2ELECTRON_REST_ENERGY)
-    #     cdef double p2d = (E - Wk) * ((E - Wk) + _2ELECTRON_REST_ENERGY)   #self.p2(E - self.Wk)
-        
-        
-    #     cdef double Qs = sqrt( sqrt( p2E )  - p2d  + ELECTRON_REST_ENERGY*ELECTRON_REST_ENERGY  ) - ELECTRON_REST_ENERGY
-        
-        
-        
-        
-    #    # if Qm / _2ELECTRON_REST_ENERGY < 0:
-    #     #    print(E, Qm, _2ELECTRON_REST_ENERGY, Qm / _2ELECTRON_REST_ENERGY, self.Wk)
-        
-    #     Qs = Qs/(1 + Qs / _2ELECTRON_REST_ENERGY)
-
-         
-    #     #print(_2ELECTRON_REST_ENERGY)
-        
-
-    #    # cdef double A = Qs/self.Wk *(1 + self.Wk/_2ELECTRON_REST_ENERGY )
-    #     #cdef double B = Qs/_2ELECTRON_REST_ENERGY
-    #     Qs = Qs / ((   Qs/self.Wk *(1 + self.Wk/_2ELECTRON_REST_ENERGY )      )**(genPTR.get_next_float()) - Qs/_2ELECTRON_REST_ENERGY)
-
-
-    #     cdef double p2Q = Qs * (Qs + _2ELECTRON_REST_ENERGY)
-
-    #   #  cdef double cos = p2E + p2d - p2Q
-    #     #cos = .5*cos/(p2E*p2d)**.5
-    #     particles.ELECTRONS.push_back(E - self.Wk)
-    #     particles.ELECTRONS.push_back(.5*(p2E + p2d - p2Q)/sqrt(p2E*p2d))
-        
-        
-        
-        
-        
-    #     #cdef double Wk2 = self.Wk*self.Wk
-    #     #cdef double X = (E/ELECTRON_REST_ENERGY + 1)**2
-    #     Qs = (E/ELECTRON_REST_ENERGY + 1)
-    #     #A = Wk2 / ((X-1)/X) / p2Q
-
-    #     #B = (p2Q - Wk2)/(2*self.Wk*(E + _2ELECTRON_REST_ENERGY))
-        
-    #     particles.ELECTRONS.push_back(Wk - Uk)
-    #     particles.ELECTRONS.push_back(Wk*Wk / ((Qs*Qs-1)/(Qs*Qs) / p2Q * (1 + (p2Q - Wk*Wk)/(2*Wk*(E + _2ELECTRON_REST_ENERGY)))**2))
-        
-    #     #cdef double cos_sec = A * (1 + B) **2
-        #return (newE, cos, Esec, cos_sec)
-
-        
-        
-        
-        # SECONDARY ELECTRON
-        # cos2 = (W)*(E + _2ELECTRON_REST_ENERGY)/E/(W + _2ELECTRON_REST_ENERGY)
-        # particles.ELECTRONS.push_back(self.Wk - self.Uk)
-        # particles.ELECTRONS.push_back(sqrt(cos2))
-
-        
-        # self.state.E = particles.ELECTRONS[0]
-        
-        # if self.state.E == 0:
-
-        #     el = Electron._new(particles.ELECTRONS[2], 
-        #                         self.x, self.y, self.z,
-        #                         self.eyx, self.eyy, self.eyz,
-        #                         self.ezx, self.ezy, self.ezz,
-        #                         self.current_region)
-            
-        #     #self.rotateTHETA(particles.ELECTRONS[1])
-        #     #el.rotateTHETA(particles.ELECTRONS[3])
-            
-            
-        #     self.nSECONDARY += 1
-        #     self.secondary.append(el)
-        #     return
-        
-        # #cdef double cos = particles.ELECTRONS[1]
-        
-        # self.throwAZIMUTH()
-        
-        # if particles.ELECTRONS[2] < CUT_OFF:
-        #     self.rotateTHETA(particles.ELECTRONS[1])
-        #     return 
-        
-
-        # el = Electron._new(particles.ELECTRONS[2], 
-        #                     self.x, self.y, self.z,
-        #                     -self.eyx, -self.eyy, -self.eyz,
-        #                     self.ezx, self.ezy, self.ezz,
-        #                     self.current_region)
-        
-        # self.rotateTHETA(particles.ELECTRONS[1])
-        # el.rotateTHETA(particles.ELECTRONS[3])
-        
-        
-        # self.nSECONDARY += 1
-        # self.secondary.append(el)
     
-        
-        
-        
-        
-        
-            
-     #   print("INELASTIC")
-     
-     
-     
-     
-     
-     
-     
-        #cdef double cos, Esec, cos_sec
-        
-        ### RUNNING GOS MODEL
-        #self.GOS.update(self.state.E, False)
-        
-        #self.state.E, self.cos, self.state.Esec, self.cos_sec = self.GOS.sample(self.current_region, self.x, self.y, self.z)
-        
-        # if self.cos>1:
-        #     #print("cos > 1")
-        #     self.cos = 1
-
-        #self.throwAZIMUTH()
-       # self.rotateTHETA(self.cos)
-        #self.change_direction(self.cos, twoPI*self.state.genPTR.get_next_float())
-
-        ## RUNNING pyRelax
-        
-        #atom.ionize(atom.SHELLS[I])
-        
-        
-        
-        
-        
-        
-        
-        #self.secondary.extend(self.GOS.secondary)
-        #self.nSECONDARY += self.GOS.nSECONDARY
-
-
-        
-        #if self.state.Esec < CUT_OFF:
-        #    return
-        
-        
-        
-        # if self.cos_sec > 1: 
-        #     self.cos_sec = 1
-            
-            
-        
-        
-        #cdef Electron p = Electron._new(self.state.Esec, self.x, self.y, self.z,
-         #                             self.eyx, self.eyy,self.eyz,
-         #                             self.ezx, self.ezy,self.ezz, 
-          #                            self.current_region)
-        #p.genPTR = self.state.genPTR
-        #p.throwAZIMUTH()
-        #p.rotateTHETA(self.cos_sec)
-        #self.nSECONDARY += 1
-        #self.secondary.append(p)
-                
-        
-        
-        
-        
-        
-        # axis = ez0
-        # ey = ey0.rotateAngle(axis, twoPI*self.state.genPTR.get_next_float())
-        
-        # axis = ey
-        # ez = ez0.rotateCos(axis, self.cos_sec)  
-            
-            
-            
-            
-            
-            
-            
-            
-            
-        # self.secondary.append(
-        #     Electron._new(
-        #        self.current_region,
-        #        self.state.Esec, 
-        #        self.pos, 
-        #        ey,
-        #        ez, 100)
-        #     )
-        
-        
-        
-
-        
- 
-
-        
     
+    # these guys should be removed, they're python hooks
     def getindex(self):
         return self.find_index()
     
     def setE(self, double E):
         self.state.E = E
+        
+    
+    
     
     cdef inline int find_index(self):
         cdef int i;
@@ -1359,6 +1162,8 @@ ENERGY: {E}eV
         
         # if LIMS[i, 2] is 0:
         #     raise RuntimeError("OUT OF BOUNDS")
+        
+        
         cdef int k = LIMS[i, 2]
         if k is 1:
             return LIMS[i, 0]
@@ -1390,7 +1195,7 @@ ENERGY: {E}eV
         #do binary search 
         while START <= END:
             #find middle
-            MID = START + (END - START)//2 #prevents overflow: END - START // 2 < START + END // 2
+            MID = START + (END - START)//2 
             
             xMID = EAX[MID]
             
