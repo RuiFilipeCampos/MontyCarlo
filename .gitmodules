@@ -1,3 +1,6 @@
 [submodule "MontyCarlo/demos/MyCo-EXAMPLE1"]
 	path = MontyCarlo/demos/MyCo-EXAMPLE1
 	url = https://github.com/RuiFilipeCampos/MyCo-EXAMPLE1.git
+[submodule "demos/PDDcalc"]
+	path = demos/PDDcalc
+	url = https://github.com/RuiFilipeCampos/PDDcalc.git
