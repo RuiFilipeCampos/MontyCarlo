@@ -5,3 +5,7 @@
 	path = demos/PDDcalc
 	url = https://github.com/RuiFilipeCampos/PDDcalc.git
 	branch = master
+[submodule "demos/MyCo-EXAMPLE1"]
+	path = demos/MyCo-EXAMPLE1
+	url = https://github.com/RuiFilipeCampos/MyCo-EXAMPLE1.git
+	branch = master
