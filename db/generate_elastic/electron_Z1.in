@@ -1,5 +1,5 @@
-IZ      49         atomic number                               [none]
-IELEC  +1          -1=electron, +1=positron                     [ -1]
+IZ      1         atomic number                               [none]
+IELEC  -1          -1=electron, +1=positron                     [ -1]
 EV      50       kinetic energy (eV)                         [none]
 EV      53.781569453405076       kinetic energy (eV)                         [none]
 EV      57.849144257428684       kinetic energy (eV)                         [none]
