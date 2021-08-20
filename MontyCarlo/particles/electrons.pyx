@@ -922,8 +922,19 @@ ENERGY: {E}eV
         #### sample secondary
         cdef Electron el
         cdef int _
+        
+        # The symbols here become a bit meaningless
+        # There are three interaction regimes, and I don't
+        # want to allocate space for every different variable name
+        # since that's not very efficient (and this is the most common event)
+        # so I'm reusing all these:
         cdef double p2E, p2d, Qs, p2Q, a, kc
-
+        
+        # I might try to turn these into function calls
+        # but that also creates some overhead and inlining 
+        # is never guaranteed 
+        # (cython doesn't allow me to open a new variable scope and 
+        # allocate conditionally)
         
         if Uk < self.state.E < Wk:
             # Electron has enough energy to ionize the shell but 
@@ -935,10 +946,16 @@ ENERGY: {E}eV
             
             # this is equivelent to assuming that the electron has given all 
             # its energy, an ejected electron with the same direction.
+            
+            # NOTE: this is an ad-hoc modification
+            #       which will cease to be necessary
+            #       since `Wcc` will be set equal to 
+            #       the electron energy threshold
+            #       for absorption. 
 
 
         # ----------- Close Collision with Shell ----------------------------------------------------------------------------
-        elif i/6 % 3 == 0: # hard close
+        elif i/6 % 3 == 0:
            # input(f"SAMPLING HARD CLOSE COLLISION")
             kc = Wk/self.state.E
             a = (self.state.E/(self.state.E + ELECTRON_REST_ENERGY))**2
@@ -960,7 +977,7 @@ ENERGY: {E}eV
                 if self.state.genPTR.get_next_float()*(1+5*a*r*r) < r*r*  (1/(r*r) + 1/(1-r)**2 - 1/(r*(1-r)) + a * (1 + 1/(r*(1-r))  )):
                     break
             else: 
-                print(">>>>>> rejection sampling took too mucch")
+                print("<Electron::Close Collision with atomic shell> -> rejection sampling took too many iterations.")
                 import time
                 print("kc", kc)
                 print(p2E)
@@ -969,74 +986,49 @@ ENERGY: {E}eV
                 print("Wk", Wk)
                 print("Uk", Uk)
                 time.sleep(1000)
-                
-                
-                
-                
             Wk = r*self.state.E
-         #   input(f"SAMPLED ENERGY LOSS: {Wk}/{self.state.E}")
-            
-            
+            # input(f"SAMPLED ENERGY LOSS: {Wk}/{self.state.E}")
             self.throwAZIMUTH()
-            
             if Wk - Uk > CUT_OFF:
                 el = Electron._new(self.state)
-
                 el.invert_axis()
                 el.state.E = Wk-Uk
-
-                
                 Qs = (self.state.E/ELECTRON_REST_ENERGY + 1)
-                
                 el.rotateTHETA(sqrt(       (Wk)*(self.state.E + _2ELECTRON_REST_ENERGY)/self.state.E/(Wk + _2ELECTRON_REST_ENERGY)      )     )
                 self.secondary.append(el)
                 self.nSECONDARY += 1
             else:
                 (<V> self.state.current_region).depositLOCAL(self.state.pos, Wk - Uk)
             self.rotateTHETA(sqrt((self.state.E - Wk)*(self.state.E + _2ELECTRON_REST_ENERGY)/self.state.E/(self.state.E - Wk + _2ELECTRON_REST_ENERGY)))
-           # input(f"ROTATING PROJECTILE BY COS = {sqrt((self.state.E - Wk)*(self.state.E + _2ELECTRON_REST_ENERGY)/self.state.E/(self.state.E - Wk + _2ELECTRON_REST_ENERGY))}")
-
+            # input(f"ROTATING PROJECTILE BY COS = {sqrt((self.state.E - Wk)*(self.state.E + _2ELECTRON_REST_ENERGY)/self.state.E/(self.state.E - Wk + _2ELECTRON_REST_ENERGY))}")
             self.state.E -= Wk
-            # sample close
-            
-            
-        # ----------- Distant Longitudinal Excitation ----------------------------------------------------------------------------
+
+        # ----------- DISTANT LONGITUDINAL EXCITATION ----------------------------------------------------------------------------
         elif i/6 % 3 == 1: 
-            #self.state.E -= Wk
-            #input(f"SAMPLING FAR LONGITUDINAL")
+            # input(f"SAMPLING FAR LONGITUDINAL")
             
             p2E = self.state.E * (self.state.E + _2ELECTRON_REST_ENERGY)
-            #input(f"p2E = {p2E}")
+            # input(f"p2E = {p2E}")
 
             p2d = (self.state.E - Wk) * ((self.state.E - Wk) + _2ELECTRON_REST_ENERGY)   #self.p2(E - self.Wk)
-            #input(f"p2d = {p2d}")
+            # input(f"p2d = {p2d}")
 
-            
             Qs = sqrt( (sqrt( p2E )  - sqrt(p2d))**2  + ELECTRON_REST_ENERGY*ELECTRON_REST_ENERGY  ) - ELECTRON_REST_ENERGY
-            #input(f"Qs = {Qs}")
+            # input(f"Qs = {Qs}")
 
             Qs = Qs/(1 + Qs / _2ELECTRON_REST_ENERGY)
-            #input(f"Qs = {Qs}")
+            # input(f"Qs = {Qs}")
              
        
             Qs = Qs / ((   Qs/Wk *(1 + Wk/_2ELECTRON_REST_ENERGY )      )**(self.state.genPTR.get_next_float()) - Qs/_2ELECTRON_REST_ENERGY)
-            #input(f"Qs = {Qs}")
+            # input(f"Qs = {Qs}")
 
-
-         #   print("IF THIS IS NOT ZERO, MUST CHANGE TO DEPOSIT THIS ENERGY", Qs - Wk - Uk)
-
-
+            # print("IF THIS IS NOT ZERO, MUST CHANGE TO DEPOSIT THIS ENERGY", Qs - Wk - Uk)
+          
             p2Q = Qs * (Qs + _2ELECTRON_REST_ENERGY)
-    
-            
-            
-   
-            
             
             self.throwAZIMUTH()
-            
             if Wk - Uk > CUT_OFF:
-                
                 el = Electron._new(self.state)
                 el.invert_axis()
                 el.state.E = Wk-Uk
@@ -1051,54 +1043,40 @@ ENERGY: {E}eV
 
             
             self.rotateTHETA(.5*(p2E + p2d - p2Q)/sqrt(p2E*p2d))
-           # input(f"ROTATING PROJECTILE BY {.5*(p2E + p2d - p2Q)/sqrt(p2E*p2d)}")
+            # input(f"ROTATING PROJECTILE BY {.5*(p2E + p2d - p2Q)/sqrt(p2E*p2d)}")
 
             self.state.E -= Wk
-            
-            #particles.ELECTRONS.push_back(E - self.Wk)
-            #particles.ELECTRONS.push_back(.5*(p2E + p2d - p2Q)/sqrt(p2E*p2d))
-            
 
-            #particles.ELECTRONS.push_back(Wk - Uk)
-            #particles.ELECTRONS.push_back(Wk*Wk / ((Qs*Qs-1)/(Qs*Qs) / p2Q * (1 + (p2Q - Wk*Wk)/(2*Wk*(E + _2ELECTRON_REST_ENERGY)))**2))
-            
-            
-        # ----------- Distant Transverse Excitation ----------------------------------------------------------------------------
+            # particles.ELECTRONS.push_back(E - self.Wk)
+            # particles.ELECTRONS.push_back(.5*(p2E + p2d - p2Q)/sqrt(p2E*p2d))
+
+            # particles.ELECTRONS.push_back(Wk - Uk)
+            # particles.ELECTRONS.push_back(Wk*Wk / ((Qs*Qs-1)/(Qs*Qs) / p2Q * (1 + (p2Q - Wk*Wk)/(2*Wk*(E + _2ELECTRON_REST_ENERGY)))**2))
+
+        # ----------- DISTANT TRANSVERSE EXCITATION ----------------------------------------------------------------------------
         else:
             #input(f"Distant Transverse Excitation -> NO DEFFLECTION")
-            self.throwAZIMUTH()
-
-            if Wk -  Uk > CUT_OFF:
-                print("WARNING: Hard transverse distant interaction")
-                print("Above threshold particle is being depoisted locally.")
-                print("This is expected behaviour in the current version.")
-                print("")
-                (<V> self.state.current_region).depositLOCAL(self.state.pos,Wk - Uk)
-                #el = Electron._new(self.state)
-                #el.state.E = Wk-Uk
-                #el.invert_dire()
-
-                #el.rotateTHETA(-1)
-                #self.secondary.append(el)
-                #self.nSECONDARY += 1
+            self.throwAZIMUTH()  # <---- why though?
+           
+            if Wk - Uk > CUT_OFF:
+                el = Electron._new(self.state)
+                el.state.E = Wk-Uk
+                self.secondary.append(el)
+                self.nSECONDARY += 1
             else:
-                (<V> self.state.current_region).depositLOCAL(self.state.pos,Wk - Uk)
+                (<V> self.state.current_region).depositLOCAL(self.state.pos, Wk - Uk)
 
-            #self.rotateTHETA(1)
             self.state.E -= Wk
-                
-            
-            #sample transverse
-            
-        
+
  
-       # self.state.E -= self.inelastic.arr[j, i + 2]
+      # self.state.E -= self.inelastic.arr[j, i + 2]
       #  el = Electron._newISOTROPIC(self.inelastic.arr[j, i + 2], self.x, self.y, self.z, self.current_region, self.state.genPTR)
       #  self.nSECONDARY += 1
       #  self.secondary.append(el)
         
-      
-        if Uk < MIN_CUT_OFF: 
+        
+        # SIMULATING POST IONIZATION RELAXATION EFFECTS --------------------------------------------------------------------
+        if Uk < MIN_CUT_OFF:
             (<V> self.state.current_region).depositLOCAL(self.state.pos, Uk)
             return
 
