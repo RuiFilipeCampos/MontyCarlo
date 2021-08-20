@@ -906,18 +906,13 @@ cdef class Material:
         this.name = self.name
         this.C1 = self.C1
         this.C2 = self.C2
-        
         this.Wcc = self.Wcc
         this.Wcr = self.Wcr
         this.N = self.N
         this.Am = self.Am
         this.formula = self.formula
         this.density = self.density
-
         this.molecule = self.molecule
-#
-        
-        #
         this.photon   = self.photon
         this.electron = self.electron
         this.positron = self.positron

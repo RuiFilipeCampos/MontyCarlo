@@ -1010,9 +1010,21 @@ cdef class Elastic:
 
 
     def __init__(self, formula, fullSP, inel_sIMFP1, inel_sIMFP2):
+        """Initializes data related to the elastic part of the electron-atom interaction and the condensed history stuff.
+
+        TO DO's HERE:
+
+           - [ ] LOTS OF CLEANING >.<
+           - [ ] Segregate the numerical tables from the analyic formulas
+                  -> they are meant to sample the same thing (\mu) but are applicable
+                  in different energy regimes
+        """
+
+
         formula.log.add_header("\t MAKING ELASTIC")
         
         print("        MAKING ELASTIC SAMPLER")
+
         C1, C2 = formula.C1, formula.C2
         
         path = __path__/'elastic'
@@ -1027,7 +1039,12 @@ cdef class Elastic:
         #HEeax = np.load(path + "/HEeax.npy")
         #eax =  np.append(LEeax, HEeax)
         
-        
+
+
+
+
+
+        # NUMERICAL DCS's ----------------------------------------------------------
         allDCS, SIGMA = self.compose(formula)
         SIGMA = SIGMA
 
@@ -1050,6 +1067,10 @@ cdef class Elastic:
 
 
         
+
+
+        # ANALYTIC DCS's ----------------------------------------------------------
+
         # CONSTRUCTING MW MODEL
         cdef int i 
         i = np.searchsorted(eax, 100e6, side = "right") + 1 #index of element 100e6
