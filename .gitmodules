@@ -4,3 +4,4 @@
 [submodule "demos/PDDcalc"]
 	path = demos/PDDcalc
 	url = https://github.com/RuiFilipeCampos/PDDcalc.git
+	branch = master
