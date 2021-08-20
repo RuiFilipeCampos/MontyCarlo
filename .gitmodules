@@ -9,3 +9,7 @@
 	path = demos/MyCo-EXAMPLE1
 	url = https://github.com/RuiFilipeCampos/MyCo-EXAMPLE1.git
 	branch = master
+[submodule "db/elsepa"]
+	path = db/elsepa
+	url = https://github.com/eScatter/elsepa.git
+	branch = master
