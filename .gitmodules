@@ -13,3 +13,7 @@
 	path = db/elsepa
 	url = https://github.com/eScatter/elsepa.git
 	branch = master
+[submodule "db/generate_elastic/elsepa"]
+	path = db/generate_elastic/elsepa
+	url = https://github.com/eScatter/elsepa.git
+	branch = master
