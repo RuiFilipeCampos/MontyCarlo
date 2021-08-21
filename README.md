@@ -5,7 +5,11 @@ The first stable realease will be version `0.1`.
 
 **MontyCarlo** is a python framework for setting up simulations and/or developing applications whose basis is the simulation of particle transport. It simulates the propagation and effects of ionizing radiation ([photons](https://en.wikipedia.org/wiki/Photon), [electrons](https://en.wikipedia.org/wiki/Electron) and [positrons](https://en.wikipedia.org/wiki/Positron) with energies between 1keV and 1GeV) in matter of homogeneous density, filling [constructive solid geometry](https://en.wikipedia.org/wiki/Constructive_solid_geometry) models.
 
-**As of yet, this is an unstable version.** This is a thesis project and, as a student, I am still learning! 
+**As of yet, this is an unstable version.** This is a thesis project and, as a student, I am still learning!
+
+- Documentation (work in progress): https://ruifilipecampos.github.io/MontyCarlo/
+- PyPI: https://pypi.org/project/MontyCarlo/
+
 
 This work has a [poster](https://ruifilipecampos.github.io/MontyCarlo/ecmp2020.pptx) presentation in the [3rd European Congress of Medical Physics](https://www.ecmp2020.org/) and has been presented in a [workshop](https://ruifilipecampos.github.io/MontyCarlo/Poster_workshop_medical_physics.pdf) organized by the Faculty of Sciences of the University of Porto and the Ludwig Maximilian University of Munich.
 
