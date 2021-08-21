@@ -32,14 +32,9 @@ release = '0.1a0.dev2'
 # ones.
 
 
-import sphinx_rtd_theme
-
-
-
 
 
 extensions = [
-    'sphinx_rtd_theme',
 ]
 
 html_theme = "sphinx_rtd_theme"
@@ -74,8 +69,6 @@ html_theme = 'alabaster'
 html_static_path = ['_static']
 
 import sphinx_rtd_theme
-
-
 
 
 
