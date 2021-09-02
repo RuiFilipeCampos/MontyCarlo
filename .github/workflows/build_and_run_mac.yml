@@ -23,7 +23,7 @@ jobs:
           pip install setuptools
           
       - name: Building MyCo...
-        run: python setup_mac.py build_ext --inplace -j9
+        run: python setup_mac.py build_ext --inplace -j9 --mac
         
       - name: Installing requirements...
         run: pip install -r requirements.txt

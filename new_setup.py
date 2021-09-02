@@ -176,8 +176,6 @@ for path in directory_list:
 
 
 
-
-
 with open("README.md", "r", encoding="utf-8") as file:
     long_description = file.read()
 

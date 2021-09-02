@@ -8,7 +8,7 @@ jobs:
       strategy:
         max-parallel: 1
         matrix:
-          cp: ['3.7', '3.8', '3.9']
+          cp: ['3.6', 3.7', '3.8', '3.9']
       steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -33,7 +33,7 @@ jobs:
            git pull
         
       - name: Generating wheel...
-        run: python setup_mac.py bdist_wheel
+        run: python setup.py bdist_wheel --mac
         
       - name: Pushing results...
         run: |
