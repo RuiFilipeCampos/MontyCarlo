@@ -1,16 +1,44 @@
-__doc__ = """A setup script targeted to my computer. Should work fine on any windows_latest-amd64.
+__doc__ = """Build and/or distribute MontyCarlo.
+
 
 Usage:
 
-`python setup.py build_ext --inplace -j9`
+Building and Distributing
+=========================
 
-It will build the extension modules directly in the `\MontyCarlo` folder using 9 threads. 
+Run this script with the following options:
+
+```
+python setup.py --os [OS] --cpu [CPU] --version [VERSION]
+```
+
+Where:
+
+- OS in ["mac", "win"]
+- CPU in ["intel", "amd"]
+
+BUILDING LOCALLY
+================
+
+Run this script with the following options:
+
+```
+python setup.py build_ext --inplace
+```
+
+An additional flag `-jx`, where `x` is an integer, may be provided
+for parallel compilation (a lot of compiling going on, takes a while).  
+
 """
+
 
 __author__ = "Rui Campos"
 
-from setup_version import version
+
 import os
+import sys
+
+from setup_version import version
 from Cython.Build import cythonize
 
 try:
@@ -29,75 +57,170 @@ import numpy as np # need to compile it with the extension modules
 
 
 
-# MSVC ARGUMENTS
-args = [
-        "-O2",     # code optimization
-        "-fp:fast" # math optimization -> changes order of math operations for max efficiency
-       ]
+EXCLUDED_DIR = ['__pycache__', 'elastic', '.ipynb_checkpoints', 'deprecated']
+
+def iter_dir(parent, directory_list):
+    """Recursevly explore the directory structure and accumulate all paths to
+    directories that may have .pyx/.pxd files.
+    """
+
+    directory_list.append(parent)
+
+    for path in parent.iterdir():
+        if path.is_dir():
+            if path.name in EXCLUDED_DIR: 
+                continue
+
+            iter_dir(path, directory_list)
 
 
-ext_modules = [ 
-                Extension("tools.*",               ["MontyCarlo\\tools\\*.pyx"],                extra_compile_args = args),
-                Extension("particles.*",           ["MontyCarlo\\particles\\*.pyx"],            extra_compile_args = args),
-                Extension("*",                     ["MontyCarlo\\*.pyx"],                       extra_compile_args = args), 
-                Extension("geometry.*",            ["MontyCarlo\\geometry\\*.pyx"],             extra_compile_args = args),
-                Extension("materials.electron.*",  ["MontyCarlo\\materials\\electron\\*.pyx"],  extra_compile_args = args),
-                Extension("materials.positron.*",  ["MontyCarlo\\materials\\positron\\*.pyx"],  extra_compile_args = args),
-                Extension("materials.*",           ["MontyCarlo\\materials\\*.pyx"],            extra_compile_args = args),
-                Extension("materials.photon.*",    ["MontyCarlo\\materials\\photon\\*.pyx"],    extra_compile_args = args),
-                Extension("external.*",             ["MontyCarlo\\external\\*.pyx"],              extra_compile_args = args)
-              ]
- 
+
+__PATH__ = Path(".")
+src_folder = __PATH__/'MontyCarlo'
+
+directory_list = []
+iter_dir(src_folder, directory_list)
 
 
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+args = None
+
+if "--win.amd" in sys.argv:
+    lock_commands = True
+    sys.argv.remove("--win.amd")
+
+    args = [
+             "-O2",             # code optimization
+             "-fp:fast",        # math optimization -> changes order of math operations for max efficiency
+             "-favor:AMD64"
+           ]
+
+
+if "--win.intel" in sys.argv:
+    if args: 
+        raise RuntimeError("Incompatible options.")
+
+    sys.argv.remove("--win.intel")
+
+    args =  [
+             "-O2",             # code optimization
+             "-fp:fast",        # math optimization -> changes order of math operations for max efficiency
+             "-favor:INTEL64"
+             ]
+
+if "--mac" in sys.argv:
+    if args: 
+        raise RuntimeError("Incompatible options.")
+
+    sys.argv.remove("--mac")
+
+    args = [
+            "-Wno-cpp",
+            "-std=c++11",
+           ]
+
+if args is None:
+    raise RuntimeError("Please specify os/cpu combination.")
+
+"""
+OS  = ['win',   'mac']
+CPU = ['intel', 'amd']
+
+
+
+
+arg_options = { 
+                  'win.amd': [
+                            "-O2",             # code optimization
+                            "-fp:fast",        # math optimization -> changes order of math operations for max efficiency
+                            "-favor:AMD64"
+                            ],
+
+                 'win.intel': [
+                              "-O2",             # code optimization
+                              "-fp:fast",        # math optimization -> changes order of math operations for max efficiency
+                              "-favor:INTEL64"
+                              ],
+
+                      'mac':  [
+                              "-Wno-cpp",
+                              "-std=c++11",
+                              ],
+               }
+"""
+
+extra_compile_args = args
+
+def to_python(path):
+    """Translates a `Path` object to a string of the form `MontyCarlo.module1`.
+    """
+    res = path.name
+
+    while path != path.parent:
+        path = path.parent
+        res = path.name + "." + res
+
+    return res[1:]
+
+
+# Build Extensions
+EXTENSIONS = []
+
+for path in directory_list:
+    ext = Extension(
+                    to_python(path),            
+                    [str(path)],                
+                    extra_compile_args = extra_compile_args,
+                    )
+
+    EXTENSIONS.append(ext)
+
+
+
+with open("README.md", "r", encoding="utf-8") as file:
+    long_description = file.read()
 
 if __name__ == "__main__":
     setup(
-        name = "MontyCarlo",
-        version = version,
-        author = "Rui Filipe de Sousa Campos",
-        description = "A fast general purpose monte carlo particle simulator (photons, electrons and positrons). Written in Cython, Python and C++.",
-        long_description = long_description,
-        long_description_content_type="text/markdown",
-        url="https://github.com/RuiFilipeCampos/MontyCarlo",
-        setup_requires   = ['setuptools_scm'],
-        install_requires = ['requests',     # for downloading databases
-                            'gdown',        # for downloading databases
-                            'numpy',        # for data processing and C-API
-                            'scipy',        # for data processing
-                            'matplotlib',   # for data visualization
-                            'pyvista',      # for geometry debugging and data visualization
-                            'numba',        # for JIT compilation, will be deprecated in the future
-                            'bs4',          # for some other dependency
-                            'pandas',       # for data processing, data reading and for htmlcreator
-                            'plotly',       # for htmlcreator
-                            'scikit-image',
-                            'Jinja2', 
-                            'pyunpack',
-                            'patool'],
+            name = "MontyCarlo",
+            version = version,
+            author = "Rui Filipe de Sousa Campos",
+            description = "A fast general purpose monte carlo particle simulator (photons, electrons and positrons). Written in Cython, Python and C++.",
+            long_description = long_description,
+            long_description_content_type="text/markdown",
+            url="https://github.com/RuiFilipeCampos/MontyCarlo",
+            setup_requires   = ['setuptools_scm'],
+            install_requires = [
+                                 'requests',     # for downloading databases
+                                 'numpy',        # for data processing and C-API
+                                 'scipy',        # for data processing
+                                 'matplotlib',   # for data visualization
+                                 'pyvista',      # for geometry debugging and data visualization
+                                 'numba',        # for JIT compilation, will be deprecated in the future
+                                 'bs4',          # for some other dependency
+                                 'pandas',       # for data processing, data reading and for htmlcreator
+                                 'plotly',       # for htmlcreator
+                                 'scikit-image',
+                                 'Jinja2', 
+                                 'pyunpack',
+                                 'patool'
+                                ],
+            include_package_data = True,
+            packages             = find_packages(),
+            cmdclass             = {'build_ext': build_ext},
+            include_dirs         = [".", np.get_include()],
 
-        include_package_data = True,
-        packages             = find_packages(),
-        cmdclass             = {'build_ext': build_ext},
-        include_dirs         = [".", np.get_include(), "_random"],
-
-        ext_modules = cythonize(
-                                ext_modules, 
-                                annotate = False, # this is getting overriden locally ._.
-                                compiler_directives = {
-                                                       'profile'        : False, # this is also getting overriden locally ._.
-                                                       'language_level' : "3"
-                                                      }
-                               )
-    )  
-
-
+            ext_modules = cythonize(
+                                     EXTENSIONS, 
+                                     annotate = False, # this is getting overriden locally ._.
+                                     compiler_directives =  {
+                                                             'profile'        : False, # this is also getting overriden locally ._.
+                                                             'language_level' : "3"
+                                                            }
+                                    )
+         )  
 
 
-# https://journals.sagepub.com/doi/suppl/10.1177/ANIB_39_2
-#  https://iopscience.iop.org/article/10.1088/1742-6596/1662/1/012021/pdf
-# https://iopscience.iop.org/article/10.1088/0031-9155/51/14/017
 
- 
+
+
+# dia 17 -> 14h30
