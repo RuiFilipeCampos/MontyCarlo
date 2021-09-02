@@ -168,7 +168,7 @@ EXTENSIONS = []
 for path in directory_list:
     ext = Extension(
                     to_python(path),            
-                    [str(path)],                
+                    [str(path/'*.pyx')],                
                     extra_compile_args = extra_compile_args,
                     )
 
