@@ -28,11 +28,13 @@ import numpy as np # need to compile it with the extension modules
 
 
 
+
 # MSVC ARGUMENTS
 args = [
         "-O2",     # code optimization
         "-fp:fast" # math optimization -> changes order of math operations for max efficiency
        ]
+
 
 ext_modules = [ 
                 Extension("tools.*",               ["MontyCarlo\\tools\\*.pyx"],                extra_compile_args = args),
@@ -60,8 +62,6 @@ if __name__ == "__main__":
         long_description = long_description,
         long_description_content_type="text/markdown",
         url="https://github.com/RuiFilipeCampos/MontyCarlo",
-
-
         setup_requires   = ['setuptools_scm'],
         install_requires = ['requests',     # for downloading databases
                             'gdown',        # for downloading databases
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
         ext_modules = cythonize(
                                 ext_modules, 
-                                            annotate = False, # this is getting overriden locally ._.
+                                annotate = False, # this is getting overriden locally ._.
                                 compiler_directives = {
                                                        'profile'        : False, # this is also getting overriden locally ._.
                                                        'language_level' : "3"

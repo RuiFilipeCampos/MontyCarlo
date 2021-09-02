@@ -16,7 +16,7 @@ import numpy as np # need to compile it with the extension modules
 
 
 
-# MSVC ARGUMENTS
+# MACOS gcc args
 args = [
         "-Wno-cpp", "-std=c++11"
        ]
