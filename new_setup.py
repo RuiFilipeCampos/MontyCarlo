@@ -36,7 +36,7 @@ __author__ = "Rui Campos"
 
 
 import os
-import argparse
+import sys
 
 from setup_version import version
 from Cython.Build import cythonize
@@ -82,36 +82,73 @@ directory_list = []
 iter_dir(src_folder, directory_list)
 
 
-parser = argparse.ArgumentParser()
+args = None
 
-# will compile to
-parser.add_argument("--os",  type=str, help = "Specify the OS.")
-parser.add_argument("--cpu", type=str, help = "Specify the chip.")
+if "--win.amd" in sys.argv:
+    lock_commands = True
+    sys.argv.remove("--win.amd")
 
+    args = [
+             "-O2",             # code optimization
+             "-fp:fast",        # math optimization -> changes order of math operations for max efficiency
+             "-favor:AMD64"
+           ]
+
+
+if "--win.intel" in sys.argv:
+    if args: 
+        raise RuntimeError("Incompatible options.")
+
+    sys.argv.remove("--win.intel")
+
+    args =  [
+             "-O2",             # code optimization
+             "-fp:fast",        # math optimization -> changes order of math operations for max efficiency
+             "-favor:INTEL64"
+             ]
+
+if "--mac" in sys.argv:
+    if args: 
+        raise RuntimeError("Incompatible options.")
+
+    sys.argv.remove("--mac")
+
+    args = [
+            "-Wno-cpp",
+            "-std=c++11",
+           ]
+
+if args is None:
+    raise RuntimeError("Please specify os/cpu combination.")
+
+"""
 OS  = ['win',   'mac']
 CPU = ['intel', 'amd']
 
 
-res = parser.parse_args()
 
 
 arg_options = { 
-                'win': [
-                       "-O2",             # code optimization
-                       "-fp:fast",        # math optimization -> changes order of math operations for max efficiency
-                       "-favor:AMD64"
-                       ],
+                  'win.amd': [
+                            "-O2",             # code optimization
+                            "-fp:fast",        # math optimization -> changes order of math operations for max efficiency
+                            "-favor:AMD64"
+                            ],
 
-                'mac': [
-                       "-Wno-cpp",
-                       "-std=c++11",
-                       ],
+                 'win.intel': [
+                              "-O2",             # code optimization
+                              "-fp:fast",        # math optimization -> changes order of math operations for max efficiency
+                              "-favor:INTEL64"
+                              ],
+
+                      'mac':  [
+                              "-Wno-cpp",
+                              "-std=c++11",
+                              ],
                }
+"""
 
-if res.os not in arg_options.keys():
-    raise RuntimeError("Specified OS not in available.")
-
-extra_compile_args = arg_options[res.os]
+extra_compile_args = args
 
 def to_python(path):
     """Translates a `Path` object to a string of the form `MontyCarlo.module1`.
@@ -129,11 +166,10 @@ def to_python(path):
 EXTENSIONS = []
 
 for path in directory_list:
-    
     ext = Extension(
                     to_python(path),            
                     [str(path)],                
-                    extra_compile_args = extra_compile_args
+                    extra_compile_args = extra_compile_args,
                     )
 
     EXTENSIONS.append(ext)
@@ -176,7 +212,7 @@ if __name__ == "__main__":
             include_dirs         = [".", np.get_include()],
 
             ext_modules = cythonize(
-                                     ext_modules, 
+                                     EXTENSIONS, 
                                      annotate = False, # this is getting overriden locally ._.
                                      compiler_directives =  {
                                                              'profile'        : False, # this is also getting overriden locally ._.
