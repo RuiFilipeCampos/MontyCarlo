@@ -37,7 +37,7 @@ ext_modules = [
                 Extension("materials.positron.*",  ["MontyCarlo\\materials\\positron\\*.pyx"],  extra_compile_args = args),
                 Extension("materials.*",           ["MontyCarlo\\materials\\*.pyx"],            extra_compile_args = args),
                 Extension("materials.photon.*",    ["MontyCarlo\\materials\\photon\\*.pyx"],    extra_compile_args = args),
-                Extension("external.*",             ["MontyCarlo\\external\\*.pyx"],              extra_compile_args = args)
+                Extension("external.*",            ["MontyCarlo\\external\\*.pyx"],             extra_compile_args = args)
               ]
  
 

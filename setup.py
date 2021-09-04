@@ -187,7 +187,7 @@ for path in directory_list:
 
     EXTENSIONS.append(ext)
 
-
+print(EXTENSIONS)
 
 with open("README.md", "r", encoding="utf-8") as file:
     long_description = file.read()
