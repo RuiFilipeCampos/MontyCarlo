@@ -160,7 +160,7 @@ def to_python(path):
         res = path.name + "." + res
     res = res[1:][11:]
 
-    return res if res != "" else "*"
+    return res + ".*" if res != "" else "*"
 
 
 # Build Extensions
