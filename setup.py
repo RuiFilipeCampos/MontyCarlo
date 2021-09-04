@@ -158,35 +158,31 @@ def to_python(path):
     while path != path.parent:
         path = path.parent
         res = path.name + "." + res
+    res = res[1:][11:]
 
-    return res[1:]
+    return res if res != "" else "*"
 
 
 # Build Extensions
 EXTENSIONS = []
 
 
-def check_pattern(pattern):
-    """Check if there are files with the form "path/*.[ext]"
-    """
-    return pattern.match(str(pattern))
 
-match = lambda pattern: pattern.match(str(pattern))
 
 for path in directory_list:
 
-    pattern = path/'*.pyx'
-
-
-    if check_pattern(pattern) is False:
+    for file_path in path.iterdir():
+        if ".pyx" in str(file_path):
+            break
+    else:
         continue
 
-    print(pattern, True)
-
-
+    print(path)
+    print(path/'*.pyx')
+    print(to_python(path))
     ext = Extension(
                     to_python(path),            
-                    [str(pattern)],                
+                    [str(path/'*.pyx')],                
                     extra_compile_args = extra_compile_args,
                     )
 
