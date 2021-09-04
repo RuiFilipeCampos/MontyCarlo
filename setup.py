@@ -165,10 +165,28 @@ def to_python(path):
 # Build Extensions
 EXTENSIONS = []
 
+
+def check_pattern(pattern):
+    """Check if there are files with the form "path/*.[ext]"
+    """
+    return pattern.match(str(pattern))
+
+match = lambda pattern: pattern.match(str(pattern))
+
 for path in directory_list:
+
+    pattern = path/'*.pyx'
+
+
+    if check_pattern(pattern) is False:
+        continue
+
+    print(pattern, True)
+
+
     ext = Extension(
                     to_python(path),            
-                    [str(path/'*.pyx')],                
+                    [str(pattern)],                
                     extra_compile_args = extra_compile_args,
                     )
 
@@ -187,7 +205,7 @@ if __name__ == "__main__":
             description = "A fast general purpose monte carlo particle simulator (photons, electrons and positrons). Written in Cython, Python and C++.",
             long_description = long_description,
             long_description_content_type="text/markdown",
-            url="https://github.com/RuiFilipeCampos/MontyCarlo",
+            url = "https://github.com/RuiFilipeCampos/MontyCarlo",
             setup_requires   = ['setuptools_scm'],
             install_requires = [
                                  'requests',     # for downloading databases
@@ -202,7 +220,7 @@ if __name__ == "__main__":
                                  'scikit-image',
                                  'Jinja2', 
                                  'pyunpack',
-                                 'patool'
+                                 'patool',
                                 ],
             include_package_data = True,
             packages             = find_packages(),
