@@ -183,6 +183,7 @@ for path in directory_list:
                     to_python(path),            
                     [str(path/'*.pyx')],                
                     extra_compile_args = extra_compile_args,
+                    language = "c++"
                    )
 
     EXTENSIONS.append(ext)
