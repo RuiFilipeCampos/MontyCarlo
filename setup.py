@@ -85,7 +85,6 @@ iter_dir(src_folder, directory_list)
 args = None
 
 if "--win.amd" in sys.argv:
-    lock_commands = True
     sys.argv.remove("--win.amd")
 
     args = [
@@ -184,7 +183,7 @@ for path in directory_list:
                     to_python(path),            
                     [str(path/'*.pyx')],                
                     extra_compile_args = extra_compile_args,
-                    )
+                   )
 
     EXTENSIONS.append(ext)
 
