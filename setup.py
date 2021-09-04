@@ -92,11 +92,13 @@ if "--win.amd" in sys.argv:
              "-fp:fast",        # math optimization -> changes order of math operations for max efficiency
              "-favor:AMD64"
            ]
-
+    OS = "win"
 
 if "--win.intel" in sys.argv:
     if args: 
         raise RuntimeError("Incompatible options.")
+
+    OS = "win"
 
     sys.argv.remove("--win.intel")
 
@@ -116,6 +118,7 @@ if "--mac" in sys.argv:
             "-Wno-cpp",
             "-std=c++11",
            ]
+    OS = "mac"
 
 if args is None:
     raise RuntimeError("Please specify os/cpu combination.")
@@ -167,26 +170,46 @@ EXTENSIONS = []
 
 
 
+if OS == "mac":
+    for path in directory_list:
 
-for path in directory_list:
+        for file_path in path.iterdir():
+            if ".pyx" in str(file_path):
+                break
+        else:
+            continue
 
-    for file_path in path.iterdir():
-        if ".pyx" in str(file_path):
-            break
-    else:
-        continue
+        print(path)
+        print(path/'*.pyx')
+        print(to_python(path))
+        ext = Extension(
+                        to_python(path),            
+                        [str(path/'*.pyx')],                
+                        extra_compile_args = extra_compile_args,
+                        language = "c++"
+                       )
 
-    print(path)
-    print(path/'*.pyx')
-    print(to_python(path))
-    ext = Extension(
-                    to_python(path),            
-                    [str(path/'*.pyx')],                
-                    extra_compile_args = extra_compile_args,
-                    language = "c++"
-                   )
+        EXTENSIONS.append(ext)
+else:
+    for path in directory_list:
 
-    EXTENSIONS.append(ext)
+        for file_path in path.iterdir():
+            if ".pyx" in str(file_path):
+                break
+        else:
+            continue
+
+        print(path)
+        print(path/'*.pyx')
+        print(to_python(path))
+        ext = Extension(
+                        to_python(path),            
+                        [str(path/'*.pyx')],                
+                        extra_compile_args = extra_compile_args,
+                       )
+
+        EXTENSIONS.append(ext)
+
 
 print(EXTENSIONS)
 
