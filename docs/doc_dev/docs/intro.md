@@ -2,22 +2,26 @@
 sidebar_position: 1
 ---
 
+
+
+# note: just writing stuff, this will work in the next version
+
 # Tutorial Intro
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Let's discover **MontyCarlo in less than 5 minutes**.
 
 ## Getting Started
 
-Get started by **creating a new site**.
+Get started by **creating a new project**.
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+Or **try MontyCarlo immediately** with **[docusaurus.new](https://docusaurus.new)**.
 
-## Generate a new site
+## Generate a new project
 
-Generate a new Docusaurus site using the **classic template**:
+Generate a new MontyCarlo project using the following command:
 
 ```shell
-npx @docusaurus/init@latest init my-website classic
+myco new name_of_project
 ```
 
 ## Start your site
