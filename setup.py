@@ -9,7 +9,7 @@ Building and Distributing
 Run this script with the following options:
 
 ```
-python setup.py --os [OS] --cpu [CPU] --version [VERSION]
+python setup.py --[OS].[CPU]
 ```
 
 Where:
@@ -23,7 +23,7 @@ BUILDING LOCALLY
 Run this script with the following options:
 
 ```
-python setup.py build_ext --inplace
+python setup.py build_ext --inplace --[OS].[CPU]
 ```
 
 An additional flag `-jx`, where `x` is an integer, may be provided
@@ -123,32 +123,9 @@ if "--mac" in sys.argv:
 if args is None:
     raise RuntimeError("Please specify os/cpu combination.")
 
-"""
-OS  = ['win',   'mac']
-CPU = ['intel', 'amd']
 
 
 
-
-arg_options = { 
-                  'win.amd': [
-                            "-O2",             # code optimization
-                            "-fp:fast",        # math optimization -> changes order of math operations for max efficiency
-                            "-favor:AMD64"
-                            ],
-
-                 'win.intel': [
-                              "-O2",             # code optimization
-                              "-fp:fast",        # math optimization -> changes order of math operations for max efficiency
-                              "-favor:INTEL64"
-                              ],
-
-                      'mac':  [
-                              "-Wno-cpp",
-                              "-std=c++11",
-                              ],
-               }
-"""
 
 extra_compile_args = args
 
@@ -182,6 +159,7 @@ if OS == "mac":
         print(path)
         print(path/'*.pyx')
         print(to_python(path))
+        
         ext = Extension(
                         to_python(path),            
                         [str(path/'*.pyx')],                
@@ -202,6 +180,8 @@ else:
         print(path)
         print(path/'*.pyx')
         print(to_python(path))
+
+
         ext = Extension(
                         to_python(path),            
                         [str(path/'*.pyx')],                
