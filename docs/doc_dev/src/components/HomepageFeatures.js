@@ -5,17 +5,17 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: 'Easy to Use',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('../../static/img/python.svg').default,
     description: (
       <>
         MontyCarlo was designed from the ground up to be easily installed and
         used to get your simulation up and running quickly.
       </>
     ),
-  },
+  }, 
   {
     title: 'Focus on What Matters',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('../../static/img/python.svg').default,
     description: (
       <>
         MontyCarlo lets you focus on your simulation, and we&apos;ll do the boring physics stuff.
@@ -24,7 +24,7 @@ const FeatureList = [
   },
   {
     title: 'Powered by Cython',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('../../static/img/cython.svg').default,
     description: (
       <>
         Extend or customize your website layout by reusing React. Docusaurus can

@@ -2,14 +2,16 @@
 sidebar_position: 3
 ---
 
-# Simulation Schemes
+# Basic Framework
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 
 ## Detailed History Simulation
 
-In this section, an attempt is made to build an **intuition** for what is the *differential cross section* is and how it can be used in particle simulations. A bottom up approach is taken to walk the reader to the most important algorithm in the monte carlo techniques for the simulation of particle transport.
+A basic conceptual/mathematical framework is introduced. It will be used alot during subsquent discussions.
+
+An attempt is made to build an **intuition** for what is the *differential cross section* is and how it can be used in particle simulations. A bottom up approach is taken to walk the reader to the most important algorithm in the monte carlo techniques for the simulation of particle transport.
 
 ### Interaction Cross Section
 
@@ -68,9 +70,111 @@ $$
 Random sampling of (\ref{eqn:PDF_DCS}) is done via the evaluation of analytic formulas upon the generation of a single uniform random number or through the use of numerical methods on tabulated values of the differential cross section.
  
 
-### Mean Free Path
-
-### The Algorithm
 
 
-## Condensed History Simulation
+## Mean Free Path
+
+Knowledge of the outcome of an interaction is not enough to simulate the particle transport.
+It is also important to sample the distance between any given two interactions.
+
+Consider an infinitesimal slab of lenght $dz$ and area $\delta A$.
+Suppose that: the slab is filled with some homogeneous material, knowledge of the total cross sections at any particle energy is available and the number density of targets is known ($N$).
+
+The probability that a given projectile hits a target is
+
+$$
+   dp = n \frac{\sigma}{A} =  \frac{n \sigma}{V} dx = N \sigma dx,
+$$ 
+
+where ...
+
+Considering a beam of particles crossing the medium, $dp$ is then the fraction of particles that undergo an interaction at each $dx$. It follows that the relation between the number of particles in the beam and the distance that it has travelled is,
+
+$$
+            dN_{b} = -dp N_{b} =  - N \sigma  N_{b} dx
+$$
+
+which is a differential equation whose general solution can be written as
+
+$$
+            N_{b} = N_{b0} \exp(-N \sigma x).
+$$
+
+This solution is then normalized to find the probability density function that the particle will travel a distance $x$ before interacting. The mean free path between any given interaction is therefore,
+
+$$
+            \lambda = \frac{1}{N\sigma}
+$$
+
+The analytic expression for this probability distribution is easy to integrate, so we can find the inverse transform for its cumulative function and use it to sample the path between successive interactions
+
+$$
+L = - \frac{\log r}{N \sigma}
+$$
+
+where $r$ is uniformly distributed in $]0, 1]$.
+
+
+
+
+## The Algorithm
+    
+A general outline for how to write a basic monte carlo simulation of particle transport in an infinite medium of uniform density can now be made. Start by setting the initial conditions for the particle: position, energy and direction of movement. Iterate the following steps:
+
+
+<ol>
+	<li> <b>Move the particle</b>: </li>	
+	<ol>
+		<li>Calculate the inverse mean free path of the particle in the current medium, using its current energy. </li>
+		<li>Sample the distance to the next interaction using equation (?)</li>
+		<li>Update the particles position.</li>
+	</ol>
+	<li> <b>Interact with the medium</b>: </li>
+	<ol>
+		<li>Chose an interaction;</li>
+		<li>Sample the final result of the interaction:</li>
+		<ul>
+			<li>\theta: Polar angle deflection;</li>
+			<li>\phi: Azimuthal angle deflection;</li>
+			<li>W: Energy loss.</li>
+		</ul>
+		<li>Update energy and direction accordingly.</li>
+	</ol>
+	<li> <b>Check the particles state</b>: </li>	
+</ol>
+
+$$
+        \begin{enumerate}
+        \item Move the particle;
+        \begin{enumerate}
+            \item  Calculate the inverse mean free path of the particle in the current medium, using its current energy: \verb|imfp_tot| ;
+            \item Sample the distance to the next interaction using equation (?): $L$
+            \item Update the particles position: \verb|pos += dire*L|
+        \end{enumerate}
+        \item Interact with the medium.
+        \begin{enumerate}
+            \item  Choose an interaction using $N\sigma$ (see section \ref{rand:discrete}.
+            \item Sample the final result of the interaction from its corresponding differential cross section.
+            \item Update energy and direction accordingly.
+        \end{enumerate}
+        \item Check particles state.
+        \begin{enumerate}
+            \item  Is the particles energy bellow a given cut off value?
+            
+            \begin{enumerate}
+                \item Yes: Stop the simulation.
+                \item No: Continue iteration.
+            \end{enumerate}
+            
+            \item  Is the particles position outside the simulation region?
+            \begin{enumerate}
+                \item Yes: Stop the simulation.
+                \item No: Continue iteration.
+            \end{enumerate}
+
+        \end{enumerate}
+        \end{enumerate}
+$$
+
+This is the basic structure of any given monte carlo simulation algorithm. Modifications are made to introduce geometry, variance reduction and condensed history.    
+        
