@@ -72,7 +72,7 @@ Random sampling of (\ref{eqn:PDF_DCS}) is done via the evaluation of analytic fo
 
 
 
-## Mean Free Path
+### Mean Free Path
 
 Knowledge of the outcome of an interaction is not enough to simulate the particle transport.
 It is also important to sample the distance between any given two interactions.
@@ -117,7 +117,7 @@ where $r$ is uniformly distributed in $]0, 1]$.
 
 
 
-## The Algorithm
+### The Algorithm
     
 A general outline for how to write a basic monte carlo simulation of particle transport in an infinite medium of uniform density can now be made. Start by setting the initial conditions for the particle: position, energy and direction of movement. Iterate the following steps:
 
@@ -141,40 +141,19 @@ A general outline for how to write a basic monte carlo simulation of particle tr
 		<li>Update energy and direction accordingly.</li>
 	</ol>
 	<li> <b>Check the particles state</b>: </li>	
+		<ul>
+			<li>Is the particles' energy below a certain cutoff?</li>
+			<ul>
+			<li><i>Yes:</i> Stop the simulation.</li>
+			<li><i>No: Continue iteration.</i></li>
+			</ul>
+			<li>Is the particles' position outside the region of interest?</li>
+			<ul>
+			<li><i>Yes:</i> Stop the simulation.</li>
+			<li><i>No:</i> Continue iteration.</li>
+			</ul>
+		</ul>
 </ol>
-
-$$
-        \begin{enumerate}
-        \item Move the particle;
-        \begin{enumerate}
-            \item  Calculate the inverse mean free path of the particle in the current medium, using its current energy: \verb|imfp_tot| ;
-            \item Sample the distance to the next interaction using equation (?): $L$
-            \item Update the particles position: \verb|pos += dire*L|
-        \end{enumerate}
-        \item Interact with the medium.
-        \begin{enumerate}
-            \item  Choose an interaction using $N\sigma$ (see section \ref{rand:discrete}.
-            \item Sample the final result of the interaction from its corresponding differential cross section.
-            \item Update energy and direction accordingly.
-        \end{enumerate}
-        \item Check particles state.
-        \begin{enumerate}
-            \item  Is the particles energy bellow a given cut off value?
-            
-            \begin{enumerate}
-                \item Yes: Stop the simulation.
-                \item No: Continue iteration.
-            \end{enumerate}
-            
-            \item  Is the particles position outside the simulation region?
-            \begin{enumerate}
-                \item Yes: Stop the simulation.
-                \item No: Continue iteration.
-            \end{enumerate}
-
-        \end{enumerate}
-        \end{enumerate}
-$$
 
 This is the basic structure of any given monte carlo simulation algorithm. Modifications are made to introduce geometry, variance reduction and condensed history.    
         
