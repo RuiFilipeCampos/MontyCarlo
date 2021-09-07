@@ -10,13 +10,13 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 (module.exports = {
   title: 'MontyCarlo',
   tagline: 'The Django of particle simulators.',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://ruifilipecampos.github.io/MontyCarlo/',
   baseUrl: '/MontyCarlo/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'RuiFilipeCampos', // Usually your GitHub org/user name.
+  projectName: 'MontyCarlo', // Usually your repo name.
 
   presets: [
     [
@@ -27,7 +27,11 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+          remarkPlugins: [math],
+          rehypePlugins: [katex]
         },
+
+
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
@@ -41,11 +45,19 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
     ],
   ],
 
+  stylesheets: [
+      {
+        href: "https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css",
+        integrity: "sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc",
+        crossorigin: "anonymous",    
+      },
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'My Site',
+        title: 'MontyCarlo',
         logo: {
           alt: 'My Site Logo',
           src: 'img/logo.svg',
@@ -103,12 +115,12 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/RuiFilipeCampos/MontyCarlo',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} MontyCarlo, Inc. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
