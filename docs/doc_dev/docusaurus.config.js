@@ -10,7 +10,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 (module.exports = {
   title: 'MontyCarlo',
   tagline: 'The Django of particle simulators.',
-  url: 'https://ruifilipecampos.github.io/MontyCarlo/',
+  url: 'https://ruifilipecampos.github.io/',
   baseUrl: '/MontyCarlo/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
