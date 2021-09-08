@@ -3,8 +3,8 @@ name: (RUN UNIT TESTS) linux-latest_
 on: [pull_request, workflow_dispatch]
 
 jobs:
-  macos:
-      runs-on: macos-latest
+  linux:
+      runs-on: linux-latest
       strategy:
         matrix:
           cp: ['3.7', '3.8', '3.9']
