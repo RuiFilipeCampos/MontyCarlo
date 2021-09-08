@@ -4,7 +4,7 @@ on: [pull_request, workflow_dispatch]
 
 jobs:
   linux:
-      runs-on: linux-latest
+      runs-on: ubuntu-latest
       strategy:
         matrix:
           cp: ['3.7', '3.8', '3.9']
