@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdoc_dev=self.webpackChunkdoc_dev||[]).push([[407],{8284:function(s){s.exports=JSON.parse('{"allTagsPath":"/MontyCarlo/blog/tags","slug":"/MontyCarlo/blog/tags/docusaurus","name":"docusaurus","count":4,"permalink":"/MontyCarlo/blog/tags/docusaurus"}')}}]);
