@@ -4,36 +4,73 @@ sidebar_position: 1
 
 
 
-# note: just writing stuff, this will work in the next version
-
 # Tutorial Intro
 
 Let's discover **MontyCarlo in less than 5 minutes**.
 
-## Getting Started
 
-Get started by **creating a new project**.
+## Disclaimer
 
-Or **try MontyCarlo immediately** with **[docusaurus.new](https://docusaurus.new)**.
+As of now, MontyCarlo is still in pre-alpha development phase.
 
-## Generate a new project
+However, it is possible to try it out. 
 
-Generate a new MontyCarlo project using the following command:
+There is just no guarantees given in terms of stability and numerical results until version `0.1` is released.
 
-```shell
-myco new name_of_project
+
+## What does it do?
+
+MontyCarlo simulates the propagation of high energy particles through media of uniform density.
+
+It allows the calculation of the energy deposition of these particles in said medium.
+
+## Installation
+
+MontyCarlo is meant to be installed in a **virtual environment**. 
+
+You can use whatever environment you want, but in this tutorial we'll be using Annaconda Prompt to create and use virtual environments.
+
+**Hardware Requirements**: 64bit CPU
+
+**Software Requirements**:
+- One of these python versions: 3.7, 3.8 or 3.9;
+- One of these operating systems: Windows or MacOS;
+
+Open an Annaconda Prompt and create a new environment:
+
+```Bash
+conda create --new myco_env python=3.9
 ```
 
-## Start your site
+This will create an environment with a clean python installation.
 
-Run the development server:
+Use the following command to activate the virtual environment:
 
-```shell
-cd my-website
-
-npx docusaurus start
+```Bash
+conda activate myco_env
 ```
 
-Your site starts at `http://localhost:3000`.
+Now you can install MontyCarlo as you would install any other package:
 
-Open `docs/intro.md` and edit some lines: the site **reloads automatically** and display your changes.
+```Bash
+pip install MontyCarlo
+```
+
+The first time you import MontyCarlo, it will automatically download all the necessary databases. This is a one time step:
+
+```Bash
+python -c "import MontyCarlo"
+```
+
+## Running the Demo
+
+Either download or clone the following repository: MyCo-EXAMPLE1
+
+Navigate to the root folder of the `MyCo-EXAMPLE1` project and run the following command:
+
+```Bash
+python main.py
+```
+
+This demo should not take too long. It will open a plot of the trajectory of the particles.
+
