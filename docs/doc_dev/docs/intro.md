@@ -39,7 +39,7 @@ You can use whatever environment you want, but in this tutorial we'll be using A
 Open an Annaconda Prompt and create a new environment:
 
 ```Bash
-conda create --new myco_env python=3.9
+conda create --name myco_env python=3.9
 ```
 
 This will create an environment with a clean python installation.
