@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdoc_dev=self.webpackChunkdoc_dev||[]).push([[731],{9117:function(l){l.exports=JSON.parse('{"allTagsPath":"/MontyCarlo/blog/tags","slug":"/MontyCarlo/blog/tags/hello","name":"hello","count":2,"permalink":"/MontyCarlo/blog/tags/hello"}')}}]);

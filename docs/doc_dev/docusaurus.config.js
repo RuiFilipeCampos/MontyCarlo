@@ -31,23 +31,12 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
           remarkPlugins: [math],
           rehypePlugins: [katex]
         },
-
-
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
             'https://github.com/RuiFilipeCampos/MontyCarlo',
         },
-
-        physics: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          editUrl:
-            'https://github.com/RuiFilipeCampos/MontyCarlo',
-        },
-
-
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -73,13 +62,13 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
           src: 'img/logo.svg',
         },
         items: [
+          {type: 'docsVersionDropdown',},
           {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Documentation', 
           },
-
           {to: '/blog', label: 'Blog', position: 'left'},
 
           {
