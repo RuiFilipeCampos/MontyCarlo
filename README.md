@@ -44,7 +44,7 @@ MyCo will detect that it is the first import and will proceed to download all th
 -->
 # Try it out!
 
-See [here](https://github.com/RuiFilipeCampos/MontyCarlo/releases/tag/v0.1a0.dev1) for instructions on installing the latest release.
+See [here](https://ruifilipecampos.github.io/MontyCarlo/docs/intro#installation) for instructions on installing the latest release.
 
 Once you've installed MontyCarlo, clone or download the following repository: https://github.com/RuiFilipeCampos/MyCo-EXAMPLE1
 
