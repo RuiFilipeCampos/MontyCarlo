@@ -1460,7 +1460,7 @@ def rebuildsFastCubicSpline(this):
     self.N  = this.N  
     self.rc = this.rc
     from numpy import array
-    self.LIMS = array(this.LIMS, dtype = int)
+    self.LIMS = array(this.LIMS, dtype = np.int32)
 
     self.mu_c = this.mu_c
     
