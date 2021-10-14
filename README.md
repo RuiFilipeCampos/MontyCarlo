@@ -7,7 +7,7 @@ The first stable realease will be version `0.1`.
 
 **As of yet, this is an unstable version.** This is a thesis project and, as a student, I am still learning!
 
-- **Documentation** (work in progress): https://ruifilipecampos.github.io/MontyCarlo/
+- **Documentation** ([work in progress](https://github.com/RuiFilipeCampos/MontyCarlo/tree/docs)): https://ruifilipecampos.github.io/MontyCarlo/
 - **PyPI**: https://pypi.org/project/MontyCarlo/
 - *Short Overview*: https://github.com/RuiFilipeCampos/MontyCarlo/wiki
 
