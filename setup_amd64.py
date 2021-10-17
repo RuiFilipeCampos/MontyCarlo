@@ -24,8 +24,7 @@ import numpy as np # need to compile it with the extension modules
 # MSVC ARGUMENTS
 args = [
         "-O2",     # code optimization
-        "-fp:fast" # math optimization -> changes order of math operations for max efficiency
-        "-favor:AMD64"
+        "-fp:fast" ,                     # math optimization -> changes order of math operations for max efficiency
        ]
 
 ext_modules = [ 

@@ -12,12 +12,12 @@
         ],
         "extra_compile_args": [
             "-O2",
-            "-fp:fast-favor:AMD64"
+            "-fp:fast"
         ],
         "include_dirs": [
             "MontyCarlo\\geometry",
-            ".\\MontyCarlo\\external",
-            ".\\MontyCarlo\\materials"
+            ".\\MontyCarlo\\materials",
+            ".\\MontyCarlo\\external"
         ],
         "language": "c++",
         "name": "MontyCarlo.geometry.CSG",
@@ -5643,7 +5643,7 @@ static const char __pyx_k_os[] = "os";
 static const char __pyx_k_sd[] = "sd";
 static const char __pyx_k_BVH[] = "BVH";
 static const char __pyx_k_SDF[] = "SDF";
-static const char __pyx_k__68[] = ">";
+static const char __pyx_k__67[] = ">";
 static const char __pyx_k_geo[] = "geo/";
 static const char __pyx_k_inv[] = "inv";
 static const char __pyx_k_msg[] = "msg";
@@ -5901,7 +5901,7 @@ static PyObject *__pyx_n_s_Union_2;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_View_MemoryView;
 static PyObject *__pyx_n_s_Z_TALLY;
-static PyObject *__pyx_kp_u__68;
+static PyObject *__pyx_kp_u__67;
 static PyObject *__pyx_n_s_allocate_buffer;
 static PyObject *__pyx_n_s_angle;
 static PyObject *__pyx_n_s_arange;
@@ -6231,7 +6231,7 @@ static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__9;
-static PyObject *__pyx_slice__50;
+static PyObject *__pyx_slice__49;
 static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
@@ -6271,7 +6271,7 @@ static PyObject *__pyx_tuple__45;
 static PyObject *__pyx_tuple__46;
 static PyObject *__pyx_tuple__47;
 static PyObject *__pyx_tuple__48;
-static PyObject *__pyx_tuple__49;
+static PyObject *__pyx_tuple__50;
 static PyObject *__pyx_tuple__51;
 static PyObject *__pyx_tuple__52;
 static PyObject *__pyx_tuple__53;
@@ -6288,7 +6288,7 @@ static PyObject *__pyx_tuple__63;
 static PyObject *__pyx_tuple__64;
 static PyObject *__pyx_tuple__65;
 static PyObject *__pyx_tuple__66;
-static PyObject *__pyx_tuple__67;
+static PyObject *__pyx_tuple__68;
 static PyObject *__pyx_tuple__69;
 static PyObject *__pyx_tuple__70;
 static PyObject *__pyx_tuple__71;
@@ -6316,7 +6316,7 @@ static PyObject *__pyx_tuple__92;
 static PyObject *__pyx_tuple__93;
 static PyObject *__pyx_tuple__94;
 static PyObject *__pyx_tuple__95;
-static PyObject *__pyx_tuple__96;
+static PyObject *__pyx_tuple__97;
 static PyObject *__pyx_tuple__98;
 static PyObject *__pyx_tuple__99;
 static PyObject *__pyx_codeobj__2;
@@ -6326,9 +6326,8 @@ static PyObject *__pyx_codeobj__8;
 static PyObject *__pyx_tuple__100;
 static PyObject *__pyx_tuple__101;
 static PyObject *__pyx_tuple__102;
-static PyObject *__pyx_tuple__103;
-static PyObject *__pyx_codeobj__97;
-static PyObject *__pyx_codeobj__104;
+static PyObject *__pyx_codeobj__96;
+static PyObject *__pyx_codeobj__103;
 /* Late includes */
 
 /* "MontyCarlo/geometry/CSG.pyx":88
@@ -8103,10 +8102,10 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
   CYTHON_UNUSED PyObject *__pyx_v_os = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
   int __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
@@ -8141,57 +8140,32 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
  * 
  * 		self.ws = <void**> malloc(self.Nws * sizeof(void*))             # <<<<<<<<<<<<<<
  * 
- * 		print(self.tmp_ws)
+ * 		IF DEBUG_MODE: print(self.tmp_ws)
  */
   __pyx_cur_scope->__pyx_v_self->ws = ((void **)malloc((__pyx_cur_scope->__pyx_v_self->Nws * (sizeof(void *)))));
 
-  /* "MontyCarlo/geometry/CSG.pyx":197
- * 		self.ws = <void**> malloc(self.Nws * sizeof(void*))
- * 
- * 		print(self.tmp_ws)             # <<<<<<<<<<<<<<
- * 		print(self.Nws)
- * 
- */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_cur_scope->__pyx_v_self->tmp_ws); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "MontyCarlo/geometry/CSG.pyx":198
- * 
- * 		print(self.tmp_ws)
- * 		print(self.Nws)             # <<<<<<<<<<<<<<
- * 
- * 		for i, region in enumerate(self.tmp_ws):
- */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_cur_scope->__pyx_v_self->Nws); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
   /* "MontyCarlo/geometry/CSG.pyx":200
- * 		print(self.Nws)
+ * 		IF DEBUG_MODE: print(self.Nws)
  * 
  * 		for i, region in enumerate(self.tmp_ws):             # <<<<<<<<<<<<<<
  * 			self.ws[i]          = <void*> region
  * 
  */
-  __pyx_t_3 = 0;
-  __pyx_t_2 = __pyx_cur_scope->__pyx_v_self->tmp_ws; __Pyx_INCREF(__pyx_t_2); __pyx_t_4 = 0;
+  __pyx_t_1 = 0;
+  __pyx_t_2 = __pyx_cur_scope->__pyx_v_self->tmp_ws; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
   for (;;) {
-    if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
+    if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 200, __pyx_L1_error)
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 200, __pyx_L1_error)
     #else
-    __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 200, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
     #endif
-    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_10MontyCarlo_8geometry_3CSG_BVH))))) __PYX_ERR(0, 200, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_region, ((struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *)__pyx_t_1));
-    __pyx_t_1 = 0;
-    __pyx_v_i = __pyx_t_3;
-    __pyx_t_3 = (__pyx_t_3 + 1);
+    if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_10MontyCarlo_8geometry_3CSG_BVH))))) __PYX_ERR(0, 200, __pyx_L1_error)
+    __Pyx_XDECREF_SET(__pyx_v_region, ((struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *)__pyx_t_4));
+    __pyx_t_4 = 0;
+    __pyx_v_i = __pyx_t_1;
+    __pyx_t_1 = (__pyx_t_1 + 1);
 
     /* "MontyCarlo/geometry/CSG.pyx":201
  * 
@@ -8203,7 +8177,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
     (__pyx_cur_scope->__pyx_v_self->ws[__pyx_v_i]) = ((void *)__pyx_v_region);
 
     /* "MontyCarlo/geometry/CSG.pyx":200
- * 		print(self.Nws)
+ * 		IF DEBUG_MODE: print(self.Nws)
  * 
  * 		for i, region in enumerate(self.tmp_ws):             # <<<<<<<<<<<<<<
  * 			self.ws[i]          = <void*> region
@@ -8229,11 +8203,11 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
  * 			def this():
  * 				def SDF(double[:,:] P):
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_plt_geo); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_sdf3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_plt_geo); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_sdf3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 204, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
     /* "MontyCarlo/geometry/CSG.pyx":205
  * 		if self.render:
@@ -8242,8 +8216,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
  * 				def SDF(double[:,:] P):
  * 					cdef double3 p
  */
-    __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___1this, 0, __pyx_n_s_exit___locals_this, ((PyObject*)__pyx_cur_scope), __pyx_n_s_MontyCarlo_geometry_CSG, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = __Pyx_CyFunction_New(&__pyx_mdef_10MontyCarlo_8geometry_3CSG_3BVH_8__exit___1this, 0, __pyx_n_s_exit___locals_this, ((PyObject*)__pyx_cur_scope), __pyx_n_s_MontyCarlo_geometry_CSG, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 205, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
       __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
@@ -8254,9 +8228,9 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
         __Pyx_DECREF_SET(__pyx_t_6, function);
       }
     }
-    __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_t_1) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_1);
+    __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -8271,18 +8245,18 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
  * 			generator.save(f"geo/{self.name}.stl")
  */
     __Pyx_INCREF(__pyx_v_this);
-    __pyx_t_6 = __pyx_v_this; __pyx_t_1 = NULL;
+    __pyx_t_6 = __pyx_v_this; __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_1)) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_4)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(__pyx_t_4);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_6, function);
       }
     }
-    __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 219, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -8310,40 +8284,40 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
  */
     __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_generator, __pyx_n_s_save); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 221, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 221, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = 0;
+    __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 221, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = 0;
     __pyx_t_8 = 127;
     __Pyx_INCREF(__pyx_kp_u_geo);
-    __pyx_t_4 += 4;
+    __pyx_t_3 += 4;
     __Pyx_GIVEREF(__pyx_kp_u_geo);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_u_geo);
+    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_kp_u_geo);
     __pyx_t_7 = __Pyx_PyUnicode_Unicode(__pyx_cur_scope->__pyx_v_self->name); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 221, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_8 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_7) > __pyx_t_8) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_7) : __pyx_t_8;
-    __pyx_t_4 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_7);
+    __pyx_t_3 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_7);
     __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_7);
     __pyx_t_7 = 0;
     __Pyx_INCREF(__pyx_kp_u_stl);
-    __pyx_t_4 += 4;
+    __pyx_t_3 += 4;
     __Pyx_GIVEREF(__pyx_kp_u_stl);
-    PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u_stl);
-    __pyx_t_7 = __Pyx_PyUnicode_Join(__pyx_t_1, 3, __pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 221, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_kp_u_stl);
+    __pyx_t_7 = __Pyx_PyUnicode_Join(__pyx_t_4, 3, __pyx_t_3, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 221, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = NULL;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_1)) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_4)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(__pyx_t_4);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_6, function);
       }
     }
-    __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_1, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_4, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7);
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 221, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -8371,8 +8345,8 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_17__exit__(struct __p
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("MontyCarlo.geometry.CSG.BVH.__exit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -8992,11 +8966,6 @@ static void *__pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_searchO(struct __pyx_obj_1
   int __pyx_t_2;
   int __pyx_t_3;
   int __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("searchO", 0);
 
   /* "MontyCarlo/geometry/CSG.pyx":267
@@ -9027,31 +8996,17 @@ static void *__pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_searchO(struct __pyx_obj_1
  * 			if self.ws[i] == state.current_region: continue
  * 
  * 			if (<BVH> self.ws[i]).is_inside(state.pos):             # <<<<<<<<<<<<<<
- * 				print(i)
+ * 				IF DEBUG_MODE: print(i)
  * 				return self.ws[i]
  */
     __pyx_t_4 = (((struct __pyx_vtabstruct_10MontyCarlo_8geometry_3CSG_BVH *)((struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *)(__pyx_v_self->ws[__pyx_v_i]))->__pyx_base.__pyx_vtab)->__pyx_base.is_inside(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)((struct __pyx_obj_10MontyCarlo_8geometry_3CSG_BVH *)(__pyx_v_self->ws[__pyx_v_i]))), __pyx_v_state.pos) != 0);
     if (__pyx_t_4) {
 
-      /* "MontyCarlo/geometry/CSG.pyx":271
- * 
- * 			if (<BVH> self.ws[i]).is_inside(state.pos):
- * 				print(i)             # <<<<<<<<<<<<<<
- * 				return self.ws[i]
- * 		print(0)
- */
-      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 271, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 271, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-
       /* "MontyCarlo/geometry/CSG.pyx":272
  * 			if (<BVH> self.ws[i]).is_inside(state.pos):
- * 				print(i)
+ * 				IF DEBUG_MODE: print(i)
  * 				return self.ws[i]             # <<<<<<<<<<<<<<
- * 		print(0)
+ * 		IF DEBUG_MODE: print(0)
  * 		return <void*> self
  */
       __pyx_r = (__pyx_v_self->ws[__pyx_v_i]);
@@ -9061,27 +9016,16 @@ static void *__pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_searchO(struct __pyx_obj_1
  * 			if self.ws[i] == state.current_region: continue
  * 
  * 			if (<BVH> self.ws[i]).is_inside(state.pos):             # <<<<<<<<<<<<<<
- * 				print(i)
+ * 				IF DEBUG_MODE: print(i)
  * 				return self.ws[i]
  */
     }
     __pyx_L3_continue:;
   }
 
-  /* "MontyCarlo/geometry/CSG.pyx":273
- * 				print(i)
- * 				return self.ws[i]
- * 		print(0)             # <<<<<<<<<<<<<<
- * 		return <void*> self
- * 
- */
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 273, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-
   /* "MontyCarlo/geometry/CSG.pyx":274
  * 				return self.ws[i]
- * 		print(0)
+ * 		IF DEBUG_MODE: print(0)
  * 		return <void*> self             # <<<<<<<<<<<<<<
  * 
  * 		#for i in range(1, (<BVH> state.current_region).i):
@@ -9098,11 +9042,6 @@ static void *__pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_searchO(struct __pyx_obj_1
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.BVH.searchO", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -9132,7 +9071,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_SDF(CYTHON_UNUSED struct 
  * 
  * 	cdef bint is_inside(self, double3 pos):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 286, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9179,7 +9118,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_3BVH_is_inside(CYTHON_UNUSED stru
  * 
  * 	cdef void exit(self):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9286,7 +9225,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_23__reduce_cython__(C
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9342,7 +9281,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_3BVH_25__setstate_cython__
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9389,7 +9328,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_is_inside(CYTHON_UNUSED s
  * 
  * 	cdef void depositUNIFORM(self, STATE& state, double SP):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 343, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -10124,7 +10063,7 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intersect(CYTHON_UNUS
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 391, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -10171,7 +10110,7 @@ static double __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_SDF(CYTHON_UNUSED stru
  * 
  * 	cdef void localSDF(self, STATE& state):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 397, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -10703,17 +10642,11 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
   int __pyx_v_i;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_1;
+  int __pyx_t_2;
   int __pyx_t_3;
   int __pyx_t_4;
-  int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
-  int __pyx_t_7;
-  double __pyx_t_8;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  double __pyx_t_5;
   __Pyx_RefNannySetupContext("intEVENT", 0);
 
   /* "MontyCarlo/geometry/CSG.pyx":586
@@ -10743,82 +10676,41 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
  */
   __pyx_v_second_nearest = NPY_INFINITY;
 
-  /* "MontyCarlo/geometry/CSG.pyx":595
- * 
- * 		cdef int i
- * 		print(state.pos)             # <<<<<<<<<<<<<<
- * 
- * 		for i in range(0, self.i0):
- */
-  __pyx_t_1 = __pyx_convert__to_py_struct____pyx_t_10MontyCarlo_5types_double3(__pyx_v_state.pos); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 595, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 595, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
   /* "MontyCarlo/geometry/CSG.pyx":597
- * 		print(state.pos)
+ * 		IF DEBUG_MODE: print(state.pos)
  * 
  * 		for i in range(0, self.i0):             # <<<<<<<<<<<<<<
- * 			print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
+ * 			IF DEBUG_MODE: print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
  * 			if (<V> self.ws[i]).sdf < second_nearest:
  */
-  __pyx_t_3 = __pyx_v_self->i0;
-  __pyx_t_4 = __pyx_t_3;
-  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
-    __pyx_v_i = __pyx_t_5;
-
-    /* "MontyCarlo/geometry/CSG.pyx":598
- * 
- * 		for i in range(0, self.i0):
- * 			print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))             # <<<<<<<<<<<<<<
- * 			if (<V> self.ws[i]).sdf < second_nearest:
- * 				second_nearest = (<V> self.ws[i]).sdf
- */
-    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 598, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyFloat_FromDouble(((__pyx_t_10MontyCarlo_8geometry_3CSG_V)(__pyx_v_self->__pyx_base.ws[__pyx_v_i]))->sdf); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 598, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 598, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_GIVEREF(__pyx_t_2);
-    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_1);
-    __Pyx_INCREF(((PyObject *)((__pyx_t_10MontyCarlo_8geometry_3CSG_V)(__pyx_v_self->__pyx_base.ws[__pyx_v_i]))));
-    __Pyx_GIVEREF(((PyObject *)(__pyx_v_self->__pyx_base.ws[__pyx_v_i])));
-    PyTuple_SET_ITEM(__pyx_t_6, 2, ((PyObject *)(__pyx_v_self->__pyx_base.ws[__pyx_v_i])));
-    __pyx_t_2 = 0;
-    __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 598, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __pyx_v_self->i0;
+  __pyx_t_2 = __pyx_t_1;
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
 
     /* "MontyCarlo/geometry/CSG.pyx":599
  * 		for i in range(0, self.i0):
- * 			print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
+ * 			IF DEBUG_MODE: print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
  * 			if (<V> self.ws[i]).sdf < second_nearest:             # <<<<<<<<<<<<<<
  * 				second_nearest = (<V> self.ws[i]).sdf
  * 
  */
-    __pyx_t_7 = ((((__pyx_t_10MontyCarlo_8geometry_3CSG_V)(__pyx_v_self->__pyx_base.ws[__pyx_v_i]))->sdf < __pyx_v_second_nearest) != 0);
-    if (__pyx_t_7) {
+    __pyx_t_4 = ((((__pyx_t_10MontyCarlo_8geometry_3CSG_V)(__pyx_v_self->__pyx_base.ws[__pyx_v_i]))->sdf < __pyx_v_second_nearest) != 0);
+    if (__pyx_t_4) {
 
       /* "MontyCarlo/geometry/CSG.pyx":600
- * 			print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
+ * 			IF DEBUG_MODE: print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
  * 			if (<V> self.ws[i]).sdf < second_nearest:
  * 				second_nearest = (<V> self.ws[i]).sdf             # <<<<<<<<<<<<<<
  * 
  * 		for i in range(self.i0+1, self.Nws):
  */
-      __pyx_t_8 = ((__pyx_t_10MontyCarlo_8geometry_3CSG_V)(__pyx_v_self->__pyx_base.ws[__pyx_v_i]))->sdf;
-      __pyx_v_second_nearest = __pyx_t_8;
+      __pyx_t_5 = ((__pyx_t_10MontyCarlo_8geometry_3CSG_V)(__pyx_v_self->__pyx_base.ws[__pyx_v_i]))->sdf;
+      __pyx_v_second_nearest = __pyx_t_5;
 
       /* "MontyCarlo/geometry/CSG.pyx":599
  * 		for i in range(0, self.i0):
- * 			print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
+ * 			IF DEBUG_MODE: print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
  * 			if (<V> self.ws[i]).sdf < second_nearest:             # <<<<<<<<<<<<<<
  * 				second_nearest = (<V> self.ws[i]).sdf
  * 
@@ -10830,64 +10722,37 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
  * 				second_nearest = (<V> self.ws[i]).sdf
  * 
  * 		for i in range(self.i0+1, self.Nws):             # <<<<<<<<<<<<<<
- * 			print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
+ * 			IF DEBUG_MODE: print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
  * 			if (<V> self.ws[i]).sdf < second_nearest:
  */
-  __pyx_t_3 = __pyx_v_self->__pyx_base.Nws;
-  __pyx_t_4 = __pyx_t_3;
-  for (__pyx_t_5 = (__pyx_v_self->i0 + 1); __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
-    __pyx_v_i = __pyx_t_5;
-
-    /* "MontyCarlo/geometry/CSG.pyx":603
- * 
- * 		for i in range(self.i0+1, self.Nws):
- * 			print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))             # <<<<<<<<<<<<<<
- * 			if (<V> self.ws[i]).sdf < second_nearest:
- * 				second_nearest = (<V> self.ws[i]).sdf
- */
-    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 603, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = PyFloat_FromDouble(((__pyx_t_10MontyCarlo_8geometry_3CSG_V)(__pyx_v_self->__pyx_base.ws[__pyx_v_i]))->sdf); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 603, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 603, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
-    __Pyx_GIVEREF(__pyx_t_6);
-    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_6);
-    __Pyx_INCREF(((PyObject *)((__pyx_t_10MontyCarlo_8geometry_3CSG_V)(__pyx_v_self->__pyx_base.ws[__pyx_v_i]))));
-    __Pyx_GIVEREF(((PyObject *)(__pyx_v_self->__pyx_base.ws[__pyx_v_i])));
-    PyTuple_SET_ITEM(__pyx_t_2, 2, ((PyObject *)(__pyx_v_self->__pyx_base.ws[__pyx_v_i])));
-    __pyx_t_1 = 0;
-    __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 603, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_1 = __pyx_v_self->__pyx_base.Nws;
+  __pyx_t_2 = __pyx_t_1;
+  for (__pyx_t_3 = (__pyx_v_self->i0 + 1); __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
 
     /* "MontyCarlo/geometry/CSG.pyx":604
  * 		for i in range(self.i0+1, self.Nws):
- * 			print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
+ * 			IF DEBUG_MODE: print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
  * 			if (<V> self.ws[i]).sdf < second_nearest:             # <<<<<<<<<<<<<<
  * 				second_nearest = (<V> self.ws[i]).sdf
  * 
  */
-    __pyx_t_7 = ((((__pyx_t_10MontyCarlo_8geometry_3CSG_V)(__pyx_v_self->__pyx_base.ws[__pyx_v_i]))->sdf < __pyx_v_second_nearest) != 0);
-    if (__pyx_t_7) {
+    __pyx_t_4 = ((((__pyx_t_10MontyCarlo_8geometry_3CSG_V)(__pyx_v_self->__pyx_base.ws[__pyx_v_i]))->sdf < __pyx_v_second_nearest) != 0);
+    if (__pyx_t_4) {
 
       /* "MontyCarlo/geometry/CSG.pyx":605
- * 			print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
+ * 			IF DEBUG_MODE: print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
  * 			if (<V> self.ws[i]).sdf < second_nearest:
  * 				second_nearest = (<V> self.ws[i]).sdf             # <<<<<<<<<<<<<<
  * 
  * 
  */
-      __pyx_t_8 = ((__pyx_t_10MontyCarlo_8geometry_3CSG_V)(__pyx_v_self->__pyx_base.ws[__pyx_v_i]))->sdf;
-      __pyx_v_second_nearest = __pyx_t_8;
+      __pyx_t_5 = ((__pyx_t_10MontyCarlo_8geometry_3CSG_V)(__pyx_v_self->__pyx_base.ws[__pyx_v_i]))->sdf;
+      __pyx_v_second_nearest = __pyx_t_5;
 
       /* "MontyCarlo/geometry/CSG.pyx":604
  * 		for i in range(self.i0+1, self.Nws):
- * 			print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
+ * 			IF DEBUG_MODE: print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
  * 			if (<V> self.ws[i]).sdf < second_nearest:             # <<<<<<<<<<<<<<
  * 				second_nearest = (<V> self.ws[i]).sdf
  * 
@@ -10902,8 +10767,8 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
  * 			IF VERBOSE: print("no intersections found")
  * 			# min() = L
  */
-  __pyx_t_7 = ((__pyx_v_cross == NPY_INFINITY) != 0);
-  if (__pyx_t_7) {
+  __pyx_t_4 = ((__pyx_v_cross == NPY_INFINITY) != 0);
+  if (__pyx_t_4) {
 
     /* "MontyCarlo/geometry/CSG.pyx":615
  * 			IF VERBOSE: print("no intersections found")
@@ -10912,8 +10777,8 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
  * 				self.final(state)
  * 				self.exit()
  */
-    __pyx_t_7 = ((__pyx_v_second_nearest > __pyx_v_state.L) != 0);
-    if (__pyx_t_7) {
+    __pyx_t_4 = ((__pyx_v_second_nearest > __pyx_v_state.L) != 0);
+    if (__pyx_t_4) {
 
       /* "MontyCarlo/geometry/CSG.pyx":616
  * 			# min() = L
@@ -10987,8 +10852,8 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
  * 
  * 			# min() == L
  */
-  __pyx_t_7 = ((__pyx_v_cross < __pyx_v_second_nearest) != 0);
-  if (__pyx_t_7) {
+  __pyx_t_4 = ((__pyx_v_cross < __pyx_v_second_nearest) != 0);
+  if (__pyx_t_4) {
 
     /* "MontyCarlo/geometry/CSG.pyx":629
  * 
@@ -10997,8 +10862,8 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
  * 				IF VERBOSE: print("min() == L")
  * 				self.final(state)
  */
-    __pyx_t_7 = ((__pyx_v_cross > __pyx_v_state.L) != 0);
-    if (__pyx_t_7) {
+    __pyx_t_4 = ((__pyx_v_cross > __pyx_v_state.L) != 0);
+    if (__pyx_t_4) {
 
       /* "MontyCarlo/geometry/CSG.pyx":631
  * 			if cross > state.L:
@@ -11090,8 +10955,8 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
  * 			IF VERBOSE: print("min() == L 222")
  * 			self.final(state)
  */
-  __pyx_t_7 = ((__pyx_v_second_nearest > __pyx_v_state.L) != 0);
-  if (__pyx_t_7) {
+  __pyx_t_4 = ((__pyx_v_second_nearest > __pyx_v_state.L) != 0);
+  if (__pyx_t_4) {
 
     /* "MontyCarlo/geometry/CSG.pyx":650
  * 		if second_nearest > state.L:
@@ -11139,13 +11004,6 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_6CSGvol_intEVENT(struct __pyx_obj
  */
 
   /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_WriteUnraisable("MontyCarlo.geometry.CSG.CSGvol.intEVENT", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -11799,7 +11657,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_14__reduce_cython_
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -11855,7 +11713,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6CSGvol_16__setstate_cytho
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12059,7 +11917,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
       __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_1, __pyx_tuple__26) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_tuple__26);
+  __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_1, __pyx_tuple__25) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_tuple__25);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 834, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -12105,7 +11963,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((__pyx_v__cos + ((__pyx_v_ux * __pyx_v_ux) * __pyx_v_oneMcos))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 840, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__27, __pyx_t_2) < 0)) __PYX_ERR(0, 840, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__26, __pyx_t_2) < 0)) __PYX_ERR(0, 840, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":841
@@ -12117,7 +11975,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((((__pyx_v_ux * __pyx_v_uy) * __pyx_v_oneMcos) - (__pyx_v_uz * __pyx_v__sin))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 841, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__28, __pyx_t_2) < 0)) __PYX_ERR(0, 841, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__27, __pyx_t_2) < 0)) __PYX_ERR(0, 841, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":842
@@ -12129,7 +11987,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((((__pyx_v_ux * __pyx_v_uz) * __pyx_v_oneMcos) + (__pyx_v_uy * __pyx_v__sin))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 842, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__29, __pyx_t_2) < 0)) __PYX_ERR(0, 842, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__28, __pyx_t_2) < 0)) __PYX_ERR(0, 842, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":844
@@ -12141,7 +11999,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((((__pyx_v_uy * __pyx_v_ux) * __pyx_v_oneMcos) + (__pyx_v_uz * __pyx_v__sin))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 844, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__30, __pyx_t_2) < 0)) __PYX_ERR(0, 844, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__29, __pyx_t_2) < 0)) __PYX_ERR(0, 844, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":845
@@ -12153,7 +12011,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((__pyx_v__cos + ((__pyx_v_uy * __pyx_v_uy) * __pyx_v_oneMcos))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 845, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__31, __pyx_t_2) < 0)) __PYX_ERR(0, 845, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__30, __pyx_t_2) < 0)) __PYX_ERR(0, 845, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":846
@@ -12165,7 +12023,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((((__pyx_v_uy * __pyx_v_uz) * __pyx_v_oneMcos) - (__pyx_v_ux * __pyx_v__sin))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 846, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__32, __pyx_t_2) < 0)) __PYX_ERR(0, 846, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__31, __pyx_t_2) < 0)) __PYX_ERR(0, 846, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":848
@@ -12177,7 +12035,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((((__pyx_v_uz * __pyx_v_ux) * __pyx_v_oneMcos) - (__pyx_v_uy * __pyx_v__sin))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 848, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__33, __pyx_t_2) < 0)) __PYX_ERR(0, 848, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__32, __pyx_t_2) < 0)) __PYX_ERR(0, 848, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":849
@@ -12189,7 +12047,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((((__pyx_v_uz * __pyx_v_uy) * __pyx_v_oneMcos) + (__pyx_v_ux * __pyx_v__sin))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 849, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__34, __pyx_t_2) < 0)) __PYX_ERR(0, 849, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__33, __pyx_t_2) < 0)) __PYX_ERR(0, 849, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":850
@@ -12201,7 +12059,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  */
   __pyx_t_2 = PyFloat_FromDouble((__pyx_v__cos + ((__pyx_v_uz * __pyx_v_uz) * __pyx_v_oneMcos))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 850, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__35, __pyx_t_2) < 0)) __PYX_ERR(0, 850, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__34, __pyx_t_2) < 0)) __PYX_ERR(0, 850, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":852
@@ -12211,7 +12069,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_new_rotationT(PyObject
  * 
  * 		return T
  */
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__36, __pyx_int_1) < 0)) __PYX_ERR(0, 852, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__35, __pyx_int_1) < 0)) __PYX_ERR(0, 852, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":854
  * 		T[3, 3] = 1
@@ -12333,7 +12191,7 @@ static PyArrayObject *__pyx_f_10MontyCarlo_8geometry_3CSG_Carr_to_NParr(double *
  * 	return numbers
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_numbers, __pyx_n_s_shape, __pyx_tuple__26) < 0) __PYX_ERR(0, 862, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_numbers, __pyx_n_s_shape, __pyx_tuple__25) < 0) __PYX_ERR(0, 862, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":863
  * 
@@ -13633,7 +13491,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_6__reduce_cytho
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -13689,7 +13547,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Transform_8__setstate_cyt
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -14228,7 +14086,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Isometry_2__reduce_cython
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -14284,7 +14142,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Isometry_4__setstate_cyth
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -14999,7 +14857,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_8__reduce_cython
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -15055,7 +14913,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Identity_10__setstate_cyt
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -15112,7 +14970,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11NonIsometry___reduce_cyt
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -15168,7 +15026,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11NonIsometry_2__setstate_
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -15902,7 +15760,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation_4__reduce_cy
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__45, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -15958,7 +15816,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Translation_6__setstate_
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__46, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__45, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -16565,7 +16423,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
       __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_tuple__26) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_tuple__26);
+  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_tuple__25) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_tuple__25);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -16583,7 +16441,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[0])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__27, __pyx_t_1) < 0)) __PYX_ERR(0, 1164, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__26, __pyx_t_1) < 0)) __PYX_ERR(0, 1164, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1165
@@ -16595,7 +16453,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[1])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__28, __pyx_t_1) < 0)) __PYX_ERR(0, 1165, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__27, __pyx_t_1) < 0)) __PYX_ERR(0, 1165, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1166
@@ -16607,7 +16465,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[2])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1166, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__29, __pyx_t_1) < 0)) __PYX_ERR(0, 1166, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__28, __pyx_t_1) < 0)) __PYX_ERR(0, 1166, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1167
@@ -16617,7 +16475,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  * 
  * 		T[1, 0] = self.T[3]
  */
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__47, __pyx_v_dx) < 0)) __PYX_ERR(0, 1167, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__46, __pyx_v_dx) < 0)) __PYX_ERR(0, 1167, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":1169
  * 		T[0, 3] = dx
@@ -16628,7 +16486,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[3])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__30, __pyx_t_1) < 0)) __PYX_ERR(0, 1169, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__29, __pyx_t_1) < 0)) __PYX_ERR(0, 1169, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1170
@@ -16640,7 +16498,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[4])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1170, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__31, __pyx_t_1) < 0)) __PYX_ERR(0, 1170, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__30, __pyx_t_1) < 0)) __PYX_ERR(0, 1170, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1171
@@ -16652,7 +16510,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[5])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__32, __pyx_t_1) < 0)) __PYX_ERR(0, 1171, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__31, __pyx_t_1) < 0)) __PYX_ERR(0, 1171, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1172
@@ -16662,7 +16520,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  * 
  * 
  */
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__48, __pyx_v_dy) < 0)) __PYX_ERR(0, 1172, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__47, __pyx_v_dy) < 0)) __PYX_ERR(0, 1172, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":1175
  * 
@@ -16673,7 +16531,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[6])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__33, __pyx_t_1) < 0)) __PYX_ERR(0, 1175, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__32, __pyx_t_1) < 0)) __PYX_ERR(0, 1175, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1176
@@ -16685,7 +16543,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[7])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__34, __pyx_t_1) < 0)) __PYX_ERR(0, 1176, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__33, __pyx_t_1) < 0)) __PYX_ERR(0, 1176, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1177
@@ -16697,7 +16555,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  */
   __pyx_t_1 = PyFloat_FromDouble((__pyx_v_self->__pyx_base.__pyx_base.T[8])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__35, __pyx_t_1) < 0)) __PYX_ERR(0, 1177, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__34, __pyx_t_1) < 0)) __PYX_ERR(0, 1177, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1178
@@ -16707,7 +16565,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
  * 
  * 		T[3, :] = np.array([0, 0, 0, 1])
  */
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__49, __pyx_v_dz) < 0)) __PYX_ERR(0, 1178, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__48, __pyx_v_dz) < 0)) __PYX_ERR(0, 1178, __pyx_L1_error)
 
   /* "MontyCarlo/geometry/CSG.pyx":1180
  * 		T[2, 3] = dz
@@ -16751,7 +16609,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_2translate(struc
   if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1180, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__51, __pyx_t_1) < 0)) __PYX_ERR(0, 1180, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_T), __pyx_tuple__50, __pyx_t_1) < 0)) __PYX_ERR(0, 1180, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "MontyCarlo/geometry/CSG.pyx":1182
@@ -17223,7 +17081,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_6__reduce_cython
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__52, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__51, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17279,7 +17137,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_8Rotation_8__setstate_cyth
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__53, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__52, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17449,7 +17307,7 @@ static int __pyx_f_10MontyCarlo_8geometry_3CSG_5CSGop_is_inside(CYTHON_UNUSED st
  * 
  * 	def translate(self, dx, dy, dz):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__54, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1269, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__53, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1269, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18135,7 +17993,7 @@ static intLIST __pyx_f_10MontyCarlo_8geometry_3CSG_5CSGop_intersect(CYTHON_UNUSE
  * 
  * 		#return self.rule(self.L.intersect(pos, dire), self.R.intersect(pos, dire))
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__55, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1286, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__54, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18192,7 +18050,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_6__reduce_cython__(
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__56, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__55, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18248,7 +18106,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5CSGop_8__setstate_cython_
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__57, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__56, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18741,7 +18599,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction_4__reduce_cy
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__58, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__57, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18797,7 +18655,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_11Subtraction_6__setstate_
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__59, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__58, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -19290,7 +19148,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Union_4__reduce_cython__(
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__60, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__59, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -19346,7 +19204,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Union_6__setstate_cython_
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__61, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__60, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -19839,7 +19697,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection_4__reduce_c
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__62, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__61, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -19895,7 +19753,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_12Intersection_6__setstate
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__63, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__62, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -20231,7 +20089,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_2__reduce
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__64, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__63, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -20287,7 +20145,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_14InfiniteVolume_4__setsta
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__65, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__64, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -20934,7 +20792,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_6__reduce_cytho
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__66, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__65, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -20990,7 +20848,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_9Primitive_8__setstate_cyt
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__67, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__66, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -21270,10 +21128,10 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_2__repr__(struct _
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_5);
   __pyx_t_5 = 0;
-  __Pyx_INCREF(__pyx_kp_u__68);
+  __Pyx_INCREF(__pyx_kp_u__67);
   __pyx_t_2 += 1;
-  __Pyx_GIVEREF(__pyx_kp_u__68);
-  PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u__68);
+  __Pyx_GIVEREF(__pyx_kp_u__67);
+  PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u__67);
   __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_1, 3, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1572, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -21709,7 +21567,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_6__reduce_cython__
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__69, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__68, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -21765,7 +21623,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_6Sphere_8__setstate_cython
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__70, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__69, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -21811,7 +21669,7 @@ static void __pyx_f_10MontyCarlo_8geometry_3CSG_5Tally_depositUNIFORM(CYTHON_UNU
  * 		import time
  * 		print("depositUNIFORM called from Tally (virtual)")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__71, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1688, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__70, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1688, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -21945,7 +21803,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Tally_2__reduce_cython__(
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__72, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__71, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -22001,7 +21859,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_5Tally_4__setstate_cython_
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__73, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__72, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -24154,7 +24012,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_6__reduce_cython_
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__74, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__73, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -24210,7 +24068,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_3CSG_7Z_TALLY_8__setstate_cytho
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__75, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__74, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -24765,7 +24623,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__76, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 947, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__75, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 947, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -24897,7 +24755,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__77, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 953, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__76, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 953, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -25029,7 +24887,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  * 
  * cdef extern from *:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__77, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 959, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__76, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 959, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -25453,7 +25311,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if itemsize <= 0:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__78, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 133, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__77, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -25485,7 +25343,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if not isinstance(format, bytes):
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__79, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 136, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__78, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 136, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -25612,7 +25470,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__80, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__79, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -25886,7 +25744,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *             if self.dtype_is_object:
  */
-      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__81, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 176, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__80, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 176, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_Raise(__pyx_t_10, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -26130,7 +25988,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(stru
  *         info.buf = self.data
  *         info.len = self.len
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__82, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 192, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__81, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 192, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -26864,7 +26722,7 @@ static PyObject *__pyx_pf___pyx_array___reduce_cython__(CYTHON_UNUSED struct __p
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__83, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__82, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -26920,7 +26778,7 @@ static PyObject *__pyx_pf___pyx_array_2__setstate_cython__(CYTHON_UNUSED struct 
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__84, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__83, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -28630,7 +28488,7 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
  * 
  *         have_slices, index = _unellipsify(index, self.view.ndim)
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__85, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 418, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__84, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 418, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -29678,7 +29536,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  *         else:
  *             if len(self.view.format) == 1:
  */
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__86, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 495, __pyx_L5_except_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__85, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 495, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_Raise(__pyx_t_6, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -30040,7 +29898,7 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_8__getbu
  * 
  *         if flags & PyBUF_ND:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__87, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 520, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__86, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 520, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -30589,7 +30447,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(st
  * 
  *         return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__88, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 570, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__87, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 570, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -30706,7 +30564,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get_
     __Pyx_XDECREF(__pyx_r);
     __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->view.ndim); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 577, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__89, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 577, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__88, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 577, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_r = __pyx_t_3;
@@ -31744,7 +31602,7 @@ static PyObject *__pyx_pf___pyx_memoryview___reduce_cython__(CYTHON_UNUSED struc
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__90, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__89, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -31800,7 +31658,7 @@ static PyObject *__pyx_pf___pyx_memoryview_2__setstate_cython__(CYTHON_UNUSED st
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__91, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__90, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -32157,9 +32015,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
         __Pyx_GOTREF(__pyx_t_7);
         { Py_ssize_t __pyx_temp;
           for (__pyx_temp=0; __pyx_temp < ((__pyx_v_ndim - __pyx_t_8) + 1); __pyx_temp++) {
-            __Pyx_INCREF(__pyx_slice__50);
-            __Pyx_GIVEREF(__pyx_slice__50);
-            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__50);
+            __Pyx_INCREF(__pyx_slice__49);
+            __Pyx_GIVEREF(__pyx_slice__49);
+            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__49);
           }
         }
         __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_7); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 682, __pyx_L1_error)
@@ -32192,7 +32050,7 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
  *         else:
  */
       /*else*/ {
-        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__50); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 685, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__49); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 685, __pyx_L1_error)
       }
       __pyx_L7:;
 
@@ -32332,9 +32190,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
     __Pyx_GOTREF(__pyx_t_3);
     { Py_ssize_t __pyx_temp;
       for (__pyx_temp=0; __pyx_temp < __pyx_v_nslices; __pyx_temp++) {
-        __Pyx_INCREF(__pyx_slice__50);
-        __Pyx_GIVEREF(__pyx_slice__50);
-        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__50);
+        __Pyx_INCREF(__pyx_slice__49);
+        __Pyx_GIVEREF(__pyx_slice__49);
+        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__49);
       }
     }
     __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_3); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 696, __pyx_L1_error)
@@ -32461,7 +32319,7 @@ static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __
  * 
  * 
  */
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__92, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 703, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__91, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 703, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -34645,7 +34503,7 @@ static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED 
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__93, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__92, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -34701,7 +34559,7 @@ static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUS
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__94, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__93, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -41364,7 +41222,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_View_MemoryView, __pyx_k_View_MemoryView, sizeof(__pyx_k_View_MemoryView), 0, 0, 1, 1},
   {&__pyx_n_s_Z_TALLY, __pyx_k_Z_TALLY, sizeof(__pyx_k_Z_TALLY), 0, 0, 1, 1},
-  {&__pyx_kp_u__68, __pyx_k__68, sizeof(__pyx_k__68), 0, 1, 0, 0},
+  {&__pyx_kp_u__67, __pyx_k__67, sizeof(__pyx_k__67), 0, 1, 0, 0},
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
   {&__pyx_n_s_angle, __pyx_k_angle, sizeof(__pyx_k_angle), 0, 0, 1, 1},
   {&__pyx_n_s_arange, __pyx_k_arange, sizeof(__pyx_k_arange), 0, 0, 1, 1},
@@ -41670,17 +41528,6 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
 
-  /* "MontyCarlo/geometry/CSG.pyx":273
- * 				print(i)
- * 				return self.ws[i]
- * 		print(0)             # <<<<<<<<<<<<<<
- * 		return <void*> self
- * 
- */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_int_0); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 273, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
-
   /* "MontyCarlo/geometry/CSG.pyx":286
  * 
  * 	cdef double SDF(self, double3 pos):
@@ -41688,9 +41535,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	cdef bint is_inside(self, double3 pos):
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_u_SDF_called_from_its_virtual_in); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_SDF_called_from_its_virtual_in); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
 
   /* "MontyCarlo/geometry/CSG.pyx":289
  * 
@@ -41699,9 +41546,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	cdef void exit(self):
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_u_is_inside_called_from_its_virtu); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 289, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__18);
-  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_u_is_inside_called_from_its_virtu); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -41709,18 +41556,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
 
   /* "MontyCarlo/geometry/CSG.pyx":343
  * 	# CONSTRUCTING A VOLUME
@@ -41729,9 +41576,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	cdef void depositUNIFORM(self, STATE& state, double SP):
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_u_asdsadsad); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 343, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_n_u_asdsadsad); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
 
   /* "MontyCarlo/geometry/CSG.pyx":391
  * 
@@ -41740,9 +41587,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_u_intersect_called_from_virtual); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 391, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_u_intersect_called_from_virtual); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 391, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
 
   /* "MontyCarlo/geometry/CSG.pyx":397
  * 
@@ -41751,9 +41598,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	cdef void localSDF(self, STATE& state):
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u_SDF_FROM_VOL_WAS_CALLED); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 397, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_u_SDF_FROM_VOL_WAS_CALLED); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 397, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -41761,18 +41608,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__24);
-  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
 
   /* "MontyCarlo/geometry/CSG.pyx":834
  * 
@@ -41781,9 +41628,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		cdef double _cos = cos(angle)
  */
-  __pyx_tuple__26 = PyTuple_Pack(2, __pyx_int_4, __pyx_int_4); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 834, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
+  __pyx_tuple__25 = PyTuple_Pack(2, __pyx_int_4, __pyx_int_4); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 834, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
 
   /* "MontyCarlo/geometry/CSG.pyx":840
  * 		cdef double _sin = sqrt(1 - _cos*_cos)
@@ -41792,9 +41639,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		T[0, 1] = ux*uy*oneMcos - uz*_sin
  * 		T[0, 2] = ux*uz*oneMcos + uy*_sin
  */
-  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 840, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_tuple__26 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 840, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
 
   /* "MontyCarlo/geometry/CSG.pyx":841
  * 
@@ -41803,9 +41650,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		T[0, 2] = ux*uz*oneMcos + uy*_sin
  * 
  */
-  __pyx_tuple__28 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_1); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 841, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__28);
-  __Pyx_GIVEREF(__pyx_tuple__28);
+  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_1); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 841, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
 
   /* "MontyCarlo/geometry/CSG.pyx":842
  * 		T[0, 0] = _cos + ux*ux*oneMcos
@@ -41814,9 +41661,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		T[1, 0] = uy*ux*oneMcos + uz*_sin
  */
-  __pyx_tuple__29 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_2); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 842, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_tuple__28 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_2); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 842, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
 
   /* "MontyCarlo/geometry/CSG.pyx":844
  * 		T[0, 2] = ux*uz*oneMcos + uy*_sin
@@ -41825,9 +41672,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		T[1, 1] = _cos + uy*uy*oneMcos
  * 		T[1, 2] = uy*uz*oneMcos - ux*_sin
  */
-  __pyx_tuple__30 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_0); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 844, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__30);
-  __Pyx_GIVEREF(__pyx_tuple__30);
+  __pyx_tuple__29 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_0); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 844, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
 
   /* "MontyCarlo/geometry/CSG.pyx":845
  * 
@@ -41836,9 +41683,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		T[1, 2] = uy*uz*oneMcos - ux*_sin
  * 
  */
-  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_1); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 845, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__31);
-  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_tuple__30 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_1); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 845, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__30);
+  __Pyx_GIVEREF(__pyx_tuple__30);
 
   /* "MontyCarlo/geometry/CSG.pyx":846
  * 		T[1, 0] = uy*ux*oneMcos + uz*_sin
@@ -41847,9 +41694,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		T[2, 0] = uz*ux*oneMcos-uy*_sin
  */
-  __pyx_tuple__32 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_2); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 846, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__32);
-  __Pyx_GIVEREF(__pyx_tuple__32);
+  __pyx_tuple__31 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_2); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 846, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
 
   /* "MontyCarlo/geometry/CSG.pyx":848
  * 		T[1, 2] = uy*uz*oneMcos - ux*_sin
@@ -41858,9 +41705,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		T[2, 1] = uz*uy*oneMcos + ux*_sin
  * 		T[2, 2] = _cos + uz*uz*oneMcos
  */
-  __pyx_tuple__33 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_0); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 848, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_tuple__32 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_0); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(0, 848, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__32);
+  __Pyx_GIVEREF(__pyx_tuple__32);
 
   /* "MontyCarlo/geometry/CSG.pyx":849
  * 
@@ -41869,9 +41716,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		T[2, 2] = _cos + uz*uz*oneMcos
  * 
  */
-  __pyx_tuple__34 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_1); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 849, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__34);
-  __Pyx_GIVEREF(__pyx_tuple__34);
+  __pyx_tuple__33 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_1); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 849, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
 
   /* "MontyCarlo/geometry/CSG.pyx":850
  * 		T[2, 0] = uz*ux*oneMcos-uy*_sin
@@ -41880,9 +41727,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		T[3, 3] = 1
  */
-  __pyx_tuple__35 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_2); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 850, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__35);
-  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_tuple__34 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_2); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 850, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__34);
+  __Pyx_GIVEREF(__pyx_tuple__34);
 
   /* "MontyCarlo/geometry/CSG.pyx":852
  * 		T[2, 2] = _cos + uz*uz*oneMcos
@@ -41891,104 +41738,104 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		return T
  */
-  __pyx_tuple__36 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_3); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 852, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_3); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(0, 852, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ */
+  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__36);
   __Pyx_GIVEREF(__pyx_tuple__36);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__37);
   __Pyx_GIVEREF(__pyx_tuple__37);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__38);
   __Pyx_GIVEREF(__pyx_tuple__38);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__39);
   __Pyx_GIVEREF(__pyx_tuple__39);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__40);
   __Pyx_GIVEREF(__pyx_tuple__40);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__41);
   __Pyx_GIVEREF(__pyx_tuple__41);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__42);
   __Pyx_GIVEREF(__pyx_tuple__42);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__43);
   __Pyx_GIVEREF(__pyx_tuple__43);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- */
-  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__44);
-  __Pyx_GIVEREF(__pyx_tuple__44);
-
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__45);
-  __Pyx_GIVEREF(__pyx_tuple__45);
+  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__44);
+  __Pyx_GIVEREF(__pyx_tuple__44);
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__46);
-  __Pyx_GIVEREF(__pyx_tuple__46);
+  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__45);
+  __Pyx_GIVEREF(__pyx_tuple__45);
 
   /* "MontyCarlo/geometry/CSG.pyx":1167
  * 		T[0, 1] = self.T[1]
@@ -41997,9 +41844,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		T[1, 0] = self.T[3]
  */
-  __pyx_tuple__47 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_3); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 1167, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__47);
-  __Pyx_GIVEREF(__pyx_tuple__47);
+  __pyx_tuple__46 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_3); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 1167, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__46);
+  __Pyx_GIVEREF(__pyx_tuple__46);
 
   /* "MontyCarlo/geometry/CSG.pyx":1172
  * 		T[1, 1] = self.T[4]
@@ -42008,9 +41855,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__48 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_3); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 1172, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__48);
-  __Pyx_GIVEREF(__pyx_tuple__48);
+  __pyx_tuple__47 = PyTuple_Pack(2, __pyx_int_1, __pyx_int_3); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 1172, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__47);
+  __Pyx_GIVEREF(__pyx_tuple__47);
 
   /* "MontyCarlo/geometry/CSG.pyx":1178
  * 		T[2, 1] = self.T[7]
@@ -42019,9 +41866,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		T[3, :] = np.array([0, 0, 0, 1])
  */
-  __pyx_tuple__49 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_3); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(0, 1178, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__49);
-  __Pyx_GIVEREF(__pyx_tuple__49);
+  __pyx_tuple__48 = PyTuple_Pack(2, __pyx_int_2, __pyx_int_3); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 1178, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__48);
+  __Pyx_GIVEREF(__pyx_tuple__48);
 
   /* "MontyCarlo/geometry/CSG.pyx":1180
  * 		T[2, 3] = dz
@@ -42030,12 +41877,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		cdef cnp.ndarray iT = np.linalg.inv(T)
  */
-  __pyx_slice__50 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__50)) __PYX_ERR(0, 1180, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__50);
-  __Pyx_GIVEREF(__pyx_slice__50);
-  __pyx_tuple__51 = PyTuple_Pack(2, __pyx_int_3, __pyx_slice__50); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(0, 1180, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__51);
-  __Pyx_GIVEREF(__pyx_tuple__51);
+  __pyx_slice__49 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__49)) __PYX_ERR(0, 1180, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__49);
+  __Pyx_GIVEREF(__pyx_slice__49);
+  __pyx_tuple__50 = PyTuple_Pack(2, __pyx_int_3, __pyx_slice__49); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 1180, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__50);
+  __Pyx_GIVEREF(__pyx_tuple__50);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -42043,18 +41890,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__52);
-  __Pyx_GIVEREF(__pyx_tuple__52);
+  __pyx_tuple__51 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__51);
+  __Pyx_GIVEREF(__pyx_tuple__51);
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__53);
-  __Pyx_GIVEREF(__pyx_tuple__53);
+  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__52);
+  __Pyx_GIVEREF(__pyx_tuple__52);
 
   /* "MontyCarlo/geometry/CSG.pyx":1269
  * 
@@ -42063,9 +41910,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 	def translate(self, dx, dy, dz):
  */
-  __pyx_tuple__54 = PyTuple_Pack(1, __pyx_kp_u_is_inside_called_from_virtual_V); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 1269, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__54);
-  __Pyx_GIVEREF(__pyx_tuple__54);
+  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_kp_u_is_inside_called_from_virtual_V); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(0, 1269, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__53);
+  __Pyx_GIVEREF(__pyx_tuple__53);
 
   /* "MontyCarlo/geometry/CSG.pyx":1286
  * 
@@ -42074,142 +41921,142 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 		#return self.rule(self.L.intersect(pos, dire), self.R.intersect(pos, dire))
  */
-  __pyx_tuple__55 = PyTuple_Pack(1, __pyx_kp_u_Called_from_virtual); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 1286, __pyx_L1_error)
+  __pyx_tuple__54 = PyTuple_Pack(1, __pyx_kp_u_Called_from_virtual); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 1286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__54);
+  __Pyx_GIVEREF(__pyx_tuple__54);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
+ */
+  __pyx_tuple__55 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__55);
   __Pyx_GIVEREF(__pyx_tuple__55);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__56);
   __Pyx_GIVEREF(__pyx_tuple__56);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__57 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__57 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__57);
   __Pyx_GIVEREF(__pyx_tuple__57);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__58 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__58 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__58);
   __Pyx_GIVEREF(__pyx_tuple__58);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__59 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__59 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__59);
   __Pyx_GIVEREF(__pyx_tuple__59);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__60 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__60 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__60);
   __Pyx_GIVEREF(__pyx_tuple__60);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__61 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__61 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__61);
   __Pyx_GIVEREF(__pyx_tuple__61);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__62 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__62 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__62);
   __Pyx_GIVEREF(__pyx_tuple__62);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("self.cross,self.original_ws,self.rule,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__63 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self_2); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__63 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__63);
   __Pyx_GIVEREF(__pyx_tuple__63);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__64 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__64 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__64);
   __Pyx_GIVEREF(__pyx_tuple__64);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__65 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__65 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__65)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__65);
   __Pyx_GIVEREF(__pyx_tuple__65);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__66 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__66 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__66);
   __Pyx_GIVEREF(__pyx_tuple__66);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- */
-  __pyx_tuple__67 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__67)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__67);
-  __Pyx_GIVEREF(__pyx_tuple__67);
-
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__69 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__69);
-  __Pyx_GIVEREF(__pyx_tuple__69);
+  __pyx_tuple__68 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__68);
+  __Pyx_GIVEREF(__pyx_tuple__68);
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__70 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__70);
-  __Pyx_GIVEREF(__pyx_tuple__70);
+  __pyx_tuple__69 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__69);
+  __Pyx_GIVEREF(__pyx_tuple__69);
 
   /* "MontyCarlo/geometry/CSG.pyx":1688
  * 
@@ -42218,47 +42065,47 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 		import time
  * 		print("depositUNIFORM called from Tally (virtual)")
  */
-  __pyx_tuple__71 = PyTuple_Pack(1, __pyx_kp_u_depositUNIFORM_called_from_Tally); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(0, 1688, __pyx_L1_error)
+  __pyx_tuple__70 = PyTuple_Pack(1, __pyx_kp_u_depositUNIFORM_called_from_Tally); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 1688, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__70);
+  __Pyx_GIVEREF(__pyx_tuple__70);
+
+  /* "(tree fragment)":2
+ * def __reduce_cython__(self):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ */
+  __pyx_tuple__71 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__71)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__71);
   __Pyx_GIVEREF(__pyx_tuple__71);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
+  /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
+ * def __setstate_cython__(self, __pyx_state):
+ *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__72 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__72 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__72);
   __Pyx_GIVEREF(__pyx_tuple__72);
 
-  /* "(tree fragment)":4
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- */
-  __pyx_tuple__73 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__73);
-  __Pyx_GIVEREF(__pyx_tuple__73);
-
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  */
-  __pyx_tuple__74 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__74);
-  __Pyx_GIVEREF(__pyx_tuple__74);
+  __pyx_tuple__73 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__73)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__73);
+  __Pyx_GIVEREF(__pyx_tuple__73);
 
   /* "(tree fragment)":4
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("self.cross,self.original_ws,self.ws cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__75 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__75);
-  __Pyx_GIVEREF(__pyx_tuple__75);
+  __pyx_tuple__74 = PyTuple_Pack(1, __pyx_kp_s_self_cross_self_original_ws_self); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__74);
+  __Pyx_GIVEREF(__pyx_tuple__74);
 
   /* "../../.conda/envs/myco_dev39/lib/site-packages/numpy/__init__.pxd":947
  *         __pyx_import_array()
@@ -42267,9 +42114,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__76 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(2, 947, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__76);
-  __Pyx_GIVEREF(__pyx_tuple__76);
+  __pyx_tuple__75 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__75)) __PYX_ERR(2, 947, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__75);
+  __Pyx_GIVEREF(__pyx_tuple__75);
 
   /* "../../.conda/envs/myco_dev39/lib/site-packages/numpy/__init__.pxd":953
  *         _import_umath()
@@ -42278,9 +42125,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__77 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(2, 953, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__77);
-  __Pyx_GIVEREF(__pyx_tuple__77);
+  __pyx_tuple__76 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(2, 953, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__76);
+  __Pyx_GIVEREF(__pyx_tuple__76);
 
   /* "View.MemoryView":133
  * 
@@ -42289,9 +42136,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if itemsize <= 0:
  */
-  __pyx_tuple__78 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(1, 133, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__78);
-  __Pyx_GIVEREF(__pyx_tuple__78);
+  __pyx_tuple__77 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__77)) __PYX_ERR(1, 133, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__77);
+  __Pyx_GIVEREF(__pyx_tuple__77);
 
   /* "View.MemoryView":136
  * 
@@ -42300,9 +42147,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if not isinstance(format, bytes):
  */
-  __pyx_tuple__79 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(1, 136, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__79);
-  __Pyx_GIVEREF(__pyx_tuple__79);
+  __pyx_tuple__78 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(1, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__78);
+  __Pyx_GIVEREF(__pyx_tuple__78);
 
   /* "View.MemoryView":148
  * 
@@ -42311,9 +42158,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__80 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(1, 148, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__80);
-  __Pyx_GIVEREF(__pyx_tuple__80);
+  __pyx_tuple__79 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__79)) __PYX_ERR(1, 148, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__79);
+  __Pyx_GIVEREF(__pyx_tuple__79);
 
   /* "View.MemoryView":176
  *             self.data = <char *>malloc(self.len)
@@ -42322,9 +42169,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *             if self.dtype_is_object:
  */
-  __pyx_tuple__81 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(1, 176, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__81);
-  __Pyx_GIVEREF(__pyx_tuple__81);
+  __pyx_tuple__80 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__80)) __PYX_ERR(1, 176, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__80);
+  __Pyx_GIVEREF(__pyx_tuple__80);
 
   /* "View.MemoryView":192
  *             bufmode = PyBUF_F_CONTIGUOUS | PyBUF_ANY_CONTIGUOUS
@@ -42333,9 +42180,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         info.buf = self.data
  *         info.len = self.len
  */
-  __pyx_tuple__82 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(1, 192, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__82);
-  __Pyx_GIVEREF(__pyx_tuple__82);
+  __pyx_tuple__81 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__81)) __PYX_ERR(1, 192, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__81);
+  __Pyx_GIVEREF(__pyx_tuple__81);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -42343,18 +42190,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__83 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__83);
-  __Pyx_GIVEREF(__pyx_tuple__83);
+  __pyx_tuple__82 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__82)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__82);
+  __Pyx_GIVEREF(__pyx_tuple__82);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__84 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__84)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__84);
-  __Pyx_GIVEREF(__pyx_tuple__84);
+  __pyx_tuple__83 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__83)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__83);
+  __Pyx_GIVEREF(__pyx_tuple__83);
 
   /* "View.MemoryView":418
  *     def __setitem__(memoryview self, object index, object value):
@@ -42363,9 +42210,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         have_slices, index = _unellipsify(index, self.view.ndim)
  */
-  __pyx_tuple__85 = PyTuple_Pack(1, __pyx_kp_s_Cannot_assign_to_read_only_memor); if (unlikely(!__pyx_tuple__85)) __PYX_ERR(1, 418, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__85);
-  __Pyx_GIVEREF(__pyx_tuple__85);
+  __pyx_tuple__84 = PyTuple_Pack(1, __pyx_kp_s_Cannot_assign_to_read_only_memor); if (unlikely(!__pyx_tuple__84)) __PYX_ERR(1, 418, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__84);
+  __Pyx_GIVEREF(__pyx_tuple__84);
 
   /* "View.MemoryView":495
  *             result = struct.unpack(self.view.format, bytesitem)
@@ -42374,9 +42221,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         else:
  *             if len(self.view.format) == 1:
  */
-  __pyx_tuple__86 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__86)) __PYX_ERR(1, 495, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__86);
-  __Pyx_GIVEREF(__pyx_tuple__86);
+  __pyx_tuple__85 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__85)) __PYX_ERR(1, 495, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__85);
+  __Pyx_GIVEREF(__pyx_tuple__85);
 
   /* "View.MemoryView":520
  *     def __getbuffer__(self, Py_buffer *info, int flags):
@@ -42385,9 +42232,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if flags & PyBUF_ND:
  */
-  __pyx_tuple__87 = PyTuple_Pack(1, __pyx_kp_s_Cannot_create_writable_memory_vi); if (unlikely(!__pyx_tuple__87)) __PYX_ERR(1, 520, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__87);
-  __Pyx_GIVEREF(__pyx_tuple__87);
+  __pyx_tuple__86 = PyTuple_Pack(1, __pyx_kp_s_Cannot_create_writable_memory_vi); if (unlikely(!__pyx_tuple__86)) __PYX_ERR(1, 520, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__86);
+  __Pyx_GIVEREF(__pyx_tuple__86);
 
   /* "View.MemoryView":570
  *         if self.view.strides == NULL:
@@ -42396,9 +42243,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-  __pyx_tuple__88 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__88)) __PYX_ERR(1, 570, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__88);
-  __Pyx_GIVEREF(__pyx_tuple__88);
+  __pyx_tuple__87 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__87)) __PYX_ERR(1, 570, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__87);
+  __Pyx_GIVEREF(__pyx_tuple__87);
 
   /* "View.MemoryView":577
  *     def suboffsets(self):
@@ -42407,12 +42254,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([suboffset for suboffset in self.view.suboffsets[:self.view.ndim]])
  */
-  __pyx_tuple__89 = PyTuple_New(1); if (unlikely(!__pyx_tuple__89)) __PYX_ERR(1, 577, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__89);
+  __pyx_tuple__88 = PyTuple_New(1); if (unlikely(!__pyx_tuple__88)) __PYX_ERR(1, 577, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__88);
   __Pyx_INCREF(__pyx_int_neg_1);
   __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyTuple_SET_ITEM(__pyx_tuple__89, 0, __pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_tuple__89);
+  PyTuple_SET_ITEM(__pyx_tuple__88, 0, __pyx_int_neg_1);
+  __Pyx_GIVEREF(__pyx_tuple__88);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -42420,18 +42267,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__90 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__90)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__90);
-  __Pyx_GIVEREF(__pyx_tuple__90);
+  __pyx_tuple__89 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__89)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__89);
+  __Pyx_GIVEREF(__pyx_tuple__89);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__91 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__91)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__91);
-  __Pyx_GIVEREF(__pyx_tuple__91);
+  __pyx_tuple__90 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__90)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__90);
+  __Pyx_GIVEREF(__pyx_tuple__90);
 
   /* "View.MemoryView":703
  *     for suboffset in suboffsets[:ndim]:
@@ -42440,9 +42287,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__92 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__92)) __PYX_ERR(1, 703, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__92);
-  __Pyx_GIVEREF(__pyx_tuple__92);
+  __pyx_tuple__91 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__91)) __PYX_ERR(1, 703, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__91);
+  __Pyx_GIVEREF(__pyx_tuple__91);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -42450,18 +42297,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__93 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__93);
-  __Pyx_GIVEREF(__pyx_tuple__93);
+  __pyx_tuple__92 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__92)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__92);
+  __Pyx_GIVEREF(__pyx_tuple__92);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__94 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__94)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__94);
-  __Pyx_GIVEREF(__pyx_tuple__94);
+  __pyx_tuple__93 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__93);
+  __Pyx_GIVEREF(__pyx_tuple__93);
 
   /* "MontyCarlo/geometry/CSG.pyx":3
  * #distutils: language = c++
@@ -42470,9 +42317,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__95 = PyTuple_Pack(1, __pyx_kp_u_Importing_geometry_CSG); if (unlikely(!__pyx_tuple__95)) __PYX_ERR(0, 3, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__95);
-  __Pyx_GIVEREF(__pyx_tuple__95);
+  __pyx_tuple__94 = PyTuple_Pack(1, __pyx_kp_u_Importing_geometry_CSG); if (unlikely(!__pyx_tuple__94)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__94);
+  __Pyx_GIVEREF(__pyx_tuple__94);
 
   /* "MontyCarlo/geometry/CSG.pyx":88
  * 
@@ -42481,10 +42328,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 	def _lock(method):
  * 		def new_method(self, *args, **kwargs):
  */
-  __pyx_tuple__96 = PyTuple_Pack(3, __pyx_n_s_msg, __pyx_n_s_lock_2, __pyx_n_s_lock_2); if (unlikely(!__pyx_tuple__96)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__96);
-  __Pyx_GIVEREF(__pyx_tuple__96);
-  __pyx_codeobj__97 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__96, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_geometry_CSG_pyx, __pyx_n_s_lock, 88, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__97)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_tuple__95 = PyTuple_Pack(3, __pyx_n_s_msg, __pyx_n_s_lock_2, __pyx_n_s_lock_2); if (unlikely(!__pyx_tuple__95)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__95);
+  __Pyx_GIVEREF(__pyx_tuple__95);
+  __pyx_codeobj__96 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__95, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_MontyCarlo_geometry_CSG_pyx, __pyx_n_s_lock, 88, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__96)) __PYX_ERR(0, 88, __pyx_L1_error)
 
   /* "View.MemoryView":286
  *         return self.name
@@ -42493,9 +42340,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__98 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__98)) __PYX_ERR(1, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__98);
-  __Pyx_GIVEREF(__pyx_tuple__98);
+  __pyx_tuple__97 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__97)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__97);
+  __Pyx_GIVEREF(__pyx_tuple__97);
 
   /* "View.MemoryView":287
  * 
@@ -42504,9 +42351,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__99 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__99)) __PYX_ERR(1, 287, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__99);
-  __Pyx_GIVEREF(__pyx_tuple__99);
+  __pyx_tuple__98 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__98)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__98);
+  __Pyx_GIVEREF(__pyx_tuple__98);
 
   /* "View.MemoryView":288
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -42515,9 +42362,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__100 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__100)) __PYX_ERR(1, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__100);
-  __Pyx_GIVEREF(__pyx_tuple__100);
+  __pyx_tuple__99 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__99)) __PYX_ERR(1, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__99);
+  __Pyx_GIVEREF(__pyx_tuple__99);
 
   /* "View.MemoryView":291
  * 
@@ -42526,9 +42373,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__101 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__101)) __PYX_ERR(1, 291, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__101);
-  __Pyx_GIVEREF(__pyx_tuple__101);
+  __pyx_tuple__100 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__100)) __PYX_ERR(1, 291, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__100);
+  __Pyx_GIVEREF(__pyx_tuple__100);
 
   /* "View.MemoryView":292
  * 
@@ -42537,19 +42384,19 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__102 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__102)) __PYX_ERR(1, 292, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__102);
-  __Pyx_GIVEREF(__pyx_tuple__102);
+  __pyx_tuple__101 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__101)) __PYX_ERR(1, 292, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__101);
+  __Pyx_GIVEREF(__pyx_tuple__101);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Enum(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__103 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__103)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__103);
-  __Pyx_GIVEREF(__pyx_tuple__103);
-  __pyx_codeobj__104 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__103, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__104)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__102 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__102)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__102);
+  __Pyx_GIVEREF(__pyx_tuple__102);
+  __pyx_codeobj__103 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__102, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__103)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -43557,7 +43404,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__95, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__94, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -43670,7 +43517,7 @@ if (!__Pyx_RefNanny) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__98, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__97, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_1);
@@ -43684,7 +43531,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__99, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__98, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_1);
@@ -43698,7 +43545,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__100, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 288, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__99, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_1);
@@ -43712,7 +43559,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__101, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 291, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__100, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_1);
@@ -43726,7 +43573,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__102, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 292, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__101, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_1);

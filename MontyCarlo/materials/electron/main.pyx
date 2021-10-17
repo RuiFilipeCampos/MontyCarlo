@@ -482,7 +482,7 @@ cdef class Electron:
         CONST =  - smax + self.integral._eval(E0)
         e = self.invI._eval(CONST)
         if e <= 0:
-            print("in find_wmax:", f"wmax = {e} | E = {E0} | smax = {smax}")
+            # print("in find_wmax:", f"wmax = {e} | E = {E0} | smax = {smax}")
             return 0
 
         return E0 - e

@@ -215,7 +215,7 @@ cdef class Electron(Particle):
     cdef void _run(Electron self, mixmax_engine* genPTR):
         """Simulate the electron.
         """
-        print("STARTING ELECTRON")
+        # print("STARTING ELECTRON")
 
 
         IF DEBUG_MODE: input("<Electron> Called ._run")

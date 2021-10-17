@@ -202,6 +202,7 @@ cdef class Positron(Particle):
 
         while True:
 
+
             # To be removed:
             if self.state.pos.x**2 + self.state.pos.y**2 + self.state.pos.z**2 > 10_000**2:
                 return
@@ -216,10 +217,10 @@ cdef class Positron(Particle):
 
 
 
-
             # FIRST PART OF TRAJECTORY
             tau = self.s*self.state.genPTR.get_next_float()
             self.sample_w(self.s)
+
             S_soft = self.w/self.s
             self.state.L = tau
 
@@ -233,6 +234,7 @@ cdef class Positron(Particle):
                 continue
 
 
+
             self.state.E -= tau*S_soft
             self.do_hinge()
 
@@ -242,7 +244,6 @@ cdef class Positron(Particle):
                 return
 
             (<V> self.state.current_region).depositLOCAL(self.state.pos, self.w)
-
 
             IF RECORD: self.record()
             
@@ -260,6 +261,7 @@ cdef class Positron(Particle):
 
                 self.update_references()
                 continue
+
             self.state.E -= S_soft*tau
 
             IF RECORD: self.record()
@@ -484,6 +486,7 @@ cdef class Positron(Particle):
         
         
         cdef int i = self.find_index()
+
         cdef double sIMFP1, sIMFP2
         sIMFP1 = self.elastic.sIMFP1A[i] + self.elastic.sIMFP1B[i]*self.state.E
         sIMFP2 = self.elastic.sIMFP2A[i] + self.elastic.sIMFP2B[i]*self.state.E
@@ -500,14 +503,17 @@ cdef class Positron(Particle):
         if self.state.genPTR.get_next_float() < den + mu0: mu0 = self.state.genPTR.get_next_float()*mu0
         else:                   mu0 = mu0 + self.state.genPTR.get_next_float()* (1 - mu0)
         
-        
+
         #cos = 1-2*mu0
         
         #if cos > 1: cos = 1
         
         #self.change_direction(cos , twoPI*self.state.genPTR.get_next_float())
         self.throwAZIMUTH()
+
+
         self.rotateTHETA(1-2*mu0)
+
         
     
     
@@ -572,7 +578,6 @@ cdef class Positron(Particle):
         IF _SIGNAL_INTERACTION: print("INELASTIC")
         #cdef double [::1]
         
-        input("here?")
 
         #self.GOS.sample(self.state.genPTR, self.find_index(), self.state.E, &particles)
         cdef int j = self.find_index()
@@ -599,55 +604,17 @@ cdef class Positron(Particle):
         cdef double p2E, p2d, Qs, p2Q, a, kc
         cdef double b1, b2, b3, b4, gamma, gp1
 
-        input("here?")
 
+
+        # this stuff needs correction
         if Uk < self.state.E < Wk:
             if self.state.E < Uk: raise RuntimeError("this hsould not be happening")
     
             self.state.E -= Uk 
-            # this is equivelent to assuming that the electron has given all its energy, an ejected electron with the same direction
-            # 
-            # if self.state.E - Uk > CUT_OFF:
-            #     self.state.E -= Uk
-            #     el = Electron._new(Wk-Uk, self.x, self.y, self.z,
-            #                        self.eyx, self.eyy, self.eyz,
-            #                        self.ezx, self.ezy, self.ezz,
-            #                        self.current_region)
-                
 
-            #     self.secondary.append(el)
-            #     self.nSECONDARY += 1
         
         elif i/6 % 3 == 0:
-            #kc = Wk/self.state.E
-            #a = (self.state.E/(self.state.E + ELECTRON_REST_ENERGY))**2
-            #p2E = 1+ 5*a*kc/2
-            #p2d = (1 - 2*kc)
-            #p2Q = p2d/(5*a*kc)
-            
-            #for _ in range(100_000):
-            #    r = p2E*self.state.genPTR.get_next_float()
-            #    
-            #    if r < 1: r = kc / (1 - r*p2d)
-            #    else: r = kc + (r - 1)*p2Q
-            #    
-            #    if r < kc: continue
-            #    if r > .5: continue
-            
-             #   else: P = (1/(r*r) + 1/(1-r)**2 - 1/(r*(1-r)) + a * (1 + 1/(k*(1-k))))
-                    
-            #    if self.state.genPTR.get_next_float()*(1+5*a*r*r) < r*r*  (1/(r*r) + 1/(1-r)**2 - 1/(r*(1-r)) + a * (1 + 1/(r*(1-r))  )):
-            #        break
-            #else: 
-            #    print(">>>>>> rejection sampling took too mucch")
-            #    import time
-            #    print("kc", kc)
-             #   print(p2E)
-            #    print("a", a)
-             #   print("E", self.state.E)
-             #   print("Wk", Wk)
-             #   print("Uk", Uk)
-             #   time.sleep(1000)
+
                 
             kc = Wk/self.state.E
             
@@ -695,20 +662,9 @@ cdef class Positron(Particle):
             #self.state.E -= Wk
             p2E = self.state.E * (self.state.E + _2ELECTRON_REST_ENERGY)
             p2d = (self.state.E - Wk) * ((self.state.E - Wk) + _2ELECTRON_REST_ENERGY)   #self.p2(E - self.Wk)
-            
-            
             Qs = sqrt( sqrt( p2E )  - p2d  + ELECTRON_REST_ENERGY*ELECTRON_REST_ENERGY  ) - ELECTRON_REST_ENERGY
-            
-            
-            
-            
             Qs = Qs/(1 + Qs / _2ELECTRON_REST_ENERGY)
-    
-             
-       
             Qs = Qs / ((   Qs/Wk *(1 + Wk/_2ELECTRON_REST_ENERGY )      )**(self.state.genPTR.get_next_float()) - Qs/_2ELECTRON_REST_ENERGY)
-    
-    
             p2Q = Qs * (Qs + _2ELECTRON_REST_ENERGY)
     
             
@@ -730,10 +686,17 @@ cdef class Positron(Particle):
                 self.secondary.append(el)
                 self.nSECONDARY += 1
             else:
-                (<V> self.state.current_region).depositLOCAL(self.state.pos, Wk - Uk)
+                (<V> self.state.current_region).depositLOCAL(
+                    self.state.pos, 
+                    Wk - Uk
+                )
 
-            
-            self.rotateTHETA(.5*(p2E + p2d - p2Q)/sqrt(p2E*p2d))
+            self.rotateTHETA(
+                .5*(p2E + p2d - p2Q)/sqrt(p2E*p2d)
+            )
+
+
+
             self.state.E -= Wk
             
             #particles.ELECTRONS.push_back(E - self.Wk)
@@ -778,7 +741,6 @@ cdef class Positron(Particle):
       #  self.nSECONDARY += 1
       #  self.secondary.append(el)
         
-        input("here?")
 
        # print(Uk)
         if Uk < MIN_CUT_OFF: 

@@ -194,8 +194,8 @@ cdef class BVH(Volume):
 		
 		self.ws = <void**> malloc(self.Nws * sizeof(void*))
 
-		print(self.tmp_ws)
-		print(self.Nws)
+		IF DEBUG_MODE: print(self.tmp_ws)
+		IF DEBUG_MODE: print(self.Nws)
 
 		for i, region in enumerate(self.tmp_ws):
 			self.ws[i]          = <void*> region
@@ -268,9 +268,9 @@ cdef class BVH(Volume):
 			if self.ws[i] == state.current_region: continue
 
 			if (<BVH> self.ws[i]).is_inside(state.pos):
-				print(i)
+				IF DEBUG_MODE: print(i)
 				return self.ws[i]
-		print(0)
+		IF DEBUG_MODE: print(0)
 		return <void*> self
 
 		#for i in range(1, (<BVH> state.current_region).i):
@@ -592,15 +592,15 @@ cdef class CSGvol(BVH):
 		cdef double second_nearest = INF
 		
 		cdef int i
-		print(state.pos)
+		IF DEBUG_MODE: print(state.pos)
 
 		for i in range(0, self.i0):
-			print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
+			IF DEBUG_MODE: print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
 			if (<V> self.ws[i]).sdf < second_nearest:
 				second_nearest = (<V> self.ws[i]).sdf
 
 		for i in range(self.i0+1, self.Nws):
-			print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
+			IF DEBUG_MODE: print(i, (<V> self.ws[i]).sdf, (<V> self.ws[i]))
 			if (<V> self.ws[i]).sdf < second_nearest:
 				second_nearest = (<V> self.ws[i]).sdf
 
