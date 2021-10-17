@@ -58,7 +58,7 @@ plotter = Plotter(photon_beam)
 
 
 # then ask it for a fig
-fig = plotter.new_plot()
+fig = plotter.new_plot() b 
 
 # use this method to draw the geometry onto the figure (this will be better)
 plotter.add_geometry(fig, outer)
@@ -70,35 +70,15 @@ fig.show()
 
 
 
-from os import error
+import argparse
 import sys
 from pathlib import Path
 
 import cmd, sys
-from colorama import init
-from termcolor import colored, cprint
+import colorama
 from colorama import Fore, Back, Style
+colorama.init()
 
-# use Colorama to make Termcolor work on Windows too
-init()
-
-# then use Termcolor for all colored text output
-print(colored('Hello, World!', 'green', 'on_red'))
-
-prompt_prefix = colored("myco", "red") + "@"
-
-
-class stdout:
-
-    @staticmethod
-    def write(text):
-        print("this?", text)
-
-
-def make_prompt(path, project = False):
-    if project:
-        return prompt_prefix + colored(path, "green") + ">"
-    return prompt_prefix + colored(path, "cyan") + ">"
 
 def is_project(path):
     x = path.glob(".myco")
@@ -108,31 +88,25 @@ def is_project(path):
         return x[0].is_file()
     else:
         return False
-
-
-
-
 class NavigationCMD(cmd.Cmd):
-    use_rawinput = 0
-
-    intro = colored("Welcome to MontyCarlo! Type help or ? to list the available commands ^.^ \n", "yellow")
+    intro = "Welcome to MontyCarlo! Type help or ? to list the available commands ^.^ \n"
     file = None
     project = None
     path = Path(sys.argv[0]).parent
-    prompt = make_prompt(path)
+    prompt = f"{Fore.RED}myco{Style.RESET_ALL}@{Fore.CYAN}{path}{Style.RESET_ALL}> "
 
     def do_cd(self, args):
         
 
         if args in ["..", ""]:
             NavigationCMD.path = NavigationCMD.path.parent
-            NavigationCMD.prompt = make_prompt(NavigationCMD.path)
+            NavigationCMD.prompt = f"{Fore.RED}myco{Style.RESET_ALL}@{Fore.CYAN}{NavigationCMD.path}{Style.RESET_ALL}> "
             return 
 
         new_path = NavigationCMD.path/args
         if new_path.is_dir():
             NavigationCMD.path = NavigationCMD.path/args
-            NavigationCMD.prompt = make_prompt(NavigationCMD.path)
+            NavigationCMD.prompt = f"{Fore.RED}myco{Style.RESET_ALL}@{Fore.CYAN}{NavigationCMD.path}{Style.RESET_ALL}> "
         else:
             print("Error: NOT A PATH")
 
@@ -174,8 +148,8 @@ class MontyCarloShell(NavigationCMD):
 
     
     def do_install(self, args):
-        print(colored("# Downloading databases !", "yellow"))
-        import MontyCarlo
+        print("# Downloading databases !")
+        exec("import MontyCarlo")
 
         pass
 
@@ -212,14 +186,15 @@ class MontyCarloShell(NavigationCMD):
         root_folder.mkdir(parents=True, exist_ok=True)
 
 
-
+        # DIRECTORIES
+        (root_folder/'mat').mkdir(parents=True, exist_ok=True)
+        (root_folder/'geo').mkdir(parents=True, exist_ok=True)
+        (root_folder/'out').mkdir(parents=True, exist_ok=True)
 
         # FILES
         (root_folder/'.myco').touch()
         (root_folder/'main.py').touch()
         (root_folder/'main.py').write_text(BOILER_PLATE)
-
-        (root_folder/'__init__.py').touch()
 
 
 
@@ -237,51 +212,25 @@ class MontyCarloProjectShell(cmd.Cmd):
     intro = "Your project is now open! \n"
     path = Path(sys.argv[0]).parent
 
-    use_rawinput = 0
+
     def do_exit(self, args):
-        return True
-
-
-    def do_build(self, args):
-        root_folder = MontyCarloProjectShell.path
-
-        # DIRECTORIES
-        (root_folder/'build').mkdir(parents=True, exist_ok=True)
-        (root_folder/'build'/'mat').mkdir(parents=True, exist_ok=True)
-        (root_folder/'build'/'geo').mkdir(parents=True, exist_ok=True)
-        (root_folder/'build'/'out').mkdir(parents=True, exist_ok=True)
-
-        code = (root_folder/'main.py').read_text()
-        (root_folder/'build'/'main.py').touch()
-        (root_folder/'build'/'main.py').write_text(code)
-
+        MontyCarloShell().cmdloop()
 
 
     def cmdloop(self, path):
-        print(colored("Initing MontyCarlo, just a sec....", "yellow"))
-        sys.path.append(str(path))
-
         MontyCarloProjectShell.path = path
-        MontyCarloProjectShell.prompt = make_prompt(path.name, project = True)
+        MontyCarloProjectShell.prompt = f"{Fore.RED}myco{Style.RESET_ALL}@{Fore.GREEN}YourProject{Style.RESET_ALL}> "
+
+
         super(MontyCarloProjectShell, self).cmdloop()
 
     def do_run(self, args):
-        import os
-        root = MontyCarloProjectShell.path
-        #os.chdir(f"/{root.name}/")
-        print(os.getcwd())
-        os.chdir(root.name)
-        os.chdir("build")
-    
-        command = f"python main.py"
-        print(colored(command, "red"))
+        code = (MontyCarloProjectShell.path/'main.py').read_text()
 
-        os.system(command)
-
-        os.chdir("..")
-        os.chdir("..")
-
-
+        class NAMESPACE:
+            exec(code)
         
-
-MontyCarloShell().cmdloop()
+        del NAMESPACE
+        
+def main():
+    MontyCarloShell().cmdloop()
