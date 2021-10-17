@@ -82,8 +82,7 @@ setup(
     include_package_data = True,
     packages             = find_packages(),
     cmdclass             = {'build_ext': build_ext},
-    include_dirs         = [".", np.get_include(), "_random"],
-
+    include_dirs         = [".", np.get_include()],
     ext_modules = cythonize(
                             ext_modules, 
     						            annotate = False, # this is getting overriden locally ._.
