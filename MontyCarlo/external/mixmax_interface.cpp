@@ -8,7 +8,7 @@
         ],
         "extra_compile_args": [
             "-O2",
-            "-fp:fast"
+            "-fp:fast-favor:AMD64"
         ],
         "include_dirs": [
             ".\\MontyCarlo\\external",
