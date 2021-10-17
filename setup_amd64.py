@@ -49,7 +49,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     entry_points = {
         'console_scripts': ['myco=MontyCarlo.cl.myco:main'],
-    }
+    },
 
 
     name = "MontyCarlo",
