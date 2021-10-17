@@ -25,7 +25,7 @@ errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 
 # Conditional Compilation for Debugging. 
 DEF _DEBUG_BASIC = False
-DEF _SIGNAL_INTERACTION = True
+DEF _SIGNAL_INTERACTION = False
 DEF RECORD = True
 
 
@@ -289,12 +289,10 @@ cdef class Positron(Particle):
             elif r < self.IMFP_CUMUL.C1: 
                 self._inelastic()
                 if self.state.E < CUT_OFF:
-                    input("next")
                     (<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
                     (<Volume> self.state.current_region).exit()
                     return
 
-                input("opening imfp")
                 self.update_imfp()
                 
                 
@@ -410,7 +408,6 @@ cdef class Positron(Particle):
 
         self.s_max = 4/self.s_max
 
-        input("exiting update_imfp")
 
 
 
@@ -797,7 +794,6 @@ cdef class Positron(Particle):
 
 
         
-        input("here?")
 
         cdef Photon ph
         for i in range(particles.PHOTONS.size()):
@@ -826,7 +822,6 @@ cdef class Positron(Particle):
         (<V> self.state.current_region).depositLOCAL(self.state.pos, Etot)
 
 
-        input("exiting....")
             
     # @cython.boundscheck(False)
     # @cython.wraparound(False) 
