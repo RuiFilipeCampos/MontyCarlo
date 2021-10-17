@@ -19,8 +19,7 @@ import numpy as np # need to compile it with the extension modules
 # MSVC ARGUMENTS
 args = [
         "-O2",     # code optimization
-        "-fp:fast" # math optimization -> changes order of math operations for max efficiency
-        "-favor:INTEL64"
+        "-fp:fast", # math optimization -> changes order of math operations for max efficiency
        ]
 
 ext_modules = [ 
@@ -42,7 +41,9 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 
 setup(
-
+    entry_points = {
+        'console_scripts': ['myco=MontyCarlo.cl.myco:main'],
+    },
 
 
     name = "MontyCarlo",
@@ -68,7 +69,10 @@ setup(
                         'scikit-image',
                         'Jinja2', 
                         'pyunpack',
-                        'patool'],
+                        'patool',
+                        'colorama',
+                        'termcolor',
+                        ],
 
     include_package_data = True,
     packages             = find_packages(),

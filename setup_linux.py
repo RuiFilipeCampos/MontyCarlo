@@ -40,6 +40,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 if __name__ == "__main__":
     setup(
+
+        entry_points = {
+            'console_scripts': ['myco=MontyCarlo.cl.myco:main'],
+        },
         name = "MontyCarlo",
         version = version,
         author = "Rui Filipe de Sousa Campos",
@@ -63,8 +67,10 @@ if __name__ == "__main__":
                             'scikit-image',
                             'Jinja2', 
                             'pyunpack',
-                            'patool'],
-
+                            'patool',
+                            'colorama',
+                            'termcolor',
+                            ],
         include_package_data = True,
         packages             = find_packages(),
         cmdclass             = {'build_ext': build_ext},

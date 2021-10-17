@@ -74,7 +74,10 @@ setup(
                         'scikit-image',
                         'Jinja2', 
                         'pyunpack',
-                        'patool'],
+                        'patool',
+                        'colorama',
+                        'termcolor',
+                        ],
 
     include_package_data = True,
     packages             = find_packages(),
