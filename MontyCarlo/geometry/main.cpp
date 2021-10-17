@@ -13,8 +13,8 @@
             "-fp:fast-favor:AMD64"
         ],
         "include_dirs": [
-            ".\\MontyCarlo\\external",
-            ".\\MontyCarlo\\materials"
+            ".\\MontyCarlo\\materials",
+            ".\\MontyCarlo\\external"
         ],
         "language": "c++",
         "name": "MontyCarlo.geometry.main",
