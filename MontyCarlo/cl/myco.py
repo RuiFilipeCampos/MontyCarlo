@@ -221,6 +221,14 @@ class MontyCarloProjectShell(cmd.Cmd):
         return True
 
 
+
+    def do_dev(self, args):
+        project = MontyCarloProjectShell.path.parent
+        print(str(
+            project
+        ))
+
+
     def do_build(self, args):
         root_folder = MontyCarloProjectShell.path
 

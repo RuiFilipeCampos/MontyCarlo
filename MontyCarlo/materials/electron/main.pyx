@@ -34,7 +34,6 @@ from collections import deque
 from numpy import logspace
 from scipy.interpolate import CubicSpline
 from scipy.integrate import cumtrapz
-from numba import njit
 
 from numpy     cimport ndarray
 from libc.math cimport fmax
@@ -163,7 +162,6 @@ np.seterr(all='raise')
 cdef double const = 2*(1.015387)**2
 cdef double C = 2*(1.015387)**2
 from numpy import exp
-from numba import njit
 
 #@njit
 def G1(w, avg = 0, std = 1):

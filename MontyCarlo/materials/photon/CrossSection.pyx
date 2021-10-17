@@ -19,7 +19,7 @@ print("Importing `.material.photon.CrossSection`")
 from ...tools.data import getAxis
 from ...tools.interpol1 cimport LinLinInterpolation
 
-from numba import njit
+# from numba import njit
 
 
 def getCS(tuple ID, int Z):

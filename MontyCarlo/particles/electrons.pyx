@@ -36,7 +36,7 @@ DEF _SIGNAL_INTERACTION = False
 DEF RECORD = True
 
 
-
+DEF DEBUG_MODE = False
 
 
 
@@ -164,14 +164,18 @@ cdef class Electron(Particle):
     """
 
     @staticmethod
-    cdef Electron _new(STATE& state):
+    cdef Electron _new(
+        STATE& state
+    ):
         cdef Electron self
         self = <Electron>Electron.__new__(Electron)
         self.state = state
         return self
     
     @staticmethod
-    cdef Electron _newISOTROPIC(STATE& state):
+    cdef Electron _newISOTROPIC(
+        STATE& state
+    ):
         """Generate an electron in a random direction.
         
         
@@ -211,13 +215,14 @@ cdef class Electron(Particle):
     cdef void _run(Electron self, mixmax_engine* genPTR):
         """Simulate the electron.
         """
+        print("STARTING ELECTRON")
+
+
+        IF DEBUG_MODE: input("<Electron> Called ._run")
+
+
         
-        # Compile time stuff
-        IF _DEBUG_BASIC: print("> ELECTRON")
-        
-        
-        
-        # Initializing particle
+        IF DEBUG_MODE: input("<Electron> Initializing Particle")
         self.secondary = deque()
         self.MU = deque()
         self.nSECONDARY = 0
@@ -225,17 +230,25 @@ cdef class Electron(Particle):
         cdef double E0
         cdef double r
         
-        # Checking state
+        IF DEBUG_MODE: input("<Electron> Checking state.")
         if self.state.E < CUT_OFF:
+            IF DEBUG_MODE: input("<Electron> Killing electron.")
             (<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
             (<Volume> self.state.current_region).exit()
+            IF DEBUG_MODE: input("<Electron> Done.")
             return
 
+        IF DEBUG_MODE: input("<Electron> Copying pRNG pointer.")
         self.state.genPTR = genPTR
+
+        IF DEBUG_MODE: input("<Electron> Calling update_references.")
         self.update_references()
 
         IF RECORD: self.record()
         
+
+
+
         #cdef double r
         cdef double tau           # first part of the segment
         cdef double tau2          # second part of the segment
@@ -243,27 +256,36 @@ cdef class Electron(Particle):
         cdef bint delta = False   # flag indicating delta interaction in current iteration
         cdef double3 dep_pos 
         
+
+
+        IF DEBUG_MODE: input("<Electron> Starting main loop.")
         while True:
             
-            # Temporary variance reduction
+            IF DEBUG_MODE: input("<Electron> Temporary varianve reduction.")
             if self.state.pos.x**2 + self.state.pos.y**2 + self.state.pos.z**2 > 10_000**2:
+                IF DEBUG_MODE: input("<Electron> Killing electron.")
                 return
 
             
-            # Propose a displacement
+            IF DEBUG_MODE: input("<Electron> Proposing displacement.")
             self.s = -log(self.state.genPTR.get_next_float())/self.imfp_max
 
+
+            IF DEBUG_MODE: input("<Electron> Truncate diplacement?.")
             if self.s > self.s_max:
+                IF DEBUG_MODE: input("<Electron> Yee.")
                 self.s = self.s_max
                 delta = True
             
+
+                    
             if self.s_max > 1000:
+                IF DEBUG_MODE: input("<Electron> s_max too large.")
                 print((<V> self.state.current_region))
          
             
 
-            
-            # FIRST PART OF TRAJECTORY
+            IF DEBUG_MODE: input("<Electron> FIRST PART OF TRAJECTORY.")
             
             #to_deposit = self.s*self.state.genPTR.get_next_float()
             self.sample_w(self.s)
@@ -281,15 +303,20 @@ cdef class Electron(Particle):
             self.state.L = tau
 
             # first segment, pos0
+            IF DEBUG_MODE: input("<Electron> MOVING...")
             if (<V> self.state.current_region).move(self.state, S_soft):
+                IF DEBUG_MODE: input("<Electron> HAS CROSSED SOMETHING...")
+
                 self.state.E -= (tau - self.state.L)*S_soft
+
+
                 if self.state.E < CUT_OFF:
                     (<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
                     return
                 (<V> self.state.current_region).depositLOCAL(self.state.pos, (tau - self.state.L)*S_soft)
                 self.update_references()
                 continue
-
+            IF DEBUG_MODE: input("<Electron> MOVE IS DONE...")
             #(<V> self.state.current_region).depositRANDOM(self.state, S_soft*tau, tau)
 
             self.state.E -= S_soft*tau
@@ -301,7 +328,7 @@ cdef class Electron(Particle):
             
 
 
-
+            IF DEBUG_MODE: input("<Electron> DOING HINGE...")
             self.do_hinge()
 
 

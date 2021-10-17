@@ -1,5 +1,7 @@
 # distutils: language = c++
-print("Importing `.materials.positron.main`")
+
+
+print("Importing .materials.positron.main")
 
 
 class MAP(dict):
@@ -176,7 +178,6 @@ getLinLin = makeLinLin
 
 
 
-from numba import njit
 
 
 
@@ -202,9 +203,7 @@ np.seterr(all='raise')
 
 cdef double const = 2*(1.015387)**2
 from numpy import exp
-from numba import njit
 
-#@njit
 def G(w, avg = 0, std = 1):
     dw2 = (w - avg)**2
     std2 = std**2

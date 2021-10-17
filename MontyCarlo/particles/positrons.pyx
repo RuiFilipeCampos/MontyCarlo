@@ -25,7 +25,7 @@ errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 
 # Conditional Compilation for Debugging. 
 DEF _DEBUG_BASIC = False
-DEF _SIGNAL_INTERACTION = False
+DEF _SIGNAL_INTERACTION = True
 DEF RECORD = True
 
 
@@ -223,7 +223,7 @@ cdef class Positron(Particle):
             S_soft = self.w/self.s
             self.state.L = tau
 
-            if (<V> self.state.current_region).move(self.state, 0):
+            if (<V> self.state.current_region).move(self.state, S_soft):
                 #self.state.E -= (tau - self.state.L)*self.w/self.s
                 #if self.state.E < CUT_OFF:
                     #(<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
@@ -251,7 +251,7 @@ cdef class Positron(Particle):
             tau = self.s - tau
             self.state.L = tau
 
-            if (<V> self.state.current_region).move(self.state, 0):
+            if (<V> self.state.current_region).move(self.state, S_soft):
                 #self.state.E -= (tau - self.state.L)*S_soft
                 #if self.state.E < CUT_OFF:
                     #(<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
@@ -289,10 +289,12 @@ cdef class Positron(Particle):
             elif r < self.IMFP_CUMUL.C1: 
                 self._inelastic()
                 if self.state.E < CUT_OFF:
+                    input("next")
                     (<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
-
                     (<Volume> self.state.current_region).exit()
                     return
+
+                input("opening imfp")
                 self.update_imfp()
                 
                 
@@ -384,7 +386,7 @@ cdef class Positron(Particle):
         
         
         
-    cdef inline void update_imfp(Positron self) :
+    cdef inline void update_imfp(Positron self):
         
         cdef double Emin = self.state.E - self.positron.find_wmax(self.s_max, self.state.E)
         cdef int i, j
@@ -407,6 +409,8 @@ cdef class Positron(Particle):
                              )
 
         self.s_max = 4/self.s_max
+
+        input("exiting update_imfp")
 
 
 
@@ -571,6 +575,8 @@ cdef class Positron(Particle):
         IF _SIGNAL_INTERACTION: print("INELASTIC")
         #cdef double [::1]
         
+        input("here?")
+
         #self.GOS.sample(self.state.genPTR, self.find_index(), self.state.E, &particles)
         cdef int j = self.find_index()
         cdef int i
@@ -595,9 +601,12 @@ cdef class Positron(Particle):
         cdef int _
         cdef double p2E, p2d, Qs, p2Q, a, kc
         cdef double b1, b2, b3, b4, gamma, gp1
+
+        input("here?")
+
         if Uk < self.state.E < Wk:
             if self.state.E < Uk: raise RuntimeError("this hsould not be happening")
-            pass
+    
             self.state.E -= Uk 
             # this is equivelent to assuming that the electron has given all its energy, an ejected electron with the same direction
             # 
@@ -656,7 +665,6 @@ cdef class Positron(Particle):
             b2 = a*(3*gp1 + 1)/gp1
             b3 = a*2*gamma*(gamma - 1)/gp1
             b4 = a*(gamma - 1)**2 / gp1
-            
             
             while 1:
                 r = kc / ( 1 - self.state.genPTR.get_next_float()*(1 - kc) )
@@ -773,7 +781,8 @@ cdef class Positron(Particle):
       #  self.nSECONDARY += 1
       #  self.secondary.append(el)
         
-      
+        input("here?")
+
        # print(Uk)
         if Uk < MIN_CUT_OFF: 
             (<V> self.state.current_region).depositLOCAL(self.state.pos, Uk)
@@ -788,7 +797,8 @@ cdef class Positron(Particle):
 
 
         
-         
+        input("here?")
+
         cdef Photon ph
         for i in range(particles.PHOTONS.size()):
             E = particles.PHOTONS.back()
@@ -814,6 +824,9 @@ cdef class Positron(Particle):
             self.secondary.append(el)
 
         (<V> self.state.current_region).depositLOCAL(self.state.pos, Etot)
+
+
+        input("exiting....")
             
     # @cython.boundscheck(False)
     # @cython.wraparound(False) 
