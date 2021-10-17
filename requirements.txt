@@ -11,3 +11,5 @@ scikit-image
 Jinja2
 pyunpack
 patool
+colorama
+termcolor 
