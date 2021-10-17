@@ -29,62 +29,89 @@
 
 print("Importing `.particles.electrons`")
 
+
+# COMPILE TIME CONSTANTS (CYTHONIZATION)
 DEF _DEBUG_BASIC = False
 DEF _SIGNAL_INTERACTION = False
 DEF RECORD = True
- 
-
-from ..materials.cppRelaxAPI cimport PARTICLES
-from libc.math cimport isnan
-from .particle cimport STATE
-from ..materials.materials cimport Material
-
-from ..materials.electron.main cimport Brem, Inelastic, Elastic, DIST
 
 
 
-from .._init  import eax
-from .._init  cimport EAX
-from .._init  cimport LIMS
 
-## PYTHON IMPORTS
+
+
+
+
+
+
+
+
+
+
+###########################
+#         IMPORTS
+#########################
+
+
+
+## PYTHON IMPORTS --------------------------------------------------------------------
+# These are run-time imports 
+
 #Local Imports
 from ..materials import database as db
 from ..settings import __photonCUTOFF__, __electronCUTOFF__
+from .._init  import eax
 
 #external imports
 from collections import deque
 import numpy as np
 
-## CYTHON IMPORTS
-#Local Imports
+
+
+
+## CYTHON IMPORTS  --------------------------------------------------------------------
+# These are basicly includes of header files
+# everything gets a bit mixed up xd
+
+# Local Imports
 from .particle cimport Particle
 from ..geometry.main cimport Volume
 from ..tools.vectors cimport Vector
 from .photons cimport Photon
-from libcpp.vector cimport vector
-
-from libc.math cimport sin, cos, log, sqrt, pi, exp, fmin, fmax, acos, pow
-
-cimport cython
-
 from ..materials.materials cimport Material
-from libc.stdlib cimport rand, RAND_MAX, srand
-
 from ..types cimport double3
+from .._init  cimport EAX
+from .._init  cimport LIMS
+from .particle cimport STATE
+from ..materials.materials cimport Material
+from ..materials.electron.main cimport Brem, Inelastic, Elastic, DIST
+from ..materials.cppRelaxAPI cimport PARTICLES
 
 
-
+# External
+cimport cython
+from libcpp.vector cimport vector
+from libc.math cimport sin, cos, log, sqrt, pi, exp, fmin, fmax, acos, pow
+from libc.stdlib cimport rand, RAND_MAX, srand
+from libc.math cimport isnan
 from ..external.mixmax_interface cimport mixmax_engine
 
-
-
-
-#Error messages (to be moved to its own module)
-errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
+# linking stuff from C/C++
 
 cdef extern from "<math.h>" nogil:
     double frexp(double x, int* exponent)
+
+cdef extern from "math.h":
+    float INFINITY
+
+
+# --------------------------------------------------------------------
+
+
+###########################
+#         CONSTANTS
+#########################
+
 
 cdef double[::1] LOGeax = np.log(eax)
 cdef double[::1] diffLOGeax = np.diff(np.array(LOGeax))
@@ -100,10 +127,10 @@ cdef double CUT_OFF = __electronCUTOFF__
 cdef double ELECTRON_REST_ENERGY = 0.51099895000*1e6 #eV
 cdef double  _2ELECTRON_REST_ENERGY    = 2 *ELECTRON_REST_ENERGY
 
-cdef extern from "math.h":
-    float INFINITY
 
-ctypedef Volume V
+
+
+ctypedef Volume V # should be in header
 
 
 
@@ -113,9 +140,28 @@ ctypedef Volume V
 @cython.initializedcheck(False)
 @cython.cdivision(True)
 cdef class Electron(Particle):
- 
-    cdef double ENERGY(self):
-        return self.state.E
+    """ The `Electron` class.
+
+    METHODS
+        CONSTRUCTORS
+            Electron _new(STATE& state)
+            Electron _newISOTROPIC(STATE& state)
+        
+        SIMULATE
+            void _run(Electron self, mixmax_engine* genPTR)
+        
+        UPDATE
+            void update_references(Electron self)
+            inline void update_imfp_cumul(Electron self)
+            inline void _delta(Electron self)
+            inline void update_imfp(Electron self)
+
+        UNIT TEST
+            
+
+        INTERACTIONS
+            inline void sample_w(self, double tau)
+    """
 
     @staticmethod
     cdef Electron _new(STATE& state):
@@ -424,7 +470,7 @@ cdef class Electron(Particle):
                              self.electron.imfpA[i] + self.electron.imfpB[i] * Emin
                              )
         
-        
+
         
     cdef inline void _delta(self):
         """
@@ -432,7 +478,7 @@ cdef class Electron(Particle):
         """
         pass
 
-        
+
     cdef inline void update_imfp(Electron self):
         """
         Updates total hIMFP. Called when a new proposal displacement is needed
@@ -1127,7 +1173,8 @@ ENERGY: {E}eV
     def setE(self, double E):
         self.state.E = E
         
-    
+    cdef double ENERGY(self):
+        return self.state.E
     
     
     cdef inline int find_index(self):
