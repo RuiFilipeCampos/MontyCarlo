@@ -26,7 +26,7 @@ jobs:
       - name: Building wheel...
         run: |
           git pull
-          python setup_amd64.py bdist_wheel
+          python setup_intel64.py bdist_wheel
       - name: Pushing results...
         run: |
           git config --global user.name 'RuiFilipeCampos'
