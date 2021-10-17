@@ -74,6 +74,22 @@ Be sure to zoom in on every detail!
 
 ![CSGexample](https://user-images.githubusercontent.com/63464503/137640271-39d20a94-7857-4656-a6e3-82b6514100ed.png)
 
+
+# new stuff that's coming soon
+
+This one is ready:
+
+![myco_shell](https://user-images.githubusercontent.com/63464503/137640601-dfdaeb9f-ba17-4ee9-9d32-aee0a5e35d70.png)
+
+
+This one needs another weekend:
+
+![myco_newsyntax](https://user-images.githubusercontent.com/63464503/137640807-843c88a0-3b74-450f-b016-dff5f87e847c.png)
+
+
+
+
+
 <!---
 
 ## What to expect
