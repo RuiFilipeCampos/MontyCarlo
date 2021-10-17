@@ -212,15 +212,14 @@ class MontyCarloShell(NavigationCMD):
         root_folder.mkdir(parents=True, exist_ok=True)
 
 
-        # DIRECTORIES
-        (root_folder/'mat').mkdir(parents=True, exist_ok=True)
-        (root_folder/'geo').mkdir(parents=True, exist_ok=True)
-        (root_folder/'out').mkdir(parents=True, exist_ok=True)
+
 
         # FILES
         (root_folder/'.myco').touch()
         (root_folder/'main.py').touch()
         (root_folder/'main.py').write_text(BOILER_PLATE)
+
+        (root_folder/'__init__.py').touch()
 
 
 
@@ -243,24 +242,46 @@ class MontyCarloProjectShell(cmd.Cmd):
         return True
 
 
+    def do_build(self, args):
+        root_folder = MontyCarloProjectShell.path
+
+        # DIRECTORIES
+        (root_folder/'build').mkdir(parents=True, exist_ok=True)
+        (root_folder/'build'/'mat').mkdir(parents=True, exist_ok=True)
+        (root_folder/'build'/'geo').mkdir(parents=True, exist_ok=True)
+        (root_folder/'build'/'out').mkdir(parents=True, exist_ok=True)
+
+        code = (root_folder/'main.py').read_text()
+        (root_folder/'build'/'main.py').touch()
+        (root_folder/'build'/'main.py').write_text(code)
+
+
+
     def cmdloop(self, path):
         print(colored("Initing MontyCarlo, just a sec....", "yellow"))
+        sys.path.append(str(path))
 
-        import MontyCarlo
         MontyCarloProjectShell.path = path
         MontyCarloProjectShell.prompt = make_prompt(path.name, project = True)
         super(MontyCarloProjectShell, self).cmdloop()
 
     def do_run(self, args):
-        code = (MontyCarloProjectShell.path/'main.py').read_text()
+        import os
+        root = MontyCarloProjectShell.path
+        #os.chdir(f"/{root.name}/")
+        print(os.getcwd())
+        os.chdir(root.name)
+        os.chdir("build")
+    
+        command = f"python main.py"
+        print(colored(command, "red"))
 
-        class NAMESPACE:
-            try:
-                exec(code)
-            except:
-                print("smthin bad happened")
-        
-        del NAMESPACE
+        os.system(command)
+
+        os.chdir("..")
+        os.chdir("..")
+
+
         
 
 MontyCarloShell().cmdloop()
