@@ -4,20 +4,20 @@
 {
     "distutils": {
         "depends": [
-            "MontyCarlo\\external\\mixmax_release_200final\\mixmax.hpp"
+            "MontyCarlo/external/mixmax_release_200final/mixmax.hpp"
         ],
         "extra_compile_args": [
-            "-O2",
-            "-fp:fast"
+            "-Wno-cpp",
+            "-std=c++11"
         ],
         "include_dirs": [
-            ".\\MontyCarlo\\external",
-            "MontyCarlo\\external"
+            "./MontyCarlo/external",
+            "MontyCarlo/external"
         ],
         "language": "c++",
         "name": "MontyCarlo.external.mixmax_interface",
         "sources": [
-            "MontyCarlo\\external\\mixmax_interface.pyx"
+            "MontyCarlo/external/mixmax_interface.pyx"
         ]
     },
     "module_name": "MontyCarlo.external.mixmax_interface"
@@ -862,7 +862,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "MontyCarlo\\external\\mixmax_interface.pyx",
+  "MontyCarlo/external/mixmax_interface.pyx",
 };
 
 /*--- Type declarations ---*/
