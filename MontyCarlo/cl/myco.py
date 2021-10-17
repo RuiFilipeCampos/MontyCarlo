@@ -262,5 +262,5 @@ class MontyCarloProjectShell(cmd.Cmd):
 
 
         
-
-MontyCarloShell().cmdloop()
+def main():
+    MontyCarloShell().cmdloop()
