@@ -246,19 +246,15 @@ class MontyCarloProjectShell(cmd.Cmd):
 
     def do_run(self, args):
         import os
-        root = MontyCarloProjectShell.path
-        #os.chdir(f"/{root.name}/")
-        print(os.getcwd())
-        os.chdir(root.name)
-        os.chdir("build")
-    
-        command = f"python main.py"
-        print(colored(command, "red"))
+        root = MontyCarloProjectShell.path 
+        old_dir = os.getcwd()
+        os.chdir(str(root/'build')) 
+        print(colored(
+               "python main.py", "red"
+         )) 
 
-        os.system(command)
-
-        os.chdir("..")
-        os.chdir("..")
+        os.system("python main.py") # <-- needs proper error handlin
+        os.chdir(old_dir) 
 
 
         
