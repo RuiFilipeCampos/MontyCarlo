@@ -74,6 +74,10 @@ Be sure to zoom in on every detail!
 
 ![CSGexample](https://user-images.githubusercontent.com/63464503/137640271-39d20a94-7857-4656-a6e3-82b6514100ed.png)
 
+![img1](https://user-images.githubusercontent.com/63464503/137699819-3dad4fb6-7e76-4a5c-89b4-86924a62105c.png)
+
+![img2](https://user-images.githubusercontent.com/63464503/137699838-1e4a7bba-5da0-49ca-bb64-8dbd4c6e0c75.png)
+
 
 # new stuff that's coming soon
 
