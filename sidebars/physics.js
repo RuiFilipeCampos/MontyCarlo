@@ -18,11 +18,16 @@ const sidebars = {
 
   // But you can create a sidebar manually
   tutorialSidebar: [
-    'intro',
     {
       type: 'category',
-      label: 'Mathematical Framework',
-      items: ['framework/intro'],
+      label: 'Intoduction',
+      items: ['intro', 'detailed_history', 'condensed_history'],
+    },
+
+    {
+      type: 'category',
+      label: 'Methods for Random Sampling',
+      items: ['random_sampling/uniform'],
     },
 
     {

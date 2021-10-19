@@ -1,0 +1,1 @@
+# Sampling from U([0, 1[)
