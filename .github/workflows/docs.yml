@@ -1,10 +1,7 @@
 name: documentation
 
 on:
-  pull_request:
-    branches: [docs]
-  push:
-    branches: [docs]
+  workflow_dispatch 
 
 jobs:
   checks:
