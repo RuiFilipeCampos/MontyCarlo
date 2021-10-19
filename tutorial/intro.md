@@ -2,34 +2,70 @@
 sidebar_position: 1
 ---
 
+
+
+
 # Tutorial Intro
 
-Let's discover **Docusaurus in less than 5 minutes**.
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+
+Let's discover **MontyCarlo in less than 5 minutes**. Just be sure you've installed it first! (The installation will take a lot more than 5 min...)
 
 ## Getting Started
 
-Get started by **creating a new site**.
-
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**:
+Get started by **creating a new project**. Go to a terminal and activate the virtual environment that holds your MontyCarlo installation. To open the MontyCarlo shell, type the command
 
 ```shell
-npm init docusaurus@latest my-website classic
+$ myco
 ```
 
-## Start your site
+This shell supports the usual navigation commands (ls and cd). Apart from that, the most important commands are:
 
-Run the development server:
+- `create [name of your cool project]`: this creates a new project folder
+- `open [name of your cool project]`: this opens the project
+- `build`: this takes your source code and compiles it to pure Python
+- `run`: runs the simulation !
 
-```shell
-cd my-website
+The `create` command already writes some boilerplate code for you. 
 
-npx docusaurus start
+## Running the first simulation
+
+1. Open the MontyCarlo shell
+
+```
+$ myco
 ```
 
-Your site starts at `http://localhost:3000`.
+2. Create a project
 
-Open `docs/intro.md` and edit some lines: the site **reloads automatically** and display your changes.
+```
+myco@users/user_name/projects> create my_cool_project
+```
+
+3. Open your project
+
+```
+myco@users/user_name/projects> open my_cool_project
+```
+
+4. Build the project
+
+```
+myco@my_cool_project> build
+```
+
+5. Run the simulation
+
+```
+myco@my_cool_project> run
+```
+
+In the end it should look something like this:
+
+<img alt="Docusaurus with Keytar" src={useBaseUrl('/img/tutorial/shell.png')} />
+
+
+and the result of the simulation should be the following plot
+
+<img alt="Docusaurus with Keytar" src={useBaseUrl('/img/tutorial/first_run.png')} />
