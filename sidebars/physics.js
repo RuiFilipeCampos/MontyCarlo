@@ -21,7 +21,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Intoduction',
-      items: ['intro', 'detailed_history', 'condensed_history'],
+      items: ['intro', 'detailed_history', 'condensed_history1', 'condensed_history2'],
     },
 
     {
@@ -39,7 +39,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Electrons',
-      items: ['intro'],
+      items: ['electrons/elastic', 'electrons/inelastic', 'electrons/bremsstrahlung'],
     },
 
 
