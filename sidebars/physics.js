@@ -33,7 +33,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Photons',
-      items: ['intro'],
+      items: ['photons/coherent', 'photons/incoherent', 'photons/photoelectric', 'photons/pair'],
     },
 
     {
