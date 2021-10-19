@@ -16,7 +16,7 @@ const config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: '', // Usually your GitHub org/user name.
+  organizationName: 'RuiFilipeCampos', // Usually your GitHub org/user name.
   projectName: 'MontyCarlo', // Usually your repo name.
 
 
