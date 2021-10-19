@@ -39,17 +39,7 @@ $$
     \right \}   \\
 $$
 
-where $\theta$ the polar deflection angle of the emitted photon, $ y = E_0 \theta$ , $E = E_0 - W$ is the energy of the outgoing electron, $W$ is the photons energy loss.
-
-This equation can be neatly packed into the following form
-
-
-$$
-    d\sigma^{(\textrm{brem})}  \propto f_{E_0}(y^2) N_r g_r(y^2) d(y^2) 
-$$
-
-where
-
+where $\theta$ the polar deflection angle of the emitted photon, $ y = E_0 \theta$ , $E = E_0 - W$ is the energy of the outgoing electron, $W$ is the photons energy loss and
 
 $$
     \frac{1}{M(y)} = 
@@ -61,6 +51,18 @@ $$
     \frac{Z^{1/2}}{111(y^2+1)}
     \right )^2,
 $$
+
+The equation for $d\sigma^{(\textrm{brem})}$ can be neatly packed into the following form
+
+
+$$
+    d\sigma^{(\textrm{brem})}  \propto f_{E_0}(y^2) N_r g_r(y^2) d(y^2) 
+$$
+
+where
+
+
+
 
 $$
     f_{E_0}(x) = \frac{1 + 1/(\pi E_0)^2}{(x+1)^2} ,
@@ -92,7 +94,7 @@ $$
     \right )^2
 $$
 
-The proportionality in equation  (\ref{eqn:DCS:angle_brem}) hides the constant leading factors, which include both $k$ and $dk$. This form was chosen such that $f_{E_0}$ is a valid distribution in $x = y^2$, which can be sampled using the analytical inverse transform (section \ref{rand:IT}). while $N_r g_r(x)$ is then used for a rejection step(section \ref{sec:rejection_sampling}). For maximum efficiency, $N_r$ is chosen such that the maximum of $g_r$ is, at least approximately, normalized:
+The proportionality hides the constant leading factors, which include both $k$ and $dk$. This form was chosen such that $f_{E_0}$ is a valid distribution in $x = y^2$, which can be sampled using the analytical inverse transform. while $N_r g_r(x)$ is then used for a rejection step. For maximum efficiency, $N_r$ is chosen such that the maximum of $g_r$ is, at least approximately, normalized:
 
 $$
     \frac{1}{N_r} = \max(g(0), g(1), g(\pi^2E_0^2))
