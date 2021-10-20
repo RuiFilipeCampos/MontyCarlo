@@ -9,12 +9,15 @@ A self closing tag would be something like this
 These guys are meant to get translated to function calls without any positional arguments. For example:
 
 ```HTML
-<Sphere radius=12.2 />
+<Sphere radius=12.2 material={gold} />
 ```
 gets translated to
 
 ```Python
-Sphere[0](radius=12.2)
+Sphere[0](
+    radius=12.2,
+    material=gold,
+)
 ```
 
 
