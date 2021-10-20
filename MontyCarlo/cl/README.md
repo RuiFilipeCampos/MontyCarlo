@@ -26,6 +26,8 @@ In this case, `sphere` is meant to be a tuple only containing the class
 sphere = (Sphere,)
 ```
 
+-----
+
 
 ```HTML
 <Sphere radius=1 material=gold>
