@@ -22,8 +22,125 @@ Since the field is always pointing in the s-direction, which can be chosen to be
 
 $$
 m  \mathbf{a} \cdot \hat \mathbf{s} = e \textrm{Re}(
-    \tilde \mathbf{E}
+    \tilde \mathbf{E} \cdot \hat \mathbf{s}
 ).
+$$
+
+The radiated power per unit solid angle of an electric dipole (i.e, the oscillating charge), is given by 
+
+> (not to self) need to either re-derive this eq., or cite it
+
+$$
+\frac{dP}{d\Omega}
+=
+\frac{
+    e^2 \left < 
+       \left (  \mathbf{a} \cdot \hat \mathbf{s} \right ) ^2
+    \right >
+}{
+
+    16 \pi ^2 \epsilon_0 c^3
+}
+
+\sin ^2 \theta       
+
+$$
+
+Substituting the previous equation here results in
+
+$$
+
+\frac{dP}{d\Omega}
+=
+\frac{
+    e^2 \left < 
+          \left (  
+                e \textrm{Re}(
+                    \tilde \mathbf{E} \cdot \hat \mathbf{s} ) / m         
+           \right ) ^2
+    \right >
+}{
+
+    16 \pi ^2 \epsilon_0 c^3
+}
+
+\sin ^2 \theta       
+
+$$
+
+which can be simplified to
+
+$$
+
+\frac{dP}{d\Omega}
+=
+\frac{
+    e^4 \left < 
+          
+                 \textrm{Re}(
+                    \tilde \mathbf{E} \cdot \hat \mathbf{s}  )          
+            ^2
+    \right >
+}{
+
+    16 \pi ^2 m^2 \epsilon_0 c^3
+}
+
+\sin ^2 \theta       
+
+$$
+
+substituting in the first equation
+
+$$
+
+\frac{dP}{d\Omega}
+=
+\frac{
+    e^4 \left < 
+          
+                 \textrm{Re}(
+                    E_0 \exp \left ( 
+i (\mathbf{k} \cdot \mathbf{r} - wt)
+\right ) )          
+            ^2
+    \right >
+}{
+
+    16 \pi ^2 m^2 \epsilon_0 c^3
+}
+
+\sin ^2 \theta       
+
+$$
+
+which can be better seen as
+
+
+$$
+
+\frac{dP}{d\Omega}
+=
+
+\textrm{Re} \left (
+
+\frac{
+    e^4 E_0^2 \left < 
+          
+                 
+                     \exp \left ( 
+i (\mathbf{k} \cdot \mathbf{r} - wt)
+\right )           
+            ^2
+    \right >
+}{
+
+    16 \pi ^2 m^2 \epsilon_0 c^3
+}
+
+\sin ^2 \theta       
+
+\right )
 $$
 
 
