@@ -2,6 +2,8 @@
 
 ## Thomson Scattering
 
+### Setting up the problem
+
 Consider an incident electromagnetic plane wave on a free charged particle that is initially at rest. The EM wave can be written in phasor notation
 
 $$
@@ -25,6 +27,9 @@ m  \mathbf{a} \cdot \hat \mathbf{s} = e \textrm{Re}(
     \tilde \mathbf{E} \cdot \hat \mathbf{s}
 ).
 $$
+
+
+### The (differential) re-radiated power
 
 The radiated power per unit solid angle of an electric dipole (i.e, the oscillating charge), is given by 
 
@@ -170,18 +175,14 @@ $$
 
 \frac{dP}{d\Omega}
 =
-
-
-
-
-    
 \frac{e^4 E_0^2 \sin ^2 \theta   }{    32 \pi ^2 m^2 \epsilon_0 c^3}
-
-      
-
-
-     
 $$
+
+
+### The incident power
+
+
+### The differential cross section
 
 ## Rayleigh Scattering
 
