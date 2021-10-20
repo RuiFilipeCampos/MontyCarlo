@@ -2,7 +2,7 @@
 
 ## Thomson Scattering
 
-Consider an incident electromagnetic plane wave on a free charged particle that is initially at rest. The EM wave can be written in versor notation
+Consider an incident electromagnetic plane wave on a free charged particle that is initially at rest. The EM wave can be written in phasor notation
 
 $$
 \tilde \mathbf{E} = \hat \mathbf{ s} E_0 \exp \left ( 
