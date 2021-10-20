@@ -3,8 +3,18 @@
 
 A self closing tag would be something like this
 
-```HTML
+```
 <[TAG_NAME] [VAR_NAME0]=[VAR_VALUE0] [VAR_NAME1]=[VAR_VALUE1] ... /> 
+```
+These guys are meant to get translated to function calls without any positional arguments. For example:
+
+```HTML
+<Sphere radius=12.2 />
+```
+gets translated to
+
+```Python
+Sphere[0](radius=12.2)
 ```
 
 
