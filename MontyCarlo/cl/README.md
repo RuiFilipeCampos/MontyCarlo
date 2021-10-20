@@ -54,11 +54,21 @@ def custom_shape(*args, **kwargs):
     return (
     <union>
         <sphere radius = 1/>
-        <parallelepiped dx=10 dy=1 dz=1
+        <parallelepiped dx=10 dy=1 dz=1 />
     </union>
     ,)
 ```
 
+So, this guy
+
+```HTML
+<custom_shape />
+```
+gets translated to this
+
+```
+custom_shape[0]()
+```
 
 
 
