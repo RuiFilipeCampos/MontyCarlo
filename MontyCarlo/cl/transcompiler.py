@@ -51,6 +51,14 @@ class Tag:
         
         return f"<{self.name}>"
 
+    def to_code(self):
+        if self.vars:
+            arguments = ""
+            for var in self.vars:
+                arguments += f"{var.name}={var.value},"
+
+            return f"{self.name}({arguments})"
+        return f"{self.name}()"
 
     def determine_next_token(self, symbol):
         if symbol == "<":
@@ -134,7 +142,9 @@ class PythonCode:
     def __init__(self, symbol):
         self.code = symbol
 
-
+    def to_code(self):
+        return self.code
+    
     def __bool__(self):
         return True
 
@@ -175,25 +185,22 @@ def parse(code):
 # gotta check
 
 def to_code(tag):
+    code = """
+    def {tag}
+    """
 
 
-def lexer(tokens):
-    code = ""
-    for token in tokens:
-        if isintance(token, PythonCode):
-            code += token.code
-            continue
-
-        if isinstance(token, Tag):
-            if token.type == "self-closing":
-                
 
 
 if __name__ == "__main__":
-
     code = r"""
     def f(x):
         return x**2
+
+    def g(x):
+        return (
+            <Hummm />
+)
     
     <Hello/>
 
@@ -210,10 +217,20 @@ if __name__ == "__main__":
     print("")
 
     print("Output:")
-    print(parse(
-        code
-    ))
+    TOKENS = parse(code)
+    print(TOKENS)
+
+    print("")
+
+    for token in TOKENS:
+        print(token.to_code())
 
 
 
-            
+
+
+
+
+
+
+
