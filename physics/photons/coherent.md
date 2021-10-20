@@ -124,25 +124,64 @@ $$
 
 \textrm{Re} \left (
 
-\frac{
-    e^4 E_0^2 \left < 
-          
+
+    
+\frac{e^4 E_0^2 \sin ^2 \theta   }{    16 \pi ^2 m^2 \epsilon_0 c^3}
+
+          \left <
                  
                      \exp \left ( 
 i (\mathbf{k} \cdot \mathbf{r} - wt)
 \right )           
             ^2
     \right >
-}{
 
-    16 \pi ^2 m^2 \epsilon_0 c^3
-}
 
-\sin ^2 \theta       
+     
 
 \right )
 $$
 
+finally resulting in
+
+$$
+
+\frac{dP}{d\Omega}
+=
+
+\textrm{Re} \left (
+
+
+    
+\frac{e^4 E_0^2 \sin ^2 \theta   }{    16 \pi ^2 m^2 \epsilon_0 c^3}
+
+          \frac{1}{2}
+
+
+     
+
+\right )
+$$
+
+that can be trivially simplified to
+
+
+$$
+
+\frac{dP}{d\Omega}
+=
+
+
+
+
+    
+\frac{e^4 E_0^2 \sin ^2 \theta   }{    32 \pi ^2 m^2 \epsilon_0 c^3}
+
+      
+
+
+     
+$$
 
 ## Rayleigh Scattering
 
