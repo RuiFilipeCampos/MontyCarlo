@@ -112,67 +112,75 @@ E_0
 $$
 
 
-#### The results
 
-The movement of the electron is given by
+The movement of the electron is then described by 
 
 $$
-
 \tilde s =
 \left [ 
-\frac{eE_0}{m} 
-    \exp ( 
-        i (\mathbf{k} \cdot \mathbf{r} + \phi_0)
-    ) 
-\right ] 
-(
-    \frac{1}{w^2} \exp  ( 
+\frac{e}{w^2m} 
+E_0 
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      ) \right ] \exp  ( 
     - iwt
- ) + t/iw -1/w^2)
+ ) 
+ \\ + \left [ \frac{e}{iwm} 
+E_0 
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      ) \right ] t 
+  \\ - \frac{e}{w^2m} 
+E_0 
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      ) 
 
 $$
 
-which is written in phasor notation. Distributing the leading factors results in
+which can be further manipulated to a form where taking the real part is trivial,
 
 $$
+\tilde s = \frac{E_0e}{wm}
+\left \{
+\frac{
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r} - wt + \phi_0)
+      ) - 
+      
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      ) }{w} 
+ \\ - t 
 
-\tilde s =
- 
-\frac{eE_0}{m} 
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0 + \pi/2)
+      )  
 
 
-(
-    \frac{1}{w^2} 
-    \exp  ( 
-        i (\mathbf{k} \cdot \mathbf{r} -wt + \phi_0 
-    ))
-
-  
-  -t/w     \exp ( 
-        i (\mathbf{k} \cdot \mathbf{r} + \phi_0 + \pi/2)
-    )  - 
-    1/w^2     \exp ( 
-        i (\mathbf{k} \cdot \mathbf{r} + \phi_0)
-    ) )
-
+\right \}
 $$
 
-where taking the real part is trivial
-
+where taking the real part is then
 
 $$
-s(\mathbf{r}, t) =
-\frac{eE_0}{m} 
-\left (
-    \frac{1}{w^2} (
-        \cos (\mathbf{k} \cdot \mathbf{r} -wt + \phi_0)
-        -
-        \cos(\mathbf{k} \cdot \mathbf{r} + \phi_0)
-    ) 
-    -
-    \frac{t}{w} \sin (\mathbf{k} \cdot \mathbf{r} + \phi_0)
+ s = \frac{E_0e}{wm}
+\left \{
+\frac{
 
-\right )
+\cos (
+    \mathbf{k} \cdot \mathbf{r} - wt + \phi_0
+)
+       - 
+      
+\cos  (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      }{w} 
+ \\ - t 
+
+\sin   (\mathbf{k} \cdot \mathbf{r}  + \phi_0) 
+
+
+\right \}
 $$
 
 
