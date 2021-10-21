@@ -198,6 +198,12 @@ $$
 The quantities that are needed for the field computation are the position, velocity and accelaration of the electron. I'm finishing this subsection with their expressions for later use
 
 
+:::danger something is wrong :C
+The time derivative of the position is not equal to the velocity, where the velocity was obtained by substitution of C1 and C2.
+:::
+
+
+
 #### Position
 
 Just brought out the $\exp$ to get a manageable form:
