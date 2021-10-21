@@ -62,13 +62,13 @@ $$
 \frac{d \tilde s}{dt}
 =
 \left [ 
-\frac{e}{m} 
+\frac{e}{-iwm} 
 E_0 
 \exp  ( 
         i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
-      ) \right ] (\frac{1}{-iw} \exp  ( 
+      ) \right ]  \exp  ( 
     - iwt
- ) + C_1)
+ ) + C_1
 $$
 
 and
@@ -76,53 +76,106 @@ and
 $$
 \tilde s =
 \left [ 
-\frac{e}{m} 
-E_0 
-\exp  ( 
-        i (\mathbf{k} \cdot \mathbf{r} + \phi_0)
-      ) \right ] (\frac{1}{w^2} \exp  ( 
-    - iwt
- ) + C_1t + C_2)
-
-$$
-
-The boundary conditions of the problem are
-
-
-$$
-
-\left\{\begin{matrix}
- \frac{d \tilde s}{dt}|_{t=0} = 
-
-\left [ 
-\frac{e}{m} 
+\frac{e}{w^2m} 
 E_0 
 \exp  ( 
         i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
-      ) \right ] (\frac{1}{-iw} + C_1) = 0 \\ 
+      ) \right ] \exp  ( 
+    - iwt
+ ) + C_1t + C_2
 
-\tilde s(t=0) =
-\left [ 
-\frac{e}{m} 
+$$
+
+Applying the boundary conditions of the problem ($v_0 = 0$ and $s_0 = 0$) results in 
+
+$$
+C_1
+=
+
+\frac{e}{iwm} 
 E_0 
 \exp  ( 
-        i (\mathbf{k} \cdot \mathbf{r} + \phi_0)
-      ) \right ] (\frac{1}{w^2}  + C_2) = 0
- 
-\end{matrix}\right.
-$$
-
-where it is easy to see that
-
-$$
-C_1 = 1/iw
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      ) 
 $$
 
 and
 
 $$
-C_2 = -1/w^2
+C_2 =
+- \frac{e}{w^2m} 
+E_0 
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      ) 
+
 $$
+
+
+#### The results
+
+The movement of the electron is given by
+
+$$
+
+\tilde s =
+\left [ 
+\frac{eE_0}{m} 
+    \exp ( 
+        i (\mathbf{k} \cdot \mathbf{r} + \phi_0)
+    ) 
+\right ] 
+(
+    \frac{1}{w^2} \exp  ( 
+    - iwt
+ ) + t/iw -1/w^2)
+
+$$
+
+which is written in phasor notation. Distributing the leading factors results in
+
+$$
+
+\tilde s =
+ 
+\frac{eE_0}{m} 
+
+
+(
+    \frac{1}{w^2} 
+    \exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r} -wt + \phi_0 
+    ))
+
+  
+  -t/w     \exp ( 
+        i (\mathbf{k} \cdot \mathbf{r} + \phi_0 + \pi/2)
+    )  - 
+    1/w^2     \exp ( 
+        i (\mathbf{k} \cdot \mathbf{r} + \phi_0)
+    ) )
+
+$$
+
+where taking the real part is trivial
+
+
+$$
+s(\mathbf{r}, t) =
+\frac{eE_0}{m} 
+\left (
+    \frac{1}{w^2} (
+        \cos (\mathbf{k} \cdot \mathbf{r} -wt + \phi_0)
+        -
+        \cos(\mathbf{k} \cdot \mathbf{r} + \phi_0)
+    ) 
+    -
+    \frac{t}{w} \sin (\mathbf{k} \cdot \mathbf{r} + \phi_0)
+
+\right )
+$$
+
+
 
 - [ ] use that to get to dP/dOmega
 - [ ] motivate the way in which dP/dOmega is used to get to the DCS
