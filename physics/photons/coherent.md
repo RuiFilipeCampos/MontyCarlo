@@ -182,7 +182,7 @@ $$
 
 ### The (differential) re-radiated power
 
-The radiated power per unit solid angle of an electric dipole (i.e, the oscillating charge), is given by 
+
 
 > (notE to self) need to either re-derive this eq., or cite it
 
