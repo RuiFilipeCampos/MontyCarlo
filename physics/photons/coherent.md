@@ -4,15 +4,15 @@
 
 ### Setting up the problem
 
-Consider an incident electromagnetic plane wave on a free charged particle that is initially at rest. The EM wave can be written in phasor notation
+Consider an plane electromagnetic wave incident on a charged particle that is free at rest on the position $\mathbf{r}$. The most general form of the electric field component of the plane EM wave can be written in phasor notation as 
 
 $$
 \tilde \mathbf{E} = \hat \mathbf{ s} E_0 \exp \left ( 
-i (\mathbf{k} \cdot \mathbf{r} - wt)
+i (\mathbf{k} \cdot \mathbf{r} - wt + \phi_0)
 \right )
 $$
 
-where $\hat \mathbf{ s}$ is the polarization of the field (which is linear), $E_0$ is the amplitude of the field, $\mathbf{k}$ is the wave vector (indicates the direction of propagation) and $w$ is the frequency of oscillationç. The actual value of the electric field can be extracted by taking the real part of $\tilde \mathbf{E}$, that is,
+where $\hat \mathbf{ s}$ is the polarization of the field, which is linear and can be chosen at will without loss of generality, $E_0$ is the amplitude of the E-field, $\mathbf{k}$ is the wave vector (indicates the direction of propagation) and $w$ is the frequency of oscillation. The actual value of the electric field can be extracted by taking the real part of $\tilde \mathbf{E}$, that is,
 
 $$
 \mathbf{E} = \textrm{Re}(
@@ -28,12 +28,110 @@ m  \mathbf{a} \cdot \hat \mathbf{s} = e \textrm{Re}(
 ).
 $$
 
+This equation can be rewritten as
+
+$$
+\ 
+
+\textrm{Re}\left ( \frac{d^2 s}{dt^2} \right ) 
+=
+\textrm{Re}\left( \frac{e}{m} 
+    \tilde \mathbf{E} \cdot \hat \mathbf{s}
+\right).
+$$
+
+Laying all out in phasor notation,
+
+$$
+\frac{d^2 \tilde s}{dt^2}
+=
+\left [ 
+\frac{e}{m} 
+E_0 
+\exp  ( 
+        i \mathbf{k} \cdot \mathbf{r} 
+      + \phi_0) \right ]
+\exp  ( 
+    - iwt
+ )
+$$
+
+Which can be easily solved by repeated integration:
+
+$$
+\frac{d \tilde s}{dt}
+=
+\left [ 
+\frac{e}{m} 
+E_0 
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      ) \right ] (\frac{1}{-iw} \exp  ( 
+    - iwt
+ ) + C_1)
+$$
+
+and
+
+$$
+\tilde s =
+\left [ 
+\frac{e}{m} 
+E_0 
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r} + \phi_0)
+      ) \right ] (\frac{1}{w^2} \exp  ( 
+    - iwt
+ ) + C_1t + C_2)
+
+$$
+
+The boundary conditions of the problem are
+
+
+$$
+
+\left\{\begin{matrix}
+ \frac{d \tilde s}{dt}|_{t=0} = 
+
+\left [ 
+\frac{e}{m} 
+E_0 
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      ) \right ] (\frac{1}{-iw} + C_1) = 0 \\ 
+
+\tilde s(t=0) =
+\left [ 
+\frac{e}{m} 
+E_0 
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r} + \phi_0)
+      ) \right ] (\frac{1}{w^2}  + C_2) = 0
+ 
+\end{matrix}\right.
+$$
+
+where it is easy to see that
+
+$$
+C_1 = 1/iw
+$$
+
+and
+
+$$
+C_2 = -1/w^2
+$$
+
+- [ ] use that to get to dP/dOmega
+- [ ] motivate the way in which dP/dOmega is used to get to the DCS
 
 ### The (differential) re-radiated power
 
 The radiated power per unit solid angle of an electric dipole (i.e, the oscillating charge), is given by 
 
-> (not to self) need to either re-derive this eq., or cite it
+> (notE to self) need to either re-derive this eq., or cite it
 
 $$
 \frac{dP}{d\Omega}
