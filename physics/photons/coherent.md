@@ -164,10 +164,10 @@ $$
 \right \}
 $$
 
-where taking the real part is then
+where taking the real part results in 
 
 $$
- s = \frac{E_0e}{wm}
+ s(t) = \frac{E_0e}{wm}
 \left \{
 \frac{
 
@@ -187,6 +187,12 @@ $$
 $$
 
 
+---
+<div>
+<iframe src="https://www.desmos.com/calculator" frameborder="0" allowfullscreen height= "350" width="100%"></iframe>
+</div>
+
+---
 
 - [ ] use that to get to dP/dOmega
 - [ ] motivate the way in which dP/dOmega is used to get to the DCS
