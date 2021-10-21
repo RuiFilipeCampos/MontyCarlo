@@ -207,10 +207,12 @@ The time derivative of the position is not equal to the velocity, where the velo
 #### Position
 
 Just brought out the $\exp$ to get a manageable form:
+asd
+
 
 
 $$
-\tilde s = \frac{E_0e\exp(i (\mathbf{k} \cdot \mathbf{r}  + \phi_0))}{mw} 
+\boxed{  \tilde s = \frac{E_0e\exp(i (\mathbf{k} \cdot \mathbf{r}  + \phi_0))}{mw} 
 \left \{
 \frac{
 
@@ -221,7 +223,8 @@ $$
 
 
 
-\right \}
+\right \}}
+
 $$
 
 #### Velocity
@@ -271,6 +274,8 @@ $$
 which can be better seen as 
 
 $$
+
+\boxed{
 \frac{d \tilde s}{dt}
 =
 
@@ -284,7 +289,7 @@ $$
 - 1
 
        \right )
-
+}
 $$
 
 
@@ -293,6 +298,8 @@ $$
 
 
 $$
+
+\boxed{
 \frac{d^2 \tilde s}{dt^2}
 =
 - \left [ 
@@ -303,7 +310,7 @@ E_0
       + \phi_0) \right ]
 \exp  ( 
     - iwt
- )
+ )}
 $$
 
 
