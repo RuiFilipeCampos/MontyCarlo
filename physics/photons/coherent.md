@@ -195,6 +195,48 @@ $$
 
 ---
 
+The quantities that are needed for the field computation are the position, velocity and accelaration of the electron. I'm finishing this subsection with their expressions for later use
+
+
+#### Position
+$$
+\tilde s = \frac{E_0e\exp(i (\mathbf{k} \cdot \mathbf{r}  + \phi_0))}{mw} 
+\left \{
+\frac{
+
+1 - \exp  ( - iwt ) 
+      
+ }{w} 
+ \\ + it 
+
+
+
+\right \}
+$$
+
+#### Velocity
+
+$$
+\frac{d \tilde s}{dt}
+=
+\frac{eE_0}{iwm} \exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      ) \left (
+  \exp  ( 
+    - iwt
+ )  
+
+
+ - 1
+
+      
+      \right )
+$$
+
+#### Accelaration
+
+
+
 - [ ] use that to get to dP/dOmega
 - [ ] motivate the way in which dP/dOmega is used to get to the DCS
 
