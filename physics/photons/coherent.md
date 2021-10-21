@@ -199,6 +199,10 @@ The quantities that are needed for the field computation are the position, veloc
 
 
 #### Position
+
+Just brought out the $\exp$ to get a manageable form:
+
+
 $$
 \tilde s = \frac{E_0e\exp(i (\mathbf{k} \cdot \mathbf{r}  + \phi_0))}{mw} 
 \left \{
@@ -216,24 +220,91 @@ $$
 
 #### Velocity
 
+(I'm starting to feel the need for eq refs) Substituting the expression for $C_1$ here:
+$$
+
+\frac{d \tilde s}{dt}
+=
+- \left [ 
+\frac{e}{-iwm} 
+E_0 
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      ) \right ]  \exp  ( 
+    - iwt
+ ) + C_1
+
+
+$$
+
+
+
+
+leads to
+
+
 $$
 \frac{d \tilde s}{dt}
 =
-\frac{eE_0}{iwm} \exp  ( 
+- \left [ 
+\frac{e}{-iwm} 
+E_0 
+\exp  ( 
         i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
-      ) \left (
-  \exp  ( 
+      ) \right ]  \exp  ( 
     - iwt
- )  
+ ) 
+- \frac{e}{iwm} 
+E_0 
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      ) 
 
-
- - 1
-
-      
-      \right )
 $$
 
+which can be better seen as 
+
+$$
+\frac{d \tilde s}{dt}
+=
+
+\frac{eE_0\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+      )}{iwm} 
+ 
+ \left (  \exp  ( 
+    - iwt
+ ) 
+- 1
+
+       \right )
+
+$$
+
+
 #### Accelaration
+
+
+
+$$
+\frac{d^2 \tilde s}{dt^2}
+=
+- \left [ 
+\frac{e}{m} 
+E_0 
+\exp  ( 
+        i \mathbf{k} \cdot \mathbf{r} 
+      + \phi_0) \right ]
+\exp  ( 
+    - iwt
+ )
+$$
+
+
+
+### Field Computation
+
+- im gonna use the Liénard–Wiechert potentials https://en.wikipedia.org/wiki/Li%C3%A9nard%E2%80%93Wiechert_potential#Field_computation
 
 
 
