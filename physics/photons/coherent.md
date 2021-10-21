@@ -23,7 +23,7 @@ $$
 Since the field is always pointing in the s-direction, which can be chosen to be any direction without loss of generality, the charge will be set in motion in that direction. Meaning that this is a 1d problem and only the s-coordinate needs to be considered. Using Newtons Law,
 
 $$
-m  \mathbf{a} \cdot \hat \mathbf{s} = e \textrm{Re}(
+m  \mathbf{a} \cdot \hat \mathbf{s} = -e \textrm{Re}(
     \tilde \mathbf{E} \cdot \hat \mathbf{s}
 ).
 $$
@@ -35,7 +35,7 @@ $$
 
 \textrm{Re}\left ( \frac{d^2 s}{dt^2} \right ) 
 =
-\textrm{Re}\left( \frac{e}{m} 
+\textrm{Re}\left( -\frac{e}{m} 
     \tilde \mathbf{E} \cdot \hat \mathbf{s}
 \right).
 $$
@@ -45,7 +45,7 @@ Laying all out in phasor notation,
 $$
 \frac{d^2 \tilde s}{dt^2}
 =
-\left [ 
+- \left [ 
 \frac{e}{m} 
 E_0 
 \exp  ( 
@@ -61,7 +61,7 @@ Which can be easily solved by repeated integration:
 $$
 \frac{d \tilde s}{dt}
 =
-\left [ 
+- \left [ 
 \frac{e}{-iwm} 
 E_0 
 \exp  ( 
@@ -75,7 +75,7 @@ and
 
 $$
 \tilde s =
-\left [ 
+- \left [ 
 \frac{e}{w^2m} 
 E_0 
 \exp  ( 
@@ -92,7 +92,7 @@ $$
 C_1
 =
 
-\frac{e}{iwm} 
+- \frac{e}{iwm} 
 E_0 
 \exp  ( 
         i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
@@ -103,7 +103,7 @@ and
 
 $$
 C_2 =
-- \frac{e}{w^2m} 
+ \frac{e}{w^2m} 
 E_0 
 \exp  ( 
         i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
@@ -117,7 +117,7 @@ The movement of the electron is then described by
 
 $$
 \tilde s =
-\left [ 
+- \left [ 
 \frac{e}{w^2m} 
 E_0 
 \exp  ( 
@@ -125,12 +125,12 @@ E_0
       ) \right ] \exp  ( 
     - iwt
  ) 
- \\ + \left [ \frac{e}{iwm} 
+ \\ - \left [ \frac{e}{iwm} 
 E_0 
 \exp  ( 
         i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
       ) \right ] t 
-  \\ - \frac{e}{w^2m} 
+  \\ + \frac{e}{w^2m} 
 E_0 
 \exp  ( 
         i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
@@ -144,14 +144,17 @@ $$
 \tilde s = \frac{E_0e}{wm}
 \left \{
 \frac{
-\exp  ( 
-        i (\mathbf{k} \cdot \mathbf{r} - wt + \phi_0)
-      ) - 
-      
+
 \exp  ( 
         i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
-      ) }{w} 
- \\ - t 
+      )
+      -
+\exp  ( 
+        i (\mathbf{k} \cdot \mathbf{r} - wt + \phi_0)
+      ) 
+      
+ }{w} 
+ \\ + t 
 
 \exp  ( 
         i (\mathbf{k} \cdot \mathbf{r}  + \phi_0 + \pi/2)
@@ -168,14 +171,14 @@ $$
 \left \{
 \frac{
 
+\cos  (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+-
 \cos (
     \mathbf{k} \cdot \mathbf{r} - wt + \phi_0
 )
-       - 
-      
-\cos  (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
+
       }{w} 
- \\ - t 
+ \\ + t 
 
 \sin   (\mathbf{k} \cdot \mathbf{r}  + \phi_0) 
 
