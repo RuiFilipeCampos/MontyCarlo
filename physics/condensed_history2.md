@@ -38,15 +38,15 @@ $$
 inserting it into the difusion equation results in
 
 $$
-    Y_l^m(\hat d) \partial_s f_l^m(s; \mathbf{r})
+    Y_l^m(\hat \mathbf{d}) \partial_s f_l^m(s; \mathbf{r})
     +
-    f_l^m(s; \mathbf{r}) \partial_{\hat d} Y_l^m(\hat d)
+    f_l^m(s; \mathbf{r}) \partial_{\hat \mathbf{d}} Y_l^m(\hat \mathbf{d})
     = 
     N \sigma_{el} 
     f_l^m(s; \mathbf{r})
     \int_{S^2}
     \left [  
-    Y_l^m(\hat d) -  Y_l^m(\hat \mathbf{d}'(\theta, \phi)) 
+    Y_l^m(\hat \mathbf{d}) -  Y_l^m(\hat \mathbf{d}'(\theta, \phi)) 
     \right ] 
     p(\theta, \phi)
     d\Omega'
@@ -57,22 +57,22 @@ where summation over $l$ and $m$ are assumed as stipulated by the harmonic expan
 
 
 $$
-    Y_\lambda^\mu(\hat d)^* Y_l^m(\hat d) \partial_s f_l^m(s; \mathbf{r})
+    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) \partial_s f_l^m(s; \mathbf{r})
     +
-    \nabla_{\mathbf{r}} f_l^m(s; \mathbf{r}) \cdot Y_\lambda^\mu(\hat d)^* \hat d Y_l^m(\hat d)
+    \nabla_{\mathbf{r}} f_l^m(s; \mathbf{r}) \cdot Y_\lambda^\mu(\hat \mathbf{d})^* \hat d Y_l^m(\hat \mathbf{d})
     \\
    =  \\
     N \sigma_{el} 
     f_l^m(s; \mathbf{r})
     \int_{S^2}
     \left [  
-    Y_\lambda^\mu(\hat d)^* Y_l^m(\hat d) -  Y_\lambda^\mu(\hat d)^* Y_l^m(\hat \mathbf{d}'(\theta, \phi)) 
+    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}'(\theta, \phi)) 
     \right ] 
     p(\theta, \phi)
     d\Omega'
 $$
 
-where the $\partial_{\hat d}$ has been decomposed into $\hat d \cdot \nabla_{\mathbf{r}}$. Carrying out an integration over the unit sphere ends up resulting in 
+where the $\partial_{\hat \mathbf{d}}$ has been decomposed into $\hat d \cdot \nabla_{\mathbf{r}}$. Carrying out an integration over the unit sphere ends up resulting in 
 
 $$
     \delta_{\mu,m}\delta_{\lambda,l} \partial_s f_l^m(s; \mathbf{r})
@@ -83,7 +83,7 @@ $$
     f_l^m(s; \mathbf{r})
     \int_{(S^2)^2}
     \left [  
-    Y_\lambda^\mu(\hat d)^* Y_l^m(\hat d) -  Y_\lambda^\mu(\hat d)^* Y_l^m(\hat d') 
+    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}') 
     \right ] 
     p(\theta, \phi)
     d\Omega' d\Omega
@@ -93,7 +93,7 @@ $$
 where the first term results in the orthonormality relation: note that, to run over the solid angle, all values of $d$ have to be considered, which is why its sort of the same as integrating only in d (gotta check on this reasoning). $\mathbf{Q}_{\lambda \mu}^{lm}$ neatly packs the integration for later thinking I suppose,
 
 $$
-\mathbf{Q}_{\lambda \mu}^{lm} = \int Y_\lambda^\mu(\hat d)^* \hat d Y_l^m(\hat d) d\Omega
+\mathbf{Q}_{\lambda \mu}^{lm} = \int Y_\lambda^\mu(\hat \mathbf{d})^* \hat d Y_l^m(\hat \mathbf{d}) d\Omega
 
 $$
 
