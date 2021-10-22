@@ -56,7 +56,7 @@ $$
     d\Omega'
 $$
 
-where summation over $l$ and $m$ are assumed as stipulated by the harmonic expansion. Multiplying both sides by $Y_{\lambda}^{\mu}(\hat \mathbf{d})*$ trivially results in
+where summation over $l$ and $m$ are assumed as stipulated by the harmonic expansion. Multiplying both sides by $Y_{\lambda}^{\mu}(\hat \mathbf{d})^*$ trivially results in
 
 
 
