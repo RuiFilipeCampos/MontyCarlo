@@ -61,8 +61,8 @@ Which can be easily solved by repeated integration:
 $$
 \frac{d \tilde s}{dt}
 =
-- \left [ 
-\frac{e}{-iwm} 
+ \left [ 
+\frac{e}{iwm} 
 E_0 
 \exp  ( 
         i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
@@ -75,8 +75,8 @@ and
 
 $$
 \tilde s =
-- \left [ 
-\frac{e}{w^2m} 
+ \left [ 
+\frac{e}{-w^2m} 
 E_0 
 \exp  ( 
         i (\mathbf{k} \cdot \mathbf{r}  + \phi_0)
@@ -317,9 +317,26 @@ $$
 
 ### Field Computation
 
-- im gonna use the Liénard–Wiechert potentials https://en.wikipedia.org/wiki/Li%C3%A9nard%E2%80%93Wiechert_potential#Field_computation
+The electric scalar potential and the magnetic vector potential of a moving electron ($q=-e$) is given by
 
+$$
+\psi(\mathbf{r}, t) = -\frac{e}{4\pi\epsilon_0} \left ( 
+    \frac{
+        1
+    }{
+        (1 - \mathbf{n}_s\cdot \beta_s) |\mathbf{r} - \mathbf{r}_s| )_{t_r} 
+    }
+\right )
+$$
 
+$$
+\mathbf{A}(\mathbf{r}, t) = \mathbf{\beta}(t_r) \psi(\mathbf{r}, t) / c
+$$
+
+They are known as the [Liénard–Wiechert potentials](https://en.wikipedia.org/wiki/Li%C3%A9nard%E2%80%93Wiechert_potential). Some important definitions:
+
+1.  $\mathbf{\beta} = \mathbf{v}/c$
+2. 
 
 - [ ] use that to get to dP/dOmega
 - [ ] motivate the way in which dP/dOmega is used to get to the DCS
