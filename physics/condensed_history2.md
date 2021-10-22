@@ -12,17 +12,19 @@ Without loss of generality, any point in this medium can be chosen as the origin
 Let $s$ be the displacement of the particle without interacting with the medium, $f(s; \mathbf{r}, \hat \mathbf{d})$ be the conditional probability density function of the random variable $(\mathbf{r}, \hat \mathbf{d})$ given that a displacement $s$ has occurred, where $\mathbf{r}  \in \mathbf{R}^3$ locates a point in space and $\hat \mathbf{d} \in S$ is the direction of the particle. The diffusion equation for this distribution can be written as
 
 $$
-    (\partial_s + \partial_{\hat d} ) f(s; \mathbf{r}, \hat d)
+    (\partial_s + \partial_{\hat \mathbf{d}} ) f(s; \mathbf{r}, \hat \mathbf{d})
     =
     N \sigma_{el} \int_{S^2} 
     \left [  
-    f(s; \mathbf{r}, \hat d) - f(s; \mathbf{r}, \hat d') 
+    f(s; \mathbf{r}, \hat \mathbf{d}) - f(s; \mathbf{r}, \hat \mathbf{d}') 
     \right ] 
     p(\theta, \phi)
     d\Omega'
 $$
 
 where $p(\theta, \phi)$ is the probability density function of a polar angle deflection of $\theta$ with respect with the original direction of movement. 
+
+The objective is to characterize the $f$-distribution in terms of its first and second moments. This will be relevant later when formulating the condensed history algorithm. 
 
 Consider the harmonical expansion in $\hat d$,
  
