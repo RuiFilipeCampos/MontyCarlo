@@ -22,7 +22,7 @@ $$
     d\Omega'
 $$
 
-where $p(\theta, \phi)$ is the probability density function of a polar angle deflection of $\theta$ with respect with the original direction of movement. 
+where $\theta$ is the angle between $d$ and $d'$ and $\phi$ identifies rotations along $d$, $p(\theta, \phi)$ is the probability density function of those values (basically the elasdtic DCS). Note that these values can be identified with positions in the unit sphere, which is why the integration is done over a solid angle. 
 
 The objective is to characterize the $f$-distribution in terms of its first and second moments. This will be relevant later when formulating the condensed history algorithm. Consider its harmonical expansion in $\hat \mathbf{d}$,
  
@@ -85,6 +85,16 @@ $$
     p(\theta, \phi)
     d\Omega' d\Omega
 $$
+
+
+where the first term results in the orthonormality relation: note that, to run over the solid angle, all values of $d$ have to be considered, which is why its sort of the same as integrating only in d (gotta check on this reasoning). $\mathbf{Q}_{\lambda \mu}^{lm}$ neatly packs the integration for later thinking I suppose,
+
+$$
+\mathbf{Q}_{\lambda \mu}^{lm} = \int Y_\lambda^\mu(\hat d)^* \hat d Y_l^m(\hat d) d\Omega'
+
+$$
+
+
 
 :::caution
 ok, so this is where im actually having trouble: the point is to reduce the equation to a problem for solving for the f_l^m coefficients. And I need to reduce the integration on the right side... The suggestion I've seen in the paper is to use legendre polynomials + addition theorem for harmonics. But I've been trying a lot and don't really see any easy way out of those integrals
