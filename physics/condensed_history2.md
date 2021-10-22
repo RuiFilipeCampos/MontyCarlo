@@ -9,9 +9,7 @@ This stuff is still being written.
 
 Consider an isotropic medium of atomic number density $N$.
 Without loss of generality, any point in this medium can be chosen as the origin for the trajectory of some charged particle. 
-Let $s$ be the displacement of the particle without interacting with the medium.
-
-Let $f(s; \mathbf{r}, \hat d)$ be the conditional probability density function of the random variable $(\mathbf{r}, \hat d)$ given that a displacement $s$ has occurred. The diffusion equation for this distribution can be written as
+Let $s$ be the displacement of the particle without interacting with the medium, $f(s; \mathbf{r}, \hat \mathbf{d})$ be the conditional probability density function of the random variable $(\mathbf{r}, \hat \mathbf{d})$ given that a displacement $s$ has occurred, where $\mathbf{r}  \in \mathbf{R}^3$ locates a point in space and $\hat \mathbf{d} \in S$ is the direction of the particle. The diffusion equation for this distribution can be written as
 
 $$
     (\partial_s + \partial_{\hat d} ) f(s; \mathbf{r}, \hat d)
