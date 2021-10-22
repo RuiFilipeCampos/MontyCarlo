@@ -31,7 +31,7 @@ The objective is to characterize the $f$-distribution in terms of its first and 
  
 
 $$
-    f(s; \mathbf{r}, \hat d) = \sum_{l=0}^{\infty} \sum_{m = -l}^l f_l^m(s; \mathbf{r}) Y_l^m(\hat d)
+    f(s; \mathbf{r}, \hat \mathbf{d}) = \sum_{l=0}^{\infty} \sum_{m = -l}^l f_l^m(s; \mathbf{r}) Y_l^m(\hat \mathbf{d})
 $$
 
 
