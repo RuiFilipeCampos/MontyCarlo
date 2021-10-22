@@ -90,7 +90,7 @@ $$
 where the first term results in the orthonormality relation: note that, to run over the solid angle, all values of $d$ have to be considered, which is why its sort of the same as integrating only in d (gotta check on this reasoning). $\mathbf{Q}_{\lambda \mu}^{lm}$ neatly packs the integration for later thinking I suppose,
 
 $$
-\mathbf{Q}_{\lambda \mu}^{lm} = \int Y_\lambda^\mu(\hat d)^* \hat d Y_l^m(\hat d) d\Omega'
+\mathbf{Q}_{\lambda \mu}^{lm} = \int Y_\lambda^\mu(\hat d)^* \hat d Y_l^m(\hat d) d\Omega
 
 $$
 
