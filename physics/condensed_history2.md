@@ -24,9 +24,7 @@ $$
 
 where $p(\theta, \phi)$ is the probability density function of a polar angle deflection of $\theta$ with respect with the original direction of movement. 
 
-The objective is to characterize the $f$-distribution in terms of its first and second moments. This will be relevant later when formulating the condensed history algorithm. 
-
-Consider the harmonical expansion in $\hat d$,
+The objective is to characterize the $f$-distribution in terms of its first and second moments. This will be relevant later when formulating the condensed history algorithm. Consider its harmonical expansion in $\hat \mathbf{d}$,
  
 
 $$
@@ -34,7 +32,7 @@ $$
 $$
 
 
-inserting it into equation ():
+inserting it into the difusion equation results in
 
 $$
     Y_l^m(\hat d) \partial_s f_l^m(s; \mathbf{r})
@@ -50,6 +48,8 @@ $$
     p(\theta, \phi)
     d\Omega'
 $$
+
+where summation over $l$ and $m$ are assumed as stipulated by the harmonic expansion. Multiplying both sides by $Y_{\lambda}^{\mu}(\hat \mathbf{d})*$ trivially results in
 
 
 
@@ -68,6 +68,8 @@ $$
     p(\theta, \phi)
     d\Omega'
 $$
+
+where the $\partial_{\hat d}$ has been decomposed into $\hat d \cdot \nabla_{\mathbf{r}}$. Carrying out an integration over the unit sphere ends up resulting in 
 
 $$
     \delta_{\mu,m}\delta_{\lambda,l} \partial_s f_l^m(s; \mathbf{r})
