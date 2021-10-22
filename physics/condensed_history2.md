@@ -106,7 +106,7 @@ Consider the expansion of $p(\theta, \phi)$ in legendre polynomials
 
 
 $$
-    p(\theta, \phi) = \sum_n a_n(\phi) P_n(\cos \theta, \phi)
+    p(\theta, \phi) = \sum_n a_n(\phi) P_n(\phi; \cos \theta)
 $$
 
 
