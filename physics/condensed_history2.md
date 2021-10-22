@@ -16,11 +16,12 @@ $$
     =
     N \sigma_{el} \int_{S^2} 
     \left [  
-    f(s; \mathbf{r}, \hat \mathbf{d}) - f(s; \mathbf{r}, \hat \mathbf{d}') 
+    f(s; \mathbf{r}, \hat \mathbf{d}) - f(s; \mathbf{r}, \hat \mathbf{d}'(\theta, \phi)) 
     \right ] 
     p(\theta, \phi)
     d\Omega'
 $$
+
 
 where $\theta$ is the angle between $d$ and $d'$ and $\phi$ identifies rotations along $d$, $p(\theta, \phi)$ is the probability density function of those values (basically the elasdtic DCS). Note that these values can be identified with positions in the unit sphere, which is why the integration is done over a solid angle. 
 
