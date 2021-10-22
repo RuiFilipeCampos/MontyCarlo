@@ -102,11 +102,11 @@ $$
 
 
 
-Consider the expansion of $p(\theta)$ in legendre polynomials
+Consider the expansion of $p(\theta, \phi)$ in legendre polynomials
 
 
 $$
-    p(\theta) = \sum_n a_n P_n(\cos \theta)
+    p(\theta, \phi) = \sum_n a_n(\phi) P_n(\cos \theta, \phi)
 $$
 
 
