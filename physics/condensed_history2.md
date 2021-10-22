@@ -37,9 +37,7 @@ $$
 
 inserting it into the difusion equation results in
 
-:::caution
-I think there is a problem here, shouldn't the Y thingies have different sub/super scripts? I'm actually doing two expansions right?
-:::
+
 
 $$
     Y_l^m(\hat \mathbf{d}) \partial_s f_l^m(s; \mathbf{r})
