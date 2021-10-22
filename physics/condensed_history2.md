@@ -86,6 +86,10 @@ $$
     d\Omega' d\Omega
 $$
 
+:::caution
+ok, so this is where im actually having trouble: the point is to reduce the equation to a problem for solving for the f_l^m coefficients. And I need to reduce the integration on the right side... The suggestion I've seen in the paper is to use legendre polynomials + addition theorem for harmonics. But I've been trying a lot and don't really see any easy way out of those integrals
+:::
+
 Consider the expansion of $p(\theta)$ in legendre polynomials
 
 
