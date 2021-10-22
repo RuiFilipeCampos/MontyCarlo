@@ -79,7 +79,7 @@ where the $\partial_{\hat \mathbf{d}}$ has been decomposed into $\hat d \cdot \n
 $$
     \delta_{\mu,m}\delta_{\lambda,l} \partial_s f_l^m(s; \mathbf{r})
     +
-    f_l^m(s; \mathbf{r}) \mathbf{Q}_{\lambda \mu}^{lm}
+    \nabla_{\mathbf{r}} f_l^m(s; \mathbf{r}) \cdot \mathbf{Q}_{\lambda \mu}^{lm}
    =  
     N \sigma_{el} 
     f_l^m(s; \mathbf{r})
