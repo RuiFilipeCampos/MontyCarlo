@@ -116,6 +116,56 @@ ok, so this is where im actually having trouble: the point is to reduce the equa
 :::
 
 
+#### Attempt 1
+:::note
+distributing prime integral
+:::
+
+distributed one of the integrals:
+
+$$
+
+    \int_{S^2}  d\Omega
+    \left [  
+        Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^* Y_l^m(\hat \mathbf{d}(\theta, \phi))
+                                        -
+        Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^* \int_{S^2} d\Omega'  Y_l^m(\hat \mathbf{d}(\theta', \phi')) p(\theta', \phi') 
+    \right ] 
+
+$$
+
+substituting the legendre expansion:
+
+$$
+
+    \int_{S^2}  d\Omega
+    \left [  
+        Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^* Y_l^m(\hat \mathbf{d}(\theta, \phi))
+                                        -
+        Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^* \int_{S^2} d\Omega'  Y_l^m(\hat \mathbf{d}(\theta', \phi')) a_n(\phi') P_n(\phi'; \cos \theta')
+    \right ] 
+
+$$
+
+
+#### Attempt 2
+:::note
+distributing the non prime integral
+:::
+
+$$
+    \int_{S^2} d\Omega' 
+    \left [  
+    \int_{S^2} d\Omega Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^* Y_l^m(\hat \mathbf{d}(\theta, \phi)) 
+    -  
+    Y_l^m(\hat \mathbf{d}(\theta', \phi')) \int_{S^2} d\Omega Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^*  
+    \right ] 
+    p(\theta', \phi')
+     
+$$
+----
+
+
 and the addition theorem for spherical harmonics
 
 $$    
