@@ -163,6 +163,22 @@ $$
     p(\theta', \phi')
      
 $$
+
+
+$$
+    \int_{S^2} d\Omega' 
+    \left [  
+    \delta_{\mu,m}\delta_{\lambda,l} 
+    -  
+    Y_l^m(\hat \mathbf{d}(\theta', \phi')) \int_{S^2} d\Omega Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^*  
+    \right ] 
+    a_n(\phi') P_n(\phi'; \cos \theta')
+     
+$$
+
+
+
+
 ----
 
 
