@@ -176,6 +176,21 @@ d^2\hat \mathbf{d}
     
 $$
 
+note that the d's are unit vectors. $\cos \theta(d, d') = d \cdot d'$, allowing the trivial application of the addition theorem for spherical harmonics
+
+$$
+a_n  
+\int_{S^2}
+d^2\hat \mathbf{d}'
+\int_{S^2}
+d^2\hat \mathbf{d}
+
+    \left [  
+    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}') -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) 
+    \right ]
+     \frac{4\pi}{2l+1} Y_{l}^{r}(\hat \mathbf{d})^* Y_{l}^{r}(\hat \mathbf{d}')
+    
+$$
 -----
 
 
