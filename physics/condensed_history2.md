@@ -88,14 +88,14 @@ $$
     Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}') -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) 
     \right ] 
     p(\theta(\hat \mathbf{d}', \hat \mathbf{d}), \phi(\hat \mathbf{d}', \hat \mathbf{d}))
-    d^2\hat \mathbf{d}'
+    d^2\hat \mathbf{d}'d^2\hat \mathbf{d}
 $$
 
 
 where $\mathbf{Q}_{\lambda \mu}^{lm}$ neatly packs the integration for later thinking I suppose,
 
 $$
-\mathbf{Q}_{\lambda \mu}^{lm} = \int_{S^2} Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^* \hat \mathbf{d}(\theta, \phi) Y_l^m(\hat \mathbf{d}(\theta, \phi)) d\Omega
+\mathbf{Q}_{\lambda \mu}^{lm} = \int_{S^2} Y_\lambda^\mu(\hat \mathbf{d})^* \hat \mathbf{d} Y_l^m(\hat \mathbf{d}) d^2\hat \mathbf{d}
 
 $$
 
@@ -126,8 +126,54 @@ $$
     Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}') -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) 
     \right ] 
     p(\theta(\hat \mathbf{d}', \hat \mathbf{d}), \phi(\hat \mathbf{d}', \hat \mathbf{d}))
-    d^2\hat \mathbf{d}'
+    d^2\hat \mathbf{d}'d^2\hat \mathbf{d}
+$$
 
+
+
+$$
+\int_{S^2}
+d^2\hat \mathbf{d}'
+\int_{S^2}
+d^2\hat \mathbf{d}
+
+    \left [  
+    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}') -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) 
+    \right ] 
+    p(\theta(\hat \mathbf{d}', \hat \mathbf{d}), \phi(\hat \mathbf{d}', \hat \mathbf{d}))
+    
+$$
+
+$$
+\int_{S^2}
+d^2\hat \mathbf{d}'
+\int_{S^2}
+d^2\hat \mathbf{d}
+
+    \left [  
+    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}') -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) 
+    \right ]
+
+    a_n(\phi(\hat \mathbf{d}', \hat \mathbf{d})) P_n(\phi(\hat \mathbf{d}', \hat \mathbf{d}); \cos \theta(\hat \mathbf{d}', \hat \mathbf{d}))
+    
+$$
+
+gonna make my life easier for once, and just assume that p does not depend on $\phi$, I know this from hindsight
+
+
+
+$$
+\int_{S^2}
+d^2\hat \mathbf{d}'
+\int_{S^2}
+d^2\hat \mathbf{d}
+
+    \left [  
+    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}') -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) 
+    \right ]
+
+    a_n P_n(\cos \theta(\hat \mathbf{d}', \hat \mathbf{d}))
+    
 $$
 
 -----
