@@ -85,7 +85,7 @@ $$
     f_l^m(s; \mathbf{r})
     \int_{(S^2)^2}
     \left [  
-    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}(\theta, \phi)') 
+    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}'(\theta, \phi)) 
     \right ] 
     p(\theta, \phi)
     d\Omega' d\Omega
