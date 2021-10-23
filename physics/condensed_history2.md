@@ -18,10 +18,10 @@ $$
     =
     N \sigma_{el} \int_{S^2} 
     \left [  
-    f(s; \mathbf{r}, \hat \mathbf{d}) - f(s; \mathbf{r}, \hat \mathbf{d}(\theta', \phi')) 
+    f(s; \mathbf{r}, \hat \mathbf{d}') - f(s; \mathbf{r}, \hat \mathbf{d}) 
     \right ] 
-    p(\theta', \phi')
-    d\Omega'
+    p(\theta(\hat \mathbf{d}', \hat \mathbf{d}), \phi(\hat \mathbf{d}', \hat \mathbf{d}))
+    d^2\mathbf{d}'
 $$
 
 
