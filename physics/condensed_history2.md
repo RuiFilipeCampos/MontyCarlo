@@ -21,7 +21,7 @@ $$
     f(s; \mathbf{r}, \hat \mathbf{d}') - f(s; \mathbf{r}, \hat \mathbf{d}) 
     \right ] 
     p(\theta(\hat \mathbf{d}', \hat \mathbf{d}), \phi(\hat \mathbf{d}', \hat \mathbf{d}))
-    d^2\mathbf{d}'
+    d^2 \hat \mathbf{d}'
 $$
 
 
@@ -48,10 +48,10 @@ $$
     f_l^m(s; \mathbf{r})
     \int_{S^2}
     \left [  
-    Y_l^m(\hat \mathbf{d}) -  Y_l^m(\hat \mathbf{d}(\theta', \phi')) 
+    Y_l^m(\hat \mathbf{d}') -  Y_l^m(\hat \mathbf{d}) 
     \right ] 
-    p(\theta', \phi')
-    d\Omega'
+    p(\theta(\hat \mathbf{d}', \hat \mathbf{d}), \phi(\hat \mathbf{d}', \hat \mathbf{d}))
+    d^2 \hat \mathbf{d}'
 $$
 
 where summation over $l$ and $m$ are assumed as stipulated by the harmonic expansion. Multiplying both sides by $Y_{\lambda}^{\mu}(\hat \mathbf{d})^*$ trivially results in
@@ -61,20 +61,20 @@ where summation over $l$ and $m$ are assumed as stipulated by the harmonic expan
 $$
     Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) \partial_s f_l^m(s; \mathbf{r})
     +
-    \nabla_{\mathbf{r}} f_l^m(s; \mathbf{r}) \cdot Y_\lambda^\mu(\hat \mathbf{d})^* \hat d Y_l^m(\hat \mathbf{d})
+    \nabla_{\mathbf{r}} f_l^m(s; \mathbf{r}) \cdot Y_\lambda^\mu(\hat \mathbf{d})^* \hat \mathbf{d} Y_l^m(\hat \mathbf{d})
     \\
    =  \\
     N \sigma_{el} 
     f_l^m(s; \mathbf{r})
     \int_{S^2}
     \left [  
-    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}(\theta', \phi')) 
+    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}') -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) 
     \right ] 
-    p(\theta', \phi')
-    d\Omega'
+    p(\theta(\hat \mathbf{d}', \hat \mathbf{d}), \phi(\hat \mathbf{d}', \hat \mathbf{d}))
+    d^2\hat \mathbf{d}'
 $$
 
-where the $\partial_{\hat \mathbf{d}}$ has been decomposed into $\hat d \cdot \nabla_{\mathbf{r}}$. Carrying out an integration with respect to $\hat \mathbf{d}$ over the unit sphere ends up resulting in 
+where the $\partial_{\hat \mathbf{d}}$ has been decomposed into $\hat \mathbf{d} \cdot \nabla_{\mathbf{r}}$. Carrying out an integration with respect to $\hat \mathbf{d}$ over the unit sphere ends up resulting in 
 
 $$
     \delta_{\mu,m}\delta_{\lambda,l} \partial_s f_l^m(s; \mathbf{r})
@@ -85,10 +85,10 @@ $$
     f_l^m(s; \mathbf{r})
     \int_{(S^2)^2}
     \left [  
-    Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^* Y_l^m(\hat \mathbf{d}(\theta, \phi)) -  Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^* Y_l^m(\hat \mathbf{d}(\theta', \phi')) 
+    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}') -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) 
     \right ] 
-    p(\theta', \phi')
-    d\Omega' d\Omega
+    p(\theta(\hat \mathbf{d}', \hat \mathbf{d}), \phi(\hat \mathbf{d}', \hat \mathbf{d}))
+    d^2\hat \mathbf{d}'
 $$
 
 
@@ -114,6 +114,23 @@ $$
 :::caution
 ok, so this is where im actually having trouble: the point is to reduce the equation to a problem for solving for the f_l^m coefficients. And I need to reduce the integration on the right side... The suggestion I've seen in the paper is to use legendre polynomials + addition theorem for harmonics. But I've been trying a lot and don't really see any easy way out of those integrals
 :::
+
+:::note
+w/ new new new notation
+:::
+
+
+$$
+\int_{(S^2)^2}
+    \left [  
+    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}') -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) 
+    \right ] 
+    p(\theta(\hat \mathbf{d}', \hat \mathbf{d}), \phi(\hat \mathbf{d}', \hat \mathbf{d}))
+    d^2\hat \mathbf{d}'
+
+$$
+
+-----
 
 
 #### Attempt 1
