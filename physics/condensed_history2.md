@@ -11,16 +11,16 @@ This stuff is still being written.
 
 Consider an isotropic medium of atomic number density $N$.
 Without loss of generality, any point in this medium can be chosen as the origin for the trajectory of some charged particle. 
-Let $s$ be the displacement of the particle without interacting with the medium, $f(s; \mathbf{r}, \hat \mathbf{d})$ be the conditional probability density function of the random variable $(\mathbf{r}, \hat \mathbf{d})$ given that a displacement $s$ has occurred, where $\mathbf{r}  \in \mathbf{R}^3$ locates a point in space and $\hat \mathbf{d} \in S$ is the direction of the particle. The diffusion equation for this distribution can be written as
+Let $s$ be the displacement of the particle without interacting with the medium, $f(s; \mathbf{r}, \hat \mathbf{d})$ be the conditional probability density function of the random variable $(\mathbf{r}, \hat \mathbf{d})$ given that a displacement $s$ has occurred, where $\mathbf{r}  \in \mathbf{R}^3$ locates a point in space and $\hat \mathbf{d} \in S^2$ is the direction of the particle. The diffusion equation for this distribution can be written as
 
 $$
     (\partial_s + \partial_{\hat \mathbf{d}} ) f(s; \mathbf{r}, \hat \mathbf{d})
     =
     N \sigma_{el} \int_{S^2} 
     \left [  
-    f(s; \mathbf{r}, \hat \mathbf{d}) - f(s; \mathbf{r}, \hat \mathbf{d}'(\theta, \phi)) 
+    f(s; \mathbf{r}, \hat \mathbf{d}) - f(s; \mathbf{r}, \hat \mathbf{d}(\theta', \phi')) 
     \right ] 
-    p(\theta, \phi)
+    p(\theta', \phi')
     d\Omega'
 $$
 
@@ -42,15 +42,15 @@ inserting it into the difusion equation results in
 $$
     Y_l^m(\hat \mathbf{d}) \partial_s f_l^m(s; \mathbf{r})
     +
-    f_l^m(s; \mathbf{r}) \partial_{\hat \mathbf{d}} Y_l^m(\hat \mathbf{d})
-    = 
+    f_l^m(s; \mathbf{r}) \partial_{\hat \mathbf{d}} Y_l^m(\hat \mathbf{d}) \\
+    =  \\
     N \sigma_{el} 
     f_l^m(s; \mathbf{r})
     \int_{S^2}
     \left [  
-    Y_l^m(\hat \mathbf{d}) -  Y_l^m(\hat \mathbf{d}'(\theta, \phi)) 
+    Y_l^m(\hat \mathbf{d}) -  Y_l^m(\hat \mathbf{d}(\theta', \phi')) 
     \right ] 
-    p(\theta, \phi)
+    p(\theta', \phi')
     d\Omega'
 $$
 
@@ -68,34 +68,34 @@ $$
     f_l^m(s; \mathbf{r})
     \int_{S^2}
     \left [  
-    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}'(\theta, \phi)) 
+    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}(\theta', \phi')) 
     \right ] 
-    p(\theta, \phi)
+    p(\theta', \phi')
     d\Omega'
 $$
 
-where the $\partial_{\hat \mathbf{d}}$ has been decomposed into $\hat d \cdot \nabla_{\mathbf{r}}$. Carrying out an integration over the unit sphere ends up resulting in 
+where the $\partial_{\hat \mathbf{d}}$ has been decomposed into $\hat d \cdot \nabla_{\mathbf{r}}$. Carrying out an integration with respect to $\hat \mathbf{d}$ over the unit sphere ends up resulting in 
 
 $$
     \delta_{\mu,m}\delta_{\lambda,l} \partial_s f_l^m(s; \mathbf{r})
     +
-    \nabla_{\mathbf{r}} f_l^m(s; \mathbf{r}) \cdot \mathbf{Q}_{\lambda \mu}^{lm}
-   =  
+    \nabla_{\mathbf{r}} f_l^m(s; \mathbf{r}) \cdot \mathbf{Q}_{\lambda \mu}^{lm}\\
+   =  \\
     N \sigma_{el} 
     f_l^m(s; \mathbf{r})
     \int_{(S^2)^2}
     \left [  
-    Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}) -  Y_\lambda^\mu(\hat \mathbf{d})^* Y_l^m(\hat \mathbf{d}'(\theta, \phi)) 
+    Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^* Y_l^m(\hat \mathbf{d}(\theta, \phi)) -  Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^* Y_l^m(\hat \mathbf{d}(\theta', \phi')) 
     \right ] 
-    p(\theta, \phi)
+    p(\theta', \phi')
     d\Omega' d\Omega
 $$
 
 
- $\mathbf{Q}_{\lambda \mu}^{lm}$ neatly packs the integration for later thinking I suppose,
+where $\mathbf{Q}_{\lambda \mu}^{lm}$ neatly packs the integration for later thinking I suppose,
 
 $$
-\mathbf{Q}_{\lambda \mu}^{lm} = \int Y_\lambda^\mu(\hat \mathbf{d})^* \hat d Y_l^m(\hat \mathbf{d}) d\Omega
+\mathbf{Q}_{\lambda \mu}^{lm} = \int_{S^2} Y_\lambda^\mu(\hat \mathbf{d}(\theta, \phi))^* \hat \mathbf{d}(\theta, \phi) Y_l^m(\hat \mathbf{d}(\theta, \phi)) d\Omega
 
 $$
 
