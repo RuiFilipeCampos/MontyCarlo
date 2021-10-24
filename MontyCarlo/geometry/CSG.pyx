@@ -730,18 +730,15 @@ cdef class CSGvol(BVH):
 			if self.global_sdf < eps:
 				case = self.intEVENT(state)
 
-
 				if case == 2: # boundary crossing
-					
-
 					return True
 
 				if case == 0: # final displacement
-
 					return False
 
 				if case == 1: # virtual displacement, proxys have been set
 					continue
+
 			self.virtual_event(state, self.global_sdf)
 
 
@@ -1558,18 +1555,15 @@ cdef class Sphere(Primitive):
 	def __init__(self, double r):
 		super(Sphere, self).__init__()
 		self.r = r
-		#self.mesh_gen = plt_geo.sphere(r)
-		#import pyvista as pv
-		#self.mesh = pv.Sphere(self.r)
+
 
 	cdef bint is_inside(self, double3& _pos):
 		cdef double3 pos = _pos
 		self.tr.inv_pos(pos)
-
 		return pos.x*pos.x + pos.y*pos.y + pos.z*pos.z <= self.r*self.r
 
 	def __repr__(self):
-		return f"<Sphere: r = {self.r}>"
+		return f"<Sphere: radius={self.r}cm>"
 
 	cdef double SDF(self, double3 _pos):
 		cdef double3 pos = _pos
