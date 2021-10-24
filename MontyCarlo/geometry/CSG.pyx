@@ -340,7 +340,7 @@ cdef class CSGvol(BVH):
 
 	# CONSTRUCTING A VOLUME
 	cdef bint is_inside(self, double3& pos):
-		raise RuntimeError("asdsadsad")
+		raise RuntimeError("`is_inside` was called from virtual (in CSGvol)")
 
 	cdef void depositUNIFORM(self, STATE& state, double SP):
 		pass
