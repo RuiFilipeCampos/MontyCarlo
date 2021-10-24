@@ -22,8 +22,7 @@ class test_Sphere(ut.TestCase):
         sphere = Sphere(1)
         
         for x, y, z in zip(
-            range(10), range(10), range(10)
-        ):
-            print(
-                sphere.SDF(.3*x, .3*y, .3*z)
-            )
+            range(10), range(10), range(10) ):
+            print(sphere.SDF(
+                    .3*x, .3*y, .3*z
+            ))

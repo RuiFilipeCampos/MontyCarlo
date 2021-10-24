@@ -35,7 +35,12 @@ jobs:
         run: |
           cd tests
           python import_test.py --built_inplace
-          
+
+      - name: Testing geometry...
+        run: |
+          cd tests
+          python test_geo.py --built_inplace
+
       - name: Testing tools...
         run: |
           cd tests
