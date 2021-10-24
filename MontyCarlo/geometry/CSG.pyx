@@ -394,7 +394,7 @@ cdef class CSGvol(BVH):
 
 
 	cdef double SDF(self, double3 pos):
-		raise RuntimeError("SDF FROM VOL WAS CALLED")
+		raise RuntimeError("`.SDF` called from virtual (in CSGvol)")
 
 	cdef void localSDF(self, STATE& state):
 
