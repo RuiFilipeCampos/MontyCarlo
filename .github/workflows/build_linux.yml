@@ -33,12 +33,12 @@ jobs:
            git pull
         
       - name: Generating wheel...
-        run: python setup.py bdist_wheel --mac
+        run: python setup_linux.py bdist_wheel
         
       - name: Pushing results...
         run: |
           git add dist/*
-          git commit -am "Automated build (macOS)"
+          git commit -am "Automated build (linux)"
           git push
 
 
