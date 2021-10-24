@@ -112,8 +112,9 @@ cdef class Source:
 
         while nCURRENT < nSIMULATE:
             print(f"{nCURRENT}/{nSIMULATE}")
- 
+
             p = self.container.popleft()
+            print(p))
 
             p._run(self.genPTR)
 

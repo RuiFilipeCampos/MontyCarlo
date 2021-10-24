@@ -23,6 +23,10 @@ class test_Sphere(ut.TestCase):
         
         for x, y, z in zip(
             range(10), range(10), range(10) ):
-            print(sphere.SDF(
+            print(sphere.public__SDF(
                     .3*x, .3*y, .3*z
             ))
+            
+            
+if __name__ == '__main__':
+    ut.main()

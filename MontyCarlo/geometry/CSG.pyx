@@ -1568,15 +1568,22 @@ cdef class Sphere(Primitive):
 	cdef double SDF(self, double3 _pos):
 		cdef double3 pos = _pos
 		self.tr.inv_pos(pos)
-		return sqrt(pos.x*pos.x + pos.y*pos.y + pos.z*pos.z) - self.r
+		return sqrt(
+			pos.x*pos.x +
+		    pos.y*pos.y +
+			pos.z*pos.z
+			) - self.r
 
 
-	def __public__SDF(self, double x, double y, double z):
+	def public__SDF(self, double x, double y, double z):
+
+		print(f"Arguments: x={x}, y={y}, z={z}")
 		cdef double3 pos;
 		pos.x = x;
 		pos.y = y;
 		pos.z = z;
-		return self.SDF(pos); 
+		print(pos)
+		return self.SDF(pos)
 
 	def scale(self, s):
 		self.r *= s

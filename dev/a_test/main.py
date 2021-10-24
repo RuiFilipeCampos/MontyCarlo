@@ -38,7 +38,7 @@ with InfiniteVolume() as outer:
         with Sphere(50) as inner_sphere:
             inner_sphere in outer_sphere
             inner_sphere.configure("inner_sphere", render = True)
-            inner_sphere.fill(water)
+            inner_sphere.fill(gold)
 photon_beam = Beam(
                    "photon",       # kind of particle 
                    inner_sphere,   # initial volume
