@@ -114,7 +114,7 @@ cdef class Source:
             print(f"{nCURRENT}/{nSIMULATE}")
 
             p = self.container.popleft()
-            print(p))
+            print(p)
 
             p._run(self.genPTR)
 

@@ -29,6 +29,8 @@ DEF _SIGNAL_INTERACTION = False
 DEF RECORD = True
 
 
+DEF DEBUG_MODE = False
+
 
 
 
@@ -80,7 +82,7 @@ cdef extern from "<math.h>" nogil:
 
 
 
-
+def input(x): print(x)
 
 # CONSTANTS AND GLOBALS
 cdef extern from "math.h":
@@ -123,6 +125,23 @@ cdef class Positron(Particle):
         Impact Ionization and/or Excitation.
 
     """
+
+
+
+    def __str__(Positron self):
+
+
+        to_return = f"""
+<Positron energy = {self.state.E}
+    position: {self.state.pos.x}, {self.state.pos.y}, {self.state.pos.z}
+    direction: {self.state.dire.x}, {self.state.dire.y}, {self.state.dire.z}, norm = {sqrt(self.state.dire.x**2 + self.state.dire.y**2 + self.state.dire.z**2)}
+> """
+        return to_return
+
+
+
+
+
 
     # Constructors
 
@@ -575,7 +594,7 @@ cdef class Positron(Particle):
         
         
     cdef inline void _inelastic(self):
-        IF _SIGNAL_INTERACTION: print("INELASTIC")
+        IF DEBUG_MODE: input(str(self) + "INELASTIC :: Starting...")
         #cdef double [::1]
         
 
@@ -614,6 +633,8 @@ cdef class Positron(Particle):
 
         
         elif i/6 % 3 == 0:
+            IF DEBUG_MODE: input(str(self) + "INELASTIC :: CLOSE :: Starting...")
+
 
                 
             kc = Wk/self.state.E
@@ -657,20 +678,38 @@ cdef class Positron(Particle):
             self.rotateTHETA(sqrt((self.state.E - Wk)*(self.state.E + _2ELECTRON_REST_ENERGY)/self.state.E/(self.state.E - Wk + _2ELECTRON_REST_ENERGY)))
             
             self.state.E -= Wk
+
+            IF DEBUG_MODE: input(str(self) + "INELASTIC :: CLOSE :: Exiting...")
+
+
             # sample close
         elif i/6 % 3 == 1: # sample L far
+            IF DEBUG_MODE: input(str(self) + "INELASTIC :: LONGITUDINAL :: Starting...")
+
             #self.state.E -= Wk
+
+
+
+
             p2E = self.state.E * (self.state.E + _2ELECTRON_REST_ENERGY)
+            IF DEBUG_MODE: input(str(self) + f"INELASTIC :: LONGITUDINAL :: p2E = {p2E}")
+
             p2d = (self.state.E - Wk) * ((self.state.E - Wk) + _2ELECTRON_REST_ENERGY)   #self.p2(E - self.Wk)
-            Qs = sqrt( sqrt( p2E )  - p2d  + ELECTRON_REST_ENERGY*ELECTRON_REST_ENERGY  ) - ELECTRON_REST_ENERGY
+            IF DEBUG_MODE: input(str(self) + f"INELASTIC :: LONGITUDINAL :: p2d = {p2d}")
+
+            # Qs = sqrt( sqrt( p2E )  - p2d  + ELECTRON_REST_ENERGY*ELECTRON_REST_ENERGY  ) - ELECTRON_REST_ENERGY
+            Qs = sqrt( (sqrt( p2E )  - sqrt(p2d))**2  + ELECTRON_REST_ENERGY*ELECTRON_REST_ENERGY  ) - ELECTRON_REST_ENERGY
+            IF DEBUG_MODE: input(str(self) + f"INELASTIC :: LONGITUDINAL :: Qs = {Qs}")
+
             Qs = Qs/(1 + Qs / _2ELECTRON_REST_ENERGY)
+            IF DEBUG_MODE: input(str(self) + f"INELASTIC :: LONGITUDINAL :: Qs = {Qs}")
+
             Qs = Qs / ((   Qs/Wk *(1 + Wk/_2ELECTRON_REST_ENERGY )      )**(self.state.genPTR.get_next_float()) - Qs/_2ELECTRON_REST_ENERGY)
+            IF DEBUG_MODE: input(str(self) + f"INELASTIC :: LONGITUDINAL :: Qs = {Qs}")
+
             p2Q = Qs * (Qs + _2ELECTRON_REST_ENERGY)
-    
-            
-            
-   
-            
+            IF DEBUG_MODE: input(str(self) + f"INELASTIC :: LONGITUDINAL :: p2Q = {p2Q}")
+                
             
             self.throwAZIMUTH()
             
@@ -710,8 +749,13 @@ cdef class Positron(Particle):
             
             #particles.ELECTRONS.push_back(Wk - Uk)
             #particles.ELECTRONS.push_back(Wk*Wk / ((Qs*Qs-1)/(Qs*Qs) / p2Q * (1 + (p2Q - Wk*Wk)/(2*Wk*(E + _2ELECTRON_REST_ENERGY)))**2))
+
+            IF DEBUG_MODE: input(str(self) + "INELASTIC :: LONGITUDINAL :: Exiting...")
+
             
         else:
+            IF DEBUG_MODE: input(str(self) + "INELASTIC :: TRANSVERSE :: Starting...")
+
             self.throwAZIMUTH()
 
             
@@ -730,6 +774,8 @@ cdef class Positron(Particle):
                 
                 
             self.state.E -= Wk
+            IF DEBUG_MODE: input(str(self) + "INELASTIC :: TRANSVERSE :: Exiting...")
+
                 
             
             #sample transverse
@@ -745,6 +791,7 @@ cdef class Positron(Particle):
        # print(Uk)
         if Uk < MIN_CUT_OFF: 
             (<V> self.state.current_region).depositLOCAL(self.state.pos, Uk)
+            IF DEBUG_MODE: input(str(self) + "INELASTIC :: Exiting...")
             return 
         
         cdef double Etot = Uk
@@ -782,6 +829,8 @@ cdef class Positron(Particle):
             self.secondary.append(el)
 
         (<V> self.state.current_region).depositLOCAL(self.state.pos, Etot)
+        IF DEBUG_MODE: input(str(self) + "INELASTIC :: Exiting...")
+
 
 
             
