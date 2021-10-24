@@ -1570,16 +1570,21 @@ cdef class Sphere(Primitive):
 		self.tr.inv_pos(pos)
 		return sqrt(pos.x*pos.x + pos.y*pos.y + pos.z*pos.z) - self.r
 
+
+	def __public__SDF(self, double x, double y, double z):
+		cdef double3 pos;
+		pos.x = x;
+		pos.y = y;
+		pos.z = z;
+		return self.SDF(pos); 
+
 	def scale(self, s):
 		self.r *= s
 		return self
 
-
-
-
 	cdef intLIST intersect(self, double3& _pos, double3& _dire):
-		IF VERBOSE: print("INTERSECTING SPHERE")
-		# direction * origin
+		IF VERBOSE: print("SPHERE::INTERSECTING")
+
 
 		cdef double3 pos = _pos
 		cdef double3 dire = _dire
