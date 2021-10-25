@@ -441,54 +441,6 @@ cdef class CSGvol(BVH):
 
 
 
-
-	cdef void globalSDF(self, STATE& state):
-
-		IF DEBUG_MODE: input(f"cache[0] = {self.cache}")
-
-		if self.cache:
-			IF DEBUG_MODE:
-				print(f"Volume[0] has cached intersections...")
-				input(f"Volume[0].particle_position: {self.particle_position}")
-				input(f"state.last_displacement: {state.last_displacement}")
-
-			self.particle_position += state.last_displacement
-
-			IF DEBUG_MODE:
-				print("Updated particle position in Volume[0]...")
-				input(f"Volume[0].particle_position: {self.particle_position}")
-
-			self.sdf = self.cross.current() - self.particle_position
-
-			IF DEBUG_MODE:
-				print("Updated particle position in Volume[0]...")
-				input(f"Safest distance to Volume[0]: {self.sdf}")
-
-		else:
-			IF DEBUG_MODE:
-				print(f"Volume[0] does not have cached intersections...")
-				print(state.pos)
-				
-			self.sdf = -self.SDF(state.pos)
-
-			IF DEBUG_MODE:
-				input(f"Safest distance to Volume[0]: {self.sdf}")
-
-		self.i0 = 0
-		self.global_sdf = self.sdf
-
-		cdef int i
-		for i in range(1, self.Nws):
-			(<V> self.ws[i]).localSDF(state)
-			if (<V> self.ws[i]).sdf < self.global_sdf:
-				self.global_sdf = (<V> self.ws[i]).sdf
-				self.i0 = i
-
-		IF DEBUG_MODE: input(f"The closest volume is: Volume[{self.i0}] @ {(<V> self.ws[self.i0]).sdf}cm")
-
-
-
-
 	cdef inline void final(self, STATE& state):
 		IF DEBUG_MODE: input(f"FINAL DISPLACEMENT: L = {state.L}")
 
@@ -586,9 +538,7 @@ cdef class CSGvol(BVH):
 	cdef bint move(self, STATE& state, double SP):
 		cdef Closest first
 		cdef Closest second
-		cdef int case
 		cdef int i
-		cdef double intersection_distance
 
 
 		IF DEBUG_MODE:
@@ -601,14 +551,14 @@ cdef class CSGvol(BVH):
 		
 		while True: 
 
-
-
-
 			if self.has_cached_intersections:
 				self.particle_position += state.last_displacement
 				self.distance = self.cross.current() - self.particle_position
 			else:
 				self.distance = -self.SDF(state.pos)
+
+			
+			self.distance = self.get_distance(state.pos)
 
 
 
@@ -626,11 +576,6 @@ cdef class CSGvol(BVH):
 
 
 
-
-
-
-
-
 			if state.L < first.distance:
 				self.final(state)
 				
@@ -640,14 +585,13 @@ cdef class CSGvol(BVH):
 				self.exit()
 				return False
 
+
 			if first.distance < .1:
 
 				if (<V> self.ws[first.index]).has_cached_intersections:
 					first.distance = (<V> self.ws[first.index]).cross.current() - (<V> self.ws[first.index]).particle_position
 				else:
 					first.distance = (<V> self.ws[first.index]).main_intersect(state)
-
-
 
 				second.distance = INF
 				
