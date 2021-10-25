@@ -318,7 +318,13 @@ cdef class BVH(Volume):
 
 
 cdef class Proxy(BVH):
-	pass
+	cdef intIterator iterator
+	
+	cdef void set_iterator(self, intIterator iterator):
+		self.iterator = iterator
+	
+	cdef void set_safest_distance(self):
+		self.distance = self.iterator.current_distance()
 
 
 cdef class CSGvol(BVH):
@@ -333,8 +339,6 @@ cdef class CSGvol(BVH):
 		self.E = 0 # wut
 
 
-
-
 	# CONSTRUCTING A VOLUME
 	cdef bint is_inside(self, double3& pos):
 		raise RuntimeError("`is_inside` was called from virtual (in CSGvol)")
@@ -344,8 +348,6 @@ cdef class CSGvol(BVH):
 
 	cdef void depositLOCAL(self, double3& pos, double E):
 		pass
-
-
 
 
 	cdef void depositRANDOM(self, STATE& state, double E, double tau):
@@ -421,17 +423,26 @@ cdef class CSGvol(BVH):
 
 
 
-	cdef double _get_safest_distance(self, double3& pos):
+	cdef double set_safest_distance(self, double3& pos):
 		"""
 		The safest distance to the surface of this volume. IMPORTANT: assuming the particle is inside this volume!
 
 		ALSO IMPORTANT: This is here for me to think, will change to abstract method.
 		"""
-		return -self.SDF(pos)
+		self.distance = -self.SDF(pos)
 
 
 
-	cdef double main_intersect(self, STATE& state):
+	cdef bint main_intersect(self, STATE& state):
+		
+		# CAREFUL, CALLING PYTHON HERE
+		self.proxy.set_iterator(intIterator(self.intersect(
+			state.pos, state.dire
+		)))
+		
+
+		return True
+
 
 		cdef intLIST intersection_list = self.intersect(
 			state.pos, state.dire
@@ -439,6 +450,9 @@ cdef class CSGvol(BVH):
 
 
 		cdef intIterator intersection_iterator = intIterator(intersection_list)
+
+
+		self.proxy
 
 
 
