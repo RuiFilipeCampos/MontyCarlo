@@ -79,8 +79,6 @@ from ..types cimport double3
 
 
 
-
-
 cdef str string(STATE state):
 	return f"""
 <Particle 
@@ -91,24 +89,6 @@ cdef str string(STATE state):
 
 
 
-def lock(msg):
-	def _lock(method):
-		def new_method(self, *args, **kwargs):
-			if self.lock:
-				raise RuntimeWarning(msg)
-			return method(self, *args, **kwargs)
-		return new_method
-	return _lock
-
-
-
-
-
-
-# THE EVENTS
-cdef int FINAL_DISPLACEMENT = 0
-cdef int VIRTUAL_DISPLACEMENT = 1
-cdef int BOUNDARY_CROSSING = 2
 
 
 
@@ -122,7 +102,7 @@ cdef class BVH(Volume):
 
 
 	# Boundary Crossing
-	cdef int i                       #position in outers work space
+	cdef int position_in_outer       #position in outers work space
 	cdef bint keep                   #which intersected volume will keep its intersections cached for the next iteration
 
 	# user related
@@ -150,7 +130,7 @@ cdef class BVH(Volume):
 		self.ws[0] = <void*> self
 		for i, volume in enumerate(args):
 			self.ws[i+1] = <void*> volume
-			(<BVH> volume).setOuter(self, i + 1)
+			(<BVH> volume).set_outer(self, i + 1)
 
 		if kwargs['render'] == True:
 			@plt_geo.sdf3
@@ -177,35 +157,19 @@ cdef class BVH(Volume):
 
 
 
-	cpdef setOuter(self, BVH other, int index):
+	cpdef set_outer(self, BVH other, int index):
 		"""
 		other -> outer volume
 		index -> self's position in outers workspace
 		"""
 		self.outer = other
-		self.i = index
+		self.position_in_outer = index
 
 
-
-	# Constructing BVH
-	#@lock("Modifiying volume after being closed")
 	def __contains__(self, other):
 		cdef double3 pos
-		pos.x = other[0]
-		pos.y = other[1]
-		pos.z = other[2]
+		pos.x, pos.y, pos.z = other
 		return self.is_inside(pos)
-
-
-
-	def __len__(self):
-		return self.Nws
-
-	def set_name(self, str name):
-		self.name = name
-		self.has_name = True
-
-
 
 
 	def get_mesh(self):
@@ -217,6 +181,24 @@ cdef class BVH(Volume):
 		mesh = pv.read(f"geo/{self.name}.stl")
 		mesh.plot()
 
+
+	cdef void* searchO(self, STATE& state):
+		cdef int i
+
+		for i in range(1, self.Nws):
+			if self.ws[i] == state.current_region: continue
+
+			if (<BVH> self.ws[i]).is_inside(state.pos):
+				IF DEBUG_MODE: print(i)
+				return self.ws[i]
+		IF DEBUG_MODE: print(0)
+		return <void*> self
+
+	cdef void exit(self):
+		cdef int i
+		for i in range(self.Nws):
+			#if (<BVH> self.ws[i]).keep: continue
+			(<BVH> self.ws[i]).cache = False
 
 
 	cdef bint move(self, STATE& state, double SP):
@@ -241,30 +223,8 @@ cdef class BVH(Volume):
 	cdef double main_intersect(self, STATE& state):
 		raise RuntimeError("'main_intersect' called from its virtual in 'Volume.BVH' ")
 
-
 	cdef void localSDF(self, STATE& state):
 		raise RuntimeError("'localSDF' called from its virtual in 'Volume.BVH' ")
-
-
-	cdef void* searchO(self, STATE& state):
-		cdef int i
-
-		for i in range(1, self.Nws):
-			if self.ws[i] == state.current_region: continue
-
-			if (<BVH> self.ws[i]).is_inside(state.pos):
-				IF DEBUG_MODE: print(i)
-				return self.ws[i]
-		IF DEBUG_MODE: print(0)
-		return <void*> self
-
-		#for i in range(1, (<BVH> state.current_region).i):
-		#	if (<BVH> self.ws[i]).is_inside(state.pos):
-		#		return self.ws[i]
-#
-		#for i in range((<BVH> state.current_region).i+1, self.Nws):
-		#	if (<BVH> self.ws[i]).is_inside(state.pos):
-		#		return self.ws[i]
 
 
 	cdef double SDF(self, double3 pos):
@@ -273,11 +233,7 @@ cdef class BVH(Volume):
 	cdef bint is_inside(self, double3 pos):
 		raise RuntimeError("'is_inside' called from its virtual in 'Volume.BVH' ")
 
-	cdef void exit(self):
-		cdef int i
-		for i in range(self.Nws):
-			#if (<BVH> self.ws[i]).keep: continue
-			(<BVH> self.ws[i]).cache = False
+
 
 
 
@@ -316,8 +272,8 @@ cdef class BVH(Volume):
 
 
 
-
-cdef double displacement = 0
+# the kind of thing that will mess up multiprocessing/multithreading
+cdef double displacement
 
 
 cdef class Proxy(BVH):
