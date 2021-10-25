@@ -282,10 +282,6 @@ cdef class Proxy(BVH):
 	cdef void set_iterator(self, intIterator iterator):
 		self.iterator = iterator
 	
-	cdef void set_safest_distance(self):
-				# return self.cross.current()
-		self.distance = self.iterator.current() - displacement
-
 
 	cdef void _set_safest_distance(self, double3& pos):
 		# note: assumes pos inside current volume
@@ -294,10 +290,10 @@ cdef class Proxy(BVH):
 	cdef void set_safest_distance(self, double3& pos):
 		self.distance = self.iterator.current() - displacement
 
-	
 	# signals that it already is a proxy, no need for intersecting
 	cdef bint main_intersect(self, double3& origin, double3& dire):
 		return False
+
 
 
 cdef class CSGvol(BVH):
@@ -330,18 +326,21 @@ cdef class CSGvol(BVH):
 			# gets the safest KNOWN distance 
 			self._set_safest_distance(state.pos)
 
+
+			# find the closest surface
 			first.index = 0
 			first.distance = self.distance
 
-			#cdef int i
 			for i in range(1, self.Nws):
 				(<V> self.ws[i]).set_safest_distance(state)
 				if (<V> self.ws[i]).distance < first.distance:
 					first.distance = (<V> self.ws[i]).distance
 					first.index = i
 
+			# WHERE WE GONAN GO NOW
+			
 
-
+			# safe to just advance the particle 
 			if state.L < first.distance:
 				self.final(state)
 				return False
