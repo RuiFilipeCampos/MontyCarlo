@@ -317,6 +317,9 @@ cdef class BVH(Volume):
 
 
 
+cdef double displacement = 0
+
+
 cdef class Proxy(BVH):
 	cdef intIterator iterator
 	
@@ -325,7 +328,7 @@ cdef class Proxy(BVH):
 	
 	cdef void set_safest_distance(self):
 				# return self.cross.current()
-		self.distance = self.iterator.current()
+		self.distance = self.iterator.current() - displacement
 	
 	# signals that it already is a proxy, no need for intersecting
 	cdef bint main_intersect(self, double3& origin, double3& dire):
