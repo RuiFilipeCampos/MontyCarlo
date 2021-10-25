@@ -424,35 +424,23 @@ cdef class CSGvol(BVH):
 
 
 	cdef inline void final(self, STATE& state):
-
 		state.pos.x += state.dire.x*state.L
 		state.pos.y += state.dire.y*state.L
 		state.pos.z += state.dire.z*state.L
 
 		state.L = 0
-
 		self.reset_workspace()
 
 
 
 	cdef inline void virtual_event(self, STATE& state, double dr):
-		IF DEBUG_MODE: input(f"VIRTUAL: dr = {dr}, L = {state.L}")
-		state.last_displacement = dr
-
-
 		displacement += dr
 
-
-		IF VERBOSE: print("norm of dire:", state.dire.x**2 + state.dire.y**2 + state.dire.z**2)
 		state.pos.x += state.dire.x*dr
 		state.pos.y += state.dire.y*dr
 		state.pos.z += state.dire.z*dr
 
 		state.L -= dr
-
-		IF VERBOSE:
-			for i in range(self.Nws):
-				print(f"is_inside[{i}] = {(<V> self.ws[i]).is_inside(state.pos)}")
 
 
 
