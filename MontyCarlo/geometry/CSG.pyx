@@ -383,19 +383,25 @@ cdef class CSGvol(BVH):
 					state.pos.x += state.dire.x*second.distance
 					state.pos.y += state.dire.y*second.distance
 					state.pos.z += state.dire.z*second.distance
+					state.L -= second.distance
 					displacement += second.distance
-
-
 					continue
 
 
 				if first.distance < second.distance:
 					if state.L < first.distance: 
-						self.final(state)
+						state.pos.x += state.dire.x*state.L
+						state.pos.y += state.dire.y*state.L
+						state.pos.z += state.dire.z*state.L
 						return False
 
-					self.virtual_event(state, first.distance)
-
+					#  self.virtual_event(state, first.distance)
+					
+					state.pos.x += state.dire.x*first.distance
+					state.pos.y += state.dire.y*first.distance
+					state.pos.z += state.dire.z*first.distance
+					state.L -= first.distance
+					displacement += first.distance
 
 					(<V> self.ws[first.index]).iterator.inc()
 
@@ -452,28 +458,7 @@ cdef class CSGvol(BVH):
 
 
 
-		
-		
-
-
-	cdef inline void final(self, STATE& state):
-		state.pos.x += state.dire.x*state.L
-		state.pos.y += state.dire.y*state.L
-		state.pos.z += state.dire.z*state.L
-
-		state.L = 0
-		self.reset_workspace()
-
-
-
-	cdef inline void virtual_event(self, STATE& state, double dr):
-		displacement += dr
-
-		state.pos.x += state.dire.x*dr
-		state.pos.y += state.dire.y*dr
-		state.pos.z += state.dire.z*dr
-
-		state.L -= dr
+	
 
 
 	cdef void _set_safest_distance(self, double3& pos):
