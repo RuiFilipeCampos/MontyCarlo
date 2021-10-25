@@ -534,6 +534,14 @@ cdef class CSGvol(BVH):
 
 
 
+	cdef double _get_safest_distance(self, double3& pos):
+		"""
+		The safest distance to the surface of this volume. IMPORTANT: assuming the particle is inside this volume!
+
+		ALSO IMPORTANT: This is here for me to think, will change to abstract method.
+		"""
+		return -self.SDF(pos)
+
 
 	cdef bint move(self, STATE& state, double SP):
 		cdef Closest first
@@ -558,14 +566,9 @@ cdef class CSGvol(BVH):
 			#	self.distance = -self.SDF(state.pos)
 
 
-			self.distance = self._get_distance(state.pos)
-
-
-
-
-
+			self.safest_distance = self._get_safest_distance(state.pos)
 			first.index = 0
-			first.distance = self.distance
+			first.safest_distance = self.safest_distance
 
 			#cdef int i
 			for i in range(1, self.Nws):
