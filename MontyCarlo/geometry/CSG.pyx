@@ -337,7 +337,7 @@ cdef class CSGvol(BVH):
 					first.index = i
 
 			# WHERE WE GONAN GO NOW
-			
+
 
 			# safe to just advance the particle 
 			if state.L < first.distance:
@@ -349,7 +349,7 @@ cdef class CSGvol(BVH):
 
 				if (<V> self.ws[first.index]).main_intersect(origin, state.dire):
 					self.ws[first.index] = (<V> self.ws[first.index]).proxy
-				
+
 				first.distance  = (<V> self.ws[first.index])._get_safest_distance()
 				second.distance = INF
 
@@ -388,13 +388,26 @@ cdef class CSGvol(BVH):
 
 
 					if first.index == 0:
-						state.current_region = (<V> self.outer)._search(state)
 
-						# staying in outer, must keep cached intersections
-						if state.current_region == <void*> self.outer:
-							self.keep = True
-							self.exitINNER_TO_OUTER()
-							return True
+						for i in range(0, ignore):
+							if ((<V> self.outer).ws[i]).is_inside(state.pos):
+								state.current_region = self.ws[i]
+
+								# staying in outer, must keep cached intersections
+								if state.current_region == <void*> self.outer:
+									self.keep = True
+									self.exitINNER_TO_OUTER()
+									return True
+
+						for i in range(ignore + 1, self.Nws):
+							if ((<V> self.outer).ws[i]).is_inside(state.pos):
+								state.current_region = self.ws[i]
+
+								# staying in outer, must keep cached intersections
+								if state.current_region == <void*> self.outer:
+									self.keep = True
+									self.exitINNER_TO_OUTER()
+									return True
 
 						# entering some adjacent volume, must intersect it then
 						(<V> state.current_region).main_intersect(state)
@@ -416,10 +429,23 @@ cdef class CSGvol(BVH):
 					self.exit()
 					return False ? 
 
-			self.virtual_event(state, self.global_sdf)
+			self.virtual_event(state, first.distance)
 
 
 
+	cdef void* _search(self, STATE& state, int ignore):
+		cdef int i
+
+		for i in range(0, ignore):
+			if (<BVH> self.ws[i]).is_inside(state.pos):
+				return self.ws[i]
+			
+
+		for i in range(ignore + 1, self.Nws):
+			if (<BVH> self.ws[i]).is_inside(state.pos):
+				return self.ws[i]
+		
+		
 
 
 	cdef inline void final(self, STATE& state):
