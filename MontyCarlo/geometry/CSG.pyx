@@ -299,81 +299,6 @@ cdef class CSGvol(BVH):
 		super(CSGvol, self).__init__(*args, **kwargs)
 
 
-
-
-
-	cdef inline void final(self, STATE& state):
-		IF DEBUG_MODE: input(f"FINAL DISPLACEMENT: L = {state.L}")
-
-		state.last_displacement = state.L
-
-		state.pos.x += state.dire.x*state.L
-		state.pos.y += state.dire.y*state.L
-		state.pos.z += state.dire.z*state.L
-
-		state.L = 0
-
-		IF VERBOSE:
-			for i in range(self.Nws):
-				print(f"is_inside[{i}] = {(<V> self.ws[i]).is_inside(state.pos)}")
-
-
-
-	cdef inline void virtual_event(self, STATE& state, double dr):
-		IF DEBUG_MODE: input(f"VIRTUAL: dr = {dr}, L = {state.L}")
-		state.last_displacement = dr
-
-
-		displacement += dr
-
-
-		IF VERBOSE: print("norm of dire:", state.dire.x**2 + state.dire.y**2 + state.dire.z**2)
-		state.pos.x += state.dire.x*dr
-		state.pos.y += state.dire.y*dr
-		state.pos.z += state.dire.z*dr
-
-		state.L -= dr
-
-		IF VERBOSE:
-			for i in range(self.Nws):
-				print(f"is_inside[{i}] = {(<V> self.ws[i]).is_inside(state.pos)}")
-
-
-
-	cdef str print_ws(self, STATE& state):
-		cdef int i
-		to_print = "["
-		for i in range(self.Nws):
-			to_print += f"(is_inside = {(<V> self.ws[i]).is_inside(state.pos)}, keep = {(<V> self.ws[i]).keep}, cache = {(<V> self.ws[i]).cache}) ,"
-		
-		to_print += "]"
-		return to_print
-
-
-
-	cdef double set_safest_distance(self, double3& pos):
-		"""
-		The safest distance to the surface of this volume. IMPORTANT: assuming the particle is inside this volume!
-
-		ALSO IMPORTANT: This is here for me to think, will change to abstract method.
-		"""
-		self.distance = -self.SDF(pos)
-
-
-
-	cdef bint main_intersect(self, double3& origin, double3& dire):
-		
-		self.proxy.set_iterator(intIterator(self.intersect(
-			pos, state.dire
-		)))
-		
-
-		return True
-
-
-
-
-
 	cdef bint move(self, STATE& state, double SP):
 		cdef double3 origin = state.pos
 		displacement = 0
@@ -500,7 +425,88 @@ cdef class CSGvol(BVH):
 
 
 
-	# CONSTRUCTING A VOLUME
+	cdef inline void final(self, STATE& state):
+		IF DEBUG_MODE: input(f"FINAL DISPLACEMENT: L = {state.L}")
+
+		state.last_displacement = state.L
+
+		state.pos.x += state.dire.x*state.L
+		state.pos.y += state.dire.y*state.L
+		state.pos.z += state.dire.z*state.L
+
+		state.L = 0
+
+		IF VERBOSE:
+			for i in range(self.Nws):
+				print(f"is_inside[{i}] = {(<V> self.ws[i]).is_inside(state.pos)}")
+
+
+
+	cdef inline void virtual_event(self, STATE& state, double dr):
+		IF DEBUG_MODE: input(f"VIRTUAL: dr = {dr}, L = {state.L}")
+		state.last_displacement = dr
+
+
+		displacement += dr
+
+
+		IF VERBOSE: print("norm of dire:", state.dire.x**2 + state.dire.y**2 + state.dire.z**2)
+		state.pos.x += state.dire.x*dr
+		state.pos.y += state.dire.y*dr
+		state.pos.z += state.dire.z*dr
+
+		state.L -= dr
+
+		IF VERBOSE:
+			for i in range(self.Nws):
+				print(f"is_inside[{i}] = {(<V> self.ws[i]).is_inside(state.pos)}")
+
+
+
+
+
+
+
+	cdef double set_safest_distance(self, double3& pos):
+		"""
+		The safest distance to the surface of this volume. IMPORTANT: assuming the particle is inside this volume!
+
+		ALSO IMPORTANT: This is here for me to think, will change to abstract method.
+		"""
+		self.distance = -self.SDF(pos)
+
+
+
+	cdef bint main_intersect(self, double3& origin, double3& dire):
+		
+		self.proxy.set_iterator(intIterator(self.intersect(
+			pos, state.dire
+		)))
+		
+
+		return True
+
+
+
+
+
+
+
+
+
+
+
+	cdef str print_ws(self, STATE& state):
+		cdef int i
+		to_print = "["
+		for i in range(self.Nws):
+			to_print += f"(is_inside = {(<V> self.ws[i]).is_inside(state.pos)}, keep = {(<V> self.ws[i]).keep}, cache = {(<V> self.ws[i]).cache}) ,"
+		
+		to_print += "]"
+		return to_print
+
+
+
 	cdef bint is_inside(self, double3& pos):
 		raise RuntimeError("`is_inside` was called from virtual (in CSGvol)")
 
