@@ -626,7 +626,7 @@ cdef class CSGvol(BVH):
 			if first.distance < .1:
 
 
-				distance_to_intersection = (<V> self.ws[closest.index]).main_intersect(state)
+				distance_to_intersection = (<V> self.ws[first.index]).main_intersect(state)
 
 				# look for distance to the second nearest surface
 				second.distance = INF
@@ -645,6 +645,11 @@ cdef class CSGvol(BVH):
 						second.index = i
 
 
+
+
+
+
+
 				if distance_to_intersection == INF:
 					if state.L < second.distance: # < first.distance
 						self.final(state)
@@ -657,22 +662,50 @@ cdef class CSGvol(BVH):
 
 
 				if distance_to_intersection < second.distance:
-					if distance_to_intersection > state.L:
+					if state.L < distance_to_intersection: # < second.distance
 						self.final(state)
 						self.exit()
 						return False
 
-					self.virtual_event(state, cross)
+					# distance_to_intersection < state.L < second.distance
+					self.virtual_event(state, distance_to_intersection)
 
-					IF VERBOSE: print(f"before incrementing: current = {(<V> vol).cross.current()}")
-					(<V> vol).cross.inc()
+					IF VERBOSE: print(f"before incrementing: current = {(<V> self.ws[first.index]).cross.current()}")
+					(<V> self.ws[first.index]).cross.inc()
 					IF VERBOSE: print("icremented successfully")
-					IF VERBOSE: print(f"after incrementing: current = {(<V> vol).cross.current()}")
-					self.boundary_crossing(state)
-					return 2
+					IF VERBOSE: print(f"after incrementing: current = {(<V> self.ws[first.index]).cross.current()}")
+
+
+
+					if first.index == 0:
+						state.current_region = (<V> self.outer).searchO(state)
+
+						# staying in outer, must keep cached intersections
+						if state.current_region == <void*> self.outer:
+							self.keep = True
+							self.exitINNER_TO_OUTER()
+							return
+
+						# entering some adjacent volume, must intersect it then
+						(<V> state.current_region).main_intersect(state)
+						(<V> state.current_region).keep = True
+						self.exitINNER_TO_INNER()
+						return 
+
+
+					# from outer to inner
+					state.current_region = self.ws[self.i0]
+					self.exitOUTER_TO_INNER()
+					(<V> state.current_region).keep = True
+					(<V> state.current_region).cache = True
+					return
+
+
+
+					return True
 
 				# min() == L
-				if second_nearest > state.L:
+				if state.L < second_nearest:
 					IF VERBOSE: print("min() == L 222")
 					self.final(state)
 					self.exit()
