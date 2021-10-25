@@ -328,7 +328,7 @@ cdef class Proxy(BVH):
 		self.distance = self.iterator.current()
 	
 	# signals that it already is a proxy, no need for intersecting
-	cdef bint main_intersect(self, STATE& state):
+	cdef bint main_intersect(self, double3& origin, double3& dire):
 		return False
 
 
