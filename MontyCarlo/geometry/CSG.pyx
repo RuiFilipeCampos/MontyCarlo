@@ -433,10 +433,6 @@ cdef class CSGvol(BVH):
 
 		self.reset_workspace()
 
-		IF VERBOSE:
-			for i in range(self.Nws):
-				print(f"is_inside[{i}] = {(<V> self.ws[i]).is_inside(state.pos)}")
-
 
 
 	cdef inline void virtual_event(self, STATE& state, double dr):
