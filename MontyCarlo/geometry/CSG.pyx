@@ -341,7 +341,11 @@ cdef class CSGvol(BVH):
 
 			# safe to just advance the particle 
 			if state.L < first.distance:
-				self.final(state)
+				state.pos.x += state.dire.x*state.L
+				state.pos.y += state.dire.y*state.L
+				state.pos.z += state.dire.z*state.L
+
+				state.L = 0
 				return False
 
 
@@ -389,7 +393,23 @@ cdef class CSGvol(BVH):
 
 					if first.index == 0:
 
-						for i in range(0, ignore):
+						for i in range(0, self.index_in_outer):
+							if ((<V> self.outer).ws[i]).is_inside(state.pos):
+								state.current_region = self.ws[i]
+
+								# staying in outer, must keep cached intersections
+								if state.current_region == <void*> self.outer:
+									self.keep = True
+									self.exitINNER_TO_OUTER()
+									return True
+							
+								# entering some adjacent volume, must intersect it then
+								(<V> state.current_region).main_intersect(state)
+								(<V> state.current_region).keep = True
+								self.exitINNER_TO_INNER()
+								return True
+
+						for i in range(self.index_in_outer + 1, self.Nws):
 							if ((<V> self.outer).ws[i]).is_inside(state.pos):
 								state.current_region = self.ws[i]
 
@@ -399,27 +419,16 @@ cdef class CSGvol(BVH):
 									self.exitINNER_TO_OUTER()
 									return True
 
-						for i in range(ignore + 1, self.Nws):
-							if ((<V> self.outer).ws[i]).is_inside(state.pos):
-								state.current_region = self.ws[i]
-
-								# staying in outer, must keep cached intersections
-								if state.current_region == <void*> self.outer:
-									self.keep = True
-									self.exitINNER_TO_OUTER()
-									return True
-
-						# entering some adjacent volume, must intersect it then
-						(<V> state.current_region).main_intersect(state)
-						(<V> state.current_region).keep = True
-						self.exitINNER_TO_INNER()
-						return True
+								# entering some adjacent volume, must intersect it then
+								(<V> state.current_region).main_intersect(state)
+								(<V> state.current_region).keep = True
+								self.exitINNER_TO_INNER()
+								return True
 
 
 					# from outer to inner
 					state.current_region = self.ws[first.index]
 					self.exitOUTER_TO_INNER()
-
 					return True
 
 				# min() == L
@@ -433,17 +442,7 @@ cdef class CSGvol(BVH):
 
 
 
-	cdef void* _search(self, STATE& state, int ignore):
-		cdef int i
 
-		for i in range(0, ignore):
-			if (<BVH> self.ws[i]).is_inside(state.pos):
-				return self.ws[i]
-			
-
-		for i in range(ignore + 1, self.Nws):
-			if (<BVH> self.ws[i]).is_inside(state.pos):
-				return self.ws[i]
 		
 		
 
