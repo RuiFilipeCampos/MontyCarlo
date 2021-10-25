@@ -345,7 +345,7 @@ cdef class CSGvol(BVH):
 				state.pos.y += state.dire.y*state.L
 				state.pos.z += state.dire.z*state.L
 
-				state.L = 0
+				# state.L = 0
 				return False
 
 
@@ -372,11 +372,20 @@ cdef class CSGvol(BVH):
 
 				if first.distance == INF:
 					if state.L < second.distance: # < first.distance
-						self.final(state)
+						state.pos.x += state.dire.x*state.L
+						state.pos.y += state.dire.y*state.L
+						state.pos.z += state.dire.z*state.L
 						return False
 					
 					# second.distance < state.L < first.distance   
-					self.virtual_event(state, second.distance)
+					# self.virtual_event(state, second.distance)
+
+					state.pos.x += state.dire.x*second.distance
+					state.pos.y += state.dire.y*second.distance
+					state.pos.z += state.dire.z*second.distance
+					displacement += second.distance
+
+
 					continue
 
 
