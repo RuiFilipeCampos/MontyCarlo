@@ -541,7 +541,7 @@ cdef class CSGvol(BVH):
 
 
 
-
+# a forward declaration?
 cdef class Volume
 
 
