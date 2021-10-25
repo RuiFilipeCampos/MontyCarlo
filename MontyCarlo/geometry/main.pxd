@@ -39,7 +39,7 @@ cdef class Volume:
     # cpdef Interval _getINTERSECTION(self, Vector origin, Vector direction)
     # cdef Volume cross(self, Vector pos)
     cdef bint move(self, STATE& state, double SP)
-    cdef double SDF(self, double3& pos)
+    cdef double SDF(self, double3 pos)
     cdef bint is_inside(self, double3& pos)
     cdef void exit(self)
     cdef void depositLocaly(self, double3 pos, double E)

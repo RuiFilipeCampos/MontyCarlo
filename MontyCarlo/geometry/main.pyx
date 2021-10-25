@@ -74,7 +74,7 @@ cdef class Volume:
         
         raise RuntimeError("`is_inside` called from virtual in Volume")
 
-    cdef double SDF(self, double3& pos):
+    cdef double SDF(self, double3 pos):
         """Evaluate the Signed Distance Function (SDF) at position `pos`. 
         """
 

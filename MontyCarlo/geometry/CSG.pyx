@@ -3,9 +3,11 @@
 print("Importing `.geometry.CSG`")
 
 
-DEF VERBOSE = True
+DEF VERBOSE = False
 DEF VERBOSE_TALLY = False
-DEF DEBUG_MODE = True
+DEF DEBUG_MODE = False
+
+def input(x): print(x)
 
 from libcpp.vector cimport vector
 from libcpp.list cimport list as cpplist;
@@ -1013,7 +1015,7 @@ cdef class Isometry(Transform):
 
 
 
-	cdef double SDF(self, double3& pos):
+	cdef double SDF(self, double3 pos):
 		cdef double3 rpos
 		rpos.x = self.iT[0]*pos.x + self.iT[1]*pos.y + self.iT[2] *pos.z  + self.iT[3]
 		rpos.y = self.iT[4]*pos.x + self.iT[5]*pos.y + self.iT[6] *pos.z  + self.iT[7]
@@ -1066,7 +1068,7 @@ cdef class Identity(Isometry):
 	cdef intLIST intersect(self, double3& pos, double3& dire):
 		return self.primitive.intersect(pos, dire)
 
-	cdef double SDF(self, double3& pos):
+	cdef double SDF(self, double3 pos):
 		return self.primitive.SDF(pos)
 
 	#def matrix(self):
@@ -1342,7 +1344,7 @@ cdef class Subtraction(CSGop):
 
 
 
-	cdef double SDF(self, double3& pos):
+	cdef double SDF(self, double3 pos):
 		return fmax(self.L.SDF(pos), -self.R.SDF(pos))
 
 	cdef bint is_inside(self, double3& pos):
@@ -1403,7 +1405,7 @@ cdef class Union(CSGop):
 	def __repr__(self):
 		return "<Union>"
 
-	cdef double SDF(self, double3& pos):
+	cdef double SDF(self, double3 pos):
 		return fmin(self.L.SDF(pos), self.R.SDF(pos))
 
 	cdef intLIST intersect(self, double3& pos, double3& dire):
@@ -1455,7 +1457,7 @@ cdef class Intersection(CSGop):
 	def __repr__(self):
 		return "<Intersection>"
  
-	cdef double SDF(self, double3& pos):
+	cdef double SDF(self, double3 pos):
 		return fmax(self.L.SDF(pos), self.R.SDF(pos))
 
 	cdef intLIST intersect(self, double3& pos, double3& dire):
@@ -1546,7 +1548,7 @@ cdef class InfiniteVolume(CSGvol):
 	cdef bint is_inside(self, double3& pos):
 		return True
 
-	cdef double SDF(self, double3& pos):
+	cdef double SDF(self, double3 pos):
 		return -INF
 
 	cdef intLIST intersect(self, double3& pos, double3& dire):
@@ -1596,11 +1598,9 @@ cdef class Sphere(Primitive):
 		return f"<Sphere: radius={self.r}cm>"
 
 	cdef double SDF(self, double3 _pos):
-		print("")
-		print(_pos)
+
 		cdef double3 pos = _pos
-		print(pos)
-		print("")
+
 		self.tr.inv_pos(pos)
 		return sqrt(
 			pos.x*pos.x +

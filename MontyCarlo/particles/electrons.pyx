@@ -48,6 +48,7 @@ DEF DEBUG_MODE = False
 
 
 
+
 ###########################
 #         IMPORTS
 #########################
@@ -274,19 +275,16 @@ cdef class Electron(Particle):
         IF DEBUG_MODE: input(str(self) + " Starting main loop.")
         while True:
             
-            IF DEBUG_MODE: input(str(self) + " Temporary varianve reduction.")
+            IF DEBUG_MODE: input(str(self) + f" {delta} :: Temporary variance reduction.")
             if self.state.pos.x**2 + self.state.pos.y**2 + self.state.pos.z**2 > 10_000**2:
                 IF DEBUG_MODE: input(str(self) + " Killing electron.")
                 return
 
             
-            IF DEBUG_MODE: input(str(self) + " Proposing displacement.")
+            IF DEBUG_MODE: input(str(self) + " {delta} :: Proposing displacement.")
             self.s = -log(self.state.genPTR.get_next_float())/self.imfp_max
-
-
-            IF DEBUG_MODE: input(str(self) + " Truncate diplacement?.")
+            IF DEBUG_MODE: input(str(self) + f" {delta} :: Proposed displacement: {self.s}. s_max = {self.s_max} Truncate? ")
             if self.s > self.s_max:
-                IF DEBUG_MODE: input(str(self) + " Yee.")
                 self.s = self.s_max
                 delta = True
             
@@ -297,34 +295,47 @@ cdef class Electron(Particle):
                 print((<V> self.state.current_region))
          
             
-
-            IF DEBUG_MODE: input(str(self) + " FIRST PART OF TRAJECTORY.")
-            
+            IF DEBUG_MODE: input(str(self) + f" {delta} :: FIRST SEGMENT ")            
             self.sample_w(self.s)
+            IF DEBUG_MODE: input(str(self) + f" {delta} :: FIRST SEGMENT :: Sampled energy loss is {self.w} eV")            
+
             S_soft = self.w/self.s
+            IF DEBUG_MODE: input(str(self) + f" {delta} :: FIRST SEGMENT :: Resulting in a soft SP of {S_soft} eV/cm")            
+
             tau = self.s*self.state.genPTR.get_next_float()
+            IF DEBUG_MODE: input(str(self) + f" {delta} :: FIRST SEGMENT :: The size of the first segment is {tau}cm")            
+
             self.state.L = tau
-
             # first segment, pos0
-            IF DEBUG_MODE: input(str(self) + " MOVING...")
+            IF DEBUG_MODE: input(str(self) + f" {delta} :: FIRST SEGMENT :: Moving...")            
             if (<V> self.state.current_region).move(self.state, S_soft):
-                IF DEBUG_MODE: input(str(self) + " HAS CROSSED SOMETHING...")
+                IF DEBUG_MODE: input(str(self) + f" {delta} :: FIRST SEGMENT :: Detected a surface!!")            
 
-                self.state.E -= (tau - self.state.L)*S_soft
+                self.state.E -= tau*S_soft
+                IF DEBUG_MODE: input(str(self) + f" {delta} :: FIRST SEGMENT :: Reduced energy")            
 
 
                 if self.state.E < CUT_OFF:
                     (<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
                     return
-                (<V> self.state.current_region).depositLOCAL(self.state.pos, (tau - self.state.L)*S_soft)
+                (<V> self.state.current_region).depositLOCAL(self.state.pos, tau*S_soft)
+                IF DEBUG_MODE: input(str(self) + f" {delta} :: FIRST SEGMENT :: Deposited energy")            
+
                 self.update_references()
                 continue
+
+
+
             IF DEBUG_MODE: input(str(self) + " MOVE IS DONE...")
             #(<V> self.state.current_region).depositRANDOM(self.state, S_soft*tau, tau)
 
+
+            IF DEBUG_MODE: input(str(self) + " Reducing energy...")
             self.state.E -= S_soft*tau
+
+            IF DEBUG_MODE: input(str(self) + f" Checking if energy is bellow cut off {CUT_OFF}...")
             if self.state.E <  CUT_OFF:
-               # if deposit_in_2:
+                IF DEBUG_MODE: input(str(self) + f" Energy is bellow cut off {CUT_OFF}")
                 (<V> self.state.current_region).depositLOCAL(self.state.pos, self.state.E)
                 (<Volume> self.state.current_region).exit()
                 return
@@ -613,19 +624,42 @@ power.
         #self.varW   = self.s * (self.inelastic.softSTRAGG._eval(self.state.E) + self.brem.softSTRAGG._eval(self.state.E))
         
         cdef int i = self.find_index()
+        IF DEBUG_MODE: input(str(self) + f" sample_w :: i = {i} E[{i}] = {EAX[i]} < {self.state.E} < {EAX[i+1]} = E[{i+1}]")            
+
 
         cdef double SP = ( self.electron.softSPA[i]     + self.electron.softSPB[i]*self.state.E)
+        IF DEBUG_MODE: input(str(self) + f" sample_w :: SP = {SP}")     
+
+        if SP < 0:
+            print("SP IS NEGATIVE. SLEEPING NOW.....")
+            import time
+            time.sleep(123456)       
+
+
         cdef double STRAGG = ( self.electron.softSTRAGGA[i] + self.electron.softSTRAGGB[i]*self.state.E)
+        IF DEBUG_MODE: input(str(self) + f" sample_w :: SP = {STRAGG}")
+
+        if STRAGG < 0:
+            print("STRAGG IS NEGATIVE. SLEEPING NOW.....")
+            import time
+            time.sleep(123456)           
 
 
         self.avgW = tau * SP * (1. - .5*self.electron.softSPB[i]*tau)
+        IF DEBUG_MODE: input(str(self) + f" sample_w :: avgW = {self.avgW}")            
+
+
         self.varW = tau * STRAGG - tau*tau*(.5*self.electron.softSTRAGGB[i]*SP + STRAGG*self.electron.softSPB[i])
+        IF DEBUG_MODE: input(str(self) + f" sample_w :: varW = {self.varW}")            
+
 
 
 
         cdef double avgW2 = self.avgW*self.avgW
         cdef double sigma = sqrt(self.varW)
         if avgW2 > 9.*self.varW:
+            IF DEBUG_MODE: input(str(self) + f" sample_w :: CASE 1")            
+
             #1.015387*
             self.w = sigma*self.current_material.electron.gauss._sample() + self.avgW #CONFIRM
          #   print("sampled w = ", self.w, "FROM TRUNCATED GAUSSIAN")
@@ -633,6 +667,8 @@ power.
             return
         
         if avgW2 > 3.*self.varW:
+            IF DEBUG_MODE: input(str(self) + f" sample_w :: CASE 2")            
+
             #                     6*3**.5
             #self.w = self.avgW + (10.392304845413264 * sqrt(self.varW))*self.state.genPTR.get_next_float()
             self.w = self.avgW - sqrt(3.)*sigma + 2.*sqrt(3.)*sigma*self.state.genPTR.get_next_float()
@@ -645,11 +681,15 @@ power.
             
         #if 3*self.state.genPTR.get_next_float() < (3*self.varW - avgW2)/(self.varW + avgW2):
         if 3.*self.state.genPTR.get_next_float()*(self.varW + avgW2) < (3.*self.varW - avgW2):
+            IF DEBUG_MODE: input(str(self) + f" sample_w :: CASE 3")            
+
             self.w = 0.
            # print("sampled w = ", self.w)
             return
         #self.w = self.state.genPTR.get_next_float()*(3*varW + 3*avgW**2)/2/avgW
         #self.w = 1.5*self.state.genPTR.get_next_float()*(self.varW + avgW2)/self.avgW
+        IF DEBUG_MODE: input(str(self) + f" sample_w :: CASE 4")            
+
         self.w = 1.5*self.state.genPTR.get_next_float()*(self.varW + avgW2)/self.avgW
        # print("sampled w = ", self.w, "FROM THIRD  CASE")
 
