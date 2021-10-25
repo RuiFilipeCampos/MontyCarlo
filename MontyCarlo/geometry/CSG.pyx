@@ -3,9 +3,9 @@
 print("Importing `.geometry.CSG`")
 
 
-DEF VERBOSE = False
+DEF VERBOSE = True
 DEF VERBOSE_TALLY = False
-DEF DEBUG_MODE = False
+DEF DEBUG_MODE = True
 
 from libcpp.vector cimport vector
 from libcpp.list cimport list as cpplist;
@@ -64,6 +64,23 @@ cdef double eps = .1
 from ..types cimport double3
 
 
+
+
+
+
+
+
+cdef str string(STATE state):
+	return f"""
+<Particle 
+    position:  {state.pos.x}, {state.pos.y}, {state.pos.z}
+    direction: {state.dire.x}, {state.dire.y}, {state.dire.z}, norm = {sqrt(state.dire.x**2 + state.dire.y**2 + state.dire.z**2)}
+>"""
+
+
+
+
+
 #cdef class Proxy(CSGvol):
 #	cdef intLIST crosses
 #	cdef cpplist[Interval] it
@@ -101,7 +118,9 @@ def lock(msg):
 
 
 
-
+cdef int BOUNDARY_CROSSING = 2
+cdef int FINAL_DISPLACEMENT = 0
+cdef int VIRTUAL_DISPLACEMENT = 1
 
 
 
@@ -217,7 +236,6 @@ cdef class BVH(Volume):
 				return SDF
 
 			generator = this()
-			import os
 			generator.save(f"geo/{self.name}.stl")
 
 	def get_mesh(self):
@@ -454,7 +472,6 @@ cdef class CSGvol(BVH):
 		return self.cross.current()
 
 	cdef void globalSDF(self, STATE& state):
-		IF DEBUG_MODE: input("-- CALCULATING SAFEST DISTANCE")
 
 		IF DEBUG_MODE: input(f"cache[0] = {self.cache}")
 
@@ -479,7 +496,8 @@ cdef class CSGvol(BVH):
 		else:
 			IF DEBUG_MODE:
 				print(f"Volume[0] does not have cached intersections...")
-
+				print(state.pos)
+				
 			self.sdf = -self.SDF(state.pos)
 
 			IF DEBUG_MODE:
@@ -698,19 +716,31 @@ cdef class CSGvol(BVH):
 		(<V> state.current_region).cache = True
 		return
 
+	cdef str print_ws(self, STATE& state):
+		cdef int i
+		to_print = "["
+		for i in range(self.Nws):
+			to_print += f"(is_inside = {(<V> self.ws[i]).is_inside(state.pos)}, keep = {(<V> self.ws[i]).keep}, cache = {(<V> self.ws[i]).cache}) ,"
+		
+		to_print += "]"
+		return to_print
+
+
 
 	cdef bint move(self, STATE& state, double SP):
 		cdef int case
 		cdef int i
-		IF DEBUG_MODE: input("\n ----MOVING PARTICLE----")
-		IF DEBUG_MODE: input(f"CURRENT_POSITION: {state.pos}")
-		IF DEBUG_MODE: input(f"Is inside current region? {(<V> state.current_region).is_inside(state.pos)}")
-		IF DEBUG_MODE:
-			for i in range(self.Nws):
-				print(f"is_inside[{i}] = {(<V> self.ws[i]).is_inside(state.pos)}")
 
-		IF DEBUG_MODE: input("STARTING EVENT LOOP")
+		IF DEBUG_MODE:
+			input(string(state) + "Entering move method.")
+			input(string(state) + "How does the workspace look like?")
+			input("\t" + self.print_ws(state)) 
+			input(string(state) + "Starting event loop:")
+
 		while True:
+
+
+			IF DEBUG_MODE: input(string(state) + "EVENT LOOP :: Entering globalSDF")
 			self.globalSDF(state)
 
 
@@ -727,7 +757,7 @@ cdef class CSGvol(BVH):
 
 				return False
 
-			if self.global_sdf < eps:
+			if self.global_sdf < .1:
 				case = self.intEVENT(state)
 
 				if case == 2: # boundary crossing
@@ -1566,7 +1596,11 @@ cdef class Sphere(Primitive):
 		return f"<Sphere: radius={self.r}cm>"
 
 	cdef double SDF(self, double3 _pos):
+		print("")
+		print(_pos)
 		cdef double3 pos = _pos
+		print(pos)
+		print("")
 		self.tr.inv_pos(pos)
 		return sqrt(
 			pos.x*pos.x +
@@ -1801,7 +1835,7 @@ cdef class Z_TALLY(Tally):
 				self.cache = False
 				return False
 
-			if state.pos.z < eps:
+			if state.pos.z < .1:
 				IF DEBUG_MODE: input(f"Intersection Event")
 
 				case = self.intEVENT(state)
