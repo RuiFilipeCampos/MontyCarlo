@@ -438,10 +438,10 @@ cdef class CSGvol(BVH):
 
 
 
-	cdef bint main_intersect(self, STATE& state):
+	cdef bint main_intersect(self, double3& origin, double3& dire):
 		
 		self.proxy.set_iterator(intIterator(self.intersect(
-			state.pos, state.dire
+			pos, state.dire
 		)))
 		
 
@@ -452,7 +452,8 @@ cdef class CSGvol(BVH):
 
 
 	cdef bint move(self, STATE& state, double SP):
-		cdef double3 original_position = state.pos
+		cdef double3 origin = state.pos
+
 		cdef Closest first
 		cdef Closest second
 		cdef int i
@@ -490,7 +491,7 @@ cdef class CSGvol(BVH):
 
 			if first.distance < .1:
 
-				if (<V> self.ws[first.index]).main_intersect(state):
+				if (<V> self.ws[first.index]).main_intersect(origin, state.dire):
 					self.ws[first.index] = (<V> self.ws[first.index]).proxy
 				
 				first.distance  = (<V> self.ws[first.index])._get_safest_distance()
