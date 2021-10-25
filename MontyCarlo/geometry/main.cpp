@@ -2757,8 +2757,8 @@ struct __pyx_obj_10MontyCarlo_9particles_8particle_Particle {
  * 
  * cimport numpy as cnp
  * cdef class Volume:             # <<<<<<<<<<<<<<
- *     #cdef TRANSFORM tr
  *     cdef public object mesh
+ *     cdef double x, y, z
  */
 struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume {
   PyObject_HEAD
@@ -3783,8 +3783,17 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
-/* ExtTypeTest.proto */
-static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
+/* RaiseDoubleKeywords.proto */
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+/* ParseKeywords.proto */
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
+    const char* function_name);
+
+/* RaiseArgTupleInvalid.proto */
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
 
 /* PyObjectCall.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -3831,6 +3840,9 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
+
+/* ExtTypeTest.proto */
+static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
 /* WriteUnraisableException.proto */
 static void __Pyx_WriteUnraisable(const char *name, int clineno,
@@ -3969,18 +3981,6 @@ static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_ve
 #define __Pyx_GetModuleGlobalNameUncached(var, name)  (var) = __Pyx__GetModuleGlobalName(name)
 static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 #endif
-
-/* RaiseArgTupleInvalid.proto */
-static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
-    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
-
-/* RaiseDoubleKeywords.proto */
-static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
-
-/* ParseKeywords.proto */
-static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
-    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
-    const char* function_name);
 
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
@@ -4726,6 +4726,7 @@ static const char __pyx_k_randint[] = "randint";
 static const char __pyx_k_Ellipsis[] = "Ellipsis";
 static const char __pyx_k_getstate[] = "__getstate__";
 static const char __pyx_k_itemsize[] = "itemsize";
+static const char __pyx_k_material[] = "material";
 static const char __pyx_k_pyx_type[] = "__pyx_type";
 static const char __pyx_k_setstate[] = "__setstate__";
 static const char __pyx_k_TypeError[] = "TypeError";
@@ -4772,6 +4773,7 @@ static const char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate 
 static const char __pyx_k_strided_and_direct_or_indirect[] = "<strided and direct or indirect>";
 static const char __pyx_k_Contains_an_abstract_class_that[] = "Contains an abstract class that serves as template for any geometry system.\n";
 static const char __pyx_k_EXIT_CALLED_FROM_VIRTUAL_Volume[] = "EXIT CALLED FROM VIRTUAL 'Volume' ";
+static const char __pyx_k_This_volume_has_not_been_filled[] = "This volume has not been filled with a material.";
 static const char __pyx_k_depositLOCAL_called_from_its_vi[] = "'depositLOCAL' called from its virtual in 'Volume' ";
 static const char __pyx_k_is_inside_called_from_virtual_i[] = "`is_inside` called from virtual in Volume";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
@@ -4820,6 +4822,7 @@ static PyObject *__pyx_n_s_PickleError;
 static PyObject *__pyx_kp_u_Rui_Campos;
 static PyObject *__pyx_n_s_RuntimeError;
 static PyObject *__pyx_kp_u_SDF_FROM_VOL_WAS_CALLED;
+static PyObject *__pyx_kp_u_This_volume_has_not_been_filled;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
 static PyObject *__pyx_n_s_ValueError;
@@ -4857,6 +4860,7 @@ static PyObject *__pyx_kp_u_is_inside_called_from_virtual_i;
 static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
 static PyObject *__pyx_n_s_main;
+static PyObject *__pyx_n_s_material;
 static PyObject *__pyx_n_s_memview;
 static PyObject *__pyx_n_s_mode;
 static PyObject *__pyx_kp_u_move_called_from_virtual;
@@ -4910,17 +4914,18 @@ static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_y;
 static PyObject *__pyx_n_s_z;
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_fill(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_mat); /* proto */
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_2__gt__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_other); /* proto */
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4__lshift__(PyObject *__pyx_v_self, PyObject *__pyx_v_material); /* proto */
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_6__enter__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_8set_array(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_arr); /* proto */
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_10get_arr(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self); /* proto */
+static int __pyx_pf_10MontyCarlo_8geometry_4main_6Volume___init__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_material); /* proto */
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_2fill(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_mat); /* proto */
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4__gt__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_other); /* proto */
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_6__lshift__(PyObject *__pyx_v_self, PyObject *__pyx_v_material); /* proto */
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_8__enter__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_10set_array(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_arr); /* proto */
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_12get_arr(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4mesh___get__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self); /* proto */
 static int __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4mesh_2__set__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4mesh_4__del__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_12__reduce_cython__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_14__setstate_cython__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_14__reduce_cython__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_16__setstate_cython__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main___pyx_unpickle_Volume(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
@@ -4983,7 +4988,7 @@ static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
-static PyObject *__pyx_slice__24;
+static PyObject *__pyx_slice__25;
 static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
@@ -4998,22 +5003,170 @@ static PyObject *__pyx_tuple__20;
 static PyObject *__pyx_tuple__21;
 static PyObject *__pyx_tuple__22;
 static PyObject *__pyx_tuple__23;
-static PyObject *__pyx_tuple__25;
+static PyObject *__pyx_tuple__24;
 static PyObject *__pyx_tuple__26;
 static PyObject *__pyx_tuple__27;
 static PyObject *__pyx_tuple__28;
 static PyObject *__pyx_tuple__29;
-static PyObject *__pyx_tuple__31;
+static PyObject *__pyx_tuple__30;
 static PyObject *__pyx_tuple__32;
 static PyObject *__pyx_tuple__33;
 static PyObject *__pyx_tuple__34;
 static PyObject *__pyx_tuple__35;
 static PyObject *__pyx_tuple__36;
-static PyObject *__pyx_codeobj__30;
-static PyObject *__pyx_codeobj__37;
+static PyObject *__pyx_tuple__37;
+static PyObject *__pyx_codeobj__31;
+static PyObject *__pyx_codeobj__38;
 /* Late includes */
 
-/* "MontyCarlo/geometry/main.pyx":54
+/* "MontyCarlo/geometry/main.pyx":53
+ *     """
+ * 
+ *     def __init__(self, material = None):             # <<<<<<<<<<<<<<
+ *         if material is None:
+ *             raise RuntimeError("This volume has not been filled with a material.")
+ */
+
+/* Python wrapper */
+static int __pyx_pw_10MontyCarlo_8geometry_4main_6Volume_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_10MontyCarlo_8geometry_4main_6Volume_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_material = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_material,0};
+    PyObject* values[1] = {0};
+    values[0] = ((PyObject *)Py_None);
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_material);
+          if (value) { values[0] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 53, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_material = values[0];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 53, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("MontyCarlo.geometry.main.Volume.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return -1;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume___init__(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self), __pyx_v_material);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_10MontyCarlo_8geometry_4main_6Volume___init__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_material) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "MontyCarlo/geometry/main.pyx":54
+ * 
+ *     def __init__(self, material = None):
+ *         if material is None:             # <<<<<<<<<<<<<<
+ *             raise RuntimeError("This volume has not been filled with a material.")
+ * 
+ */
+  __pyx_t_1 = (__pyx_v_material == Py_None);
+  __pyx_t_2 = (__pyx_t_1 != 0);
+  if (unlikely(__pyx_t_2)) {
+
+    /* "MontyCarlo/geometry/main.pyx":55
+ *     def __init__(self, material = None):
+ *         if material is None:
+ *             raise RuntimeError("This volume has not been filled with a material.")             # <<<<<<<<<<<<<<
+ * 
+ *         self.material = material
+ */
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __PYX_ERR(0, 55, __pyx_L1_error)
+
+    /* "MontyCarlo/geometry/main.pyx":54
+ * 
+ *     def __init__(self, material = None):
+ *         if material is None:             # <<<<<<<<<<<<<<
+ *             raise RuntimeError("This volume has not been filled with a material.")
+ * 
+ */
+  }
+
+  /* "MontyCarlo/geometry/main.pyx":57
+ *             raise RuntimeError("This volume has not been filled with a material.")
+ * 
+ *         self.material = material             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  if (!(likely(((__pyx_v_material) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_material, __pyx_ptype_10MontyCarlo_9materials_9materials_Material))))) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_3 = __pyx_v_material;
+  __Pyx_INCREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_3);
+  __Pyx_GOTREF(__pyx_v_self->material);
+  __Pyx_DECREF(((PyObject *)__pyx_v_self->material));
+  __pyx_v_self->material = ((struct __pyx_obj_10MontyCarlo_9materials_9materials_Material *)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "MontyCarlo/geometry/main.pyx":53
+ *     """
+ * 
+ *     def __init__(self, material = None):             # <<<<<<<<<<<<<<
+ *         if material is None:
+ *             raise RuntimeError("This volume has not been filled with a material.")
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("MontyCarlo.geometry.main.Volume.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "MontyCarlo/geometry/main.pyx":63
  * 
  * 
  *     def fill(self, mat):             # <<<<<<<<<<<<<<
@@ -5022,20 +5175,20 @@ static PyObject *__pyx_codeobj__37;
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_1fill(PyObject *__pyx_v_self, PyObject *__pyx_v_mat); /*proto*/
-static char __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_fill[] = "Sets attribute `material`.\n        \n        Note:\n            This actually needs some work. It is important to check if the user has already\n            filled the volume and raise an exception if so. Also, if it hasn't filled the\n            volume. \n        ";
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_1fill(PyObject *__pyx_v_self, PyObject *__pyx_v_mat) {
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_3fill(PyObject *__pyx_v_self, PyObject *__pyx_v_mat); /*proto*/
+static char __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_2fill[] = "Sets attribute `material`.\n        \n        Note:\n            This actually needs some work. It is important to check if the user has already\n            filled the volume and raise an exception if so. Also, if it hasn't filled the\n            volume. \n        ";
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_3fill(PyObject *__pyx_v_self, PyObject *__pyx_v_mat) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("fill (wrapper)", 0);
-  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_fill(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self), ((PyObject *)__pyx_v_mat));
+  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_2fill(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self), ((PyObject *)__pyx_v_mat));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_fill(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_mat) {
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_2fill(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_mat) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5044,14 +5197,14 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_fill(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fill", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":63
+  /* "MontyCarlo/geometry/main.pyx":72
  *         """
  * 
  *         self.material = mat             # <<<<<<<<<<<<<<
  * 
  *     cdef bint move(self, STATE& state, double SP):
  */
-  if (!(likely(((__pyx_v_mat) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_mat, __pyx_ptype_10MontyCarlo_9materials_9materials_Material))))) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (!(likely(((__pyx_v_mat) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_mat, __pyx_ptype_10MontyCarlo_9materials_9materials_Material))))) __PYX_ERR(0, 72, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_mat;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -5060,7 +5213,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_fill(struct __pyx
   __pyx_v_self->material = ((struct __pyx_obj_10MontyCarlo_9materials_9materials_Material *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/geometry/main.pyx":54
+  /* "MontyCarlo/geometry/main.pyx":63
  * 
  * 
  *     def fill(self, mat):             # <<<<<<<<<<<<<<
@@ -5081,7 +5234,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_fill(struct __pyx
   return __pyx_r;
 }
 
-/* "MontyCarlo/geometry/main.pyx":65
+/* "MontyCarlo/geometry/main.pyx":74
  *         self.material = mat
  * 
  *     cdef bint move(self, STATE& state, double SP):             # <<<<<<<<<<<<<<
@@ -5098,20 +5251,20 @@ static int __pyx_f_10MontyCarlo_8geometry_4main_6Volume_move(CYTHON_UNUSED struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("move", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":69
+  /* "MontyCarlo/geometry/main.pyx":78
  *         """
  * 
  *         raise RuntimeError("`move` called from virtual.")             # <<<<<<<<<<<<<<
  * 
  *     cdef bint is_inside(self, double3& pos):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 69, __pyx_L1_error)
+  __PYX_ERR(0, 78, __pyx_L1_error)
 
-  /* "MontyCarlo/geometry/main.pyx":65
+  /* "MontyCarlo/geometry/main.pyx":74
  *         self.material = mat
  * 
  *     cdef bint move(self, STATE& state, double SP):             # <<<<<<<<<<<<<<
@@ -5128,7 +5281,7 @@ static int __pyx_f_10MontyCarlo_8geometry_4main_6Volume_move(CYTHON_UNUSED struc
   return __pyx_r;
 }
 
-/* "MontyCarlo/geometry/main.pyx":71
+/* "MontyCarlo/geometry/main.pyx":80
  *         raise RuntimeError("`move` called from virtual.")
  * 
  *     cdef bint is_inside(self, double3& pos):             # <<<<<<<<<<<<<<
@@ -5145,20 +5298,20 @@ static int __pyx_f_10MontyCarlo_8geometry_4main_6Volume_is_inside(CYTHON_UNUSED 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_inside", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":75
+  /* "MontyCarlo/geometry/main.pyx":84
  *         """
  * 
  *         raise RuntimeError("`is_inside` called from virtual in Volume")             # <<<<<<<<<<<<<<
  * 
  *     cdef double SDF(self, double3 pos):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 75, __pyx_L1_error)
+  __PYX_ERR(0, 84, __pyx_L1_error)
 
-  /* "MontyCarlo/geometry/main.pyx":71
+  /* "MontyCarlo/geometry/main.pyx":80
  *         raise RuntimeError("`move` called from virtual.")
  * 
  *     cdef bint is_inside(self, double3& pos):             # <<<<<<<<<<<<<<
@@ -5175,7 +5328,7 @@ static int __pyx_f_10MontyCarlo_8geometry_4main_6Volume_is_inside(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "MontyCarlo/geometry/main.pyx":77
+/* "MontyCarlo/geometry/main.pyx":86
  *         raise RuntimeError("`is_inside` called from virtual in Volume")
  * 
  *     cdef double SDF(self, double3 pos):             # <<<<<<<<<<<<<<
@@ -5192,20 +5345,20 @@ static double __pyx_f_10MontyCarlo_8geometry_4main_6Volume_SDF(CYTHON_UNUSED str
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("SDF", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":81
+  /* "MontyCarlo/geometry/main.pyx":90
  *         """
  * 
  *         raise RuntimeError("SDF FROM VOL WAS CALLED")             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 81, __pyx_L1_error)
+  __PYX_ERR(0, 90, __pyx_L1_error)
 
-  /* "MontyCarlo/geometry/main.pyx":77
+  /* "MontyCarlo/geometry/main.pyx":86
  *         raise RuntimeError("`is_inside` called from virtual in Volume")
  * 
  *     cdef double SDF(self, double3 pos):             # <<<<<<<<<<<<<<
@@ -5222,7 +5375,7 @@ static double __pyx_f_10MontyCarlo_8geometry_4main_6Volume_SDF(CYTHON_UNUSED str
   return __pyx_r;
 }
 
-/* "MontyCarlo/geometry/main.pyx":84
+/* "MontyCarlo/geometry/main.pyx":93
  * 
  * 
  *     cdef void depositLOCAL(self, double3& pos, double E):             # <<<<<<<<<<<<<<
@@ -5238,20 +5391,20 @@ static void __pyx_f_10MontyCarlo_8geometry_4main_6Volume_depositLOCAL(CYTHON_UNU
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositLOCAL", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":95
+  /* "MontyCarlo/geometry/main.pyx":104
  *         """
  * 
  *         raise RuntimeError("'depositLOCAL' called from its virtual in 'Volume' ")             # <<<<<<<<<<<<<<
  * 
  *     cdef void depositUNIFORM(self, STATE& state, double SP):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 95, __pyx_L1_error)
+  __PYX_ERR(0, 104, __pyx_L1_error)
 
-  /* "MontyCarlo/geometry/main.pyx":84
+  /* "MontyCarlo/geometry/main.pyx":93
  * 
  * 
  *     cdef void depositLOCAL(self, double3& pos, double E):             # <<<<<<<<<<<<<<
@@ -5266,7 +5419,7 @@ static void __pyx_f_10MontyCarlo_8geometry_4main_6Volume_depositLOCAL(CYTHON_UNU
   __Pyx_RefNannyFinishContext();
 }
 
-/* "MontyCarlo/geometry/main.pyx":97
+/* "MontyCarlo/geometry/main.pyx":106
  *         raise RuntimeError("'depositLOCAL' called from its virtual in 'Volume' ")
  * 
  *     cdef void depositUNIFORM(self, STATE& state, double SP):             # <<<<<<<<<<<<<<
@@ -5282,20 +5435,20 @@ static void __pyx_f_10MontyCarlo_8geometry_4main_6Volume_depositUNIFORM(CYTHON_U
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositUNIFORM", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":102
+  /* "MontyCarlo/geometry/main.pyx":111
  * 
  * 
  *         raise RuntimeError("depositUNIFORM called from Volume (virtual)")             # <<<<<<<<<<<<<<
  *         import time
  *         time.sleep(10_000)
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 102, __pyx_L1_error)
+  __PYX_ERR(0, 111, __pyx_L1_error)
 
-  /* "MontyCarlo/geometry/main.pyx":97
+  /* "MontyCarlo/geometry/main.pyx":106
  *         raise RuntimeError("'depositLOCAL' called from its virtual in 'Volume' ")
  * 
  *     cdef void depositUNIFORM(self, STATE& state, double SP):             # <<<<<<<<<<<<<<
@@ -5310,7 +5463,7 @@ static void __pyx_f_10MontyCarlo_8geometry_4main_6Volume_depositUNIFORM(CYTHON_U
   __Pyx_RefNannyFinishContext();
 }
 
-/* "MontyCarlo/geometry/main.pyx":106
+/* "MontyCarlo/geometry/main.pyx":115
  *         time.sleep(10_000)
  * 
  *     cdef void exit(self):             # <<<<<<<<<<<<<<
@@ -5326,20 +5479,20 @@ static void __pyx_f_10MontyCarlo_8geometry_4main_6Volume_exit(CYTHON_UNUSED stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("exit", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":110
+  /* "MontyCarlo/geometry/main.pyx":119
  *         """
  * 
  *         raise RuntimeError("EXIT CALLED FROM VIRTUAL 'Volume' ")             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 110, __pyx_L1_error)
+  __PYX_ERR(0, 119, __pyx_L1_error)
 
-  /* "MontyCarlo/geometry/main.pyx":106
+  /* "MontyCarlo/geometry/main.pyx":115
  *         time.sleep(10_000)
  * 
  *     cdef void exit(self):             # <<<<<<<<<<<<<<
@@ -5354,7 +5507,7 @@ static void __pyx_f_10MontyCarlo_8geometry_4main_6Volume_exit(CYTHON_UNUSED stru
   __Pyx_RefNannyFinishContext();
 }
 
-/* "MontyCarlo/geometry/main.pyx":113
+/* "MontyCarlo/geometry/main.pyx":122
  * 
  * 
  *     cdef void depositRANDOM(self, STATE& state, double E, double tau):             # <<<<<<<<<<<<<<
@@ -5370,20 +5523,20 @@ static void __pyx_f_10MontyCarlo_8geometry_4main_6Volume_depositRANDOM(CYTHON_UN
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("depositRANDOM", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":114
+  /* "MontyCarlo/geometry/main.pyx":123
  * 
  *     cdef void depositRANDOM(self, STATE& state, double E, double tau):
  *         raise RuntimeError("depositRANDOM CALLED FROM VIRTUAL 'Volume' ")             # <<<<<<<<<<<<<<
  * 
  *     def __gt__(self, other):
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 114, __pyx_L1_error)
+  __PYX_ERR(0, 123, __pyx_L1_error)
 
-  /* "MontyCarlo/geometry/main.pyx":113
+  /* "MontyCarlo/geometry/main.pyx":122
  * 
  * 
  *     cdef void depositRANDOM(self, STATE& state, double E, double tau):             # <<<<<<<<<<<<<<
@@ -5398,7 +5551,7 @@ static void __pyx_f_10MontyCarlo_8geometry_4main_6Volume_depositRANDOM(CYTHON_UN
   __Pyx_RefNannyFinishContext();
 }
 
-/* "MontyCarlo/geometry/main.pyx":116
+/* "MontyCarlo/geometry/main.pyx":125
  *         raise RuntimeError("depositRANDOM CALLED FROM VIRTUAL 'Volume' ")
  * 
  *     def __gt__(self, other):             # <<<<<<<<<<<<<<
@@ -5407,23 +5560,23 @@ static void __pyx_f_10MontyCarlo_8geometry_4main_6Volume_depositRANDOM(CYTHON_UN
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_3__gt__(PyObject *__pyx_v_self, PyObject *__pyx_v_other); /*proto*/
-static char __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_2__gt__[] = "Deprecated.\n        ";
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_5__gt__(PyObject *__pyx_v_self, PyObject *__pyx_v_other); /*proto*/
+static char __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_4__gt__[] = "Deprecated.\n        ";
 #if CYTHON_COMPILING_IN_CPYTHON
-struct wrapperbase __pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_2__gt__;
+struct wrapperbase __pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_4__gt__;
 #endif
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_3__gt__(PyObject *__pyx_v_self, PyObject *__pyx_v_other) {
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_5__gt__(PyObject *__pyx_v_self, PyObject *__pyx_v_other) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__gt__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_2__gt__(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self), ((PyObject *)__pyx_v_other));
+  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4__gt__(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self), ((PyObject *)__pyx_v_other));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_2__gt__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_other) {
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4__gt__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_other) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5434,77 +5587,77 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_2__gt__(struct __
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__gt__", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":119
+  /* "MontyCarlo/geometry/main.pyx":128
  *         """Deprecated.
  *         """
  *         self.tr.b.x = -other[0]             # <<<<<<<<<<<<<<
  *         self.tr.b.y = -other[1]
  *         self.tr.b.z = -other[2]
  */
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_other, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_other, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Negative(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Negative(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 128, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_tr); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_tr); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_b); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_b); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 128, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_t_3, __pyx_n_s_x, __pyx_t_2) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_t_3, __pyx_n_s_x, __pyx_t_2) < 0) __PYX_ERR(0, 128, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "MontyCarlo/geometry/main.pyx":120
+  /* "MontyCarlo/geometry/main.pyx":129
  *         """
  *         self.tr.b.x = -other[0]
  *         self.tr.b.y = -other[1]             # <<<<<<<<<<<<<<
  *         self.tr.b.z = -other[2]
  * 
  */
-  __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_other, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_other, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyNumber_Negative(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Negative(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_tr); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_tr); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_b); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_b); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_y, __pyx_t_2) < 0) __PYX_ERR(0, 120, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_t_1, __pyx_n_s_y, __pyx_t_2) < 0) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "MontyCarlo/geometry/main.pyx":121
+  /* "MontyCarlo/geometry/main.pyx":130
  *         self.tr.b.x = -other[0]
  *         self.tr.b.y = -other[1]
  *         self.tr.b.z = -other[2]             # <<<<<<<<<<<<<<
  * 
  *         self.mesh.translate(other)
  */
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_other, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_other, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_Negative(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Negative(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_tr); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_tr); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_b); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_b); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(__pyx_t_3, __pyx_n_s_z, __pyx_t_2) < 0) __PYX_ERR(0, 121, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_t_3, __pyx_n_s_z, __pyx_t_2) < 0) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "MontyCarlo/geometry/main.pyx":123
+  /* "MontyCarlo/geometry/main.pyx":132
  *         self.tr.b.z = -other[2]
  * 
  *         self.mesh.translate(other)             # <<<<<<<<<<<<<<
  *         return True
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->mesh, __pyx_n_s_translate); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->mesh, __pyx_n_s_translate); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5518,12 +5671,12 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_2__gt__(struct __
   }
   __pyx_t_3 = (__pyx_t_1) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_1, __pyx_v_other) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_other);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "MontyCarlo/geometry/main.pyx":124
+  /* "MontyCarlo/geometry/main.pyx":133
  * 
  *         self.mesh.translate(other)
  *         return True             # <<<<<<<<<<<<<<
@@ -5535,7 +5688,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_2__gt__(struct __
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "MontyCarlo/geometry/main.pyx":116
+  /* "MontyCarlo/geometry/main.pyx":125
  *         raise RuntimeError("depositRANDOM CALLED FROM VIRTUAL 'Volume' ")
  * 
  *     def __gt__(self, other):             # <<<<<<<<<<<<<<
@@ -5556,7 +5709,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_2__gt__(struct __
   return __pyx_r;
 }
 
-/* "MontyCarlo/geometry/main.pyx":126
+/* "MontyCarlo/geometry/main.pyx":135
  *         return True
  * 
  *     def __lshift__(self, material):             # <<<<<<<<<<<<<<
@@ -5565,23 +5718,23 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_2__gt__(struct __
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_5__lshift__(PyObject *__pyx_v_self, PyObject *__pyx_v_material); /*proto*/
-static char __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_4__lshift__[] = "Deprecated.\n        ";
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_7__lshift__(PyObject *__pyx_v_self, PyObject *__pyx_v_material); /*proto*/
+static char __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_6__lshift__[] = "Deprecated.\n        ";
 #if CYTHON_COMPILING_IN_CPYTHON
-struct wrapperbase __pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_4__lshift__;
+struct wrapperbase __pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_6__lshift__;
 #endif
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_5__lshift__(PyObject *__pyx_v_self, PyObject *__pyx_v_material) {
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_7__lshift__(PyObject *__pyx_v_self, PyObject *__pyx_v_material) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__lshift__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4__lshift__(((PyObject *)__pyx_v_self), ((PyObject *)__pyx_v_material));
+  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_6__lshift__(((PyObject *)__pyx_v_self), ((PyObject *)__pyx_v_material));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4__lshift__(PyObject *__pyx_v_self, PyObject *__pyx_v_material) {
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_6__lshift__(PyObject *__pyx_v_self, PyObject *__pyx_v_material) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5592,14 +5745,14 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4__lshift__(PyObj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__lshift__", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":129
+  /* "MontyCarlo/geometry/main.pyx":138
  *         """Deprecated.
  *         """
  *         self.fill(material)             # <<<<<<<<<<<<<<
  * 
  *     def __enter__(self):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_fill); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_fill); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -5613,12 +5766,12 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4__lshift__(PyObj
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_material) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_material);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "MontyCarlo/geometry/main.pyx":126
+  /* "MontyCarlo/geometry/main.pyx":135
  *         return True
  * 
  *     def __lshift__(self, material):             # <<<<<<<<<<<<<<
@@ -5641,7 +5794,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4__lshift__(PyObj
   return __pyx_r;
 }
 
-/* "MontyCarlo/geometry/main.pyx":131
+/* "MontyCarlo/geometry/main.pyx":140
  *         self.fill(material)
  * 
  *     def __enter__(self):             # <<<<<<<<<<<<<<
@@ -5650,24 +5803,24 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4__lshift__(PyObj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_7__enter__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_7__enter__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_9__enter__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_9__enter__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__enter__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_6__enter__(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_8__enter__(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_6__enter__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self) {
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_8__enter__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__enter__", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":132
+  /* "MontyCarlo/geometry/main.pyx":141
  * 
  *     def __enter__(self):
  *         return self             # <<<<<<<<<<<<<<
@@ -5679,7 +5832,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_6__enter__(struct
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "MontyCarlo/geometry/main.pyx":131
+  /* "MontyCarlo/geometry/main.pyx":140
  *         self.fill(material)
  * 
  *     def __enter__(self):             # <<<<<<<<<<<<<<
@@ -5694,7 +5847,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_6__enter__(struct
   return __pyx_r;
 }
 
-/* "MontyCarlo/geometry/main.pyx":134
+/* "MontyCarlo/geometry/main.pyx":143
  *         return self
  * 
  *     cdef void depositLocaly(self, double3 pos, double E):             # <<<<<<<<<<<<<<
@@ -5710,7 +5863,7 @@ static void __pyx_f_10MontyCarlo_8geometry_4main_6Volume_depositLocaly(CYTHON_UN
   __Pyx_RefNannyFinishContext();
 }
 
-/* "MontyCarlo/geometry/main.pyx":140
+/* "MontyCarlo/geometry/main.pyx":149
  * 
  * 
  *     def set_array(self, arr):             # <<<<<<<<<<<<<<
@@ -5719,20 +5872,20 @@ static void __pyx_f_10MontyCarlo_8geometry_4main_6Volume_depositLocaly(CYTHON_UN
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_9set_array(PyObject *__pyx_v_self, PyObject *__pyx_v_arr); /*proto*/
-static char __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_8set_array[] = "Deprecated.\n        ";
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_9set_array(PyObject *__pyx_v_self, PyObject *__pyx_v_arr) {
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_11set_array(PyObject *__pyx_v_self, PyObject *__pyx_v_arr); /*proto*/
+static char __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_10set_array[] = "Deprecated.\n        ";
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_11set_array(PyObject *__pyx_v_self, PyObject *__pyx_v_arr) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("set_array (wrapper)", 0);
-  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_8set_array(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self), ((PyObject *)__pyx_v_arr));
+  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_10set_array(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self), ((PyObject *)__pyx_v_arr));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_8set_array(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_arr) {
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_10set_array(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v_arr) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5741,14 +5894,14 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_8set_array(struct
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_array", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":143
+  /* "MontyCarlo/geometry/main.pyx":152
  *         """Deprecated.
  *         """
  *         self.voxels = arr             # <<<<<<<<<<<<<<
  * 
  *     def get_arr(self):
  */
-  if (!(likely(((__pyx_v_arr) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_arr, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 143, __pyx_L1_error)
+  if (!(likely(((__pyx_v_arr) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_arr, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 152, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_arr;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -5757,7 +5910,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_8set_array(struct
   __pyx_v_self->voxels = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "MontyCarlo/geometry/main.pyx":140
+  /* "MontyCarlo/geometry/main.pyx":149
  * 
  * 
  *     def set_array(self, arr):             # <<<<<<<<<<<<<<
@@ -5778,7 +5931,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_8set_array(struct
   return __pyx_r;
 }
 
-/* "MontyCarlo/geometry/main.pyx":145
+/* "MontyCarlo/geometry/main.pyx":154
  *         self.voxels = arr
  * 
  *     def get_arr(self):             # <<<<<<<<<<<<<<
@@ -5787,25 +5940,25 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_8set_array(struct
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_11get_arr(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_10get_arr[] = "Deprecated.\n        ";
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_11get_arr(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_13get_arr(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_12get_arr[] = "Deprecated.\n        ";
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_13get_arr(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_arr (wrapper)", 0);
-  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_10get_arr(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_12get_arr(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_10get_arr(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self) {
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_12get_arr(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_arr", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":148
+  /* "MontyCarlo/geometry/main.pyx":157
  *         """Deprecated.
  *         """
  *         return self.voxels             # <<<<<<<<<<<<<<
@@ -5817,7 +5970,7 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_10get_arr(struct 
   __pyx_r = ((PyObject *)__pyx_v_self->voxels);
   goto __pyx_L0;
 
-  /* "MontyCarlo/geometry/main.pyx":145
+  /* "MontyCarlo/geometry/main.pyx":154
  *         self.voxels = arr
  * 
  *     def get_arr(self):             # <<<<<<<<<<<<<<
@@ -5832,9 +5985,9 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_10get_arr(struct 
   return __pyx_r;
 }
 
-/* "MontyCarlo/geometry/main.pxd":16
+/* "MontyCarlo/geometry/main.pxd":15
+ * cimport numpy as cnp
  * cdef class Volume:
- *     #cdef TRANSFORM tr
  *     cdef public object mesh             # <<<<<<<<<<<<<<
  *     cdef double x, y, z
  *     cdef bint opaque
@@ -5934,19 +6087,19 @@ static int __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_4mesh_4__del__(struct _
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_13__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_13__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_15__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_15__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_12__reduce_cython__(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_14__reduce_cython__(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_12__reduce_cython__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self) {
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_14__reduce_cython__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -6227,19 +6380,19 @@ static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_12__reduce_cython
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_15__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_15__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_17__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_17__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_14__setstate_cython__(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_10MontyCarlo_8geometry_4main_6Volume_16__setstate_cython__(((struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_14__setstate_cython__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_10MontyCarlo_8geometry_4main_6Volume_16__setstate_cython__(struct __pyx_obj_10MontyCarlo_8geometry_4main_Volume *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7280,7 +7433,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 947, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 947, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -7412,7 +7565,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 953, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 953, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -7544,7 +7697,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  * 
  * cdef extern from *:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 959, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 959, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -7968,7 +8121,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if itemsize <= 0:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 133, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8000,7 +8153,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if not isinstance(format, bytes):
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 136, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 136, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8127,7 +8280,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8401,7 +8554,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *             if self.dtype_is_object:
  */
-      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 176, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 176, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_Raise(__pyx_t_10, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -8645,7 +8798,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(stru
  *         info.buf = self.data
  *         info.len = self.len
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 192, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 192, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -9379,7 +9532,7 @@ static PyObject *__pyx_pf___pyx_array___reduce_cython__(CYTHON_UNUSED struct __p
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9435,7 +9588,7 @@ static PyObject *__pyx_pf___pyx_array_2__setstate_cython__(CYTHON_UNUSED struct 
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -11145,7 +11298,7 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
  * 
  *         have_slices, index = _unellipsify(index, self.view.ndim)
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 418, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 418, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -12193,7 +12346,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  *         else:
  *             if len(self.view.format) == 1:
  */
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 495, __pyx_L5_except_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 495, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_Raise(__pyx_t_6, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -12555,7 +12708,7 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_8__getbu
  * 
  *         if flags & PyBUF_ND:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 520, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 520, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -13104,7 +13257,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(st
  * 
  *         return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 570, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 570, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -13221,7 +13374,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get_
     __Pyx_XDECREF(__pyx_r);
     __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->view.ndim); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 577, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__21, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 577, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__22, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 577, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_r = __pyx_t_3;
@@ -14259,7 +14412,7 @@ static PyObject *__pyx_pf___pyx_memoryview___reduce_cython__(CYTHON_UNUSED struc
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -14315,7 +14468,7 @@ static PyObject *__pyx_pf___pyx_memoryview_2__setstate_cython__(CYTHON_UNUSED st
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -14672,9 +14825,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
         __Pyx_GOTREF(__pyx_t_7);
         { Py_ssize_t __pyx_temp;
           for (__pyx_temp=0; __pyx_temp < ((__pyx_v_ndim - __pyx_t_8) + 1); __pyx_temp++) {
-            __Pyx_INCREF(__pyx_slice__24);
-            __Pyx_GIVEREF(__pyx_slice__24);
-            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__24);
+            __Pyx_INCREF(__pyx_slice__25);
+            __Pyx_GIVEREF(__pyx_slice__25);
+            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__25);
           }
         }
         __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_7); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 682, __pyx_L1_error)
@@ -14707,7 +14860,7 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
  *         else:
  */
       /*else*/ {
-        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__24); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 685, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__25); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 685, __pyx_L1_error)
       }
       __pyx_L7:;
 
@@ -14847,9 +15000,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
     __Pyx_GOTREF(__pyx_t_3);
     { Py_ssize_t __pyx_temp;
       for (__pyx_temp=0; __pyx_temp < __pyx_v_nslices; __pyx_temp++) {
-        __Pyx_INCREF(__pyx_slice__24);
-        __Pyx_GIVEREF(__pyx_slice__24);
-        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__24);
+        __Pyx_INCREF(__pyx_slice__25);
+        __Pyx_GIVEREF(__pyx_slice__25);
+        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__25);
       }
     }
     __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_3); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 696, __pyx_L1_error)
@@ -14976,7 +15129,7 @@ static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __
  * 
  * 
  */
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 703, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 703, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -17160,7 +17313,7 @@ static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED 
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17216,7 +17369,7 @@ static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUS
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -20856,7 +21009,7 @@ static int __pyx_tp_clear_10MontyCarlo_8geometry_4main_Volume(PyObject *o) {
 static PyObject *__pyx_tp_richcompare_10MontyCarlo_8geometry_4main_Volume(PyObject *o1, PyObject *o2, int op) {
   switch (op) {
     case Py_GT: {
-      return __pyx_pw_10MontyCarlo_8geometry_4main_6Volume_3__gt__(o1, o2);
+      return __pyx_pw_10MontyCarlo_8geometry_4main_6Volume_5__gt__(o1, o2);
     }
     default: {
       return __Pyx_NewRef(Py_NotImplemented);
@@ -20878,12 +21031,12 @@ static int __pyx_setprop_10MontyCarlo_8geometry_4main_6Volume_mesh(PyObject *o, 
 }
 
 static PyMethodDef __pyx_methods_10MontyCarlo_8geometry_4main_Volume[] = {
-  {"fill", (PyCFunction)__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_1fill, METH_O, __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_fill},
-  {"__enter__", (PyCFunction)__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_7__enter__, METH_NOARGS, 0},
-  {"set_array", (PyCFunction)__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_9set_array, METH_O, __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_8set_array},
-  {"get_arr", (PyCFunction)__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_11get_arr, METH_NOARGS, __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_10get_arr},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_13__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_15__setstate_cython__, METH_O, 0},
+  {"fill", (PyCFunction)__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_3fill, METH_O, __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_2fill},
+  {"__enter__", (PyCFunction)__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_9__enter__, METH_NOARGS, 0},
+  {"set_array", (PyCFunction)__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_11set_array, METH_O, __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_10set_array},
+  {"get_arr", (PyCFunction)__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_13get_arr, METH_NOARGS, __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_12get_arr},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_15__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_10MontyCarlo_8geometry_4main_6Volume_17__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -20907,7 +21060,7 @@ static PyNumberMethods __pyx_tp_as_number_Volume = {
   0, /*nb_absolute*/
   0, /*nb_nonzero*/
   0, /*nb_invert*/
-  __pyx_pw_10MontyCarlo_8geometry_4main_6Volume_5__lshift__, /*nb_lshift*/
+  __pyx_pw_10MontyCarlo_8geometry_4main_6Volume_7__lshift__, /*nb_lshift*/
   0, /*nb_rshift*/
   0, /*nb_and*/
   0, /*nb_xor*/
@@ -21000,7 +21153,7 @@ static PyTypeObject __pyx_type_10MontyCarlo_8geometry_4main_Volume = {
   0, /*tp_descr_get*/
   0, /*tp_descr_set*/
   0, /*tp_dictoffset*/
-  0, /*tp_init*/
+  __pyx_pw_10MontyCarlo_8geometry_4main_6Volume_1__init__, /*tp_init*/
   0, /*tp_alloc*/
   __pyx_tp_new_10MontyCarlo_8geometry_4main_Volume, /*tp_new*/
   0, /*tp_free*/
@@ -21812,6 +21965,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_Rui_Campos, __pyx_k_Rui_Campos, sizeof(__pyx_k_Rui_Campos), 0, 1, 0, 0},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
   {&__pyx_kp_u_SDF_FROM_VOL_WAS_CALLED, __pyx_k_SDF_FROM_VOL_WAS_CALLED, sizeof(__pyx_k_SDF_FROM_VOL_WAS_CALLED), 0, 1, 0, 0},
+  {&__pyx_kp_u_This_volume_has_not_been_filled, __pyx_k_This_volume_has_not_been_filled, sizeof(__pyx_k_This_volume_has_not_been_filled), 0, 1, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_kp_s_Unable_to_convert_item_to_object, __pyx_k_Unable_to_convert_item_to_object, sizeof(__pyx_k_Unable_to_convert_item_to_object), 0, 0, 1, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
@@ -21849,6 +22003,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
+  {&__pyx_n_s_material, __pyx_k_material, sizeof(__pyx_k_material), 0, 0, 1, 1},
   {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
   {&__pyx_kp_u_move_called_from_virtual, __pyx_k_move_called_from_virtual, sizeof(__pyx_k_move_called_from_virtual), 0, 1, 0, 0},
@@ -21906,7 +22061,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(0, 9, __pyx_L1_error)
-  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(0, 55, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 947, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 148, __pyx_L1_error)
@@ -21925,82 +22080,93 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "MontyCarlo/geometry/main.pyx":69
+  /* "MontyCarlo/geometry/main.pyx":55
+ *     def __init__(self, material = None):
+ *         if material is None:
+ *             raise RuntimeError("This volume has not been filled with a material.")             # <<<<<<<<<<<<<<
+ * 
+ *         self.material = material
+ */
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_This_volume_has_not_been_filled); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple_);
+  __Pyx_GIVEREF(__pyx_tuple_);
+
+  /* "MontyCarlo/geometry/main.pyx":78
  *         """
  * 
  *         raise RuntimeError("`move` called from virtual.")             # <<<<<<<<<<<<<<
  * 
  *     cdef bint is_inside(self, double3& pos):
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_move_called_from_virtual); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 69, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple_);
-  __Pyx_GIVEREF(__pyx_tuple_);
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_move_called_from_virtual); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "MontyCarlo/geometry/main.pyx":75
+  /* "MontyCarlo/geometry/main.pyx":84
  *         """
  * 
  *         raise RuntimeError("`is_inside` called from virtual in Volume")             # <<<<<<<<<<<<<<
  * 
  *     cdef double SDF(self, double3 pos):
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_is_inside_called_from_virtual_i); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 75, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_is_inside_called_from_virtual_i); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "MontyCarlo/geometry/main.pyx":81
+  /* "MontyCarlo/geometry/main.pyx":90
  *         """
  * 
  *         raise RuntimeError("SDF FROM VOL WAS CALLED")             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_SDF_FROM_VOL_WAS_CALLED); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 81, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__3);
-  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_SDF_FROM_VOL_WAS_CALLED); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "MontyCarlo/geometry/main.pyx":95
+  /* "MontyCarlo/geometry/main.pyx":104
  *         """
  * 
  *         raise RuntimeError("'depositLOCAL' called from its virtual in 'Volume' ")             # <<<<<<<<<<<<<<
  * 
  *     cdef void depositUNIFORM(self, STATE& state, double SP):
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_depositLOCAL_called_from_its_vi); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 95, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_depositLOCAL_called_from_its_vi); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "MontyCarlo/geometry/main.pyx":102
+  /* "MontyCarlo/geometry/main.pyx":111
  * 
  * 
  *         raise RuntimeError("depositUNIFORM called from Volume (virtual)")             # <<<<<<<<<<<<<<
  *         import time
  *         time.sleep(10_000)
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_depositUNIFORM_called_from_Volum); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 102, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_depositUNIFORM_called_from_Volum); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "MontyCarlo/geometry/main.pyx":110
+  /* "MontyCarlo/geometry/main.pyx":119
  *         """
  * 
  *         raise RuntimeError("EXIT CALLED FROM VIRTUAL 'Volume' ")             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_EXIT_CALLED_FROM_VIRTUAL_Volume); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 110, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_EXIT_CALLED_FROM_VIRTUAL_Volume); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "MontyCarlo/geometry/main.pyx":114
+  /* "MontyCarlo/geometry/main.pyx":123
  * 
  *     cdef void depositRANDOM(self, STATE& state, double E, double tau):
  *         raise RuntimeError("depositRANDOM CALLED FROM VIRTUAL 'Volume' ")             # <<<<<<<<<<<<<<
  * 
  *     def __gt__(self, other):
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_depositRANDOM_CALLED_FROM_VIRTUA); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 114, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_depositRANDOM_CALLED_FROM_VIRTUA); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
   /* "../../miniconda3/envs/cp39.myco/lib/python3.9/site-packages/numpy/__init__.pxd":947
  *         __pyx_import_array()
@@ -22009,9 +22175,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(2, 947, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(2, 947, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
   /* "../../miniconda3/envs/cp39.myco/lib/python3.9/site-packages/numpy/__init__.pxd":953
  *         _import_umath()
@@ -22020,9 +22186,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(2, 953, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(2, 953, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
 
   /* "View.MemoryView":133
  * 
@@ -22031,9 +22197,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if itemsize <= 0:
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(1, 133, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(1, 133, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
 
   /* "View.MemoryView":136
  * 
@@ -22042,9 +22208,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if not isinstance(format, bytes):
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(1, 136, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(1, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
   /* "View.MemoryView":148
  * 
@@ -22053,9 +22219,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(1, 148, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(1, 148, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
   /* "View.MemoryView":176
  *             self.data = <char *>malloc(self.len)
@@ -22064,9 +22230,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *             if self.dtype_is_object:
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(1, 176, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(1, 176, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
 
   /* "View.MemoryView":192
  *             bufmode = PyBUF_F_CONTIGUOUS | PyBUF_ANY_CONTIGUOUS
@@ -22075,9 +22241,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         info.buf = self.data
  *         info.len = self.len
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(1, 192, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(1, 192, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -22085,18 +22251,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
   /* "View.MemoryView":418
  *     def __setitem__(memoryview self, object index, object value):
@@ -22105,9 +22271,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         have_slices, index = _unellipsify(index, self.view.ndim)
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_Cannot_assign_to_read_only_memor); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(1, 418, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_Cannot_assign_to_read_only_memor); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(1, 418, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
 
   /* "View.MemoryView":495
  *             result = struct.unpack(self.view.format, bytesitem)
@@ -22116,9 +22282,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         else:
  *             if len(self.view.format) == 1:
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(1, 495, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__18);
-  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(1, 495, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
 
   /* "View.MemoryView":520
  *     def __getbuffer__(self, Py_buffer *info, int flags):
@@ -22127,9 +22293,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if flags & PyBUF_ND:
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_Cannot_create_writable_memory_vi); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(1, 520, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_Cannot_create_writable_memory_vi); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 520, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
 
   /* "View.MemoryView":570
  *         if self.view.strides == NULL:
@@ -22138,9 +22304,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 570, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(1, 570, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
 
   /* "View.MemoryView":577
  *     def suboffsets(self):
@@ -22149,12 +22315,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([suboffset for suboffset in self.view.suboffsets[:self.view.ndim]])
  */
-  __pyx_tuple__21 = PyTuple_New(1); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(1, 577, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__21);
+  __pyx_tuple__22 = PyTuple_New(1); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(1, 577, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_INCREF(__pyx_int_neg_1);
   __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyTuple_SET_ITEM(__pyx_tuple__21, 0, __pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_tuple__21);
+  PyTuple_SET_ITEM(__pyx_tuple__22, 0, __pyx_int_neg_1);
+  __Pyx_GIVEREF(__pyx_tuple__22);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -22162,18 +22328,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
 
   /* "View.MemoryView":682
  *         if item is Ellipsis:
@@ -22182,9 +22348,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *                 seen_ellipsis = True
  *             else:
  */
-  __pyx_slice__24 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__24)) __PYX_ERR(1, 682, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__24);
-  __Pyx_GIVEREF(__pyx_slice__24);
+  __pyx_slice__25 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__25)) __PYX_ERR(1, 682, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__25);
+  __Pyx_GIVEREF(__pyx_slice__25);
 
   /* "View.MemoryView":703
  *     for suboffset in suboffsets[:ndim]:
@@ -22193,9 +22359,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(1, 703, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(1, 703, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -22203,18 +22369,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
+  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
 
   /* "MontyCarlo/geometry/main.pyx":9
  * __author__ = "Rui Campos"
@@ -22223,19 +22389,19 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_u_Importing_geometry_main); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(0, 9, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__28);
-  __Pyx_GIVEREF(__pyx_tuple__28);
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_u_Importing_geometry_main); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Volume(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__29 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Volume, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__30);
+  __Pyx_GIVEREF(__pyx_tuple__30);
+  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Volume, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(1, 1, __pyx_L1_error)
 
   /* "View.MemoryView":286
  *         return self.name
@@ -22244,9 +22410,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(1, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__31);
-  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__32);
+  __Pyx_GIVEREF(__pyx_tuple__32);
 
   /* "View.MemoryView":287
  * 
@@ -22255,9 +22421,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 287, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__32);
-  __Pyx_GIVEREF(__pyx_tuple__32);
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
 
   /* "View.MemoryView":288
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -22266,9 +22432,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(1, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(1, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__34);
+  __Pyx_GIVEREF(__pyx_tuple__34);
 
   /* "View.MemoryView":291
  * 
@@ -22277,9 +22443,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__34 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(1, 291, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__34);
-  __Pyx_GIVEREF(__pyx_tuple__34);
+  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(1, 291, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
 
   /* "View.MemoryView":292
  * 
@@ -22288,19 +22454,19 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(1, 292, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__35);
-  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(1, 292, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__36);
+  __Pyx_GIVEREF(__pyx_tuple__36);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Enum(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__36 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__36);
-  __Pyx_GIVEREF(__pyx_tuple__36);
-  __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__37 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__37);
+  __Pyx_GIVEREF(__pyx_tuple__37);
+  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -22384,9 +22550,9 @@ static int __Pyx_modinit_type_init_code(void) {
   {
     PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_10MontyCarlo_8geometry_4main_Volume, "__gt__"); if (unlikely(!wrapper)) __PYX_ERR(0, 48, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
-      __pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_2__gt__ = *((PyWrapperDescrObject *)wrapper)->d_base;
-      __pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_2__gt__.doc = __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_2__gt__;
-      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_2__gt__;
+      __pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_4__gt__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_4__gt__.doc = __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_4__gt__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_4__gt__;
     }
   }
   #endif
@@ -22394,9 +22560,9 @@ static int __Pyx_modinit_type_init_code(void) {
   {
     PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_10MontyCarlo_8geometry_4main_Volume, "__lshift__"); if (unlikely(!wrapper)) __PYX_ERR(0, 48, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
-      __pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_4__lshift__ = *((PyWrapperDescrObject *)wrapper)->d_base;
-      __pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_4__lshift__.doc = __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_4__lshift__;
-      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_4__lshift__;
+      __pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_6__lshift__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_6__lshift__.doc = __pyx_doc_10MontyCarlo_8geometry_4main_6Volume_6__lshift__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_10MontyCarlo_8geometry_4main_6Volume_6__lshift__;
     }
   }
   #endif
@@ -23003,7 +23169,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -23089,7 +23255,7 @@ if (!__Pyx_RefNanny) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_2);
@@ -23103,7 +23269,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_2);
@@ -23117,7 +23283,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 288, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__34, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_2);
@@ -23131,7 +23297,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__34, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 291, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_2);
@@ -23145,7 +23311,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 292, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_2);
@@ -23293,17 +23459,146 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
     return result;
 }
 
-/* ExtTypeTest */
-static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
+/* RaiseDoubleKeywords */
+static void __Pyx_RaiseDoubleKeywordsError(
+    const char* func_name,
+    PyObject* kw_name)
+{
+    PyErr_Format(PyExc_TypeError,
+        #if PY_MAJOR_VERSION >= 3
+        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
+        #else
+        "%s() got multiple values for keyword argument '%s'", func_name,
+        PyString_AsString(kw_name));
+        #endif
+}
+
+/* ParseKeywords */
+static int __Pyx_ParseOptionalKeywords(
+    PyObject *kwds,
+    PyObject **argnames[],
+    PyObject *kwds2,
+    PyObject *values[],
+    Py_ssize_t num_pos_args,
+    const char* function_name)
+{
+    PyObject *key = 0, *value = 0;
+    Py_ssize_t pos = 0;
+    PyObject*** name;
+    PyObject*** first_kw_arg = argnames + num_pos_args;
+    while (PyDict_Next(kwds, &pos, &key, &value)) {
+        name = first_kw_arg;
+        while (*name && (**name != key)) name++;
+        if (*name) {
+            values[name-argnames] = value;
+            continue;
+        }
+        name = first_kw_arg;
+        #if PY_MAJOR_VERSION < 3
+        if (likely(PyString_Check(key))) {
+            while (*name) {
+                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
+                        && _PyString_Eq(**name, key)) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    if ((**argname == key) || (
+                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
+                             && _PyString_Eq(**argname, key))) {
+                        goto arg_passed_twice;
+                    }
+                    argname++;
+                }
+            }
+        } else
+        #endif
+        if (likely(PyUnicode_Check(key))) {
+            while (*name) {
+                int cmp = (**name == key) ? 0 :
+                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                    (__Pyx_PyUnicode_GET_LENGTH(**name) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
+                #endif
+                    PyUnicode_Compare(**name, key);
+                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                if (cmp == 0) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    int cmp = (**argname == key) ? 0 :
+                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                        (__Pyx_PyUnicode_GET_LENGTH(**argname) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
+                    #endif
+                        PyUnicode_Compare(**argname, key);
+                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                    if (cmp == 0) goto arg_passed_twice;
+                    argname++;
+                }
+            }
+        } else
+            goto invalid_keyword_type;
+        if (kwds2) {
+            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
+        } else {
+            goto invalid_keyword;
+        }
     }
-    if (likely(__Pyx_TypeCheck(obj, type)))
-        return 1;
-    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
-                 Py_TYPE(obj)->tp_name, type->tp_name);
     return 0;
+arg_passed_twice:
+    __Pyx_RaiseDoubleKeywordsError(function_name, key);
+    goto bad;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    goto bad;
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+bad:
+    return -1;
+}
+
+/* RaiseArgTupleInvalid */
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
+    } else {
+        num_expected = num_max;
+        more_or_less = "at most";
+    }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
 }
 
 /* PyObjectCall */
@@ -23508,6 +23803,19 @@ bad:
     return;
 }
 #endif
+
+/* ExtTypeTest */
+static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
+    }
+    if (likely(__Pyx_TypeCheck(obj, type)))
+        return 1;
+    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
+                 Py_TYPE(obj)->tp_name, type->tp_name);
+    return 0;
+}
 
 /* WriteUnraisableException */
 static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
@@ -23995,148 +24303,6 @@ static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
     PyErr_Clear();
 #endif
     return __Pyx_GetBuiltinName(name);
-}
-
-/* RaiseArgTupleInvalid */
-static void __Pyx_RaiseArgtupleInvalid(
-    const char* func_name,
-    int exact,
-    Py_ssize_t num_min,
-    Py_ssize_t num_max,
-    Py_ssize_t num_found)
-{
-    Py_ssize_t num_expected;
-    const char *more_or_less;
-    if (num_found < num_min) {
-        num_expected = num_min;
-        more_or_less = "at least";
-    } else {
-        num_expected = num_max;
-        more_or_less = "at most";
-    }
-    if (exact) {
-        more_or_less = "exactly";
-    }
-    PyErr_Format(PyExc_TypeError,
-                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
-                 func_name, more_or_less, num_expected,
-                 (num_expected == 1) ? "" : "s", num_found);
-}
-
-/* RaiseDoubleKeywords */
-static void __Pyx_RaiseDoubleKeywordsError(
-    const char* func_name,
-    PyObject* kw_name)
-{
-    PyErr_Format(PyExc_TypeError,
-        #if PY_MAJOR_VERSION >= 3
-        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
-        #else
-        "%s() got multiple values for keyword argument '%s'", func_name,
-        PyString_AsString(kw_name));
-        #endif
-}
-
-/* ParseKeywords */
-static int __Pyx_ParseOptionalKeywords(
-    PyObject *kwds,
-    PyObject **argnames[],
-    PyObject *kwds2,
-    PyObject *values[],
-    Py_ssize_t num_pos_args,
-    const char* function_name)
-{
-    PyObject *key = 0, *value = 0;
-    Py_ssize_t pos = 0;
-    PyObject*** name;
-    PyObject*** first_kw_arg = argnames + num_pos_args;
-    while (PyDict_Next(kwds, &pos, &key, &value)) {
-        name = first_kw_arg;
-        while (*name && (**name != key)) name++;
-        if (*name) {
-            values[name-argnames] = value;
-            continue;
-        }
-        name = first_kw_arg;
-        #if PY_MAJOR_VERSION < 3
-        if (likely(PyString_Check(key))) {
-            while (*name) {
-                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
-                        && _PyString_Eq(**name, key)) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    if ((**argname == key) || (
-                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
-                             && _PyString_Eq(**argname, key))) {
-                        goto arg_passed_twice;
-                    }
-                    argname++;
-                }
-            }
-        } else
-        #endif
-        if (likely(PyUnicode_Check(key))) {
-            while (*name) {
-                int cmp = (**name == key) ? 0 :
-                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                    (__Pyx_PyUnicode_GET_LENGTH(**name) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
-                #endif
-                    PyUnicode_Compare(**name, key);
-                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                if (cmp == 0) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    int cmp = (**argname == key) ? 0 :
-                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                        (__Pyx_PyUnicode_GET_LENGTH(**argname) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
-                    #endif
-                        PyUnicode_Compare(**argname, key);
-                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                    if (cmp == 0) goto arg_passed_twice;
-                    argname++;
-                }
-            }
-        } else
-            goto invalid_keyword_type;
-        if (kwds2) {
-            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
-        } else {
-            goto invalid_keyword;
-        }
-    }
-    return 0;
-arg_passed_twice:
-    __Pyx_RaiseDoubleKeywordsError(function_name, key);
-    goto bad;
-invalid_keyword_type:
-    PyErr_Format(PyExc_TypeError,
-        "%.200s() keywords must be strings", function_name);
-    goto bad;
-invalid_keyword:
-    PyErr_Format(PyExc_TypeError,
-    #if PY_MAJOR_VERSION < 3
-        "%.200s() got an unexpected keyword argument '%.200s'",
-        function_name, PyString_AsString(key));
-    #else
-        "%s() got an unexpected keyword argument '%U'",
-        function_name, key);
-    #endif
-bad:
-    return -1;
 }
 
 /* Import */

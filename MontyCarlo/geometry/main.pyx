@@ -49,6 +49,15 @@ cdef class Volume:
     """Abstract class that dictates the minimum functionality that any geometry implementation needs
     to be compatible with the physics engine.
     """
+
+    def __init__(self, material = None):
+        if material is None:
+            raise RuntimeError("This volume has not been filled with a material.")
+
+        self.material = material
+
+
+        
     
     
     def fill(self, mat):

@@ -6,8 +6,14 @@ print("Importing `.geometry.CSG`")
 DEF VERBOSE = False
 DEF VERBOSE_TALLY = False
 DEF DEBUG_MODE = False
+DEF PRINT = True
 
-def input(x): print(x)
+IF PRINT:
+	def input(x): print(x)
+
+
+
+
 
 from libcpp.vector cimport vector
 from libcpp.list cimport list as cpplist;
@@ -82,28 +88,6 @@ cdef str string(STATE state):
 
 
 
-
-#cdef class Proxy(CSGvol):
-#	cdef intLIST crosses
-#	cdef cpplist[Interval] it
-#	cdef void* vol
-#	cdef double particle_position
-#
-#
-#	def __init__(self, vol):
-#		self.vol = <void*> vol
-#		self.is_proxy = True
-#
-#	cdef double localSDF(self, STATE& state):
-#		self.particle_position += state.last_displacement
-#
-#
-#
-#
-#	cdef double SDF(self, double3 pos):
-#		pass
-
-
 def lock(msg):
 	def _lock(method):
 		def new_method(self, *args, **kwargs):
@@ -118,11 +102,10 @@ def lock(msg):
 
 
 
-
-
-cdef int BOUNDARY_CROSSING = 2
+# THE EVENTS
 cdef int FINAL_DISPLACEMENT = 0
 cdef int VIRTUAL_DISPLACEMENT = 1
+cdef int BOUNDARY_CROSSING = 2
 
 
 
@@ -155,73 +138,18 @@ cdef class BVH(Volume):
 
 
 
-	def __init__(self):
-		self.cache = False
-		self.lock = False
+	def __init__(self, *args, **kwargs):
+		super(BVH, self).__init__(material = kwargs['material'])
 
-
-
-	#@lock("Context has been opened more than once.")
-	def __enter__(self):
-		# Workspace
-		self.Nws = 1
-		self.tmp_ws = [self]
-		return self
-
-	def configure(self, name, render = True):
-		self.name = name
-		self.render = render
-
-	# Constructing BVH
-	#@lock("Modifiying volume after being closed")
-	def __contains__(self, other):
-		if isinstance(other, BVH):
-			self.tmp_ws.append(other)
-			self.Nws += 1
-			other.setOuter(self, len(self.tmp_ws) - 1)
-			return True
-		
-		cdef double3 pos
-		pos.x = other[0]
-		pos.y = other[1]
-		pos.z = other[2]
-		return self.is_inside(pos)
-
-	cpdef setOuter(self, BVH other, int index):
-		"""
-		other -> outer volume
-		index -> self's position in outers workspace
-		"""
-		self.outer = other
-		self.i = index
-
-	def __iter__(self):
-		yield from self.tmp_ws[1:]
-
-	def __len__(self):
-		return self.Nws
-
-	def set_name(self, str name):
-		self.name = name
-		self.has_name = True
-
-
-	# Exit Code
-	def __exit__(self, *args, **kwargs):
-		self.lock = True
-
-		cdef BVH region
-		cdef int i
-		
+		self.Nws = len(args) + 1
 		self.ws = <void**> malloc(self.Nws * sizeof(void*))
 
-		IF DEBUG_MODE: print(self.tmp_ws)
-		IF DEBUG_MODE: print(self.Nws)
+		self.ws[0] = <void*> self
+		for i, volume in enumerate(args):
+			self.ws[i+1] = <void*> volume
+			(<BVH> volume).setOuter(self, i + 1)
 
-		for i, region in enumerate(self.tmp_ws):
-			self.ws[i]          = <void*> region
-
-		if self.render:
+		if kwargs['render'] == True:
 			@plt_geo.sdf3
 			def this():
 				def SDF(double[:,:] P):
@@ -238,7 +166,44 @@ cdef class BVH(Volume):
 				return SDF
 
 			generator = this()
-			generator.save(f"geo/{self.name}.stl")
+			generator.save(f"geo/{kwargs['name']}.stl")
+
+
+		self.cache = False
+		self.lock = True
+
+
+
+	cpdef setOuter(self, BVH other, int index):
+		"""
+		other -> outer volume
+		index -> self's position in outers workspace
+		"""
+		self.outer = other
+		self.i = index
+
+
+
+	# Constructing BVH
+	#@lock("Modifiying volume after being closed")
+	def __contains__(self, other):
+		cdef double3 pos
+		pos.x = other[0]
+		pos.y = other[1]
+		pos.z = other[2]
+		return self.is_inside(pos)
+
+
+
+	def __len__(self):
+		return self.Nws
+
+	def set_name(self, str name):
+		self.name = name
+		self.has_name = True
+
+
+
 
 	def get_mesh(self):
 		import pyvista as pv
@@ -249,9 +214,6 @@ cdef class BVH(Volume):
 		mesh = pv.read(f"geo/{self.name}.stl")
 		mesh.plot()
 
-
-
-			
 
 
 	cdef bint move(self, STATE& state, double SP):
