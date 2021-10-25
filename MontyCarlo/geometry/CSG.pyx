@@ -315,13 +315,29 @@ cdef class BVH(Volume):
 #                                         
 
 
+
+
+cdef class Proxy(BVH):
+	pass
+
+
 cdef class CSGvol(BVH):
 	# Ray Marching
 	cdef double global_sdf           # nearest distance to nearest surface contained by and including this volumes surface 
 	cdef int i0                      # position of closest volume in selfs workspace
 
-
+	cdef Proxy proxy
 	cdef double E
+
+
+
+	def __init__(self, *args, **kwargs):
+		# Opening lock, volume can be modified
+		super(CSGvol, self).__init__(*args, **kwargs)
+		self.E = 0 # wut
+
+
+
 
 	# CONSTRUCTING A VOLUME
 	cdef bint is_inside(self, double3& pos):
@@ -334,10 +350,6 @@ cdef class CSGvol(BVH):
 		pass
 
 
-	def __init__(self):
-		# Opening lock, volume can be modified
-		super(CSGvol, self).__init__()
-		self.E = 0
 
 
 	cdef void depositRANDOM(self, STATE& state, double E, double tau):
@@ -355,62 +367,14 @@ cdef class CSGvol(BVH):
 	def translate(self, direction, displacement):
 		return NotImplemented
 
-	#@lock("Modifiying volume after being closed")
-	def __or__(self, other):
-		return Union(self, other)
-
-	#@lock("Modifiying volume after being closed")
-	def __add__(self, other):
-		return Union(self, other)
-
-	#@lock("Modifiying volume after being closed")
-	def __and__(self, CSGvol other):
-		return Intersection(self, other)
-
-	#@lock("Modifiying volume after being closed")
-	def __sub__(self, CSGvol other):
-		return Subtraction(self, other)
 
 
 	cdef intLIST intersect(self, double3& pos, double3& dire):
 		raise RuntimeError(".intersect called from virtual")
 
-	
-
 
 	cdef double SDF(self, double3 pos):
 		raise RuntimeError("`.SDF` called from virtual (in CSGvol)")
-
-	cdef void localSDF(self, STATE& state):
-
-		if self.cache:
-			IF DEBUG_MODE:
-				print(f"Volume[{self.i}] has cached intersections...")
-				input(f"Volume[{self.i}].particle_position: {self.particle_position}")
-				input(f"state.last_displacement: {state.last_displacement}")
-
-			self.particle_position += state.last_displacement
-
-			IF DEBUG_MODE:
-				print(f"Updated particle position in Volume[{self.i}]...")
-				input(f"Volume[{self.i}].particle_position: {self.particle_position}")
-
-			self.sdf = self.cross.current() - self.particle_position
-
-			IF DEBUG_MODE:
-				input(f"Safest distance to Volume[{self.i}]: {self.sdf}")
-
-			return
-
-
-		IF DEBUG_MODE: print(f"Volume[{self.i}] does not have cached intersections...")
-
-		self.sdf = self.SDF(state.pos)
-
-		IF DEBUG_MODE: input(f"Safest distance to Volume[{self.i}]: {self.sdf}")
-		
-
-
 
 
 
