@@ -372,6 +372,8 @@ cdef class CSGvol(BVH):
 
 				if first.distance == INF:
 					if state.L < second.distance: # < first.distance
+
+					
 						state.pos.x += state.dire.x*state.L
 						state.pos.y += state.dire.y*state.L
 						state.pos.z += state.dire.z*state.L
@@ -456,19 +458,12 @@ cdef class CSGvol(BVH):
 			self.virtual_event(state, first.distance)
 
 
-
-
-	
-
-
 	cdef void _set_safest_distance(self, double3& pos):
 		# note: assumes pos inside current volume
 		self.distance = -self.SDF(pos)
 
 	cdef void set_safest_distance(self, double3& pos):
 		self.distance = self.SDF(pos)
-
-
 
 	cdef bint main_intersect(self, double3& origin, double3& dire):
 		
