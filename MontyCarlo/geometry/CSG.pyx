@@ -299,41 +299,6 @@ cdef class CSGvol(BVH):
 		super(CSGvol, self).__init__(*args, **kwargs)
 
 
-	# CONSTRUCTING A VOLUME
-	cdef bint is_inside(self, double3& pos):
-		raise RuntimeError("`is_inside` was called from virtual (in CSGvol)")
-
-	cdef void depositUNIFORM(self, STATE& state, double SP):
-		pass
-
-	cdef void depositLOCAL(self, double3& pos, double E):
-		pass
-
-
-	cdef void depositRANDOM(self, STATE& state, double E, double tau):
-		pass
-
-
-	cdef void depositLocaly(self, double3& pos, double E):
-		pass
-
-	#@lock("Modifiying volume after being closed")
-	def rotate(self, axis, angle):
-		return NotImplemented
-
-	#@lock("Modifiying volume after being closed")
-	def translate(self, direction, displacement):
-		return NotImplemented
-
-
-
-	cdef intLIST intersect(self, double3& pos, double3& dire):
-		raise RuntimeError(".intersect called from virtual")
-
-
-	cdef double SDF(self, double3 pos):
-		raise RuntimeError("`.SDF` called from virtual (in CSGvol)")
-
 
 
 
@@ -534,6 +499,41 @@ cdef class CSGvol(BVH):
 
 
 
+
+	# CONSTRUCTING A VOLUME
+	cdef bint is_inside(self, double3& pos):
+		raise RuntimeError("`is_inside` was called from virtual (in CSGvol)")
+
+	cdef void depositUNIFORM(self, STATE& state, double SP):
+		pass
+
+	cdef void depositLOCAL(self, double3& pos, double E):
+		pass
+
+
+	cdef void depositRANDOM(self, STATE& state, double E, double tau):
+		pass
+
+
+	cdef void depositLocaly(self, double3& pos, double E):
+		pass
+
+	#@lock("Modifiying volume after being closed")
+	def rotate(self, axis, angle):
+		return NotImplemented
+
+	#@lock("Modifiying volume after being closed")
+	def translate(self, direction, displacement):
+		return NotImplemented
+
+
+
+	cdef intLIST intersect(self, double3& pos, double3& dire):
+		raise RuntimeError(".intersect called from virtual")
+
+
+	cdef double SDF(self, double3 pos):
+		raise RuntimeError("`.SDF` called from virtual (in CSGvol)")
 
 
 
