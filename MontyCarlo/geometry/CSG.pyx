@@ -447,6 +447,8 @@ cdef class CSGvol(BVH):
 		# note: assumes pos inside current volume
 		self.distance = -self.SDF(pos)
 
+	cdef void set_safest_distance(self, double3& pos):
+		self.distance = self.SDF(pos)
 
 
 
@@ -1282,7 +1284,8 @@ cdef class InfiniteVolume(CSGvol):
 	cdef intLIST intersect(self, double3& pos, double3& dire):
 		cdef intLIST result
 		return result
-		#return INF
+
+
 
 cdef class Primitive(CSGvol):
 	cdef Transform tr
