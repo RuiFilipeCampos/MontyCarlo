@@ -415,7 +415,7 @@ cdef class CSGvol(BVH):
 		IF VERBOSE: print("MAIN_INTERSECT")
 		IF VERBOSE: print(self.cache)
 
-		if self.cache:
+		if self.has_cached_intersections:
 			return self.cross.current() - self.particle_position
 
 		self.particle_position = 0
@@ -435,8 +435,12 @@ cdef class CSGvol(BVH):
 				temp2.inc()
 
 		self.cross = intIterator(temp)
-		self.cache = True
+		self.has_cached_intersections = True
 		return self.cross.current()
+
+
+
+
 
 	cdef void globalSDF(self, STATE& state):
 
@@ -581,7 +585,7 @@ cdef class CSGvol(BVH):
 
 	cdef bint move(self, STATE& state, double SP):
 		cdef Closest first
-		cdef closest second
+		cdef Closest second
 		cdef int case
 		cdef int i
 		cdef double intersection_distance
@@ -595,13 +599,20 @@ cdef class CSGvol(BVH):
 
 		
 		
-		while True:
+		while True: 
+
+
+
 
 			if self.has_cached_intersections:
 				self.particle_position += state.last_displacement
 				self.distance = self.cross.current() - self.particle_position
 			else:
 				self.distance = -self.SDF(state.pos)
+
+
+
+
 
 			first.index = 0
 			first.distance = self.distance
@@ -614,7 +625,13 @@ cdef class CSGvol(BVH):
 					first.index = i
 
 
-			if first.distance > state.L:
+
+
+
+
+
+
+			if state.L < first.distance:
 				self.final(state)
 				
 				for i in range(self.Nws):
@@ -625,10 +642,13 @@ cdef class CSGvol(BVH):
 
 			if first.distance < .1:
 
+				if (<V> self.ws[first.index]).has_cached_intersections:
+					first.distance = (<V> self.ws[first.index]).cross.current() - (<V> self.ws[first.index]).particle_position
+				else:
+					first.distance = (<V> self.ws[first.index]).main_intersect(state)
 
-				distance_to_intersection = (<V> self.ws[first.index]).main_intersect(state)
 
-				# look for distance to the second nearest surface
+
 				second.distance = INF
 				
 
@@ -647,35 +667,31 @@ cdef class CSGvol(BVH):
 
 
 
-
-
-
-				if distance_to_intersection == INF:
+				if first.distance == INF:
 					if state.L < second.distance: # < first.distance
 						self.final(state)
 						self.exit()
 						return False
 					
-					# second.distance < state.L < first.distance
+					# second.distance < state.L < first.distance   
 					self.virtual_event(state, second.distance)
 					continue
 
 
-				if distance_to_intersection < second.distance:
-					if state.L < distance_to_intersection: # < second.distance
+				if first.distance < second.distance:
+					if state.L < first.distance: 
 						self.final(state)
 						self.exit()
 						return False
 
-					# distance_to_intersection < state.L < second.distance
-					self.virtual_event(state, distance_to_intersection)
+					self.virtual_event(state, first.distance)
 
-					IF VERBOSE: print(f"before incrementing: current = {(<V> self.ws[first.index]).cross.current()}")
+					IF VERBOSE: 
+						print(f"before incrementing: current = {(<V> self.ws[first.index]).cross.current()}")
 					(<V> self.ws[first.index]).cross.inc()
-					IF VERBOSE: print("icremented successfully")
-					IF VERBOSE: print(f"after incrementing: current = {(<V> self.ws[first.index]).cross.current()}")
-
-
+					IF VERBOSE: 
+						print("icremented successfully")
+						print(f"after incrementing: current = {(<V> self.ws[first.index]).cross.current()}")
 
 					if first.index == 0:
 						state.current_region = (<V> self.outer).searchO(state)
