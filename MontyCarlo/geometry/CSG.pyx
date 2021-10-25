@@ -324,7 +324,12 @@ cdef class Proxy(BVH):
 		self.iterator = iterator
 	
 	cdef void set_safest_distance(self):
-		self.distance = self.iterator.current_distance()
+				# return self.cross.current()
+		self.distance = self.iterator.current()
+	
+	# signals that it already is a proxy, no need for intersecting
+	cdef bint main_intersect(self, STATE& state):
+		return False
 
 
 cdef class CSGvol(BVH):
@@ -435,7 +440,6 @@ cdef class CSGvol(BVH):
 
 	cdef bint main_intersect(self, STATE& state):
 		
-		# CAREFUL, CALLING PYTHON HERE
 		self.proxy.set_iterator(intIterator(self.intersect(
 			state.pos, state.dire
 		)))
@@ -444,25 +448,6 @@ cdef class CSGvol(BVH):
 		return True
 
 
-		cdef intLIST intersection_list = self.intersect(
-			state.pos, state.dire
-		)
-
-
-		cdef intIterator intersection_iterator = intIterator(intersection_list)
-
-
-		self.proxy
-
-
-
-
-
-
-
-		self.cross = intIterator(temp)
-		self.has_cached_intersections = True
-		return self.cross.current()
 
 
 
