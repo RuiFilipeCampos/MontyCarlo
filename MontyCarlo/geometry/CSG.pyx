@@ -443,12 +443,8 @@ cdef class CSGvol(BVH):
 		state.L -= dr
 
 
-
-
-
-
-
 	cdef double _set_safest_distance(self, double3& pos):
+		# note: assumes pos inside current volume
 		self.distance = -self.SDF(pos)
 
 
