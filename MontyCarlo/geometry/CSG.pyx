@@ -520,6 +520,186 @@ cdef class CSGvol(BVH):
 
 
 
+
+
+	cdef void exitINNER_TO_OUTER(self):
+		cdef int i
+		for i in range(1, self.Nws):
+			(<V> self.ws[i]).cache = False
+			(<V> self.ws[i]).keep = False
+
+
+	cdef void exitINNER_TO_INNER(self):
+		cdef int i
+		for i in range(0, self.Nws):
+			(<V> self.ws[i]).cache = False
+			(<V> self.ws[i]).keep = False
+
+	cdef void exitOUTER_TO_INNER(self):
+		cdef int i
+		for i in range(0, self.Nws):
+			(<V> self.ws[i]).cache = False
+			(<V> self.ws[i]).keep = False
+
+	cdef void boundary_crossing(self, STATE& state):
+
+		# from inner to somewhere in outer
+		if self.i0 == 0:
+			state.current_region = (<V> self.outer).searchO(state)
+
+			# staying in outer, must keep cached intersections
+			if state.current_region == <void*> self.outer:
+				self.keep = True
+				self.exitINNER_TO_OUTER()
+				return
+
+			# entering some adjacent volume, must intersect it then
+			(<V> state.current_region).main_intersect(state)
+			(<V> state.current_region).keep = True
+			self.exitINNER_TO_INNER()
+			return 
+
+
+		# from outer to inner
+		state.current_region = self.ws[self.i0]
+		self.exitOUTER_TO_INNER()
+		(<V> state.current_region).keep = True
+		(<V> state.current_region).cache = True
+		return
+
+	cdef str print_ws(self, STATE& state):
+		cdef int i
+		to_print = "["
+		for i in range(self.Nws):
+			to_print += f"(is_inside = {(<V> self.ws[i]).is_inside(state.pos)}, keep = {(<V> self.ws[i]).keep}, cache = {(<V> self.ws[i]).cache}) ,"
+		
+		to_print += "]"
+		return to_print
+
+
+
+
+	cdef bint move(self, STATE& state, double SP):
+		cdef Closest first
+		cdef closest second
+		cdef int case
+		cdef int i
+		cdef double intersection_distance
+
+
+		IF DEBUG_MODE:
+			input(string(state) + "Entering move method.")
+			input(string(state) + "How does the workspace look like?")
+			input("\t" + self.print_ws(state)) 
+			input(string(state) + "Starting event loop:")
+
+		
+		
+		while True:
+
+			if self.has_cached_intersections:
+				self.particle_position += state.last_displacement
+				self.distance = self.cross.current() - self.particle_position
+			else:
+				self.distance = -self.SDF(state.pos)
+
+			first.index = 0
+			first.distance = self.distance
+
+			#cdef int i
+			for i in range(1, self.Nws):
+				(<V> self.ws[i]).localSDF(state)
+				if (<V> self.ws[i]).sdf < first.distance:
+					first.distance = (<V> self.ws[i]).distance
+					first.index = i
+
+
+			if first.distance > state.L:
+				self.final(state)
+				
+				for i in range(self.Nws):
+					(<BVH> self.ws[i]).keep = False
+					(<BVH> self.ws[i]).cache = False
+				self.exit()
+				return False
+
+			if first.distance < .1:
+
+
+				distance_to_intersection = (<V> self.ws[closest.index]).main_intersect(state)
+
+				# look for distance to the second nearest surface
+				second.distance = INF
+				
+
+				for i in range(0, first.index):
+					IF DEBUG_MODE: print(i, (<V> self.ws[i]).distance, (<V> self.ws[i]))
+					if (<V> self.ws[i]).sdf < second.distance:
+						second.distance = (<V> self.ws[i]).distance
+						second.index = i
+
+				for i in range(first.index+1, self.Nws):
+					IF DEBUG_MODE: print(i, (<V> self.ws[i]).distance, (<V> self.ws[i]))
+					if (<V> self.ws[i]).sdf < second.distance:
+						second.distance = (<V> self.ws[i]).distance
+						second.index = i
+
+
+				if distance_to_intersection == INF:
+					if state.L < second.distance: # < first.distance
+						self.final(state)
+						self.exit()
+						return False
+					
+					# second.distance < state.L < first.distance
+					self.virtual_event(state, second.distance)
+					continue
+
+
+				if distance_to_intersection < second.distance:
+					if distance_to_intersection > state.L:
+						self.final(state)
+						self.exit()
+						return False
+
+					self.virtual_event(state, cross)
+
+					IF VERBOSE: print(f"before incrementing: current = {(<V> vol).cross.current()}")
+					(<V> vol).cross.inc()
+					IF VERBOSE: print("icremented successfully")
+					IF VERBOSE: print(f"after incrementing: current = {(<V> vol).cross.current()}")
+					self.boundary_crossing(state)
+					return 2
+
+				# min() == L
+				if second_nearest > state.L:
+					IF VERBOSE: print("min() == L 222")
+					self.final(state)
+					self.exit()
+					return 0
+
+
+
+
+
+
+
+
+
+				case = self.intEVENT(state)
+
+				if case == BOUNDARY_CROSSING:
+					return True
+
+				if case == FINAL_DISPLACEMENT: # final displacement
+					return False
+
+				if case == VIRTUAL_DISPLACEMENT: # proxys have been set
+					continue
+
+			self.virtual_event(state, self.global_sdf)
+
+
 	cdef int intEVENT(self, STATE& state):
 		"""
 		Instruct nearest surface to intersect with the ray defined
@@ -568,7 +748,6 @@ cdef class CSGvol(BVH):
 		"""
 		IF DEBUG_MODE: input("INTERSECTION EVENT")
 		# get the closest volume, easier to write this way...
-		cdef void* vol = self.ws[self.i0]
 		cdef double cross = (<V> vol).main_intersect(state)
 
 		
@@ -635,125 +814,6 @@ cdef class CSGvol(BVH):
 			self.final(state)
 			self.exit()
 			return 0
-
-
-
-	cdef void exitINNER_TO_OUTER(self):
-		cdef int i
-		for i in range(1, self.Nws):
-			(<V> self.ws[i]).cache = False
-			(<V> self.ws[i]).keep = False
-
-
-	cdef void exitINNER_TO_INNER(self):
-		cdef int i
-		for i in range(0, self.Nws):
-			(<V> self.ws[i]).cache = False
-			(<V> self.ws[i]).keep = False
-
-	cdef void exitOUTER_TO_INNER(self):
-		cdef int i
-		for i in range(0, self.Nws):
-			(<V> self.ws[i]).cache = False
-			(<V> self.ws[i]).keep = False
-
-	cdef void boundary_crossing(self, STATE& state):
-
-		# from inner to somewhere in outer
-		if self.i0 == 0:
-			state.current_region = (<V> self.outer).searchO(state)
-
-			# staying in outer, must keep cached intersections
-			if state.current_region == <void*> self.outer:
-				self.keep = True
-				self.exitINNER_TO_OUTER()
-				return
-
-			# entering some adjacent volume, must intersect it then
-			(<V> state.current_region).main_intersect(state)
-			(<V> state.current_region).keep = True
-			self.exitINNER_TO_INNER()
-			return 
-
-
-		# from outer to inner
-		state.current_region = self.ws[self.i0]
-		self.exitOUTER_TO_INNER()
-		(<V> state.current_region).keep = True
-		(<V> state.current_region).cache = True
-		return
-
-	cdef str print_ws(self, STATE& state):
-		cdef int i
-		to_print = "["
-		for i in range(self.Nws):
-			to_print += f"(is_inside = {(<V> self.ws[i]).is_inside(state.pos)}, keep = {(<V> self.ws[i]).keep}, cache = {(<V> self.ws[i]).cache}) ,"
-		
-		to_print += "]"
-		return to_print
-
-
-
-
-	cdef bint move(self, STATE& state, double SP):
-		cdef Closest closest
-		cdef int case
-		cdef int i
-
-		cdef double distance_to_closest
-
-		IF DEBUG_MODE:
-			input(string(state) + "Entering move method.")
-			input(string(state) + "How does the workspace look like?")
-			input("\t" + self.print_ws(state)) 
-			input(string(state) + "Starting event loop:")
-
-		
-		
-		while True:
-
-			if self.cache:
-				self.particle_position += state.last_displacement
-				self.sdf = self.cross.current() - self.particle_position
-			else:
-				self.sdf = -self.SDF(state.pos)
-
-			closest.index = 0
-			closest.distance = self.sdf
-
-			#cdef int i
-			for i in range(1, self.Nws):
-				(<V> self.ws[i]).localSDF(state)
-				if (<V> self.ws[i]).sdf < closest.distance:
-					closest.distance = (<V> self.ws[i]).sdf
-					closest.index = i
-
-
-
-
-			if closest.distance > state.L:
-				self.final(state)
-				
-				for i in range(self.Nws):
-					(<BVH> self.ws[i]).keep = False
-					(<BVH> self.ws[i]).cache = False
-				self.exit()
-				return False
-
-			if closest.distance < .1:
-				case = self.intEVENT(state)
-
-				if case == BOUNDARY_CROSSING:
-					return True
-
-				if case == FINAL_DISPLACEMENT: # final displacement
-					return False
-
-				if case == VIRTUAL_DISPLACEMENT: # virtual displacement, proxys have been set
-					continue
-
-			self.virtual_event(state, self.global_sdf)
-
 
 
 
