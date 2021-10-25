@@ -12,6 +12,9 @@ IF PRINT:
 	def input(x): print(x)
 
 
+cdef struct Closest:
+	double distance
+	int index
 
 
 
@@ -691,9 +694,13 @@ cdef class CSGvol(BVH):
 
 
 
+
 	cdef bint move(self, STATE& state, double SP):
+		cdef Closest closest
 		cdef int case
 		cdef int i
+
+		cdef double distance_to_closest
 
 		IF DEBUG_MODE:
 			input(string(state) + "Entering move method.")
@@ -701,36 +708,48 @@ cdef class CSGvol(BVH):
 			input("\t" + self.print_ws(state)) 
 			input(string(state) + "Starting event loop:")
 
+		
+		
 		while True:
 
+			if self.cache:
+				self.particle_position += state.last_displacement
+				self.sdf = self.cross.current() - self.particle_position
+			else:
+				self.sdf = -self.SDF(state.pos)
 
-			IF DEBUG_MODE: input(string(state) + "EVENT LOOP :: Entering globalSDF")
-			self.globalSDF(state)
+			closest.index = 0
+			closest.distance = self.sdf
+
+			#cdef int i
+			for i in range(1, self.Nws):
+				(<V> self.ws[i]).localSDF(state)
+				if (<V> self.ws[i]).sdf < closest.distance:
+					closest.distance = (<V> self.ws[i]).sdf
+					closest.index = i
 
 
-			IF DEBUG_MODE: print(f"The safest distance is {self.global_sdf}cm | Physics proposed {state.L}cm ")
 
-			if self.global_sdf > state.L:
+
+			if closest.distance > state.L:
 				self.final(state)
 				
 				for i in range(self.Nws):
 					(<BVH> self.ws[i]).keep = False
 					(<BVH> self.ws[i]).cache = False
 				self.exit()
-
-
 				return False
 
-			if self.global_sdf < .1:
+			if closest.distance < .1:
 				case = self.intEVENT(state)
 
-				if case == 2: # boundary crossing
+				if case == BOUNDARY_CROSSING:
 					return True
 
-				if case == 0: # final displacement
+				if case == FINAL_DISPLACEMENT: # final displacement
 					return False
 
-				if case == 1: # virtual displacement, proxys have been set
+				if case == VIRTUAL_DISPLACEMENT: # virtual displacement, proxys have been set
 					continue
 
 			self.virtual_event(state, self.global_sdf)
