@@ -407,6 +407,9 @@ cdef class CSGvol(BVH):
 		state.last_displacement = dr
 
 
+		displacement += dr
+
+
 		IF VERBOSE: print("norm of dire:", state.dire.x**2 + state.dire.y**2 + state.dire.z**2)
 		state.pos.x += state.dire.x*dr
 		state.pos.y += state.dire.y*dr
@@ -456,6 +459,7 @@ cdef class CSGvol(BVH):
 
 	cdef bint move(self, STATE& state, double SP):
 		cdef double3 origin = state.pos
+		displacement = 0
 
 		cdef Closest first
 		cdef Closest second
@@ -573,26 +577,6 @@ cdef class CSGvol(BVH):
 
 			self.virtual_event(state, self.global_sdf)
 
-
-
-
-
-
-
-cdef class Proxy(BVH):
-	cdef CSG volume
-	def __init__(self, CSG volume):
-		self.volume = volume
-
-	cdef void switch(self, void **ws, int here):
-
-
-
-
-cdef class CSG(BVH):
-	cdef Proxy proxy
-	def __init__(self, *args, **kwargs):
-		self.proxy = Proxy(self) 
 
 
 
