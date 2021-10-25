@@ -312,7 +312,6 @@ cdef class CSGvol(BVH):
 		cdef Closest second
 		cdef int i
 
-
 		IF DEBUG_MODE:
 			input(string(state) + "Entering move method.")
 			input(string(state) + "How does the workspace look like?")
@@ -384,37 +383,29 @@ cdef class CSGvol(BVH):
 
 					self.virtual_event(state, first.distance)
 
-					IF VERBOSE: 
-						print(f"before incrementing: current = {(<V> self.ws[first.index]).cross.current()}")
-					(<V> self.ws[first.index]).cross.inc()
-					IF VERBOSE: 
-						print("icremented successfully")
-						print(f"after incrementing: current = {(<V> self.ws[first.index]).cross.current()}")
+
+					(<V> self.ws[first.index]).iterator.inc()
+
 
 					if first.index == 0:
-						state.current_region = (<V> self.outer).searchO(state)
+						state.current_region = (<V> self.outer)._search(state)
 
 						# staying in outer, must keep cached intersections
 						if state.current_region == <void*> self.outer:
 							self.keep = True
 							self.exitINNER_TO_OUTER()
-							return
+							return True
 
 						# entering some adjacent volume, must intersect it then
 						(<V> state.current_region).main_intersect(state)
 						(<V> state.current_region).keep = True
 						self.exitINNER_TO_INNER()
-						return 
+						return True
 
 
 					# from outer to inner
-					state.current_region = self.ws[self.i0]
+					state.current_region = self.ws[first.index]
 					self.exitOUTER_TO_INNER()
-					(<V> state.current_region).keep = True
-					(<V> state.current_region).cache = True
-					return
-
-
 
 					return True
 
@@ -423,7 +414,7 @@ cdef class CSGvol(BVH):
 					IF VERBOSE: print("min() == L 222")
 					self.final(state)
 					self.exit()
-					return 0
+					return False ? 
 
 			self.virtual_event(state, self.global_sdf)
 
