@@ -449,11 +449,6 @@ cdef class CSGvol(BVH):
 
 
 	cdef double _set_safest_distance(self, double3& pos):
-		"""
-		The safest distance to the surface of this volume. IMPORTANT: assuming the particle is inside this volume!
-
-		ALSO IMPORTANT: This is here for me to think, will change to abstract method.
-		"""
 		self.distance = -self.SDF(pos)
 
 
