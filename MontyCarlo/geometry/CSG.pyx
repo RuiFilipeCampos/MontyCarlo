@@ -322,10 +322,6 @@ cdef class Proxy(BVH):
 
 
 cdef class CSGvol(BVH):
-	# Ray Marching
-	cdef double global_sdf           # nearest distance to nearest surface contained by and including this volumes surface 
-	cdef int i0                      # position of closest volume in selfs workspace
-
 	cdef Proxy proxy
 	cdef double E
 
