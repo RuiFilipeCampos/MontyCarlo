@@ -551,14 +551,14 @@ cdef class CSGvol(BVH):
 		
 		while True: 
 
-			if self.has_cached_intersections:
-				self.particle_position += state.last_displacement
-				self.distance = self.cross.current() - self.particle_position
-			else:
-				self.distance = -self.SDF(state.pos)
+			#if self.has_cached_intersections:
+			#	self.particle_position += state.last_displacement
+			#	self.distance = self.cross.current() - self.particle_position
+			#else:
+			#	self.distance = -self.SDF(state.pos)
 
-			
-			self.distance = self.get_distance(state.pos)
+
+			self.distance = self._get_distance(state.pos)
 
 
 
