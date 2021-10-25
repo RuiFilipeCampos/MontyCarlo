@@ -293,14 +293,10 @@ cdef class Proxy(BVH):
 
 cdef class CSGvol(BVH):
 	cdef Proxy proxy
-	cdef double E
-
-
 
 	def __init__(self, *args, **kwargs):
 		# Opening lock, volume can be modified
 		super(CSGvol, self).__init__(*args, **kwargs)
-		self.E = 0 # wut
 
 
 	# CONSTRUCTING A VOLUME
