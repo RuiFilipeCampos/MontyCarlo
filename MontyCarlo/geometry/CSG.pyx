@@ -473,26 +473,18 @@ cdef class CSGvol(BVH):
 
 	cdef double main_intersect(self, STATE& state):
 
-
-		self.particle_position = 0
-
-		cdef intLIST temp = self.intersect(
+		cdef intLIST intersection_list = self.intersect(
 			state.pos, state.dire
 		)
 
-		
-		cdef intIterator temp2 = intIterator(temp)
 
-		IF VERBOSE: print(temp.size())
+		cdef intIterator intersection_iterator = intIterator(intersection_list)
 
-		cdef int i
-		IF VERBOSE:
-			print("PRINTING INTERSECTIONS")
-			for i in range(temp.size()):
-				print(temp2.current())
-				temp2.inc()
-				print(temp2.current())
-				temp2.inc()
+
+
+
+
+
 
 		self.cross = intIterator(temp)
 		self.has_cached_intersections = True
@@ -538,8 +530,10 @@ cdef class CSGvol(BVH):
 
 			if first.distance < .1:
 
+				if (<V> self.ws[first.index]).main_intersect(state):
+					self.ws[first.index] = (<V> self.ws[first.index]).proxy
 				
-				first.distance  = (<V> self.ws[first.index]).main_intersect(state)
+				first.distance  = (<V> self.ws[first.index])._get_safest_distance()
 				second.distance = INF
 
 				for i in range(0, first.index):
@@ -553,9 +547,6 @@ cdef class CSGvol(BVH):
 					if (<V> self.ws[i]).distance < second.distance:
 						second.distance = (<V> self.ws[i]).distance
 						second.index = i
-
-
-
 
 
 				if first.distance == INF:
@@ -615,25 +606,6 @@ cdef class CSGvol(BVH):
 					self.final(state)
 					self.exit()
 					return 0
-
-
-
-
-
-
-
-
-
-				case = self.intEVENT(state)
-
-				if case == BOUNDARY_CROSSING:
-					return True
-
-				if case == FINAL_DISPLACEMENT: # final displacement
-					return False
-
-				if case == VIRTUAL_DISPLACEMENT: # proxys have been set
-					continue
 
 			self.virtual_event(state, self.global_sdf)
 
