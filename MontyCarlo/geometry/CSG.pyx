@@ -423,18 +423,15 @@ cdef class CSGvol(BVH):
 
 
 
-
-
 	cdef inline void final(self, STATE& state):
-		IF DEBUG_MODE: input(f"FINAL DISPLACEMENT: L = {state.L}")
-
-		state.last_displacement = state.L
 
 		state.pos.x += state.dire.x*state.L
 		state.pos.y += state.dire.y*state.L
 		state.pos.z += state.dire.z*state.L
 
 		state.L = 0
+
+		self.reset_workspace()
 
 		IF VERBOSE:
 			for i in range(self.Nws):
