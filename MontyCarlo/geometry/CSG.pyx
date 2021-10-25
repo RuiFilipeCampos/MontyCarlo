@@ -452,6 +452,7 @@ cdef class CSGvol(BVH):
 
 
 	cdef bint move(self, STATE& state, double SP):
+		cdef double3 original_position = state.pos
 		cdef Closest first
 		cdef Closest second
 		cdef int i
