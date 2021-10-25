@@ -319,7 +319,7 @@ cdef class CSGvol(BVH):
 		while True: 
 
 			# gets the safest KNOWN distance 
-			self.set_safest_distance(state.pos)
+			self._set_safest_distance(state.pos)
 
 			first.index = 0
 			first.distance = self.distance
@@ -448,7 +448,7 @@ cdef class CSGvol(BVH):
 
 
 
-	cdef double set_safest_distance(self, double3& pos):
+	cdef double _set_safest_distance(self, double3& pos):
 		"""
 		The safest distance to the surface of this volume. IMPORTANT: assuming the particle is inside this volume!
 
