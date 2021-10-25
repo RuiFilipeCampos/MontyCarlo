@@ -285,6 +285,15 @@ cdef class Proxy(BVH):
 	cdef void set_safest_distance(self):
 				# return self.cross.current()
 		self.distance = self.iterator.current() - displacement
+
+
+	cdef void _set_safest_distance(self, double3& pos):
+		# note: assumes pos inside current volume
+		self.distance = self.iterator.current() - displacement
+
+	cdef void set_safest_distance(self, double3& pos):
+		self.distance = self.iterator.current() - displacement
+
 	
 	# signals that it already is a proxy, no need for intersecting
 	cdef bint main_intersect(self, double3& origin, double3& dire):
