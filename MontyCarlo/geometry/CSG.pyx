@@ -443,9 +443,10 @@ cdef class CSGvol(BVH):
 		state.L -= dr
 
 
-	cdef double _set_safest_distance(self, double3& pos):
+	cdef void _set_safest_distance(self, double3& pos):
 		# note: assumes pos inside current volume
 		self.distance = -self.SDF(pos)
+
 
 
 
@@ -455,7 +456,6 @@ cdef class CSGvol(BVH):
 			pos, state.dire
 		)))
 		
-
 		return True
 
 
@@ -478,6 +478,10 @@ cdef class CSGvol(BVH):
 		return to_print
 
 
+
+
+	cdef void set_safest_distance(self, double3& pos):
+		pass
 
 	cdef bint is_inside(self, double3& pos):
 		raise RuntimeError("`is_inside` was called from virtual (in CSGvol)")
