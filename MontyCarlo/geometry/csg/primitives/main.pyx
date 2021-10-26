@@ -1,5 +1,6 @@
 
 
+import numpy as np
 
 ctypedef (*map_t)(double3& pos, double[:] transformation)
 
@@ -13,7 +14,15 @@ cdef class Primitive(CSGvol):
 
 	def __init__(self, *args, **kwargs):
 
-        self.matrix = identity()
+        tmp_direct_transform = np.array(
+            [
+                [1, 0, 0, 0],
+                [0, 1, 0, 0],
+                [0, 0, 1, 0],
+                [0, 0, 0, 1],
+            ], dtype = np.float64,
+        )
+
 
         translated = False
         rotated = False
@@ -23,7 +32,9 @@ cdef class Primitive(CSGvol):
 
                 if transformation[0] == "translate":
                     translated = True
-                    pass
+                    tmp_direct_transform[3] += transformation[1]
+                    tmp_direct_transform[7] += transformation[2]
+                    tmp_direct_transform[11] += transformation[3]
 
                 if transformation[0] == "rotate":
                     rotated = True
