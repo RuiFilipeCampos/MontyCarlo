@@ -1,11 +1,12 @@
 
 
 
-
+ctypedef (*map_t)(double3& pos, double[:] transformation)
 
 
 cdef class Primitive(CSGvol):
-    cdef (*transform)(double3 pos, double[:] matrix)
+    cdef map_t transform
+
     cdef double[:] matrix
     cdef double[:] inverse_matrix
 
@@ -36,20 +37,4 @@ cdef class Primitive(CSGvol):
         elif rotated:
             self.transform = rotate
 
-
 		super(Primitive, self).__init__(*args, **kwargs)
-
-	def translate(self, dx, dy, dz):
-		self.tr = self.tr.translate(dx, dy, dz)
-		#self.mesh.translate([dx, dy, dz])
-
-	def rotate(self, axis, angle):
-		self.tr = self.tr.rotate(axis, angle)
-
-	@property
-	def matrix(self):
-		return self.tr.matrix
-
-	@property
-	def inv_matrix(self):
-		return self.tr.inv_matrix
