@@ -166,33 +166,6 @@ cdef class Volume:
 
 
 cdef class BVH(Volume):
-	# Workspace
-	cdef int Nws
-	cdef list tmp_ws
-	cdef void** ws
-	cdef void** original_ws
-	cdef bint has_name
-
-
-	# Boundary Crossing
-	cdef int position_in_outer       #position in outers work space
-	cdef bint keep                   #which intersected volume will keep its intersections cached for the next iteration
-
-	# user related
-	cdef bint lock 					#prevent user from modifying volume after exit code
-	cdef str name
-	cdef bint render
-
-	# ray marching
-	cdef double sdf                  # nearest distance to this volumes surface
-
-	# Ray Tracing
-	cdef bint cache                  # is this volume storing cached intersections?
-	cdef intIterator cross           # custom c++ iterator for aiding in simulation with cached intersections
-	cdef double particle_position;   # must keep track of particles position along the ray 
-
-
-
 
 	def __init__(self, *args, **kwargs):
 		super(BVH, self).__init__(material = kwargs['material'])

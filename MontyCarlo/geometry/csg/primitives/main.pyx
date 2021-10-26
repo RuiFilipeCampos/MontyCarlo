@@ -3,13 +3,41 @@
 
 
 
+
 cdef class Primitive(CSGvol):
-	cdef Transform tr
+    cdef (*transform)(double3 pos, double[:] matrix)
+    cdef double[:] matrix
+    cdef double[:] inverse_matrix
+
+	def __init__(self, *args, **kwargs):
+
+        self.matrix = identity()
+
+        translated = False
+        rotated = False
+
+        if kwargs['transforms']:
+            for transformation in kwargs['transforms']:
+
+                if transformation[0] == "translate":
+                    translated = True
+                    pass
+
+                if transformation[0] == "rotate":
+                    rotated = True
+                    pass
+
+        if translated and rotated:
+            self.transform = general_transform
+        
+        elif translated:
+            self.transform = translate
+        
+        elif rotated:
+            self.transform = rotate
 
 
-	def __init__(self):
-		super(Primitive, self).__init__()
-		self.tr = Identity(self)
+		super(Primitive, self).__init__(*args, **kwargs)
 
 	def translate(self, dx, dy, dz):
 		self.tr = self.tr.translate(dx, dy, dz)
