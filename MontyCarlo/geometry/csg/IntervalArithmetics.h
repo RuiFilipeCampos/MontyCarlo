@@ -1,20 +1,18 @@
 #pragma once
-#ifndef BBB_HEADER
-#define BBB_HEADER
+#ifndef __IntervalArithmeticsHH__
+#define __IntervalArithmeticsHH__
 
 #include <list>
 
 
 
 class Interval {
-
-    
-public:
-    double t1, t2; 
-    Interval();
-    Interval(double t1, double t2);
-    void print(void);
-    void pprint();
+    public:
+        double t1, t2; 
+        Interval();
+        Interval(double t1, double t2);
+        void print(void);
+        void pprint();
 };
 
 
@@ -25,7 +23,6 @@ class intIterator {
     intLIST crosses;
     intLIST::iterator it;
     intLIST::iterator end;
-
 
     public:
         intIterator();
@@ -40,4 +37,6 @@ class intIterator {
 intLIST intIntersect(intLIST& left, intLIST& right);
 intLIST intPlus(intLIST& left, intLIST& right);
 intLIST intMinus(intLIST& left, intLIST& right);
+
+
 #endif

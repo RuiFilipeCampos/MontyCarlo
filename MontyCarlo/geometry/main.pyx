@@ -161,3 +161,152 @@ cdef class Volume:
 
         
 
+
+
+
+
+cdef class BVH(Volume):
+	# Workspace
+	cdef int Nws
+	cdef list tmp_ws
+	cdef void** ws
+	cdef void** original_ws
+	cdef bint has_name
+
+
+	# Boundary Crossing
+	cdef int position_in_outer       #position in outers work space
+	cdef bint keep                   #which intersected volume will keep its intersections cached for the next iteration
+
+	# user related
+	cdef bint lock 					#prevent user from modifying volume after exit code
+	cdef str name
+	cdef bint render
+
+	# ray marching
+	cdef double sdf                  # nearest distance to this volumes surface
+
+	# Ray Tracing
+	cdef bint cache                  # is this volume storing cached intersections?
+	cdef intIterator cross           # custom c++ iterator for aiding in simulation with cached intersections
+	cdef double particle_position;   # must keep track of particles position along the ray 
+
+
+
+
+	def __init__(self, *args, **kwargs):
+		super(BVH, self).__init__(material = kwargs['material'])
+
+		self.Nws = len(args) + 1
+		self.ws = <void**> malloc(self.Nws * sizeof(void*))
+
+		self.ws[0] = <void*> self
+		for i, volume in enumerate(args):
+			self.ws[i+1] = <void*> volume
+			(<BVH> volume).set_outer(self, i + 1)
+
+		if kwargs['render'] == True:
+			@plt_geo.sdf3
+			def this():
+				def SDF(double[:,:] P):
+					cdef double3 p
+					cdef int N = len(P)
+					cdef cnp.ndarray sd = np.zeros(N)
+					cdef int i
+					for i in range(N):
+						p.x = P[i, 0]
+						p.y = P[i, 1]
+						p.z = P[i, 2]
+						sd[i] = self.SDF(p)
+					return sd
+				return SDF
+
+			generator = this()
+			generator.save(f"geo/{kwargs['name']}.stl")
+
+
+		self.cache = False
+		self.lock = True
+
+
+
+	cpdef set_outer(self, BVH other, int index):
+		"""
+		other -> outer volume
+		index -> self's position in outers workspace
+		"""
+		self.outer = other
+		self.position_in_outer = index
+
+
+	def __contains__(self, other):
+		cdef double3 pos
+		pos.x, pos.y, pos.z = other
+		return self.is_inside(pos)
+
+
+	def get_mesh(self):
+		import pyvista as pv
+		return pv.read(f"geo/{self.name}.stl")
+
+	def plot(self):
+		import pyvista as pv
+		mesh = pv.read(f"geo/{self.name}.stl")
+		mesh.plot()
+
+
+	cdef void* searchO(self, STATE& state):
+		cdef int i
+
+		for i in range(1, self.Nws):
+			if self.ws[i] == state.current_region: continue
+
+			if (<BVH> self.ws[i]).is_inside(state.pos):
+				IF DEBUG_MODE: print(i)
+				return self.ws[i]
+		IF DEBUG_MODE: print(0)
+		return <void*> self
+
+	cdef void exit(self):
+		cdef int i
+		for i in range(self.Nws):
+			#if (<BVH> self.ws[i]).keep: continue
+			(<BVH> self.ws[i]).cache = False
+
+
+	cdef bint move(self, STATE& state, double SP):
+		raise RuntimeError("'move' called from its virtual in 'Volume.BVH' ")
+
+	cdef void depositUNIFORM(self, STATE& state, double SP):
+		raise RuntimeError("depositUNIFORM called from BVH (virtual)")
+		print("depositUNIFORM called from BVH (virtual)")
+		import time
+		time.sleep(10_000)
+
+
+	cdef void depositDISCRETE(self, STATE& state):
+		raise RuntimeError("'depositDISCRETE' called from its virtual in 'Volume.BVH' ")
+	
+	cdef void depositLOCAL(self, double3& pos, double E):
+		raise RuntimeError("'depositLOCAL' called from its virtual in 'Volume.BVH' ")
+
+	cdef void depositRANDOM(self, STATE& state, double E, double tau):
+		raise RuntimeError("'depositRANDOM' called from its virtual in 'Volume.BVH' ")
+
+	cdef double main_intersect(self, STATE& state):
+		raise RuntimeError("'main_intersect' called from its virtual in 'Volume.BVH' ")
+
+	cdef void localSDF(self, STATE& state):
+		raise RuntimeError("'localSDF' called from its virtual in 'Volume.BVH' ")
+
+
+	cdef double SDF(self, double3 pos):
+		raise RuntimeError("'SDF' called from its virtual in 'Volume.BVH' ")
+
+	cdef bint is_inside(self, double3 pos):
+		raise RuntimeError("'is_inside' called from its virtual in 'Volume.BVH' ")
+
+
+
+
+

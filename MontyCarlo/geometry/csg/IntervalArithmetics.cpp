@@ -4,7 +4,7 @@
 #include <iostream>
 #include "IntervalArithmetics.h"
 #include <list>
-#include <limits><
+#include <limits>
 
 typedef std::list<Interval> intLIST;
 
