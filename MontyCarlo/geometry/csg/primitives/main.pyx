@@ -5,10 +5,11 @@ ctypedef (*map_t)(double3& pos, double[:] transformation)
 
 
 cdef class Primitive(CSGvol):
-    cdef map_t transform
 
-    cdef double[:] matrix
-    cdef double[:] inverse_matrix
+    cdef map_t apply_transform
+	cdef double[16] direct_transform
+    cdef double[16] inverse_transform
+
 
 	def __init__(self, *args, **kwargs):
 
@@ -29,12 +30,12 @@ cdef class Primitive(CSGvol):
                     pass
 
         if translated and rotated:
-            self.transform = general_transform
+            self.apply_transform = &apply_general_transform
         
         elif translated:
-            self.transform = translate
+            self.apply_transform = &apply_translation
         
         elif rotated:
-            self.transform = rotate
+            self.apply_transform = &apply_rotation
 
 		super(Primitive, self).__init__(*args, **kwargs)
