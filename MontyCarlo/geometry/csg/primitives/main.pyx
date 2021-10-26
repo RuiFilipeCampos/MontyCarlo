@@ -1,47 +1,9 @@
-cdef cnp.ndarray new_rotationT(_axis, angle):
 
-		cdef cnp.ndarray axis = np.array(_axis)
-
-		axis = axis/np.sqrt(np.sum(axis**2))
-
-		cdef double ux = axis[0]
-		cdef double uy = axis[1]
-		cdef double uz = axis[2]
-
-
-		cdef cnp.ndarray T = np.zeros((4,4))
-
-		cdef double _cos = cos(angle)
-		cdef double oneMcos = 1 - _cos
-		cdef double _sin = sqrt(1 - _cos*_cos)
-
-		T[0, 0] = _cos + ux*ux*oneMcos
-		T[0, 1] = ux*uy*oneMcos - uz*_sin
-		T[0, 2] = ux*uz*oneMcos + uy*_sin
-
-		T[1, 0] = uy*ux*oneMcos + uz*_sin
-		T[1, 1] = _cos + uy*uy*oneMcos
-		T[1, 2] = uy*uz*oneMcos - ux*_sin
-
-		T[2, 0] = uz*ux*oneMcos-uy*_sin
-		T[2, 1] = uz*uy*oneMcos + ux*_sin
-		T[2, 2] = _cos + uz*uz*oneMcos
-
-		T[3, 3] = 1
-
-		return T
 
 import numpy as np
 
-ctypedef (*map_t)(double3& pos, double[:] transformation)
-
 
 cdef class Primitive(CSGvol):
-
-    cdef map_t apply_transform
-	cdef double[16] direct_transform
-    cdef double[16] inverse_transform
-
 
 	def __init__(self, *args, **kwargs):
 
@@ -106,6 +68,17 @@ cdef class Primitive(CSGvol):
 
                     tmp_direct_transform = rotation_matrix @ tmp_direct_transform
 
+        tmp_inverse_transform = np.linalg.inv(tmp_direct_transform)
+        
+        cdef int i, y, x
+
+        i = 0
+        for y in range(4):
+            for x in range(4):
+                self.direct_transform[i]  = tmp_direct_transform[x, y]
+                self.inverse_transform[i] = tmp_inverse_transform[x, y]
+                i += 1
+
         if translated and rotated:
             self.apply_transform = &apply_general_transform
         
@@ -116,3 +89,7 @@ cdef class Primitive(CSGvol):
             self.apply_transform = &apply_rotation
 
 		super(Primitive, self).__init__(*args, **kwargs)
+
+
+
+    def translate(self, double x, double y, double z):  
