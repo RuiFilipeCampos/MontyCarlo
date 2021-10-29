@@ -122,6 +122,16 @@ cdef class Primitive(CSGvol):
         else:
             self.has_transform = False
 
+    cdef void multiply_map(self, matrix):
+        tmp_direct_transform = np.array(
+            [
+                [1, 0, 0, 0],
+                [0, 1, 0, 0],
+                [0, 0, 1, 0],
+                [0, 0, 0, 1],
+            ], dtype = np.float64,
+        )
+
 
 
 def Translate(*args, x = 0, y = 0, z = 0):
@@ -131,11 +141,11 @@ def Translate(*args, x = 0, y = 0, z = 0):
         (<Primitive> volume).direct_transform[3] += x
         (<Primitive> volume).inverse_transform[3] -= x
 
-        (<Primitive> volume).direct_transform[3] += y
-        (<Primitive> volume).inverse_transform[3] -= y
+        (<Primitive> volume).direct_transform[7] += y
+        (<Primitive> volume).inverse_transform[7] -= y
 
-        (<Primitive> volume).direct_transform[3] += z
-        (<Primitive> volume).inverse_transform[3] -= z
+        (<Primitive> volume).direct_transform[11] += z
+        (<Primitive> volume).inverse_transform[11] -= z
 
 
         (<Primitive> volume).translated = True
@@ -148,12 +158,14 @@ def Rotate(*args, axis = (0, 0, 1), angle=0):
 
 
     
-    axis = np.array([
+    axis = np.array(
+        [
         transformation[1][0], 
         transformation[1][1], 
         transformation[1][2], 
-    ], 
-    dtype = np.float64 )
+        ],
+        dtype = np.float64,
+    )
 
     axis = axis/np.sqrt(np.sum(axis**2))
 
