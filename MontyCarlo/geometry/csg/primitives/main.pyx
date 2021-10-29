@@ -121,6 +121,7 @@ cdef class Primitive(CSGvol):
 
 
 def Translate(self, *args, **kwargs):
+
     cdef double x, y, z
     x = kwargs['x']
     y = kwargs['y']
@@ -128,13 +129,13 @@ def Translate(self, *args, **kwargs):
 
     for volume in args:
         (<Primitive> volume).direct_transform[3] += x
-        (<Primitive> volume).direct_transform[3] -= x
+        (<Primitive> volume).inverse_transform[3] -= x
 
         (<Primitive> volume).direct_transform[3] += y
-        (<Primitive> volume).direct_transform[3] -= y
+        (<Primitive> volume).inverse_transform[3] -= y
 
         (<Primitive> volume).direct_transform[3] += z
-        (<Primitive> volume).direct_transform[3] -= z
+        (<Primitive> volume).inverse_transform[3] -= z
 
         Translate(*list(volume))
             
