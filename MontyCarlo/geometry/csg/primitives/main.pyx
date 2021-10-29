@@ -124,12 +124,10 @@ cdef class Primitive(CSGvol):
 
 
 
-def Translate(self, *args, **kwargs):
+def Translate(*args, x = 0, y = 0, z = 0):
 
-    cdef double x, y, z
-    x = kwargs['x']
-    y = kwargs['y']
-    z = kwargs['z']
+
+
 
     for volume in args:
         (<Primitive> volume).direct_transform[3] += x
@@ -145,7 +143,7 @@ def Translate(self, *args, **kwargs):
         (<Primitive> volume).translated = True
         (<Primitive> volume).set_map()         
 
-        Translate(*list(volume))
+        Translate(*list(volume), x = x, y = y, z = z)
 
 
 def Rotate(self, *args, axis = (0, 0, 1), angle=0):
