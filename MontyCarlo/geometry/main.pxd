@@ -42,6 +42,7 @@ cdef class BVH(Volume):
 	cdef void** ws
 	cdef void** original_ws
 	cdef bint has_name
+	cdef object ws_python
 
 
 	# Boundary Crossing

@@ -174,8 +174,12 @@ cdef class BVH(Volume):
 		self.ws = <void**> malloc(self.Nws * sizeof(void*))
 
 		self.ws[0] = <void*> self
+
+		self.ws_python = []
+
 		for i, volume in enumerate(args):
 			self.ws[i+1] = <void*> volume
+			self.ws_python.append(volume)
 			(<BVH> volume).set_outer(self, i + 1)
 
 		if kwargs['render'] == True:
@@ -211,6 +215,9 @@ cdef class BVH(Volume):
 		self.outer = other
 		self.position_in_outer = index
 
+
+	def __iter__(BVH self):
+		yield from self.ws_python
 
 	def __contains__(self, other):
 		cdef double3 pos

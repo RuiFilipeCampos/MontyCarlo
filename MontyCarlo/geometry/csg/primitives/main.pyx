@@ -118,9 +118,6 @@ cdef class Primitive(CSGvol):
 
 
 
-        def translate(self, x, y, z):
-            pass
-
 
 
 def Translate(self, *args, **kwargs):
@@ -128,4 +125,18 @@ def Translate(self, *args, **kwargs):
     x = kwargs['x']
     y = kwargs['y']
     z = kwargs['z']
+
+    for volume in args:
+        (<Primitive> volume).direct_transform[3] += x
+        (<Primitive> volume).direct_transform[3] -= x
+
+        (<Primitive> volume).direct_transform[3] += y
+        (<Primitive> volume).direct_transform[3] -= y
+
+        (<Primitive> volume).direct_transform[3] += z
+        (<Primitive> volume).direct_transform[3] -= z
+
+        for inner in volume:
+            pass
+            
 
