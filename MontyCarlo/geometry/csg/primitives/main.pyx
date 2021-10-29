@@ -141,7 +141,9 @@ def Translate(self, *args, **kwargs):
         (<Primitive> volume).direct_transform[3] += z
         (<Primitive> volume).inverse_transform[3] -= z
 
-        if (<Primitive> volume).rotated 
+
+        (<Primitive> volume).translated = True
+        (<Primitive> volume).set_map()         
 
         Translate(*list(volume))
 
