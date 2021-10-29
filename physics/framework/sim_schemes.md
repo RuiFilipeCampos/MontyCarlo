@@ -7,6 +7,10 @@ sidebar_position: 3
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 
+
+A basic conceptual/mathematical framework is introduced, which is the minimum mathematical background required to understand how a Monte Carlo particle simulator is constructed. An attempt is made to build an **intuition** for what the *differential cross section* is and how it can be used in particle simulations. A bottom up approach is taken to walk the reader to the most important algorithm in the Monte Carlo techniques for the simulation of particle transport.
+
+
 A basic conceptual/mathematical framework is introduced. It will be used alot during subsquent discussions.
 
 

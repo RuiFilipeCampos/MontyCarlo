@@ -16,16 +16,17 @@ This stuff is still being written.
 The detailed history simulation consistis in exaustively simulating every possible event in the particle history. This is an acceptable approach when the mean free path between interactions of the particle with the medium have a size comparable to their total path lenght. 
 
 
+In this section, I attempt to introduce a solid conceptual framework, which includes the minimum mathematical background required to understand how a Monte Carlo particle simulator is constructed.
 
-
+An attempt is made to build an **intuition** for what the *differential cross section* is and how it can be used in particle simulations. A bottom up approach is taken to walk the reader to the most important algorithm in the Monte Carlo techniques for the simulation of particle transport.
 
 ## Interaction Cross Section
 
-The **differential cross section** (DCS) is the quantity that bridges the analytic solutions of scattering theory to the probability realm. 
-For a given collision, it is a function of the final result of the interaction and can be seen as the unnormalized probability distribution of those values. 
+The **differential cross section** (DCS) is a quantity that bridges the analytic results of scattering theory to the statistical realm. It is a probabilistic model that holds important information about an interaction.
+For a given collision, it is a function of the final result of the interaction and can be seen as the unnormalized probability distribution of the values that represent the result of the interaction. 
 
-Consider the classical physics experiment shown in figure 1.
-Any given point on the plane that contains all possible initial conditions (plane of incidence $\Sigma$) is uniquely mapped to a tuple $(\theta, \phi) \in [0, \pi]\times[0, 2\pi[$ that specifies the final result of the interaction. That is, there is a one-to-one map between $\Sigma$ and the unit sphere ($S$).
+To understand why, consider the classical physics experiment shown in figure 1.
+Any given point on the plane that contains all possible initial conditions (plane of incidence $\Sigma$) is uniquely mapped to a tuple $(\theta, \phi) \in [0, \pi]\times[0, 2\pi[$ that specifies the final result of the interaction. That is, there is a one-to-one map between $\Sigma$ and the open unit sphere ($\mathring{S}$).
 
 <figure>
 <img alt="Docusaurus with Keytar" src={useBaseUrl('/img/DCS.jpg')} />
