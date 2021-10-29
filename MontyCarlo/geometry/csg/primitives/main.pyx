@@ -127,8 +127,6 @@ cdef class Primitive(CSGvol):
 def Translate(*args, x = 0, y = 0, z = 0):
 
 
-
-
     for volume in args:
         (<Primitive> volume).direct_transform[3] += x
         (<Primitive> volume).inverse_transform[3] -= x
@@ -146,7 +144,10 @@ def Translate(*args, x = 0, y = 0, z = 0):
         Translate(*list(volume), x = x, y = y, z = z)
 
 
-def Rotate(self, *args, axis = (0, 0, 1), angle=0):
+def Rotate(*args, axis = (0, 0, 1), angle=0):
+
+
+    
     axis = np.array([
         transformation[1][0], 
         transformation[1][1], 
@@ -182,5 +183,18 @@ def Rotate(self, *args, axis = (0, 0, 1), angle=0):
 
     rotation_matrix[3, 3] = 1
 
-    tmp_direct_transform = rotation_matrix @ tmp_direct_transform
+   # tmp_direct_transform = rotation_matrix @ tmp_direct_transform
+    
+    def recursive_modification(*args, rotation_matrix):
 
+        for volume in args:
+            (<Primitive> volume).multiply_map(rotation_matrix)
+            (<Primitive> volume).rotated = True
+            (<Primitive> volume).set_map()
+    
+            recursive_modification(*list(volume))
+
+    recursive_modification(*args, rotation_matrix)
+        
+
+        
