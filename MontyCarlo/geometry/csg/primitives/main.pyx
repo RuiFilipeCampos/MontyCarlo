@@ -152,6 +152,8 @@ def Translate(*args, x = 0, y = 0, z = 0):
         (<Primitive> volume).set_map()         
 
         Translate(*list(volume), x = x, y = y, z = z)
+    
+    return args
 
 
 def Rotate(*args, axis = (0, 0, 1), angle=0):
@@ -207,6 +209,8 @@ def Rotate(*args, axis = (0, 0, 1), angle=0):
             recursive_modification(*list(volume))
 
     recursive_modification(*args, rotation_matrix)
+
+    return args
         
 
         
