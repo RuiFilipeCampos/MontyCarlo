@@ -11,26 +11,40 @@
 
 cdef class Sphere(Primitive):
 	cdef double r
+	cdef double r2
 
 
 	def __init__(self, *args, **kwargs):
-		super(Sphere, self).__init__(*args, **kwargs)
+
 		self.r = kwargs['radius']
+		self.r2 = self.r*self.r
 
+		super(Sphere, self).__init__(*args, **kwargs)
+		
 
-	cdef bint is_inside(self, double3& _pos):
-		cdef double3 pos = _pos
-		self.tr.inv_pos(pos)
-		return pos.x*pos.x + pos.y*pos.y + pos.z*pos.z <= self.r*self.r
 
 	def __repr__(self):
 		return f"<Sphere: radius={self.r}cm>"
 
-	cdef double SDF(self, double3& _pos):
-
+	cdef bint is_inside(self, double3& _pos):
 		cdef double3 pos = _pos
-
 		self.tr.inv_pos(pos)
+		return pos.x*pos.x + pos.y*pos.y + pos.z*pos.z <= self.r2
+
+
+	cdef double SDF(self, double3& pos):
+
+		cdef double3 _pos = pos
+
+
+		# applying the inverse transformations 
+		self.apply_map(
+			_pos, self.inverse_transform
+		)
+
+		# .... not sure what this was? :
+        # self.to_primitive_space(pos)
+
 		return sqrt(
 			pos.x*pos.x +
 		    pos.y*pos.y +
