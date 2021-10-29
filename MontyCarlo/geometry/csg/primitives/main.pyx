@@ -99,24 +99,28 @@ cdef class Primitive(CSGvol):
                 self.inverse_transform[i] = tmp_inverse_transform[x, y]
                 i += 1
 
-        if translated and rotated:
-            self.apply_transform = &apply_general_transform
-            self.has_transform = True
-        
-        elif translated:
-            self.apply_transform = &apply_translation
-            self.has_transform = True
-        
-        elif rotated:
-            self.apply_transform = &apply_rotation
-            self.has_transform = True
-        else:
-            self.has_transform = False
+        self.set_map()
+
+
             
 
 		super(Primitive, self).__init__(*args, **kwargs)
 
-
+    cdef void set_map(Primitive self):
+        
+        if self.translated and self.rotated:
+            self.apply_transform = &apply_general_transform
+            self.has_transform = True
+        
+        elif self.translated:
+            self.apply_transform = &apply_translation
+            self.has_transform = True
+        
+        elif self.rotated:
+            self.apply_transform = &apply_rotation
+            self.has_transform = True
+        else:
+            self.has_transform = False
 
 
 
@@ -136,6 +140,8 @@ def Translate(self, *args, **kwargs):
 
         (<Primitive> volume).direct_transform[3] += z
         (<Primitive> volume).inverse_transform[3] -= z
+
+        if (<Primitive> volume).rotated 
 
         Translate(*list(volume))
 
