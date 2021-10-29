@@ -28,7 +28,7 @@ cdef class Sphere(Primitive):
 
 	cdef bint is_inside(self, double3& _pos):
 		cdef double3 pos = _pos
-		self.tr.inv_pos(pos)
+		self.apply_map(pos, self.inverse_transform)
 		return pos.x*pos.x + pos.y*pos.y + pos.z*pos.z <= self.r2
 
 
@@ -62,9 +62,7 @@ cdef class Sphere(Primitive):
 		print(pos)
 		return self.SDF(pos)
 
-	def scale(self, s):
-		self.r *= s
-		return self
+
 
 	cdef intLIST intersect(self, double3& _pos, double3& _dire):
 		IF VERBOSE: print("SPHERE::INTERSECTING")
@@ -79,7 +77,7 @@ cdef class Sphere(Primitive):
 
 		cdef double b = pos.x*dire.x + pos.y*dire.y + pos.z*dire.z
 		# b*b - (|o|**2 - r**2)
-		cdef double DELTA = b*b - pos.x*pos.x - pos.y*pos.y - pos.z*pos.z + self.r*self.r
+		cdef double DELTA = b*b - pos.x*pos.x - pos.y*pos.y - pos.z*pos.z + self.r2
 
 		cdef intLIST result
 		cdef Interval I
