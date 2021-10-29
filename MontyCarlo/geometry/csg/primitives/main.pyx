@@ -4,14 +4,23 @@ import numpy as np
 
 
 
-cdef void apply_general_transform(double3& pos, double[:] transformation):
-    pass
+cdef void apply_general_transform(double3& pos, double[:] transform):
+    cdef double3 _pos = pos
+    pos.x = transform[0]*_pos.x + transform[1]*_pos.y + transform[2] *_pos.z  + transform[3]
+    pos.y = transform[4]*_pos.x + transform[5]*_pos.y + transform[6] *_pos.z  + transform[7]
+    pos.z = transform[8]*_pos.x + transform[9]*_pos.y + transform[10]*_pos.z  + transform[11]
 
-cdef void apply_translation(double3& pos, double[:] transformation):
-    pass
+cdef void apply_translation(double3& pos, double[:] transform):
+    pos.x += transform[3]
+    pos.y += transform[7]
+    pos.z += transform[11]
 
-cdef void apply_rotation(double3& pos, double[:] transformation):
-    pass
+cdef void apply_rotation(double3& pos, double[:] transform):
+    cdef double3 _pos = pos
+    pos.x = transform[0]*_pos.x + transform[1]*_pos.y + transform[2] *_pos.z
+    pos.y = transform[4]*_pos.x + transform[5]*_pos.y + transform[6] *_pos.z
+    pos.z = transform[8]*_pos.x + transform[9]*_pos.y + transform[10]*_pos.z
+
 
 
 
