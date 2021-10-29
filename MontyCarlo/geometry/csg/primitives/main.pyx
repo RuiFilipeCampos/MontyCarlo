@@ -136,7 +136,6 @@ def Translate(self, *args, **kwargs):
         (<Primitive> volume).direct_transform[3] += z
         (<Primitive> volume).direct_transform[3] -= z
 
-        for inner in volume:
-            pass
+        Translate(*list(volume))
             
 
