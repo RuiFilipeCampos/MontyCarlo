@@ -41,7 +41,7 @@ Consider now a solid angle $d\Omega$ located at some point $(\theta_0, \phi_0)$ 
 Intuitively, if particles are randomly thrown at the plane of incidence, in the conditions described in figure 1, $d\sigma$ is the size of the target that the particle must hit in order to reproduce one of the final conditions contained within $d \Omega$ at $(\theta_0, \phi_0)$. Certain final conditions correspond to larger targets, and therefore are more likely to occur. The differential cross section is then defined as the multiplication factor that scales $d\Omega$ placed at a position $(\theta, \phi)$, to the size of this target,
 
 $$
-  d\sigma = \frac{d\sigma_E}{d\Omega} |\_{(\theta, \phi)} d\Omega.
+  d\sigma = \frac{d\sigma_E(\theta, \phi)}{d\Omega} d\Omega.
 $$
 
 The subscript $E$ indicates the dependence of this function on the energy of the incident beam. Furthermore, to account for the energy loss of the projectile, the unit sphere is extended to a more general configuration space $S \times [0, W[$. Finally, the the probability of the interaction occurring at all can be quantified by integrating the differential cross section over the entire configuration space,
