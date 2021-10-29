@@ -3,8 +3,19 @@
 import numpy as np
 
 
-cdef class Primitive(CSGvol):
 
+cdef void apply_general_transform(double3& pos, double[:] transformation):
+    pass
+
+cdef void apply_translation(double3& pos, double[:] transformation):
+    pass
+
+cdef void apply_rotation(double3& pos, double[:] transformation):
+    pass
+
+
+
+cdef class Primitive(CSGvol):
 	def __init__(self, *args, **kwargs):
 
         tmp_direct_transform = np.array(
@@ -81,15 +92,31 @@ cdef class Primitive(CSGvol):
 
         if translated and rotated:
             self.apply_transform = &apply_general_transform
+            self.has_transform = True
         
         elif translated:
             self.apply_transform = &apply_translation
+            self.has_transform = True
         
         elif rotated:
             self.apply_transform = &apply_rotation
+            self.has_transform = True
+        else:
+            self.has_transform = False
+            
 
 		super(Primitive, self).__init__(*args, **kwargs)
 
 
 
-    def translate(self, double x, double y, double z):  
+        def translate(self, x, y, z):
+            pass
+
+
+
+def Translate(self, *args, **kwargs):
+    cdef double x, y, z
+    x = kwargs['x']
+    y = kwargs['y']
+    z = kwargs['z']
+
