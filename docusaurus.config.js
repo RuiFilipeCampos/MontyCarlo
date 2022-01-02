@@ -12,7 +12,7 @@ const config = {
   title: 'MontyCarlo',
   tagline: 'The Django of particle simulators.',
   url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/MontyCarlo/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
