@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdev=self.webpackChunkdev||[]).push([[582],{7728:function(e){e.exports=JSON.parse('{"pluginId":"tutorial","version":"current","label":"Next","banner":null,"badge":false,"className":"docs-version-current","isLast":true,"docsSidebars":{"tutorialSidebar":[{"type":"link","label":"Tutorial Intro","href":"/MontyCarlo/tutorial/intro"}]}}')}}]);
