@@ -5,9 +5,9 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 
 # MontyCarlo *build* depenencies...
 RUN pip install cython
-RUN pip install numpy
 RUN pip install wheel
 RUN pip install setuptools
+RUN pip install numpy
 
 # Cloning the repository...
 RUN git clone https://github.com/RuiFilipeCampos/MontyCarlo.git
