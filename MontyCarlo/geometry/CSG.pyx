@@ -325,13 +325,13 @@ cdef class CSGvol(BVH):
 
         
         
-        while True: 
+        while True:
 
-            # gets the safest KNOWN distance 
+            # Calculate and sets the safest KNOWN distance to the surface of this volume 
             self._set_safest_distance(state.pos)
 
 
-            # find the closest surface
+            # Find the closest surface
             first.index = 0
             first.distance = self.distance
 
@@ -351,14 +351,15 @@ cdef class CSGvol(BVH):
                 # state.L = 0
                 return False
 
-
+            # Surface too close, INTERSECT
             if first.distance < .1:
-
+                
+                # Checks if volume has already been intersected, if not it intersects it
                 if (<V> self.ws[first.index]).main_intersect(state):
                     # Substitute the volume by its proxy
                     self.ws[first.index] = (<CSGvol> self.ws[first.index]).get_proxy()
 
-                first.distance  = (<V> self.ws[first.index])._get_safest_distance()
+                first.distance  = (<V> self.ws[first.index]).distance
                 second.distance = INF
 
                 for i in range(0, first.index):
