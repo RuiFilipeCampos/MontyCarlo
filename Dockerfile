@@ -15,6 +15,10 @@ COPY requirements.txt .
 COPY README.md .
 COPY setup_version.py .
 COPY setup.cfg .
+COPY server /server
+
 
 # Building Monty Carlo...
-RUN ls && python setup_linux.py build_ext -j6
+
+
+RUN ls && python setup_linux.py build_ext -j6 -b ./server/engine/
