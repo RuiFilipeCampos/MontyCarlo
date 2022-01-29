@@ -338,10 +338,8 @@ cdef class CSGvol(BVH):
                     first.distance = (<V> self.ws[i]).distance
                     first.index = i
 
-            # WHERE WE GONAN GO NOW
 
-
-            # safe to just advance the particle 
+            # Safe to just advance the particle.
             if state.L < first.distance:
                 state.pos.x += state.dire.x*state.L
                 state.pos.y += state.dire.y*state.L
@@ -354,7 +352,7 @@ cdef class CSGvol(BVH):
             if first.distance < .1:
 
                 if (<V> self.ws[first.index]).main_intersect(state):
-                    self.ws[first.index] = (<V> self.ws[first.index]).proxy
+                    self.ws[first.index] = (<CSGvol> self.ws[first.index]).proxy
 
                 first.distance  = (<V> self.ws[first.index])._get_safest_distance()
                 second.distance = INF
