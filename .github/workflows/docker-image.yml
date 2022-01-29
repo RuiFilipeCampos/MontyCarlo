@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ pre-alpha/master ]
+    branches: [ bugfix/build ]
   pull_request:
-    branches: [ pre-alpha/master ]
+    branches: [ bugfix/build ]
 
 jobs:
 
