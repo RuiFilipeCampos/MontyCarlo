@@ -4,7 +4,7 @@ on:
   push:
     branches: [ bugfix/build ]
   pull_request:
-    branches: [ bugfix/build ]
+    branches: [ pre-alpha/master ]
 
 jobs:
 
