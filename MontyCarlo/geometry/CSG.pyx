@@ -472,7 +472,18 @@ cdef class CSGvol(BVH):
                     self.exit()
                     return False
 
-            self.virtual_event(state, first.distance)
+
+
+            # second.distance < state.L < first.distance   
+            # self.virtual_event(state, second.distance)
+
+            state.pos.x += state.dire.x*first.distance
+            state.pos.y += state.dire.y*first.distance
+            state.pos.z += state.dire.z*first.distance
+            state.L -= first.distance
+            displacement += first.distance
+            #continue
+            #self.virtual_event(state, first.distance)
 
 
     cdef void _set_safest_distance(self, double3& pos):
