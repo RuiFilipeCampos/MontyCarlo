@@ -54,7 +54,30 @@ cdef class Volume:
     cdef void depositLocaly(self, double3 pos, double E)
 
 
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
 
 cdef class BVH(Volume):
     # Workspace
@@ -88,10 +111,14 @@ cdef class BVH(Volume):
     cdef void exit(self)
     cdef bint move(self, STATE& state, double SP)
     cdef void depositUNIFORM(self, STATE& state, double SP)
-    cdef void depositDISCRETE(self, STATE& state)	
+    # cdef void depositDISCRETE(self, STATE& state)	
     cdef void depositLOCAL(self, double3& pos, double E)
     cdef void depositRANDOM(self, STATE& state, double E, double tau)
 
     cdef bint main_intersect(self, STATE& state)
+
     cdef double SDF(self, double3 pos)
     cdef bint is_inside(self, double3 pos)
+
+
+"""
