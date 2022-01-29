@@ -6,11 +6,15 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 # MontyCarlo *build* depenencies...
 RUN pip install cython
 RUN pip install wheel
-RUN pip install setuptools
 RUN pip install numpy
+RUN pip install setuptools
 
-# Cloning the repository...
-RUN git clone --depth 1 -b pre-alpha/master https://github.com/RuiFilipeCampos/MontyCarlo.git
+COPY MontyCarlo /MontyCarlo
+COPY setup_linux.py .
+COPY requirements.txt .
+COPY README.md .
+COPY setup_version.py .
+COPY setup.cfg .
 
 # Building Monty Carlo...
-RUN cd MontyCarlo && python setup_linux.py build_ext --inplace >> output.txt
+RUN ls && python setup_linux.py build_ext -j6
