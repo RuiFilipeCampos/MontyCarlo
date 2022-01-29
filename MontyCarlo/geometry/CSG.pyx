@@ -359,7 +359,11 @@ cdef class CSGvol(BVH):
                     # Substitute the volume by its proxy
                     self.ws[first.index] = (<CSGvol> self.ws[first.index]).get_proxy()
 
+
+
                 first.distance  = (<V> self.ws[first.index]).distance
+
+                # Find the distance to the second nearest surface
                 second.distance = INF
 
                 for i in range(0, first.index):
@@ -452,7 +456,7 @@ cdef class CSGvol(BVH):
                     return True
 
                 # min() == L
-                if state.L < second_nearest:
+                if state.L < second.distance:
                     IF VERBOSE: print("min() == L 222")
                     self.final(state)
                     self.exit()
