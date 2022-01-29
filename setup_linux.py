@@ -1,8 +1,11 @@
-# -*- coding: utf-8 -*-
+"""
+Build Monty Carlo. This script is called from the Docker File
+"""
 
 import os
-from Cython.Build import cythonize
+
 from setup_version import version
+
 try:
     from setuptools import setup, find_packages
     from setuptools import Extension
@@ -10,16 +13,16 @@ except ImportError:
     from distutils.core import setup, find_packages
     from distutils.extension import Extension
 
+
+from Cython.Build import cythonize
 from Cython.Distutils import build_ext
 import Cython.Compiler.Options # COMPILER OPTIONS
-import numpy as np # need to compile it with the extension modules
 
-
+# Numpy is compiled with the extension modules.
+import numpy as np 
 
 # MACOS gcc args
-args = [
-        "-Wno-cpp", "-std=c++11"
-       ]
+args = ["-Wno-cpp", "-std=c++11"]
 
 ext_modules = [
 
@@ -99,10 +102,14 @@ ext_modules = [
  
 
 
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+
 
 if __name__ == "__main__":
+
+    with open("README.md", "r", encoding="utf-8") as fh:
+        long_description = fh.read()
+
+
     setup(
 
         entry_points = {
