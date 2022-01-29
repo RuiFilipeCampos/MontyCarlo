@@ -502,8 +502,7 @@ cdef class CSGvol(BVH):
 
 
 
-    cdef void set_safest_distance(self, double3& pos):
-        pass
+
 
     cdef bint is_inside(self, double3& pos):
         raise RuntimeError("`is_inside` was called from virtual (in CSGvol)")
