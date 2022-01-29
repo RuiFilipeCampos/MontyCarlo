@@ -301,6 +301,9 @@ cdef class Proxy(BVH):
 cdef class CSGvol(BVH):
     cdef Proxy proxy
 
+    cdef Proxy get_proxy(self):
+        return self.proxy
+
     def __init__(self, *args, **kwargs):
         # Opening lock, volume can be modified
         super(CSGvol, self).__init__(*args, **kwargs)
@@ -352,7 +355,7 @@ cdef class CSGvol(BVH):
             if first.distance < .1:
 
                 if (<V> self.ws[first.index]).main_intersect(state):
-                    self.ws[first.index] = (<CSGvol> self.ws[first.index]).proxy
+                    self.ws[first.index] = (<CSGvol> self.ws[first.index]).get_proxy()
 
                 first.distance  = (<V> self.ws[first.index])._get_safest_distance()
                 second.distance = INF
@@ -411,7 +414,7 @@ cdef class CSGvol(BVH):
                     if first.index == 0:
 
                         for i in range(0, self.index_in_outer):
-                            if ((<V> self.outer).ws[i]).is_inside(state.pos):
+                            if (<V> ((<V> self.outer).ws[i]) ).is_inside(state.pos):
                                 state.current_region = self.ws[i]
 
                                 # staying in outer, must keep cached intersections
@@ -427,7 +430,7 @@ cdef class CSGvol(BVH):
                                 return True
 
                         for i in range(self.index_in_outer + 1, self.Nws):
-                            if ((<V> self.outer).ws[i]).is_inside(state.pos):
+                            if (<V> (<V> self.outer).ws[i]).is_inside(state.pos):
                                 state.current_region = self.ws[i]
 
                                 # staying in outer, must keep cached intersections
