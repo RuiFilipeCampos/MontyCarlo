@@ -5,6 +5,8 @@ from ..particles.particle cimport Particle
 from ..types cimport double3
 from ..types cimport STATE
 
+from libcpp.list cimport list as cpplist;
+
 cdef extern from "IntervalArithmetics.h":
     cdef cppclass Interval:
         double t1, t2; 
