@@ -356,7 +356,7 @@ cdef class CSGvol(BVH):
 
                 if (<V> self.ws[first.index]).main_intersect(state):
                     # Substitute the volume by its proxy
-                    self.ws[first.index] = <void*> (<CSGvol> self.ws[first.index]).get_proxy()
+                    self.ws[first.index] = <void*> ( (<CSGvol> self.ws[first.index]).get_proxy() )
 
                 first.distance  = (<V> self.ws[first.index])._get_safest_distance()
                 second.distance = INF
@@ -376,8 +376,6 @@ cdef class CSGvol(BVH):
 
                 if first.distance == INF:
                     if state.L < second.distance: # < first.distance
-
-                    
                         state.pos.x += state.dire.x*state.L
                         state.pos.y += state.dire.y*state.L
                         state.pos.z += state.dire.z*state.L
