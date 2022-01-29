@@ -234,7 +234,8 @@ cdef class BVH(Volume):
     cdef bint is_inside(self, double3 pos):
         raise RuntimeError("'is_inside' called from its virtual in 'Volume.BVH' ")
 
-
+    cdef void set_safest_distance(self, double3& pos):
+        raise RuntimeError("'set_safest_distance' called from its virtual in 'Volume.BVH' ")
 
 
 
