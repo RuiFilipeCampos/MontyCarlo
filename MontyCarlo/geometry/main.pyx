@@ -209,10 +209,10 @@ cdef class BVH(Volume):
 
 
     cpdef set_outer(self, BVH other, int index):
-        """
+        \"""
         other -> outer volume
         index -> self's position in outers workspace
-        """
+       \"""
         self.outer = other
         self.position_in_outer = index
 
