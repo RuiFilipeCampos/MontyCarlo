@@ -1,8 +1,11 @@
-# -*- coding: utf-8 -*-
+"""
+Build Monty Carlo. This script is called from the Docker File
+"""
 
 import os
-from Cython.Build import cythonize
+
 from setup_version import version
+
 try:
     from setuptools import setup, find_packages
     from setuptools import Extension
@@ -10,35 +13,103 @@ except ImportError:
     from distutils.core import setup, find_packages
     from distutils.extension import Extension
 
+
+from Cython.Build import cythonize
 from Cython.Distutils import build_ext
 import Cython.Compiler.Options # COMPILER OPTIONS
-import numpy as np # need to compile it with the extension modules
 
-
+# Numpy is compiled with the extension modules.
+import numpy as np 
 
 # MACOS gcc args
-args = [
-        "-Wno-cpp", "-std=c++11"
-       ]
+args = ["-Wno-cpp", "-std=c++11"]
 
-ext_modules = [ 
-                Extension("tools.*",               ["MontyCarlo/tools/*.pyx"]     ,          extra_compile_args = args, language = "c++"),
-                Extension("particles.*",           ["MontyCarlo/particles/*.pyx"]  ,         extra_compile_args = args, language = "c++"),
-                Extension("*",                     ["MontyCarlo/*.pyx"]      ,               extra_compile_args = args, language = "c++"), 
-                Extension("geometry.*",            ["MontyCarlo/geometry/*.pyx"],            extra_compile_args = args, language = "c++"),
-                Extension("materials.electron.*",  ["MontyCarlo/materials/electron/*.pyx"],  extra_compile_args = args, language = "c++"),
-                Extension("materials.positron.*",  ["MontyCarlo/materials/positron/*.pyx"],  extra_compile_args = args, language = "c++"),
-                Extension("materials.*",           ["MontyCarlo/materials/*.pyx"],           extra_compile_args = args, language = "c++"),
-                Extension("materials.photon.*",    ["MontyCarlo/materials/photon/*.pyx"],    extra_compile_args = args, language = "c++"),
-                Extension("external.*",            ["MontyCarlo/external/*.pyx"],            extra_compile_args = args, language = "c++")
-              ]
+ext_modules = [
+
+    # Math Helpers such as **highly** optimized interpolators.
+    Extension(
+        "tools.*",
+        ["MontyCarlo/tools/*.pyx"],
+        extra_compile_args = args,
+        language = "c++"
+    ),
+
+    # Implementation of the random sampling of each particle
+    Extension(
+        "particles.*",
+        ["MontyCarlo/particles/*.pyx"], 
+        extra_compile_args = args,
+        language = "c++"
+    ),
+
+    # 
+    Extension(
+        "*",
+        ["MontyCarlo/*.pyx"],
+        extra_compile_args = args,
+        language = "c++"
+    ), 
+
+    # Geometry Handlers -> CSG using forward ray tracing techinique mixed with signed distance funciton based ray marcher
+    Extension(
+        "geometry.*",
+        ["MontyCarlo/geometry/*.pyx"],
+        extra_compile_args = args,
+        language = "c++"
+    ),
+
+
+    # Data generation and processing for eletrons.
+    Extension(
+        "materials.electron.*",
+        ["MontyCarlo/materials/electron/*.pyx"],
+        extra_compile_args = args,
+        language = "c++"
+    ),
+
+    # Data generation and processing for positrons.
+    Extension(
+        "materials.positron.*",
+        ["MontyCarlo/materials/positron/*.pyx"],
+        extra_compile_args = args,
+        language = "c++"
+    ),
+
+    # Data generation and processing. pyRelax is included here.
+    Extension(
+        "materials.*",
+        ["MontyCarlo/materials/*.pyx"],
+        extra_compile_args = args,
+        language = "c++"
+    ),
+
+    # Data generation and processing for photons.
+    Extension(
+        "materials.photon.*",
+        ["MontyCarlo/materials/photon/*.pyx"],
+        extra_compile_args = args,
+        language = "c++"
+    ),
+
+    # External libraries (notable package: MIXMAX, same pRNG used in GEANT4)
+    Extension(
+        "external.*",
+        ["MontyCarlo/external/*.pyx"],
+        extra_compile_args = args,
+        language = "c++"
+    )
+]
  
 
 
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+
 
 if __name__ == "__main__":
+
+    with open("README.md", "r", encoding="utf-8") as fh:
+        long_description = fh.read()
+
+
     setup(
 
         entry_points = {
@@ -49,7 +120,9 @@ if __name__ == "__main__":
         name = "MontyCarlo",
         version = version,
         author = "Rui Filipe de Sousa Campos",
-        description = "A fast general purpose monte carlo particle simulator (photons, electrons and positrons). Written in Cython, Python and C++.",
+        description = "A fast general purpose monte carlo particle simulator"
+                      " (photons, electrons and positrons). Written in Cython," 
+                      " Python and C++.",
         long_description = long_description,
         long_description_content_type="text/markdown",
         url="https://github.com/RuiFilipeCampos/MontyCarlo",
