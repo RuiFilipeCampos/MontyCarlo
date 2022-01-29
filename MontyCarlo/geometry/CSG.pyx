@@ -301,8 +301,8 @@ cdef class Proxy(BVH):
 cdef class CSGvol(BVH):
     cdef Proxy proxy
 
-    cdef Proxy get_proxy(self):
-        return self.proxy
+    cdef void* get_proxy(self):
+        return <void*> self.proxy
 
     def __init__(self, *args, **kwargs):
         # Opening lock, volume can be modified
@@ -356,7 +356,7 @@ cdef class CSGvol(BVH):
 
                 if (<V> self.ws[first.index]).main_intersect(state):
                     # Substitute the volume by its proxy
-                    self.ws[first.index] = <void*> ( (<CSGvol> self.ws[first.index]).get_proxy() )
+                    self.ws[first.index] = (<CSGvol> self.ws[first.index]).get_proxy()
 
                 first.distance  = (<V> self.ws[first.index])._get_safest_distance()
                 second.distance = INF
