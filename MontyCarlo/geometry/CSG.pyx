@@ -482,7 +482,6 @@ cdef class CSGvol(BVH):
             state.pos.z += state.dire.z*first.distance
             state.L -= first.distance
             displacement += first.distance
-            #continue
             #self.virtual_event(state, first.distance)
 
 

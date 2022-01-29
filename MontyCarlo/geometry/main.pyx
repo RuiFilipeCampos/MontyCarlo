@@ -8,6 +8,7 @@ __author__ = "Rui Campos"
 
 print("Importing `.geometry.main`")
 
+DEF DEBUG_MODE = False
 
 
 # External Imports
