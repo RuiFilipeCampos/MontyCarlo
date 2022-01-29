@@ -22,3 +22,4 @@ COPY server /server
 
 
 RUN ls && python setup_linux.py build_ext -j6 -b ./server/engine/
+RUN cd server && python manage.py runserver 8000
