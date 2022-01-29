@@ -453,7 +453,7 @@ cdef class CSGvol(BVH):
 					IF VERBOSE: print("min() == L 222")
 					self.final(state)
 					self.exit()
-					return False ? 
+					return False
 
 			self.virtual_event(state, first.distance)
 
