@@ -9,7 +9,8 @@ DEF DEBUG_MODE = False
 DEF PRINT = True
 
 IF PRINT:
-    def input(x): print(x)
+    def input(x):
+        print(x)
 
 
 cdef struct Closest:
@@ -465,13 +466,14 @@ cdef class CSGvol(BVH):
     cdef void set_safest_distance(self, double3& pos):
         self.distance = self.SDF(pos)
 
-    cdef bint main_intersect(self, STATE& state):
+    cdef double main_intersect(self, STATE& state):
+        raise RuntimeError("main_intersect called from virtual")
         
-        self.proxy.set_iterator(intIterator(self.intersect(
-            state.pos, state.dire
-        )))
+        #self.proxy.set_iterator(intIterator(self.intersect(
+        #    state.pos, state.dire
+        #)))
         
-        return True
+        #return True
 
 
 
