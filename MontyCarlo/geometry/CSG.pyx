@@ -221,7 +221,7 @@ cdef class BVH(Volume):
     cdef void depositRANDOM(self, STATE& state, double E, double tau):
         raise RuntimeError("'depositRANDOM' called from its virtual in 'Volume.BVH' ")
 
-    cdef double main_intersect(self, STATE& state):
+    cdef bint main_intersect(self, STATE& state):
         raise RuntimeError("'main_intersect' called from its virtual in 'Volume.BVH' ")
 
     cdef void localSDF(self, STATE& state):
@@ -466,14 +466,19 @@ cdef class CSGvol(BVH):
     cdef void set_safest_distance(self, double3& pos):
         self.distance = self.SDF(pos)
 
-    cdef double main_intersect(self, STATE& state):
-        raise RuntimeError("main_intersect called from virtual")
+    cdef bint main_intersect(self, STATE& state):
         
-        #self.proxy.set_iterator(intIterator(self.intersect(
-        #    state.pos, state.dire
-        #)))
-        
-        #return True
+        # This sets the proxy for this volume
+        self.proxy.set_iterator(
+            # An intersection iterator is created
+            intIterator(
+                # Intersections are calculated here
+                self.intersect(state.pos, state.dire)
+            )
+        )
+
+        # Signals that a proxy has been set
+        return True
 
 
 
@@ -1484,7 +1489,7 @@ cdef class Tally(BVH):
         pass
 
 
-
+"""
 cdef class Z_TALLY(Tally):
     cdef vector[double] bins, counts, tmp
     cdef double3 last_pos
@@ -1688,7 +1693,7 @@ cdef class Z_TALLY(Tally):
 
 
     cdef void localSDF(self, STATE& state):
-        """
+        \"""
         JOB OF 'localSDF':
             (1) Set attribute .sdf equal to a *safe distance*
 
@@ -1696,7 +1701,7 @@ cdef class Z_TALLY(Tally):
                distance function (despite the name I gave it).
                The rest of the code will work as long as this distance can
                be travelled without hitting some other surface.
-        """
+        \"""
         if self.cache:
             self.sdf = INF
             return
@@ -1708,8 +1713,8 @@ cdef class Z_TALLY(Tally):
 
 
 
-    cdef double main_intersect(self, STATE& state):
-        """
+    cdef bint main_intersect(self, STATE& state):
+        \"""
         JOB OF 'main_intersect':
             (1) if previously marked as cache:
                     PROVIDE DISTANCE TO THE NEXT CACHED INTERSECTION
@@ -1719,7 +1724,7 @@ cdef class Z_TALLY(Tally):
                 (1.2) collect intersections into an 'intLIST'
                 (1.3) create and store an 'intIerator'
                 (1.4) return distance to the next intersection
-        """
+        \"""
         IF VERBOSE_TALLY: print("main_intersect", f"cache = {self.cache}")
 
         if self.cache:
@@ -1770,3 +1775,4 @@ cdef class Z_TALLY(Tally):
         state.last_displacement = dr
 
         state.L -= dr
+"""
