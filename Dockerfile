@@ -23,4 +23,8 @@ COPY server /server
 
 RUN ls && python setup_linux.py build_ext -j6 -b ./server/engine/
 RUN cd server && pip install -r requirements.txt
-RUN cd server && python manage.py runserver 8000
+
+# EXPOSE 1000
+# STOPSIGNAL SIGTERM
+
+# RUN cd server && python manage.py runserver 1000
