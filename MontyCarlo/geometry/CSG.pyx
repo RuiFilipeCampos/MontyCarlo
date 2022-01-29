@@ -333,7 +333,7 @@ cdef class CSGvol(BVH):
             first.distance = self.distance
 
             for i in range(1, self.Nws):
-                (<V> self.ws[i]).set_safest_distance(state)
+                (<V> self.ws[i]).set_safest_distance(state.pos)
                 if (<V> self.ws[i]).distance < first.distance:
                     first.distance = (<V> self.ws[i]).distance
                     first.index = i
