@@ -310,6 +310,14 @@ cdef class CSGvol(BVH):
 
 
     cdef bint move(self, STATE& state, double SP):
+        """
+        STATE state: reference to the particles state
+        double SP: linear approximation to the stopping power
+
+        Move the particle to one of these:
+            - the distance proposed by the physics engine
+            - the surface of some volume
+        """
         cdef double3 origin = state.pos
         displacement = 0
 
@@ -458,7 +466,9 @@ cdef class CSGvol(BVH):
                 # min() == L
                 if state.L < second.distance:
                     IF VERBOSE: print("min() == L 222")
-                    self.final(state)
+                    state.pos.x += state.dire.x*state.L
+                    state.pos.y += state.dire.y*state.L
+                    state.pos.z += state.dire.z*state.L
                     self.exit()
                     return False
 
