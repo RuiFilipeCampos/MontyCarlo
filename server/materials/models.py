@@ -32,8 +32,10 @@ class Material(models.Model):
             ("GAS", "GAS"),
         ]
     )
-    
+
     exec(CODE)
+
+
 
 
 
