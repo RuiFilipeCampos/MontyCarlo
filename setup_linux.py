@@ -23,6 +23,7 @@ args = [
 
 ext_modules = [
 
+    # Math Helpers such as **highly** optimized interpolators.
     Extension(
         "tools.*",
         ["MontyCarlo/tools/*.pyx"],
@@ -30,6 +31,7 @@ ext_modules = [
         language = "c++"
     ),
 
+    # Implementation of the random sampling of each particle
     Extension(
         "particles.*",
         ["MontyCarlo/particles/*.pyx"], 
@@ -37,6 +39,7 @@ ext_modules = [
         language = "c++"
     ),
 
+    # 
     Extension(
         "*",
         ["MontyCarlo/*.pyx"],
@@ -44,13 +47,16 @@ ext_modules = [
         language = "c++"
     ), 
 
+    # Geometry Handlers -> CSG using forward ray tracing techinique mixed with signed distance funciton based ray marcher
     Extension(
-        "geometry.*"
+        "geometry.*",
         ["MontyCarlo/geometry/*.pyx"],
         extra_compile_args = args,
         language = "c++"
     ),
 
+
+    # Data generation and processing for eletrons.
     Extension(
         "materials.electron.*",
         ["MontyCarlo/materials/electron/*.pyx"],
@@ -58,6 +64,7 @@ ext_modules = [
         language = "c++"
     ),
 
+    # Data generation and processing for positrons.
     Extension(
         "materials.positron.*",
         ["MontyCarlo/materials/positron/*.pyx"],
@@ -65,6 +72,7 @@ ext_modules = [
         language = "c++"
     ),
 
+    # Data generation and processing. pyRelax is included here.
     Extension(
         "materials.*",
         ["MontyCarlo/materials/*.pyx"],
@@ -72,6 +80,7 @@ ext_modules = [
         language = "c++"
     ),
 
+    # Data generation and processing for photons.
     Extension(
         "materials.photon.*",
         ["MontyCarlo/materials/photon/*.pyx"],
@@ -79,6 +88,7 @@ ext_modules = [
         language = "c++"
     ),
 
+    # External libraries (notable package: MIXMAX, same pRNG used in GEANT4)
     Extension(
         "external.*",
         ["MontyCarlo/external/*.pyx"],
