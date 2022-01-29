@@ -49,10 +49,9 @@ if __name__ == "__main__":
         name = "MontyCarlo",
         version = version,
         author = "Rui Filipe de Sousa Campos",
-        description = \ 
-            "A fast general purpose monte carlo particle simulator"
-            " (photons, electrons and positrons). Written in Cython," 
-            " Python and C++.",
+        description = "A fast general purpose monte carlo particle simulator"
+                      " (photons, electrons and positrons). Written in Cython," 
+                      " Python and C++.",
         long_description = long_description,
         long_description_content_type="text/markdown",
         url="https://github.com/RuiFilipeCampos/MontyCarlo",
