@@ -5,26 +5,6 @@ from ..particles.particle cimport Particle
 from ..types cimport double3
 from ..types cimport STATE
 
-from libcpp.list cimport list as cpplist;
-
-cdef extern from "IntervalArithmetics.h":
-    cdef cppclass Interval:
-        double t1, t2; 
-        Interval();
-        Interval(double t1, double t2);
-
-    ctypedef cpplist[Interval] intLIST;
-    intLIST intIntersect(intLIST& left, intLIST& right);
-    intLIST intPlus(intLIST& left, intLIST& right);
-    intLIST intMinus(intLIST& left, intLIST& right);
-
-    cdef cppclass intIterator:
-        intIterator();
-        intIterator(intLIST crosses);
-        void inc();
-        double deref();
-        double current();
-
 
 cdef struct TRANSFORM:
     double3 a
@@ -32,6 +12,7 @@ cdef struct TRANSFORM:
 
 
 cimport numpy as cnp
+
 cdef class Volume:
 
     # OBLIGATORY
