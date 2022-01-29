@@ -10,7 +10,7 @@ RUN pip install setuptools
 RUN pip install numpy
 
 # Cloning the repository...
-RUN git clone --depth 1 -b bugfix/build https://github.com/RuiFilipeCampos/MontyCarlo.git
+RUN git clone --depth 1 -b pre-alpha/master https://github.com/RuiFilipeCampos/MontyCarlo.git
 
 # Building Monty Carlo...
 RUN cd MontyCarlo && python setup_linux.py build_ext --inplace >> output.txt
