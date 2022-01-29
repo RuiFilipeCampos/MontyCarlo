@@ -92,6 +92,6 @@ cdef class BVH(Volume):
     cdef void depositLOCAL(self, double3& pos, double E)
     cdef void depositRANDOM(self, STATE& state, double E, double tau)
 
-    cdef double main_intersect(self, STATE& state)
+    cdef bint main_intersect(self, STATE& state)
     cdef double SDF(self, double3 pos)
     cdef bint is_inside(self, double3 pos)
