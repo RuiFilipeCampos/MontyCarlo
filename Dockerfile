@@ -13,4 +13,4 @@ RUN pip install numpy
 RUN git clone --depth 1 -b bugfix/build https://github.com/RuiFilipeCampos/MontyCarlo.git
 
 # Building Monty Carlo...
-RUN cd MontyCarlo && python setup_linux.py >> output.txt
+RUN cd MontyCarlo && python setup_linux.py build_ext --inplace >> output.txt
