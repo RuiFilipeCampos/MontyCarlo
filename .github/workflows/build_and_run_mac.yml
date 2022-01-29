@@ -1,6 +1,6 @@
 
 name: (RUN UNIT TESTS) macos-latest
-on: [pull_request, workflow_dispatch]
+on: [workflow_dispatch]
 
 jobs:
   macos:
