@@ -60,7 +60,7 @@ cdef class BVH(Volume):
     # Ray Tracing
     cdef bint cache                  # is this volume storing cached intersections?
     cdef intIterator cross           # custom c++ iterator for aiding in simulation with cached intersections
-    cdef double particle_position;   # must keep track of particles position along the ray 
+    cdef double particle_position;   # must keep track of particles position along the ray  
         
 
 
