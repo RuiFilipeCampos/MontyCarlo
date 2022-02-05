@@ -20,8 +20,10 @@
     "electron-is-dev": "^1.1.0",
     "electron-next": "^3.1.5",
     "framer-motion": "5",
+    "prismjs": "^1.26.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-simple-code-editor": "^0.11.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.6",

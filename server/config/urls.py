@@ -19,9 +19,11 @@ from django.urls import path, include
 from rest_framework import routers
 
 from materials.views import MaterialViewSets
+from projects.views import ProjectViewSets
 
 router = routers.DefaultRouter()
-router.register(r'material', MaterialViewSets)
+router.register(r'materials', MaterialViewSets)
+router.register(r'projects', ProjectViewSets)
 
 
 urlpatterns = [
