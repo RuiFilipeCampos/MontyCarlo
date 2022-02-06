@@ -16,17 +16,25 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from rest_framework import routers
 
 from materials.views import MaterialViewSets
-from projects.views import ProjectViewSets
+from projects.views import ProjectViewSets, DirectoryViewSets, CodeFileViewSets
+from rest_framework_nested import routers
 
-router = routers.DefaultRouter()
+
+
+router = routers.SimpleRouter()
 router.register(r'materials', MaterialViewSets)
 router.register(r'projects', ProjectViewSets)
 
+inside_proj_router = routers.NestedSimpleRouter(router, r'projects', lookup='project')
+inside_proj_router.register(r'folders', DirectoryViewSets)
+inside_proj_router.register(r'files', CodeFileViewSets)
+
 
 urlpatterns = [
+    path(r'', include(router.urls)),
+    path(r'', include(inside_proj_router.urls)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
 ]

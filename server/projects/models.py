@@ -3,6 +3,7 @@ from django.db import models
 
 class Directory(models.Model):
     name = models.CharField(max_length=500)
+    is_open = models.BooleanField(default=False)
     project = models.ForeignKey(
         "projects.Project",
         on_delete=models.CASCADE,
@@ -10,8 +11,11 @@ class Directory(models.Model):
     )
     parent = models.ForeignKey(
         "projects.Directory",
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        null=True,
+        related_name='directories'
     )
+
 
 
 class CodeFile(models.Model):
@@ -19,6 +23,8 @@ class CodeFile(models.Model):
     parent = models.ForeignKey(
         "projects.Directory",
         on_delete=models.CASCADE,
+        null=True,
+        related_name='code_files'
     )
     project = models.ForeignKey(
         "projects.Project",
