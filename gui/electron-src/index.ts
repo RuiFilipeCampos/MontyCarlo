@@ -19,9 +19,12 @@ app.on('ready', async () => {
       contextIsolation: false,
       preload: join(__dirname, 'preload.js'),
     },
+    frame: false,
+    titleBarOverlay: true
+
   })
 
-  mainWindow.webContents.insertCSS('html, body { overflow: hidden; }')
+  mainWindow.webContents.insertCSS('html, body { overflow: hidden;     -webkit-user-select: none;  }')
 
 
   const url = isDev
