@@ -1,0 +1,73 @@
+name: (RUN UNIT TESTS) win-latest
+on: [workflow_dispatch]
+
+jobs:
+  windows:
+      runs-on: windows-latest
+      strategy:
+        matrix:
+          cp: ['3.6', '3.7', '3.8', '3.9']
+          arch: ['x64']
+      steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.cp }} # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: ${{ matrix.arch }} # optional x64 or x86. Defaults to x64 if not specified
+        
+      - name: Installing build dependencies...
+        run: |
+          pip install cython
+          pip install numpy
+          pip install wheel
+          pip install setuptools
+          
+      - name: Building MyCo...
+        run: python setup_amd64.py build_ext --inplace -j9
+        
+      - name: Installing requirements...
+        run: pip install -r requirements.txt
+        
+      - name: Importing MyCo...
+        run: python -c "import MontyCarlo"
+        
+      - name: Import test...
+        run: |
+          cd tests
+          python import_test.py --built_inplace
+
+      - name: Testing geometry...
+        run: |
+          cd tests
+          python test_geo.py --built_inplace
+
+      - name: Testing tools...
+        run: |
+          cd tests
+          python test_tools.py --built_inplace
+
+      - name: Checking databases...
+        run: |
+          cd tests
+          python -m test_db --built_inplace
+          
+      - name: The job has failed
+        if: ${{ failure() }}
+        run: |
+          cd MontyCarlo
+          cd materials
+          cd electron
+          ls
+
+
+      - name: Testing material creation...
+        run: |
+          cd tests
+          python create_mat.py --built_inplace
+
+      - name: Running photon unit tests...
+        run: |
+          cd tests
+          python test_photons.py --built_inplace
+    
+

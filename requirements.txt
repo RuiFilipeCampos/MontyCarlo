@@ -1,0 +1,15 @@
+requests # Currently being used to GET the database files.
+numpy # Essential package.
+scipy # Data processing.
+matplotlib # Data visualization
+pyvista # Data visualization
+numba # JIT compilation
+bs4
+pandas # Data Processing Helper -> deprecated
+plotly # Data visualization for report generation 
+scikit-image
+Jinja2
+pyunpack # Deprecated
+patool
+colorama # Terminal
+termcolor # Terminal 

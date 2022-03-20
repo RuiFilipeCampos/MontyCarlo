@@ -1,0 +1,29 @@
+{
+    "current_project":1,
+    "requests":[
+        {}
+    ],
+    "root":{
+        "folders":[
+            {
+                "name":"folder_name",
+                "folders":[],
+                "files":[]
+            }
+        ],
+        "files":[
+            {
+                "pk":1,
+                "name":"filename.py",
+                "contents":"",
+                "status":"uncommited/commited/indatabase"
+            },
+            {
+                "pk":2,
+                "name":"filename.py",
+                "contents":"",
+                "status":"uncommited/commited/indatabase"
+            }
+        ]
+    }
+}
