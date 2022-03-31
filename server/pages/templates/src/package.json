@@ -1,0 +1,10 @@
+{
+  "name": "templates",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Rui Campos",
+  "license": "MIT",
+  "dependencies": {
+    "@kitware/vtk.js": "^24.0.0"
+  }
+}

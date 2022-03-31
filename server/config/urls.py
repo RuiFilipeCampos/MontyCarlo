@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 
+
 from materials.views import MaterialViewSets
 from projects.views import ProjectViewSets, DirectoryViewSets, CodeFileViewSets
 from rest_framework_nested import routers
@@ -37,6 +38,10 @@ urlpatterns = [
     path(r'', include(inside_proj_router.urls)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+
+
+    path("", include("pages.urls")),  
+
 ]
 
 urlpatterns += router.urls
