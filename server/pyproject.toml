@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "MontyCarlo Django Server"
+version = "0.1.0"
+description = ""
+authors = ["Rui Campos <ruifilipedesousacampos@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^4.0.3"
+djangorestframework = "^3.13.1"
+drf-nested-routers = "^0.93.4"
+djangorestframework-recursive = "^0.1.2"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
