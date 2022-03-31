@@ -3,7 +3,7 @@
 
 # Setting up for development.
 
-Install [poetry]().
+Install [poetry](https://python-poetry.org/docs/#installation).
 
 Run the following commands:
 
