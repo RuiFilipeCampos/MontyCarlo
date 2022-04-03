@@ -79,14 +79,57 @@ Be sure to zoom in on every detail!
 ![img2](https://user-images.githubusercontent.com/63464503/137699838-1e4a7bba-5da0-49ca-bb64-8dbd4c6e0c75.png)
 
 
-# New stuff that's coming soon
+# Roadmap
+
+## Monty Carlo MVP
+
+After some thought, I've decided to delay the construction of a full-blown frontend application (see next section about the IDE).
+
+I am currently writing the thesis dissertation about this project. 
+
+The dissertation is very math heavy and I am a perfectionist when it comes to my education, which means that there is not a lot of time for coding.
+
+However, I also really want to give people a chance to explore some of the amazing graphs in this readme.
+
+So I decided to build a minimalistic website with three simple examples that will actually let people change some parameters around and simulate a limited number of particles. 
+
+Here's a peak:
+
+![image](https://user-images.githubusercontent.com/63464503/161440169-2e733073-63d2-456e-b504-7657bf08db65.png)
+
+![image](https://user-images.githubusercontent.com/63464503/161440188-4bd627ab-564f-4bd9-8e19-6f01428109cf.png)
+
+![image](https://user-images.githubusercontent.com/63464503/161440206-28fc6669-a36e-4b57-b77f-5f498ba18568.png)
+
+![image](https://user-images.githubusercontent.com/63464503/161440225-4dcaa67a-f8b1-4527-a497-1902ad8a6e2e.png)
+
+It will feature 3d explorable graphs such as the ones seen above, but on a web browser. The simulations themselves will be done on a server. All parameters chosen to reduce load of course.
 
 
-![myco_shell](https://user-images.githubusercontent.com/63464503/137640601-dfdaeb9f-ba17-4ee9-9d32-aee0a5e35d70.png)
+
+## Integrated Development Environment (IDE)
+
+The official release will feature an IDE and a customized version of Python. Just like React extends JavaScript with JSX, Monty Carlo will extend Python with its own markup language. The potential of embedding state in the geometry definition is enormous. Will allow powerful features such as making the geometry move, change shapes mid simulation, alter the materials to mimic temperature and density changes, just give wings to your imagination! The sky is the limit (well, that and the available computing power, but one issue at the time).
+
+An idea of how the markup extension might look like:
 
 ![myco_newsyntax](https://user-images.githubusercontent.com/63464503/137640807-843c88a0-3b74-450f-b016-dff5f87e847c.png)
 
+The IDE prototype:
+
 ![monty3](https://user-images.githubusercontent.com/63464503/153766975-0828003a-aaa8-40bf-ac78-df1f7eec1f3a.gif)
+
+Proto-package/project manager of MontyCarlo:
+
+![myco_shell](https://user-images.githubusercontent.com/63464503/137640601-dfdaeb9f-ba17-4ee9-9d32-aee0a5e35d70.png)
+
+
+## The issue with multi-platforming and the use of Dockers
+
+Making this code multi-platform has been a problem. I won't get into details but, the simplest solution was to Dockerize the thing. I have a lot of concerns reggarding the sacrifice in computational speed. Mostly because it took a lot of hard work to bring it to a competitive level. It's on par with PENELOPE, which is written in FORTRAN (sidenote: MontyCarlo draws some of its most critical algorithms from PENELOPE, such as the condensed history scheme and the GOS model, they are wonderful pieces of work well and I plan on making tons of improvements, both to my current implementation and to the methods themselves).
+
+I have some ideas on how to approach this problem. But it is far too early to write about them.
+
 
 
 
