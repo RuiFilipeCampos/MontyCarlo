@@ -126,7 +126,7 @@ Proto-package/project manager of MontyCarlo:
 
 ## The issue with multi-platforming and the use of Dockers
 
-Making this code multi-platform has been a problem. I won't get into details but, the simplest solution was to Dockerize the thing. I have a lot of concerns reggarding the sacrifice in computational speed. Mostly because it took a lot of hard work to bring it to a competitive level. It's on par with PENELOPE, which is written in FORTRAN (sidenote: MontyCarlo draws some of its most critical algorithms from PENELOPE, such as the condensed history scheme and the GOS model, they are wonderful pieces of work well and I plan on making tons of improvements, both to my current implementation and to the methods themselves).
+Making this code multi-platform has been a problem. I won't get into details but, the simplest solution was to Dockerize the thing. I have a lot of concerns reggarding the sacrifice in computational speed. Mostly because it took a lot of hard work to bring it to a competitive level. It's on par with PENELOPE, which is written in FORTRAN (sidenote: MontyCarlo draws some of its most critical algorithms from PENELOPE, such as the condensed history scheme and the GOS model, they are wonderful pieces of work and I plan on making tons of improvements, both to my current implementation and to the methods themselves).
 
 I have some ideas on how to approach this problem. But it is far too early to write about them.
 
