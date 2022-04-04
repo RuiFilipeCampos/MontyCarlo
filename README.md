@@ -43,7 +43,16 @@ MyCo will detect that it is the first import and will proceed to download all th
 -->
 # Try it out!
 
-See [here](https://ruifilipecampos.github.io/MontyCarlo/docs/intro#installation) for instructions on installing the latest release.
+Monty Carlo works best in an isolated environment. I reccomend using miniconda. Open an anaconda prompt and run these commands:
+
+```bash
+conda create --name myco_demo python=3.9
+conda activate myco_demo
+pip install MontyCarlo
+python -c "import MontyCarlo"
+```
+
+The last command will download a large number of data tables.
 
 Once you've installed MontyCarlo, clone or download the following repository: https://github.com/RuiFilipeCampos/MyCo-EXAMPLE1
 
