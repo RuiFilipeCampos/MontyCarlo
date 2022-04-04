@@ -12,15 +12,10 @@ import * as d3 from "d3";
 
 const RD3Component = rd3.Component;
 
-function D3Component({ radius }) {
+function D3Component({ radius_list }) {
   const [nodeToRender, setNodeToRender] = React.useState(null);
-
   const ref = React.useRef(null);
 
-  React.useEffect(() => {
-    console.log("width", ref.current ? ref.current.offsetWidth : 0);
-  }, [ref.current]);
-  let dr;
 
   const draw = () => {
     var width = ref.current ? ref.current.offsetWidth : 0;
@@ -33,8 +28,9 @@ function D3Component({ radius }) {
 
     let region_number = 1;
     let previous_radius = 0;
-    for (let radius_ of radius) {
-      let current_radius = (radius_ / 100) * width;
+    for (let _radius of radius_list) {
+      let current_radius = (_radius / 100) * width;
+
       let arc = d3
         .arc()
         .innerRadius(current_radius - 2)
@@ -43,13 +39,12 @@ function D3Component({ radius }) {
         .endAngle(3); //just radians
 
       svg.append("path").attr("d", arc);
-      dr = current_radius - previous_radius;
 
       svg
         .append("text")
         .text(`Region ${region_number}`)
         .attr("y", 25)
-        .attr("x", 30 + (radius[region_number - 2] / 100) * width);
+        .attr("x", 30 + (radius_list[region_number - 2] / 100) * width);
 
       previous_radius = current_radius;
       ++region_number;
@@ -59,14 +54,12 @@ function D3Component({ radius }) {
       .append("text")
       .text(`Region ${region_number}`)
       .attr("y", 25)
-      .attr("x", 30 + (radius[region_number - 2] / 100) * width);
-
-    console.log("last", (radius[region_number - 2] / 100) * width);
+      .attr("x", 30 + (radius_list[region_number - 2] / 100) * width);
 
     setNodeToRender(node);
   };
 
-  React.useEffect(() => draw(), [radius, nodeToRender]);
+  React.useEffect(() => draw(), [radius_list, nodeToRender]);
   React.useEffect(() => window.addEventListener("resize", draw), []);
 
   return (
@@ -83,7 +76,7 @@ const FormNavigation = ({ previous, next }) => {
     <ch.HStack w="full" align="left">
       <ch.Spacer />
       <ch.Button onClick={() => router.push(previous)}>
-          Previous
+        Previous
       </ch.Button>
       <ch.Button colorScheme="facebook" onClick={() => router.push(next)}>
         Next
@@ -177,7 +170,7 @@ const Demo: NextPage = () => {
                 </ch.RangeSliderTrack>
                 {makeList()}
               </ch.RangeSlider>
-              <D3Component radius={radiusList} />
+              <D3Component radius_list={radiusList} />
 
               {makeMaterialForm()}
             </ch.FormControl>
