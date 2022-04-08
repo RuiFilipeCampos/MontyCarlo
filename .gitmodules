@@ -17,3 +17,6 @@
 	path = db/generate_elastic/elsepa
 	url = https://github.com/eScatter/elsepa.git
 	branch = master
+[submodule "client/monty-mvp"]
+	path = client/monty-mvp
+	url = git@github.com:RuiFilipeCampos/monty-mvp.git
