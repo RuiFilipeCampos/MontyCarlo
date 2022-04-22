@@ -15,6 +15,8 @@ COPY setup_linux.py .
 COPY requirements.txt .
 COPY setup_version.py .
 COPY setup.cfg .
+COPY README.md .
+
 
 
 # Building Monty Carlo...
