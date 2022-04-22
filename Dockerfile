@@ -15,20 +15,16 @@ COPY requirements.txt .
 COPY README.md .
 COPY setup_version.py .
 COPY setup.cfg .
-COPY server /server
 
 
 # Building Monty Carlo...
 
+RUN mkdir app
 
-RUN ls && python setup_linux.py build_ext -j6 -b ./server/engine/
-RUN cd server && pip install -r requirements.txt
 
-WORKDIR /server
-EXPOSE 1000
-CMD ["python", "manage.py", "runserver", "0.0.0.0:1000"]
+RUN ls && python setup_linux.py build_ext -j6 -b ./app/
+RUN cd app && pip install -r requirements.txt
 
-# EXPOSE 1000
-# STOPSIGNAL SIGTERM
+WORKDIR /app
 
-# RUN cd server && python manage.py runserver 1000
+
