@@ -10,12 +10,12 @@ RUN pip install wheel
 RUN pip install numpy
 RUN pip install setuptools
 
-COPY MontyCarlo /MontyCarlo
-COPY setup_linux.py .
-COPY requirements.txt .
-COPY setup_version.py .
-COPY setup.cfg .
-COPY README.md .
+COPY MontyCarlo app/MontyCarlo
+COPY setup_linux.py app
+COPY requirements.txt app
+COPY setup_version.py app
+COPY setup.cfg app
+COPY README.md app
 
 
 
@@ -23,7 +23,7 @@ COPY README.md .
 RUN mkdir app
 
 
-RUN ls && python setup_linux.py build_ext -j6 -b ./app/
+RUN ls && python app/setup_linux.py build_ext -j6 --inplace
 RUN pip install -r requirements.txt
 
 WORKDIR /app
