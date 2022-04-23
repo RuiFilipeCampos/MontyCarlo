@@ -15,18 +15,18 @@ COPY MontyCarlo app/MontyCarlo
 COPY setup_linux.py app
 COPY requirements.txt app
 COPY setup_version.py app
-COPY setup.cfg app
+COPY setup.cfg app/setup.cfg
 COPY README.md app
 
 
 
-
-
 # Building Monty Carlo...
-
-RUN ls && python app/setup_linux.py build_ext -j6 --inplace
-RUN pip install -r requirements.txt
+RUN cd app && ls && python setup_linux.py build_ext -j6 --inplace
+RUN cd app && pip install -r requirements.txt
+RUN cd app && python -c "import MontyCarlo"
 
 WORKDIR /app
+
+
 
 
