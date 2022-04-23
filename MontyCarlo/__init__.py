@@ -22,7 +22,7 @@ if status == 0:
 
 
 from ._init import eax
-from .plotter import *
+# from .plotter import *
 #from MontyCarlo.init import eax 
 
 
