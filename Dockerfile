@@ -12,7 +12,7 @@ COPY setup_linux.py app
 COPY requirements.txt app
 COPY setup_version.py app
 COPY setup.cfg app/setup.cfg
-COPY README.md 
+COPY README.md app
 
 
 
