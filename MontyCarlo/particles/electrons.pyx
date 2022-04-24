@@ -526,12 +526,20 @@ cdef class Electron(Particle):
         cdef int i, j
 
         j = self.find_index()
+        IF DEBUG_MODE: print(j)
         cdef double imfp = self.electron.imfpA[j] + self.electron.imfpB[j] * self.state.E
+        IF DEBUG_MODE: print(imfp)
+
         self.s_max = 4/imfp * (.5+.5*self.state.genPTR.get_next_float())
+        IF DEBUG_MODE: print(self.s_max)
 
 
         self.wmax =  self.electron.find_wmax(self.s_max, self.state.E)
+        IF DEBUG_MODE: print(self.wmax)
+
         cdef double Emin = self.state.E - self.wmax
+        IF DEBUG_MODE: print(Emin)
+
         
         
         if Emin is 0:
@@ -545,11 +553,14 @@ cdef class Electron(Particle):
             return
         
         i = self.electron.find_index(Emin)
+        IF DEBUG_MODE: print(i)
+
         
         
         self.imfp_max = fmax(imfp, 
                              self.electron.imfpA[i] + self.electron.imfpB[i] * Emin
                              )
+        IF DEBUG_MODE: print(self.imfp_max)
 
 
 
@@ -662,6 +673,7 @@ power.
 
             #1.015387*
             self.w = sigma*self.current_material.electron.gauss._sample() + self.avgW #CONFIRM
+            IF DEBUG_MODE: print(self.w, sigma)
          #   print("sampled w = ", self.w, "FROM TRUNCATED GAUSSIAN")
 
             return
