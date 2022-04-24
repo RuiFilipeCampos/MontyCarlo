@@ -32,7 +32,7 @@ print("Importing `.particles.photons`")
 
 # Conditional Compilation for debugging.
 DEF DEBUG_MODE = False
-DEF TEST = True
+DEF TEST = False
 DEF _DEBUG_BASIC = False
 DEF _DEBUG = False
 DEF _DEBUGincoh = False
