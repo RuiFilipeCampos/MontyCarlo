@@ -1,0 +1,64 @@
+/* Dark theme for Jupyter */
+:root {
+    /* Background color */
+    --jp-layout-color1: #1c1c1c;
+    /* Text color */
+    --jp-ui-font-color1: #f2f2f2;
+    /* Link color */
+    --jp-rendermime-output-markdown-css-color-link: #00a2ff;
+    /* Cell border color */
+    --jp-border-color1: #262626;
+}
+
+/* Input and output cells */
+.jp-Cell {
+    /* Background color */
+    background-color: var(--jp-layout-color1);
+    /* Text color */
+    color: var(--jp-ui-font-color1);
+}
+
+/* Selected cells */
+.jp-Cell.jp-mod-selected {
+    /* Background color */
+    background-color: #444444;
+}
+
+/* Code cells */
+.jp-CodeCell {
+    /* Cell border */
+    border: 1px solid var(--jp-border-color1);
+}
+
+/* Code input area */
+.jp-CodeCell.jp-mod-editMode .jp-InputArea {
+    /* Cell border */
+    border: 1px solid var(--jp-border-color1);
+}
+
+/* Markdown cells */
+.jp-MarkdownOutput {
+    /* Text color */
+    color: var(--jp-ui-font-color1);
+}
+
+/* Markdown headings */
+.jp-RenderedHTMLCommon h1,
+.jp-RenderedHTMLCommon h2,
+.jp-RenderedHTMLCommon h3,
+.jp-RenderedHTMLCommon h4,
+.jp-RenderedHTMLCommon h5,
+.jp-RenderedHTMLCommon h6 {
+    /* Text color */
+    color: var(--jp-ui-font-color1);
+}
+
+/* Links */
+a {
+    /* Link color */
+    color: var(--jp-rendermime-output-markdown-css-color-link);
+}
+
+div.output_area {
+    height: 600px; 
+  }

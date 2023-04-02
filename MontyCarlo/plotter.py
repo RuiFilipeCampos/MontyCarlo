@@ -5,7 +5,9 @@ plotter.py
 
 print("Importing `.plotter`")								 
 										 
-		
+import pyvista
+pyvista.start_xvfb()
+pyvista.set_jupyter_backend('panel')
 
 from collections import deque
 
@@ -85,7 +87,7 @@ class Plotter:
 
 	def new_plot(self, ph_opacity = .1,el_opacity = 1, po_opacity = 1):    
 		import pyvista as pv
-		pv.set_plot_theme("night")
+		# pv.set_plot_theme("night")e
 		plotter = pv.Plotter()
 		
 		

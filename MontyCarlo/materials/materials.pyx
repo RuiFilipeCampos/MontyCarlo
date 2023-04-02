@@ -11,8 +11,8 @@ __author__ = "Rui Campos"
 
 print("Importing `.materials.materials`")
 
-
 cimport cython 
+
 from .logger import MaterialLogger
 
 
@@ -32,7 +32,6 @@ class map(dict):
             del self[key]
         except KeyError:
             raise AttributeError
-
 
 from libc.stdlib cimport malloc, free
 

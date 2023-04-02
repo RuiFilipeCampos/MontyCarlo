@@ -53,7 +53,7 @@ cdef class Particle:
     
     cdef void normalize(self)
     
-    cdef void rotateTHETA(self, double cos)
+    cdef void rotateTHETA(self, long double cos)
     
     # cdef int propagate(self) except -1
     #cdef int change_direction(self, double cos, double phi)

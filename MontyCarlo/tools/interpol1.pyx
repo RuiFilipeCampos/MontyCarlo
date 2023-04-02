@@ -712,7 +712,7 @@ from libc.math cimport log
 @cython.initializedcheck(False)
 @cython.cdivision(True)
 @cython.boundscheck(False)  # Deactivate bounds checking
-@cython.wraparound(False)   # Deactivate negative indexing.
+@cython.wraparound(True)   # Deactivate negative indexing.
 cdef class hLinLinInterpolation:
     #cdef double [:] xAxis, yAxis, m
     #cdef int N

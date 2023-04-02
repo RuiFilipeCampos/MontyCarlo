@@ -259,9 +259,9 @@ cdef class BVH(Volume):
 
 	cdef void depositUNIFORM(self, STATE& state, double SP):
 		raise RuntimeError("depositUNIFORM called from BVH (virtual)")
-		print("depositUNIFORM called from BVH (virtual)")
-		import time
-		time.sleep(10_000)
+		# print("depositUNIFORM called from BVH (virtual)")
+		# import time
+		# time.sleep(10_000)
 
 
 	cdef void depositDISCRETE(self, STATE& state):
@@ -1726,9 +1726,9 @@ cdef class Tally(BVH):
 
 	cdef void depositUNIFORM(self,STATE& state, double SP):
 		raise RuntimeError("depositUNIFORM called from Tally (virtual)")
-		import time
-		print("depositUNIFORM called from Tally (virtual)")
-		time.sleep(10_000)
+		# import time
+		# print("depositUNIFORM called from Tally (virtual)")
+		# time.sleep(10_000)
 
 	cdef void depositLOCAL(self, double3& pos, double E):
 		raise RuntimeError("'depositLOCAL' called from its virtual in 'Volume.BVH' ")

@@ -20,9 +20,11 @@ elastic_folder = str(PATH)
 #elastic_folder = str(__folder__/'elastic')
 
 
-os.mkdir(elastic_folder)
+# os.mkdir(elastic_folder)
+
 
 url = r"https://ruifilipecampos.github.io/MontyCarlo/elastic/electron/"
+url = r"https://github.com/RuiFilipeCampos/MontyCarlo/raw/docs/static/elastic/electron/"
 
 top_level_files = ["HEeax.npy", "LEeax.npy", "muGRID.npy"]
 
@@ -33,7 +35,6 @@ for filename in top_level_files:
 	with requests.get(url_file) as file:
 		with open(str(__folder__/'elastic'/filename), 'wb') as local_file:
 			local_file.write(file.content)
-
 
 element_level_files = ["DCS.npy", "HEtransportTCS.npy", "LEtransportTCS.npy"]
 

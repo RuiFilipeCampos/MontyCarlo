@@ -19,26 +19,26 @@ in the `EADL`, `EPDL`, `EEDL`, and `elastic` folders.
 
 
 print("Downloading EADL...")
-from .materials.EADL import download_database
+# from .materials.EADL import download_database
 print("""Done!
 """)
 
 print("Downloading EPDL...")
-from .materials.EPDL import download_database
+# from .materials.EPDL import download_database
 print("""Done!
 """)
 
 print("Downloading EEDL...")
-from .materials.EEDL import download_database
+# from .materials.EEDL import download_database
 print("""Done!
 """)
 
 print("Downloading electron elastic data...")
-from .materials.electron import download_database
+# from .materials.electron import download_database
 print("""Done!
 """)
 
 print("Downloading electron positron data...")
-from .materials.positron import download_database
+# from .materials.positron import download_database
 print("""Done!
 """)

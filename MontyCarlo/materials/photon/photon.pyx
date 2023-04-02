@@ -539,7 +539,7 @@ cdef class Coherent(CSLOGIC):
     
             y = 0
             xi = self.Y[i]
-            k
+            k: int
             for k in range(0, 4):
                 y += self.xSPLINE[k, i]*(r - xi)**(3-k)
             return y

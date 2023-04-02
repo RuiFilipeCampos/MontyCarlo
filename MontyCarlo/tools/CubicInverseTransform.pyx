@@ -77,8 +77,7 @@ def makeAlias(X, Y):
     while len(Y) > 0:
         
         i_min, i_max = np.argmin(Y), np.argmax(Y)
-        
-        
+
         ymax = Y[i_max]
         ymin = Y[i_min]
         
@@ -88,7 +87,7 @@ def makeAlias(X, Y):
         dy = 1 - ymin
         
         Y[i_max] -= dy
-        
+
         point = [xmin, ymin, xmax]
         points.append(point)
         
@@ -134,11 +133,6 @@ cdef aFastCubicSpline fromSample(x, y):
     
     return aFastCubicSpline(cumul, x, aliases = A)
 
-    
-
-
-
-
 
 def rebuildaFastCubicSpline(this):
     cdef aFastCubicSpline self
@@ -158,7 +152,7 @@ def rebuildaFastCubicSpline(this):
 
 @cython.initializedcheck(False)
 @cython.cdivision(True)
-@cython.boundscheck(False)  # Deactivate bounds checking
+@cython.boundscheck(True)  # Deactivate bounds checking
 @cython.wraparound(False)   # Deactivate negative indexing.
 cdef class aFastCubicSpline:
     def __reduce__(self):
@@ -177,6 +171,7 @@ cdef class aFastCubicSpline:
 
 
     def __init__(self, x, y, aliases = None):
+
         if aliases is None:
             raise RuntimeError("No aliases were given.")
             
@@ -192,16 +187,8 @@ cdef class aFastCubicSpline:
 
         self.N =  (len(self.x) - 2) 
         self.N = self.N / RAND_MAX
-        
-        
 
-    # cdef double _cumul(self, double x):
-    #     pass
-    
-    
-    # cdef double _invCumul(self, double r):
-        
-    
+
     cdef double _sample(self):
         self.R = self.N * rand()
         self.i = <int> self.R

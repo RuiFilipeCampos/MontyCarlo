@@ -143,6 +143,8 @@ class EADLelement:
 
 def get_bookmarked_text_EADL(path):
 
+	print(f"Opening: ", path)
+
 	with open(path, "r") as file:
 		text = file.readlines()
 		text = [line.strip('\n') for line in text]
