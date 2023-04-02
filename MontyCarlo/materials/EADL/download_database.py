@@ -1,32 +1,20 @@
-
-__doc__ = """Downloads EADL from github.
-"""
-
-__author__ = "Rui Campos"
-
 import requests
 
-from ...settings import __montecarlo__
+def construct_url(n: int) -> str:
+    if n < 10:
+        return f"https://www-nds.iaea.org/epics/ENDL2017/EADL.ELEMENTS/ZA00{n}000"
 
-PATH = __montecarlo__/'materials'/'EADL'
+    if n == 100:
+        return "https://www-nds.iaea.org/epics/ENDL2017/EADL.ELEMENTS/ZA100000"
+
+    return  f"https://www-nds.iaea.org/epics/ENDL2017/EADL.ELEMENTS/ZA0{n}000"
 
 for N in range(1, 101):
-    #url = "https://www-nds.iaea.org/epics/ENDL2017/EADL.ELEMENTS/ZA00" + str(N) + "000"
-    url = "https://ruifilipecampos.github.io/MontyCarlo/EADL/" + str(N) + ".txt"
-    file = requests.get(url)
-    filename = str(N) + ".txt"
-    open(str(PATH/filename), 'wb').write(file.content)
+    print(f"Downloading {N}")
 
+    url =  construct_url(N)
+    response = requests.get(url)
+    content = response.content
 
-"""
-for N in range(10, 100):
-    url = "https://www-nds.iaea.org/epics/ENDL2017/EADL.ELEMENTS/ZA0" + str(N) + "000"
-    file = requests.get(url)
-    filename = str(N) + ".txt"
-    open(str(PATH/filename), 'wb').write(file.content)
-
-url = "https://www-nds.iaea.org/epics/ENDL2017/EADL.ELEMENTS/ZA100000"
-file = requests.get(url)
-filename = "100.txt"
-open(str(PATH/filename), 'wb').write(file.content)
-"""
+    with open(f"{N}.txt", "wb") as file:
+        file.write(content)

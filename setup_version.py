@@ -3,10 +3,7 @@ __doc__ = """Setting up a new version.
 
 __author__ = "Rui Campos"
 
-
-
 version = "0.1a.dev3" # to be imported by setup*.py scripts
-
 
 with open("setup.cfg", "r") as setup_cfg:
   text = setup_cfg.readlines()

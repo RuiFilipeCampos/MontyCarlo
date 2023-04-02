@@ -19,9 +19,11 @@ elastic_folder = str(PATH)
 #elastic_folder = str(__folder__/'elastic')
 
 
-os.mkdir(elastic_folder)
+# os.mkdir(elastic_folder)
 
 url = r"https://ruifilipecampos.github.io/MontyCarlo/elastic/positron/"
+url = r"https://github.com/RuiFilipeCampos/MontyCarlo/raw/docs/static/elastic/positron/"
+
 
 top_level_files = ["HEeax.npy", "LEeax.npy", "muGRID.npy"]
 

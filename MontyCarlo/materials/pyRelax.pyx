@@ -539,43 +539,6 @@ cdef class Atom:
         
         return rep
         
-        
-        to_print = ""
-        to_print += f"<Atom Z={self.Z}> \n"
-        cdef rShell shell
-        cdef rShell *ptr
-        cdef int i
-        cdef double f
-        for i in range(self.Nsh):
-            print(i, self.Nsh)
-            ptr = self.fetchFI(i)
-            
-            shell = deref(ptr)
-            print(shell.LAST)
-            
-            #if shell.LAST: return to_print
-            if shell.dontSIMULATE: continue
-            f = deref(shell.frac)
-            print(f)
-            
-
-            print(shell.dontSIMULATE)
-            
-            print(shell.Nt)
-            
-            
-            
-            print(shell.trSTART.E)
-
-            
-            #to_print += f"    <Shell #{i} @{<int>ptr} #frac = {deref(shell.frac)}  >\n"
-
-            # to_print += <str>(shell.list_transitions())
-             
-        return to_print
-    
-    
-    
     def EMPTYrunT(self, int shell_index, double CUT_OFF, int N):
         import time
         cdef double t0, tf

@@ -143,9 +143,6 @@ MontyCarlo/materials/materials.cpp
 MontyCarlo/particles/*.cpp
 
 # ignore databases
-MontyCarlo/materials/EADL/*.txt
-MontyCarlo/materials/EPDL/*.txt
-MontyCarlo/materials/EEDL/*.txt
 MontyCarlo/materials/positron/elastic
 MontyCarlo/materials/electron/elastic
 MontyCarlo/materials/electron/*.cpp

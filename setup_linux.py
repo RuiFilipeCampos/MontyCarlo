@@ -22,86 +22,33 @@ import Cython.Compiler.Options # COMPILER OPTIONS
 import numpy as np 
 
 # MACOS gcc args
-args = ["-Wno-cpp", "-std=c++11"]
+
+
+def make_extension(import_expression, path, extra_compile_args = ["-Wno-cpp", "-std=c++11", "-Wno-format"], language = "c++"):
+    
+    extension = Extension(
+        import_expression, 
+        [path], 
+        extra_compile_args = extra_compile_args,
+        language = language
+    )
+
+    return extension
+
+
 
 ext_modules = [
-
-    # Math Helpers such as **highly** optimized interpolators.
-    Extension(
-        "tools.*",
-        ["MontyCarlo/tools/*.pyx"],
-        extra_compile_args = args,
-        language = "c++"
-    ),
-
-    # Implementation of the random sampling of each particle
-    Extension(
-        "particles.*",
-        ["MontyCarlo/particles/*.pyx"], 
-        extra_compile_args = args,
-        language = "c++"
-    ),
-
-    # 
-    Extension(
-        "*",
-        ["MontyCarlo/*.pyx"],
-        extra_compile_args = args,
-        language = "c++"
-    ), 
-
-    # Geometry Handlers -> CSG using forward ray tracing techinique mixed with signed distance funciton based ray marcher
-    Extension(
-        "geometry.*",
-        ["MontyCarlo/geometry/*.pyx"],
-        extra_compile_args = args,
-        language = "c++"
-    ),
-
-
-    # Data generation and processing for eletrons.
-    Extension(
-        "materials.electron.*",
-        ["MontyCarlo/materials/electron/*.pyx"],
-        extra_compile_args = args,
-        language = "c++"
-    ),
-
-    # Data generation and processing for positrons.
-    Extension(
-        "materials.positron.*",
-        ["MontyCarlo/materials/positron/*.pyx"],
-        extra_compile_args = args,
-        language = "c++"
-    ),
-
-    # Data generation and processing. pyRelax is included here.
-    Extension(
-        "materials.*",
-        ["MontyCarlo/materials/*.pyx"],
-        extra_compile_args = args,
-        language = "c++"
-    ),
-
-    # Data generation and processing for photons.
-    Extension(
-        "materials.photon.*",
-        ["MontyCarlo/materials/photon/*.pyx"],
-        extra_compile_args = args,
-        language = "c++"
-    ),
-
-    # External libraries (notable package: MIXMAX, same pRNG used in GEANT4)
-    Extension(
-        "external.*",
-        ["MontyCarlo/external/*.pyx"],
-        extra_compile_args = args,
-        language = "c++"
-    )
+    make_extension("tools.*", "MontyCarlo/tools/*.pyx"),
+    make_extension("particles.*", "MontyCarlo/particles/*.pyx"),
+    make_extension("*", "MontyCarlo/*.pyx"),
+    make_extension("geometry.*", "MontyCarlo/geometry/*.pyx"),
+    make_extension("materials.electron.*", "MontyCarlo/materials/electron/*.pyx"),
+    make_extension("materials.positron.*", "MontyCarlo/materials/positron/*.pyx"),
+    make_extension("materials.*", "MontyCarlo/materials/*.pyx"),
+    make_extension("materials.photon.*", "MontyCarlo/materials/photon/*.pyx"),
+    make_extension("external.*", "MontyCarlo/external/*.pyx"),
 ]
  
-
-
 
 
 if __name__ == "__main__":

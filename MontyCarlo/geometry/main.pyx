@@ -110,8 +110,8 @@ cdef class Volume:
         
         
         raise RuntimeError("depositUNIFORM called from Volume (virtual)")
-        import time
-        time.sleep(10_000)
+        # import time
+        # time.sleep(10_000)
     
     cdef void exit(self):
         """A method for reseting state variables in a convenient manner. 

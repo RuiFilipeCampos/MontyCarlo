@@ -24,12 +24,12 @@ errorMSG1 = "Exhausted allowed number of iterations for rejection sampling."
 
 
 # Conditional Compilation for Debugging. 
-DEF _DEBUG_BASIC = False
-DEF _SIGNAL_INTERACTION = False
+DEF _DEBUG_BASIC = True
+DEF _SIGNAL_INTERACTION = True
 DEF RECORD = True
 
 
-DEF DEBUG_MODE = False
+DEF DEBUG_MODE = True
 
 
 

@@ -167,8 +167,6 @@ cdef class IsotropicPoint(Source):
 
         if not region.is_inside(state.pos):
             raise RuntimeError("Particles will not be inside the starting region.")
-            import time
-            time.sleep(1000)
 
         state.current_region = <void*> region
 
@@ -224,8 +222,6 @@ cdef class UnitTestParticle:
 
         if not region.is_inside(state.pos):
             raise RuntimeError("Particles will not be inside the starting region.")
-            import time
-            time.sleep(1000)
 
         state.dire.x = self.dire[0]
         state.dire.y = self.dire[1]
@@ -282,8 +278,6 @@ cdef class Beam(Source):
 
         if not region.is_inside(state.pos):
             raise RuntimeError("Particles will not be inside the starting region.")
-            import time
-            time.sleep(1000)
 
         state.dire.x = self.dire[0]
         state.dire.y = self.dire[1]
@@ -291,8 +285,6 @@ cdef class Beam(Source):
 
         state.genPTR = self.genPTR
         state.current_region = <void*> region
-
-
 
         state.E = E
 

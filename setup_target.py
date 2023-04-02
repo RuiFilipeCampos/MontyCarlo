@@ -67,8 +67,4 @@ setup(
 
 
 
-# https://journals.sagepub.com/doi/suppl/10.1177/ANIB_39_2
-#  https://iopscience.iop.org/article/10.1088/1742-6596/1662/1/012021/pdf
-# https://iopscience.iop.org/article/10.1088/0031-9155/51/14/017
 
- 
