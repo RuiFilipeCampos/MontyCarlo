@@ -2,11 +2,11 @@
 
 services:
   jupyter-notebook:
-    build: .
-    command: jupyter notebook --ip='0.0.0.0' --port=8888 --no-browser --allow-root --NotebookApp.token=''
+    image: ghcr.io/ruifilipecampos/montycarlo:${MONTY_VERSION:-v0.1-alpha.1}
+    command: jupyter notebook --ip='0.0.0.0' --port=${MONTY_JUPYTER_PORT:-8888} --no-browser --allow-root --NotebookApp.token=${MONTY_JUPYTER_TOKEN:-''}
     ports:
       - ${MONTY_JUPYTER_PORT:-8888}:8888
     volumes:
       - ${MONTY_NOTEBOOKS:-./notebooks}:/notebooks
-      # - ./MontyCarlo:/app/MontyCarlo
+
 
