@@ -1,4 +1,4 @@
-name: Buld and Publish Image (Manual Trigger)
+name: Buld and Publish Image
 
 
 on:
